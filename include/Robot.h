@@ -22,7 +22,7 @@
 #include <frc/XboxController.h>
 
 //Dragon Includes
-#include <DragonLimelight.h>
+#include <subsys/vision/DragonLimelight.h>
 
 using namespace ctre::phoenix;
 using namespace ctre::phoenix::motorcontrol;
