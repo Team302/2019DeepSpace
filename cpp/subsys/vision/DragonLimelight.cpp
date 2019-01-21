@@ -1,11 +1,9 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2018 FIRST. All Rights Reserved.                             */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
+/*
+/*   Created by Austin Szczesniak
+/*   Date: 1-19-2019
+*/
 
-#include "DragonLimelight.h"
+#include "subsys/vision/DragonLimelight.h"
 
 DragonLimelight::DragonLimelight() :
     table(NetworkTableInstance::GetDefault().GetTable("limelight"))
