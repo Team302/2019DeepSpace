@@ -6,117 +6,62 @@
 /*----------------------------------------------------------------------------*/
 
 #include "Robot.h"
+
 #include <iostream>
-// FRC
+
 #include <frc/smartdashboard/SmartDashboard.h>
-// Network Tables
-#include "networktables/NetworkTable.h"
-#include "networktables/NetworkTableEntry.h"
-#include "networktables/NetworkTableInstance.h"
 
 void Robot::RobotInit() {
   m_chooser.SetDefaultOption(kAutoNameDefault, kAutoNameDefault);
   m_chooser.AddOption(kAutoNameCustom, kAutoNameCustom);
   frc::SmartDashboard::PutData("Auto Modes", &m_chooser);
-  // Motor Declarations 
-  m_rightMotor = new TalonSRX(1);
-    m_rightMotor->SetInverted(true);
-  m_leftMotor = new TalonSRX(2);
-    m_leftMotor->SetInverted(false);
-
-  m_limelight = new DragonLimelight();
-  m_controller = new frc::XboxController(0);
 }
 
+/**
+ * This function is called every robot packet, no matter the mode. Use
+ * this for items like diagnostics that you want ran during disabled,
+ * autonomous, teleoperated and test.
+ *
+ * <p> This runs after the mode specific periodic functions, but before
+ * LiveWindow and SmartDashboard integrated updating.
+ */
 void Robot::RobotPeriodic() {}
 
-void Robot::AutonomousInit() 
-{
-  m_limelight->PrintValues();
-  m_limelight->ToggleSnapshot(DragonLimelight::SNAPSHOT_MODE::SNAP_OFF);
-  m_limelight->SetLEDMode(DragonLimelight::LED_MODE::LED_OFF);
-}
+/**
+ * This autonomous (along with the chooser code above) shows how to select
+ * between different autonomous modes using the dashboard. The sendable chooser
+ * code works with the Java SmartDashboard. If you prefer the LabVIEW Dashboard,
+ * remove all of the chooser code and uncomment the GetString line to get the
+ * auto name from the text box below the Gyro.
+ *
+ * You can add additional auto modes by adding additional comparisons to the
+ * if-else structure below with additional strings. If using the SendableChooser
+ * make sure to add them to the chooser code above as well.
+ */
+void Robot::AutonomousInit() {
+  m_autoSelected = m_chooser.GetSelected();
+  // m_autoSelected = SmartDashboard::GetString("Auto Selector",
+  //     kAutoNameDefault);
+  std::cout << "Auto selected: " << m_autoSelected << std::endl;
 
-void Robot::AutonomousPeriodic() 
-{
-  m_rightMotor->Set(ControlMode::PercentOutput, 0);
-  m_leftMotor->Set(ControlMode::PercentOutput, 0);
-
-  if(m_controller->GetAButtonPressed())
-  {
-    if(camMode)
-    {
-      camMode = !camMode;
-      m_limelight->SetStreamMode(DragonLimelight::STREAM_MODE::STREAM_MAIN_AND_SECOND);
-    }
-    else
-    {
-      camMode = !camMode;
-      m_limelight->SetStreamMode(DragonLimelight::STREAM_MODE::STREAM_SECOND_AND_MAIN);
-    }
+  if (m_autoSelected == kAutoNameCustom) {
+    // Custom Auto goes here
+  } else {
+    // Default Auto goes here
   }
 }
 
-void Robot::TeleopInit() 
-{
-  m_limelight->PrintValues();
-  m_limelight->SetLEDMode(DragonLimelight::LED_MODE::LED_ON);
-  m_limelight->SetStreamMode(DragonLimelight::STREAM_MODE::STREAM_MAIN_AND_SECOND);
+void Robot::AutonomousPeriodic() {
+  if (m_autoSelected == kAutoNameCustom) {
+    // Custom Auto goes here
+  } else {
+    // Default Auto goes here
+  }
 }
 
-void Robot::TeleopPeriodic() 
-{ 
-  if(m_controller->GetXButtonPressed())
-    visMode = !visMode;
-  
-  if(visMode)
-  {
-    m_limelight->SetLEDMode(DragonLimelight::LED_MODE::LED_ON);
-    m_limelight->SetCamMode(DragonLimelight::CAM_MODE::CAM_VISION );
-    tx = m_limelight->GetTargetHorizontalOffset();
-    ta = m_limelight->GetTargetArea();
-    double offset = (22 - ta) * 0.01;
+void Robot::TeleopInit() {}
 
-    if (ta > 0.0) {
-      lSpeed = (-tx * 0.1) + offset;
-      rSpeed = (tx * 0.1) + offset;
-    }
-    else{
-      lSpeed = -0.02;
-      rSpeed = -0.02;
-    }
-  }
-  else
-  {
-    m_limelight->SetLEDMode(DragonLimelight::LED_MODE::LED_OFF);
-    m_limelight->SetCamMode(DragonLimelight::CAM_MODE::CAM_DRIVER);
-
-    if(m_controller->GetAButtonPressed())
-    {
-      if(camMode)
-        m_limelight->SetStreamMode(DragonLimelight::STREAM_MODE::STREAM_MAIN_AND_SECOND);
-      else
-        m_limelight->SetStreamMode(DragonLimelight::STREAM_MODE::STREAM_SECOND_AND_MAIN);
-
-      camMode = !camMode;
-    }
-    
-    if(false)
-      throttle = m_controller->GetY(frc::GenericHID::JoystickHand::kLeftHand);
-    else
-      throttle = -m_controller->GetY(frc::GenericHID::JoystickHand::kLeftHand);
-
-      yaw = m_controller->GetX(frc::GenericHID::JoystickHand::kRightHand);
-      rSpeed = throttle + yaw;
-      lSpeed = throttle - yaw; 
-  }
-  frc::SmartDashboard::PutBoolean("Vis Mode", visMode);
-  frc::SmartDashboard::PutBoolean("Cam mode", camMode);
-  frc::SmartDashboard::PutNumber("Right Speed", rSpeed);
-  frc::SmartDashboard::PutNumber("Left Speed", lSpeed);
-  m_rightMotor->Set(ControlMode::PercentOutput, rSpeed);
-  m_leftMotor->Set(ControlMode::PercentOutput, lSpeed);
-}
+void Robot::TeleopPeriodic() {}
 
 void Robot::TestPeriodic() {}
 
