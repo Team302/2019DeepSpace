@@ -1,9 +1,10 @@
 #include "hw/DragonSparkMax.h"
 
-DragonSparkMax::DragonSparkMax(int id, CANSparkMax::MotorType motorType) :
+DragonSparkMax::DragonSparkMax(int id, IDragonMotorController::TALON_TYPE deviceType, CANSparkMax::MotorType motorType) :
     m_spark(new CANSparkMax(id, motorType)),
     m_controlMode(DRAGON_CONTROL_MODE::PERCENT_OUTPUT),
-    m_rotationOffset(m_spark->GetEncoder().GetPosition())
+    m_rotationOffset(m_spark->GetEncoder().GetPosition()),
+    m_deviceType(deviceType)
 {
 }
 
@@ -15,6 +16,11 @@ double DragonSparkMax::GetRotations() const
 double DragonSparkMax::GetRPS() const
 {
     return m_spark->GetEncoder().GetVelocity() / 60.0;
+}
+
+IDragonMotorController::TALON_TYPE DragonSparkMax::GetType() const
+{
+    return m_deviceType;
 }
 
 void DragonSparkMax::SetControlMode(IDragonMotorController::DRAGON_CONTROL_MODE mode)

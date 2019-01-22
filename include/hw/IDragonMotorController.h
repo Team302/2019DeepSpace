@@ -16,9 +16,29 @@ public:
         RPS
     };
 
+    enum TALON_TYPE
+    {
+        UNKNOWN_TALON_TYPE = -1,
+        FRONT_LEFT_DRIVE,
+        MIDDLE_LEFT_DRIVE,
+        BACK_LEFT_DRIVE,
+        FRONT_RIGHT_DRIVE,
+        MIDDLE_RIGHT_DRIVE,
+        BACK_RIGHT_DRIVE,
+        ARM_LEFT,
+        ARM_RIGHT,
+        ARM_EXTENSION,
+        WRIST,
+        INTAKE,
+        ELEVATOR_WINCH,
+        ELEVATOR_DRIVE,
+        MAX_TALON_TYPES
+    };
+
     // Getters
     virtual double GetRotations() const = 0;
     virtual double GetRPS() const = 0;
+    virtual TALON_TYPE GetType() const = 0;
 
     // Setters
     virtual void SetControlMode(DRAGON_CONTROL_MODE mode) = 0;

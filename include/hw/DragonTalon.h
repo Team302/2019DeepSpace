@@ -23,18 +23,6 @@ class DragonTalon : public IDragonMotorController
 {
   public:
     // Enums
-    enum TALON_TYPE
-    {
-        UNKNOWN_TALON_TYPE = -1,
-        FRONT_LEFT_DRIVE,
-        MIDDLE_LEFT_DRIVE,
-        BACK_LEFT_DRIVE,
-        FRONT_RIGHT_DRIVE,
-        MIDDLE_RIGHT_DRIVE,
-        BACK_RIGHT_DRIVE,
-        ARM
-    };
-
     enum TALON_SENSOR_TYPE
     {
         NO_SENSOR = -1,
@@ -63,13 +51,14 @@ class DragonTalon : public IDragonMotorController
 
     // Constructors
     DragonTalon() = delete;
-    DragonTalon(DragonTalon::TALON_TYPE deviceType, int deviceID, int countsPerRev, double gearRatio);
+    DragonTalon(IDragonMotorController::TALON_TYPE deviceType, int deviceID, int countsPerRev, double gearRatio);
     virtual ~DragonTalon() = default;
 
 
     // Getters (override)
     double GetRotations() const override; //:D
     double GetRPS() const override; //:D
+    IDragonMotorController::TALON_TYPE GetType() const override; //:D
 
     // Setters (override)
     void SetControlMode(IDragonMotorController::DRAGON_CONTROL_MODE mode) override; //:D
@@ -84,7 +73,7 @@ class DragonTalon : public IDragonMotorController
 
     // Getters (TalonSRX)
     int GetCANID() const; //:D
-    DragonTalon::TALON_TYPE GetType() const; //:D
+    
     
 
     // Setters (TalonSRX)
@@ -114,7 +103,7 @@ class DragonTalon : public IDragonMotorController
   private:
     TalonSRX *m_talon;
     TALON_CONTROL_MODE m_controlMode;
-    TALON_TYPE m_type;
+    IDragonMotorController::TALON_TYPE m_type;
 
     int m_countsPerRev;
     long m_tickOffset;

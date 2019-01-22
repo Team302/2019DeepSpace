@@ -19,13 +19,14 @@ class DragonSparkMax : public IDragonMotorController
 public:
     // Constructors
     DragonSparkMax() = delete;
-    DragonSparkMax(int id, CANSparkMax::MotorType motorType);
+    DragonSparkMax(int id, IDragonMotorController::TALON_TYPE deviceType, CANSparkMax::MotorType motorType);
 
     virtual ~DragonSparkMax() = default;
 
     // Getters
     double GetRotations() const override;
     double GetRPS() const override;
+    IDragonMotorController::TALON_TYPE GetType() const override;
 
     // Setters
     void SetControlMode(IDragonMotorController::DRAGON_CONTROL_MODE mode) override;
@@ -40,5 +41,6 @@ private:
     CANSparkMax* m_spark;
     DRAGON_CONTROL_MODE m_controlMode;
     double m_rotationOffset;
+    IDragonMotorController::TALON_TYPE m_deviceType;
     
 };

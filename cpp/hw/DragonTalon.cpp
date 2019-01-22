@@ -1,6 +1,6 @@
 #include "hw/DragonTalon.h"
 
-DragonTalon::DragonTalon(DragonTalon::TALON_TYPE deviceType, int deviceID, int countsPerRev, double gearRatio) :
+DragonTalon::DragonTalon(IDragonMotorController::TALON_TYPE deviceType, int deviceID, int countsPerRev, double gearRatio) :
     m_talon(new TalonSRX(deviceID)),
     m_countsPerRev(countsPerRev),
     m_controlMode(TALON_CONTROL_MODE::PERCENT),
@@ -138,7 +138,7 @@ int DragonTalon::GetCANID() const
 	return id;
 }
 
-DragonTalon::TALON_TYPE DragonTalon::GetType() const
+IDragonMotorController::TALON_TYPE DragonTalon::GetType() const
 {
 	return m_type;
 }
