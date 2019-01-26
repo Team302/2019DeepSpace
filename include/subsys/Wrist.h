@@ -8,6 +8,7 @@
 // Team 302
 #include <subsys/IMechanism.h>
 #include <hw/DragonTalon.h> 
+#include <subsys/PlacementHeights.h>
 
 class Wrist : public IMechanism {
  public:
@@ -24,9 +25,9 @@ class Wrist : public IMechanism {
     MAX_PLACEMENT_HEIGHTS
   };
 
-  void MoveWristPresets(Wrist::PLACEMENT_HEIGHT height, bool cargo, bool flip);
-  void MoveWristManual(double speed);
-  void MoveWristManual(double angle);
+  void MoveWristPresets(PlacementHeights::PLACEMENT_HEIGHT height, bool cargo, bool flip);
+  void MoveWristManualSpeed(double speed);
+  void MoveWristManualAngle(double angle);
 
   double GetWristAngle();
 
