@@ -15,7 +15,7 @@
 //-----------------------------------------------------------------------
 // Method:      ParseXML
 // Description: Parse a motor controller XML element and create a DragonMotorController from
-//              its definition.
+//              its definition..
 //
 //        <!-- ====================================================
 //	        Motor Controller Usage
