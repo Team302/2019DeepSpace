@@ -20,4 +20,5 @@ class PlacementHeights {
     MAX_PLACEMENT_HEIGHTS
   };
 
+  PlacementHeights() = delete;
 };
