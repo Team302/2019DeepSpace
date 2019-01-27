@@ -39,6 +39,8 @@ public:
     virtual double GetRotations() const = 0;
     virtual double GetRPS() const = 0;
     virtual TALON_TYPE GetType() const = 0;
+    double GetCurrent();
+    virtual int GetID() const = 0;
 
     // Setters
     virtual void SetControlMode(DRAGON_CONTROL_MODE mode) = 0;
@@ -49,7 +51,6 @@ public:
     virtual void EnableBrakeMode(bool enabled) = 0;
     virtual void SetPIDF(double p, double i, double d, double f) = 0;
     virtual void SetInverted(bool inverted) = 0;
-    virtual void SetSensorInverted(bool inverted) = 0;
 
 protected:
     IDragonMotorController() = default;
