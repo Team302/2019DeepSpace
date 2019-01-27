@@ -27,6 +27,7 @@ public:
     double GetRotations() const override;
     double GetRPS() const override;
     IDragonMotorController::TALON_TYPE GetType() const override;
+    int GetID() const override;
 
     // Setters
     void SetControlMode(IDragonMotorController::DRAGON_CONTROL_MODE mode) override;
@@ -36,8 +37,10 @@ public:
     void EnableCurrentLimiting(bool enabled) override;
     void EnableBrakeMode(bool enabled) override;
     void SetPIDF(double p, double i, double d, double f) override;
+    void SetInverted(bool inverted) override;
 
 private:
+    int m_id;
     CANSparkMax* m_spark;
     DRAGON_CONTROL_MODE m_controlMode;
     double m_rotationOffset;

@@ -56,48 +56,44 @@ class DragonTalon : public IDragonMotorController
 
 
     // Getters (override)
-    double GetRotations() const override; //:D
-    double GetRPS() const override; //:D
-    IDragonMotorController::TALON_TYPE GetType() const override; //:D
+    double GetRotations() const override;
+    double GetRPS() const override;
+    IDragonMotorController::TALON_TYPE GetType() const override;
+    int GetID() const override;
 
     // Setters (override)
     void SetControlMode(IDragonMotorController::DRAGON_CONTROL_MODE mode) override; //:D
-    void Set(double value) override; //:D
-    void SetRotationOffset(double rotations) override; //:D
-    void SetVoltageRamping(double ramping) override; // :D seconds 0 to full, set to 0 to disable
-    void EnableCurrentLimiting(bool enabled) override; // :D
-    void EnableBrakeMode(bool enabled) override; // :D
-    void SetPIDF(double p, double i, double d, double f) override; // :D
-    void SetInverted(bool inverted) override; // :D
-    void SetSensorInverted(bool inverted) override; // :D
-
-    // Getters (TalonSRX)
-    int GetCANID() const; //:D
-    
-    
+    void Set(double value) override;
+    void SetRotationOffset(double rotations) override;
+    void SetVoltageRamping(double ramping) override; // seconds 0 to full, set to 0 to disable
+    void EnableCurrentLimiting(bool enabled) override; 
+    void EnableBrakeMode(bool enabled) override; 
+    void SetPIDF(double p, double i, double d, double f) override; 
+    void SetInverted(bool inverted) override; 
 
     // Setters (TalonSRX)
     // more complete SetControlMode method compared to the overrided one
-    void SetControlMode(TALON_CONTROL_MODE mode); //:D
+    void SetControlMode(TALON_CONTROL_MODE mode); 
+    void SetSensorInverted(bool inverted);
 
 	// Method:		SelectClosedLoopProfile
 	// Description:	Selects which profile slot to use for closed-loop control
 	// Returns:		void
-	void SelectClosedLoopProfile(int slot, int pidIndex);// :D <I> - 0 for primary closed loop, 1 for cascaded closed-loop
+	void SelectClosedLoopProfile(int slot, int pidIndex);// <I> - 0 for primary closed loop, 1 for cascaded closed-loop
 
     int ConfigSelectedFeedbackSensor(FeedbackDevice feedbackDevice, int pidIdx, int timeoutMs); //:D
     int ConfigSelectedFeedbackSensor(RemoteFeedbackDevice feedbackDevice, int pidIdx, int timeoutMs); //:D
-	int ConfigPeakCurrentLimit(int amps, int timeoutMs); //:D
-	int ConfigPeakCurrentDuration(int milliseconds, int timeoutMs); //:D
-	int ConfigContinuousCurrentLimit(int amps, int timeoutMs); //:D
+	int ConfigPeakCurrentLimit(int amps, int timeoutMs); 
+	int ConfigPeakCurrentDuration(int milliseconds, int timeoutMs); 
+	int ConfigContinuousCurrentLimit(int amps, int timeoutMs); 
 
-    void SetAsSlave(int masterCANID); //:D
+    void SetAsSlave(int masterCANID); 
 
     //Methods for Motion Magic control mode
-	void ConfigMotionAcceleration(float maxMotionAcceleration); //:D
-	void ConfigMotionCruiseVelocity(float maxMotionCruiseVelocity); //:D
-    void ConfigPeakOutput(double percentOutput); //:D
-    void ConfigNominalOutput(double nominalOutput); //:D
+	void ConfigMotionAcceleration(float maxMotionAcceleration);
+	void ConfigMotionCruiseVelocity(float maxMotionCruiseVelocity);
+    void ConfigPeakOutput(double percentOutput);
+    void ConfigNominalOutput(double nominalOutput);
 
 
   private:
@@ -105,6 +101,7 @@ class DragonTalon : public IDragonMotorController
     TALON_CONTROL_MODE m_controlMode;
     IDragonMotorController::TALON_TYPE m_type;
 
+    int m_id;
     int m_countsPerRev;
     long m_tickOffset;
     double m_gearRatio;
