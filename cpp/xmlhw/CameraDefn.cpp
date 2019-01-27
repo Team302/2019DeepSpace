@@ -11,7 +11,7 @@
 #include <pugixml/pugixml.hpp>
 
 //WPILIB includes
-#include <CameraServer.h>
+#include <cameraserver/CameraServer.h>
 
 using namespace frc;
 
