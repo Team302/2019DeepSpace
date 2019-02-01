@@ -17,6 +17,7 @@ class Intake : public IMechanism  {
   void IntakeManual(double speed);
 
   bool ObjectPresent();
+  
  private:
   DragonTalon* m_intakeMotor;
 

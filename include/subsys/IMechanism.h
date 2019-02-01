@@ -16,6 +16,7 @@ class IMechanism
             UNKNOWN_MECHANISM = -1,
             WRIST,
             INTAKE,
+            ARM,
             MAX_MECHANISM_TYPES
         };
 

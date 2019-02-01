@@ -1,92 +1,59 @@
+/*----------------------------------------------------------------------------*/
+/* Copyright (c) 2018 FIRST. All Rights Reserved.                             */
+/* Open Source Software - may be modified and shared by FRC teams. The code   */
+/* must be accompanied by the FIRST BSD license file in the root directory of */
+/* the project.                                                               */
+/*----------------------------------------------------------------------------*/
+
 #pragma once
-#include "hw/DragonTalon.h"
-#include "ctre/Phoenix.h"
-#include "subsys/PlacementHeights.h"
-class Arm {
-  public:
-    Arm();
-    virtual ~Arm();
-    void MoveArmToPosition
-    (
-      PlacementHeights::PLACEMENT_HEIGHT armHeight,
-      bool cargo
-    );
-    void RotateArmJoystick
-    (
-      double joystickVal
-    ); //done
-    void ExtendArmJoystick
-    (
-      double joystickVal
-    ); //done
-    void RotateArmToPosition
-    (
-      double position
-    ); //done
-    void ExtendArmPercentOutput
-    (
-      double armPower
-    ); //done
-    void ExtendArmPosition
-    (
-      double position
-    ); //done
-    void RotateArmPercentOutput
-    (
-      double extendArmPower
-    ); //done
-    void Hold();
-    double GetArmRotations(); //done
-    double GetArmVelocity(); //done
-    bool IsOverRotated(); 
 
+#include "subsys/IMechanism.h"
+#include <hw/DragonTalon.h> 
+#include <subsys/PlacementHeights.h>
 
-  private:
-    enum TALON_TACH {
-    UNKNOWN_TALON_TACH = -1,
-    LOW_FRONT_TACH,
-    HIGH_FRONT_TACH,
-    LOW_REAR_TACH,
-    HIGH_REAR_TACH
-    };
-    
-    
-    void RotateArmMotionMagic();
-    void ZeroArmEncoder();
-    bool GetTalonTach
-    (
-      Arm::TALON_TACH talonTach
-    ); //done
+class Arm : public IMechanism 
+{
+public:
+  Arm(std::vector<IDragonMotorController*> motorControllers);
+  
+  void MoveArmPresets(PlacementHeights::PLACEMENT_HEIGHT height, bool cargo, bool flip);
+  void MoveArmManualSpeed(double speed);
+  void MoveArmManualAngle(double angle);
 
-    const double CARGO_POSITIONS[7] = {0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0};
-    const double HATCH_POSITIONS[7] = {0.0, 1.0, 0.0, 0.0, 4.0, 5.0, 6.0}; 
+  void MoveArmExtensionInches(double inches);
+  void MoveArmExtensionSpeed(double speed);
 
-    const double JOYSTICK_ROTATION_ARM_CONSTANT = 1.0;
-    const double JOYSTICK_EXTENSION_CONSTANT = .5; 
+  double GetArmCurrentRealAngle();
+  double GetArmCurrentTargetAngle();
 
-    const double ARM_P = 0.0;
-    const double ARM_I = 0.0;
-    const double ARM_D = 0.0;
-    const double ARM_F = 0.0;
-    const double EXTEND_P = 0.0;
-    const double EXTEND_I = 0.0;
-    const double EXTEND_D = 0.0;
-    const double EXTEND_F = 0.0;
+  IMechanism::MECHANISM_TYPE GetType() const override;
 
-    const float ROTATION_ARM_MAX_CRUISE_VELOCITY = 20; 
-    const float ROTATION_ARM_MAX_ACCELERATION = 10;
-    const float EXTENSION_MAX_CRUISE_VELOCITY = 20;
-    const float EXTENSION_MAX_ACCELERATION = 10;
+private: 
+  enum HATCH_WRIST_PRESETS
+  {
+    HATCH_KEEP_SAME = -1,
+    HATCH_FLOOR,
+    HATCH_LOW,
+    HATCH_MID,
+    HATCH_HIGH,
+    MAX_HATCH_POS
+  };
 
-    const double MAX_ARM_ROTATION_FORWARD = .1;
-    const double MAX_ARM_ROTATION_REVERSE = -.1;
+  enum CARGO_WRIST_PRESETS
+  {
+    CARGO_KEEP_SAME = -1,
+    CARGO_FLOOR,
+    CARGO_HP,
+    CARGO_SHIP,
+    CARGO_LOW,
+    CARGO_MID,
+    CARGO_HIGH,
+    MAX_CARGO_POS
+  };
 
-    DragonTalon* m_leftArmRotationMotor;
-    DragonTalon* m_rightArmRotationMotor;
-    DragonTalon* m_armExtensionMotor;
-    CANifier* m_canifier1;
-    CANifier* m_canifier2;
-    double m_startPosition;
-    double m_rotationForwardMax;
-    double m_rotationReverseMax;   
+  double hatchAngle[MAX_HATCH_POS] = { 1, 2, 3, 4 };
+  double cargoAngle[MAX_CARGO_POS] = { 1, 2, 3, 4, 5, 6 };
+  
+  DragonTalon* m_armMaster;
+  DragonTalon* m_extender;
 };
