@@ -7,6 +7,8 @@
 
 #pragma once
 
+#include <vector>
+
 class IDragonMotorController
 {
 public:
@@ -56,3 +58,5 @@ protected:
     IDragonMotorController() = default;
     virtual ~IDragonMotorController() = default;
 };
+
+typedef std::vector<IDragonMotorController*> IDragonMotorControllerVector;

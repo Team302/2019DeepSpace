@@ -19,8 +19,8 @@ class DragonServo
 		enum SERVO_USAGE
 		{
 			UNKNOWN_SERVO_USAGE = -1,
-			SERVO_SIDEBAR_RELEASE_1,
-			SERVO_SIDEBAR_RELEASE_2,
+			ROTATE_LIMELIGHT,
+			DROP_BUDDY_CLIMB,
 			MAX_SERVO_USAGES
 		};
 		DragonServo() = delete;

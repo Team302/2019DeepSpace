@@ -17,7 +17,7 @@ class IMechanism
             WRIST,
             INTAKE,
             ARM,
-	        CLIMBER,
+            CLIMBER,
             MAX_MECHANISM_TYPES
         };
 
