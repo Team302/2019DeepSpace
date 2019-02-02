@@ -1,7 +1,6 @@
-//LEDs - By Chris
 #pragma once
 
-#include <frc/CANifier.h>
+#include <ctre/phoenix/CANifier.h>
 
 
 
@@ -13,7 +12,7 @@ class LED
 {
     public:
 
-    enum Colors //enum containing colors
+    enum Colors
     { 
         RED,
         PURPLE,
@@ -31,6 +30,5 @@ class LED
 
 
    private:
-
-        ctre::phoenix::CANifier* CAN;
+    ctre::phoenix::CANifier* m_CAN;
 };
