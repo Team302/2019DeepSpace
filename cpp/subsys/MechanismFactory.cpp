@@ -121,3 +121,4 @@ MechanismFactory::~MechanismFactory()
     delete m_arm;
     delete m_wrist;
 }
+

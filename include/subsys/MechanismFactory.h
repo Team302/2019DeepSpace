@@ -49,6 +49,7 @@ class MechanismFactory
 		IMechanism*                 m_climber;
 
 		static MechanismFactory*	m_mechanismFactory;
+		
 //		IMechanismVector            m_mechanisms;
 
 
