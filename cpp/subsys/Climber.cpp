@@ -18,10 +18,10 @@ m_climbWheel(nullptr)
             case IDragonMotorController::TALON_TYPE::ELEVATOR_WINCH:
                 m_climbElevator = static_cast<DragonTalon*>(motorControllers[i]);
             case IDragonMotorController::TALON_TYPE::ELEVATOR_DRIVE:
-                m_climbWheel = static_cast<DragonTalon*>*=(motorControllers[i]);
+                m_climbWheel = static_cast<DragonTalon*>(motorControllers[i]);
             break;
 
-            default:
+            default: 
             break;
         }
     }
@@ -30,7 +30,7 @@ m_climbWheel(nullptr)
 void Climber::SetClimbDriveSpeed(double speed)
 {
     m_climbWheel->SetControlMode(IDragonMotorController::DRAGON_CONTROL_MODE::PERCENT_OUTPUT);
-    m_climbWheel->Set(speeD);
+    m_climbWheel->Set(speed);
 }
 
 void Climber::MoveClimbElevator(double speed)
