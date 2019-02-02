@@ -164,7 +164,7 @@ void DragonTalon::ConfigMotionCruiseVelocity
 	float maxMotionCruiseVelocity
 )
 {
-	m_talon->ConfigMotionCruiseVelocity(maxMotionCruiseVelocity, 0);
+	m_talon->ConfigMotionCruiseVelocity((maxMotionCruiseVelocity / 360.0) * (m_countsPerRev / 10.0) / m_gearRatio, 0);
 }
 
 void DragonTalon::ConfigPeakOutput

@@ -90,8 +90,8 @@ class DragonTalon : public IDragonMotorController
     void SetAsSlave(int masterCANID); 
 
     //Methods for Motion Magic control mode
-	void ConfigMotionAcceleration(float maxMotionAcceleration);
-	void ConfigMotionCruiseVelocity(float maxMotionCruiseVelocity);
+	void ConfigMotionAcceleration(float maxMotionAcceleration);      // in rotations per second per second
+	void ConfigMotionCruiseVelocity(float maxMotionCruiseVelocity);  // in rotations per second
     void ConfigPeakOutput(double percentOutput);
     void ConfigNominalOutput(double nominalOutput);
 
