@@ -38,6 +38,7 @@ class IDragonGamePad
             LEFT_BUMPER,
             RIGHT_BUMPER,
             BACK_BUTTON,
+            SELECT_BUTTON,
             START_BUTTON,
             LEFT_STICK_PRESSED,
             RIGHT_STICK_PRESSED,

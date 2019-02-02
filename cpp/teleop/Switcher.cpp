@@ -12,7 +12,8 @@ Switcher::Switcher() :
 m_arm( new Arm(std::vector<IDragonMotorController*>()) ),
 m_intake( new Intake(std::vector<IDragonMotorController*>()) ),
 m_wrist( new Wrist(std::vector<IDragonMotorController*>()) ),
-m_chassis( new DragonChassis(std::vector<IDragonMotorController*>(), 6.0) )
+m_chassis( new DragonChassis(std::vector<IDragonMotorController*>(), 6.0) ),
+m_climber( new Climber(std::vector<IDragonMotorController*>(), std::vector<DragonServo*>()) )
 {
 }
 
@@ -64,5 +65,23 @@ void Switcher::GamepieceUpdate()
 
 void Switcher::ClimberUpdate()
 {
-    //TODO:
+    if (TeleopControl::GetInstance()->IsButtonPressed(TeleopControl::FUNCTION_IDENTIFIER::CLIMB_ELEVATOR_UP))
+        m_climbElevSpeed = ELEV_SPEED;
+    else if (TeleopControl::GetInstance()->IsButtonPressed(TeleopControl::FUNCTION_IDENTIFIER::CLIMB_ELEVATOR_DOWN))
+        m_climbElevSpeed = -ELEV_SPEED;
+    else
+        m_climbElevSpeed = 0.0;
+
+    m_climbDriveSpeed = TeleopControl::GetInstance()->GetAxisValue( TeleopControl::FUNCTION_IDENTIFIER::CLIMB_DRIVE );
+    m_allowClimbDrive = TeleopControl::GetInstance()->IsButtonPressed( TeleopControl::FUNCTION_IDENTIFIER::ALLOW_CLIMB_DRIVE );
+    m_dropBuddyClimb = TeleopControl::GetInstance()->IsButtonPressed( TeleopControl::FUNCTION_IDENTIFIER::DROP_BUDDY_CLIMB );
+
+    if(m_allowClimbDrive)
+        m_climber->SetClimbDriveSpeed(m_climbDriveSpeed);
+    else
+        m_climber->SetClimbDriveSpeed(0.0);
+
+    
+    m_climber->MoveClimbElevator(m_climbElevSpeed);
+    m_climber->DropBuddyClimb(m_dropBuddyClimb);
 }

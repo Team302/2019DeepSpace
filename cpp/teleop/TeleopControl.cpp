@@ -96,6 +96,15 @@ TeleopControl::TeleopControl() : m_axisIDs(),
 
 			m_controllerIndex[ DRIVE_BOOST_MODE ]           = 0;
 			m_buttonIDs[ DRIVE_BOOST_MODE ]                 = IDragonGamePad::BUTTON_IDENTIFIER::RIGHT_BUMPER;
+
+            m_controllerIndex[ ALLOW_CLIMB_DRIVE ]          = 0;
+            m_buttonIDs[ ALLOW_CLIMB_DRIVE ]                = IDragonGamePad::BUTTON_IDENTIFIER::A_BUTTON;
+
+            m_controllerIndex[ CLIMB_DRIVE ]                = 0;
+            m_axisIDs[ CLIMB_DRIVE ]                        = IDragonGamePad::AXIS_IDENTIFIER::LEFT_JOYSTICK_Y;
+
+            m_controllerIndex[ DROP_BUDDY_CLIMB ]           = 0;
+            m_buttonIDs[ DROP_BUDDY_CLIMB ]                 = IDragonGamePad::BUTTON_IDENTIFIER::RIGHT_BUMPER;
     	}
 		// else if ( ds->GetJoystickType( 0 ) == GenericHID::kHIDJoystick )
 		// {
@@ -152,8 +161,11 @@ TeleopControl::TeleopControl() : m_axisIDs(),
         m_controllerIndex[ ROTATE_WRIST ]                   = 1;
         m_axisIDs[ ROTATE_WRIST ]                           = IDragonGamePad::AXIS_IDENTIFIER::RIGHT_JOYSTICK_Y;   // right Y axis rotates wrist
 
-        m_controllerIndex[ CLIMB_ELEVATOR ]                 = 1;
-        m_controllerIndex[ CLIMB_ELEVATOR ]                 = IDragonGamePad::BUTTON_IDENTIFIER::LEFT_BUMPER;
+        m_controllerIndex[ CLIMB_ELEVATOR_UP ]              = 1;
+        m_buttonIDs[ CLIMB_ELEVATOR_UP ]                    = IDragonGamePad::BUTTON_IDENTIFIER::SELECT_BUTTON;
+
+        m_controllerIndex[ CLIMB_ELEVATOR_DOWN ]            = 1;
+        m_buttonIDs[ CLIMB_ELEVATOR_DOWN ]                  = IDragonGamePad::BUTTON_IDENTIFIER::START_BUTTON;
     }
     else
     {
