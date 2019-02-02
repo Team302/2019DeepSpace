@@ -9,17 +9,23 @@
 
 #include <subsys/IMechanism.h>
 #include <hw/DragonTalon.h> 
+#include <hw/DragonServo.h>
 
 class Climber : public IMechanism {
 public:
-  Climber(std::vector<IDragonMotorController*> motorControllers);
+  Climber(std::vector<IDragonMotorController*> motorControllers, std::vector<DragonServo*> servos);
 
   void SetClimbDriveSpeed(double speed);
   void MoveClimbElevator(double speed);
+  void DropBuddyClimb(bool drop);
 
   IMechanism::MECHANISM_TYPE GetType() const override;
 
 private:
   DragonTalon* m_climbElevator;
   DragonTalon* m_climbWheel;
+  DragonServo* m_buddyServo;
+
+  const double SERVO_LOCKED_POSITION = 0.0;
+  const double SERVO_DROPPED_POSITION = 1.0;
 };

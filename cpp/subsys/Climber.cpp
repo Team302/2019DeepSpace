@@ -7,9 +7,10 @@
 
 #include "subsys/Climber.h"
 
-Climber::Climber(std::vector<IDragonMotorController*> motorControllers) :
+Climber::Climber(std::vector<IDragonMotorController*> motorControllers, std::vector<DragonServo*> servos) :
 m_climbElevator(nullptr),
-m_climbWheel(nullptr)
+m_climbWheel(nullptr),
+m_buddyServo(nullptr)
 {
     for (int i = 0; i < motorControllers.size(); i++)
     {
@@ -17,14 +18,28 @@ m_climbWheel(nullptr)
         {
             case IDragonMotorController::TALON_TYPE::ELEVATOR_WINCH:
                 m_climbElevator = static_cast<DragonTalon*>(motorControllers[i]);
+                break;
             case IDragonMotorController::TALON_TYPE::ELEVATOR_DRIVE:
                 m_climbWheel = static_cast<DragonTalon*>(motorControllers[i]);
-            break;
-
+                break;
             default: 
-            break;
+                break;
         }
     }
+
+    for (int i = 0; i < servos.size(); i++)
+    {
+        switch (servos[i]->GetUsage())
+        {
+            case DragonServo::SERVO_USAGE::DROP_BUDDY_CLIMB:
+                m_buddyServo = servos[i];
+                break;
+            default:
+                break;
+        }
+    }
+
+
 }
 
 void Climber::SetClimbDriveSpeed(double speed)
@@ -37,6 +52,14 @@ void Climber::MoveClimbElevator(double speed)
 {
     m_climbElevator->SetControlMode(IDragonMotorController::DRAGON_CONTROL_MODE::PERCENT_OUTPUT);
     m_climbElevator->Set(speed);
+}
+
+void Climber::DropBuddyClimb(bool drop)
+{
+    if(drop)
+        m_buddyServo->Set(SERVO_DROPPED_POSITION);
+    else
+        m_buddyServo->Set(SERVO_LOCKED_POSITION);
 }
 
 IMechanism::MECHANISM_TYPE Climber::GetType() const
