@@ -285,20 +285,3 @@
           
 >
 
-<!-- ====================================================
-	 Motor Controller Usage
-	 ====================================================
-	 enum MOTOR_CONTROLLER_USAGE
-     {
-        FRONT_RIGHT_MOTOR_CONTROLLER,
-        FRONT_LEFT_MOTOR_CONTROLLER,
-        BACK_RIGHT_MOTOR_CONTROLLER,
-        BACK_LEFT_MOTOR_CONTROLLER
-	 };
-	 ==================================================== -->
-<!ELEMENT motorcontroller EMPTY>
-<!ATTLIST motorcontroller
-          usage             (  0 |  1 |  2 |  3 |  4 |  5 |  6 ) "0" 
-          type              CDATA ( cantalon | sparkmax_brushless | sparkmax_brushed ) "cantalon"
->
-
