@@ -9,7 +9,7 @@
 #include <iostream>
 #include <cmath>
 
-DragonChassis::DragonChassis(double wheelDiameter, double wheelBase, double track, std::vector<IDragonMotorController*> motorControllers) :
+DragonChassis::DragonChassis(std::vector<IDragonMotorController*> motorControllers, double wheelDiameter) :
 m_frontLeft(nullptr),
 m_middleLeft(nullptr),
 m_backLeft(nullptr),
@@ -17,8 +17,6 @@ m_frontRight(nullptr),
 m_middleRight(nullptr),
 m_backRight(nullptr),
 m_wheelDiameter(wheelDiameter),
-m_wheelBase(wheelBase),
-m_track(track),
 m_leftDistanceOffset(0.0),
 m_rightDistanceOffset(0.0)
 {

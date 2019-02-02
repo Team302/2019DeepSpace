@@ -16,11 +16,8 @@
 
 // Team 302 includes
 
-
 // Third Party Includes
 #include <pugixml/pugixml.hpp>
-
-
 
 using namespace frc;
 

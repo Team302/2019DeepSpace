@@ -7,31 +7,34 @@
 
 // Team 302
 #include <subsys/IMechanism.h>
-#include <hw/DragonTalon.h> 
+#include <hw/DragonTalon.h>
+#include <hw/IDragonMotorController.h>
+#include <subsys/PlacementHeights.h>
 
 class Wrist : public IMechanism {
  public:
+  Wrist(std::vector<IDragonMotorController*> motorControllers);
 
   enum PLACEMENT_HEIGHT
   {
-    KEEP_SAME = -1,
     FLOOR,
-    CARGOSHIP,
     HUMAN_PLAYER,
+    CARGOSHIP,
     ROCKET_LOW,
     ROCKET_MID,
-    ROCKET_HIGH
+    ROCKET_HIGH,
+    MAX_PLACEMENT_HEIGHTS
   };
 
-  Wrist();
-
-  void MoveWristPresets(Wrist::PLACEMENT_HEIGHT height, bool cargo, bool flip);
-  void MoveWristManual(double speed);
+  void MoveWristPresets(PlacementHeights::PLACEMENT_HEIGHT height, bool cargo, bool flip);
+  void MoveWristManualSpeed(double speed);
+  void MoveWristManualAngle(double angle);
 
   double GetWristAngle();
 
- private:
+  IMechanism::MECHANISM_TYPE GetType() const override;
 
+ private:
   enum HATCH_WRIST_PRESETS
   {
     HATCH_KEEP_SAME = -1,

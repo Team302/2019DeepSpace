@@ -16,10 +16,8 @@ public:
     // Constructor
     DragonChassis
     (
-        double wheelDiameter,                                 // Diameter of the wheel
-        double wheelBase,                                     // Front-Back distance between wheel centers
-        double track,                                         // Left-Right distance between wheels (same axle)
-        std::vector<IDragonMotorController*> motorControllers // Motor controllers
+        std::vector<IDragonMotorController*> motorControllers, // Motor controllers
+        double wheelDiameter                                   // Diameter of the wheel
     );
     DragonChassis() = delete;           // Delete default constructor
     virtual ~DragonChassis() = default; // Default deconstructor
@@ -53,8 +51,6 @@ private:
     IDragonMotorController* m_backRight;
 
     double m_wheelDiameter;
-    double m_wheelBase;
-    double m_track;
 
     double m_leftDistanceOffset;
     double m_rightDistanceOffset;

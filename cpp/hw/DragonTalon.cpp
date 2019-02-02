@@ -1,6 +1,7 @@
 #include "hw/DragonTalon.h"
 
 DragonTalon::DragonTalon(IDragonMotorController::TALON_TYPE deviceType, int deviceID, int countsPerRev, double gearRatio) :
+	m_id(deviceID),
     m_talon(new TalonSRX(deviceID)),
     m_countsPerRev(countsPerRev),
     m_controlMode(TALON_CONTROL_MODE::PERCENT),
@@ -124,23 +125,14 @@ void DragonTalon::SetSensorInverted(bool inverted)
     m_talon->SetSensorPhase(inverted);
 }
 
-int DragonTalon::GetCANID() const
-{
-	int id = -1;
-	if ( m_talon != nullptr )
-	{
-		id = m_talon->GetDeviceID();
-	}
-	else
-	{
-//		printf( "DragonTalon::GetCANID: m_talon not initialized \n" );
-	}
-	return id;
-}
-
 IDragonMotorController::TALON_TYPE DragonTalon::GetType() const
 {
 	return m_type;
+}
+
+int DragonTalon::GetID() const
+{
+	return m_id;
 }
 
 //------------------------------------------------------------------------------

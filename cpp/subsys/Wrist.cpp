@@ -5,41 +5,61 @@
 
 #include "subsys/Wrist.h"
 
-Wrist::Wrist() :
-    m_wristMotor(new DragonTalon(DragonTalon::TALON_TYPE::WRIST, 5, 0, 0)) // TODO: make this xml
-{}
+Wrist::Wrist(std::vector<IDragonMotorController*> motorControllers) :
+    m_wristMotor(nullptr)
+{
+    for (int i = 0; i < motorControllers.size(); i++)
+    {
+        switch (motorControllers[i]->GetType())
+        {
+            case IDragonMotorController::TALON_TYPE::WRIST:
+                m_wristMotor = static_cast<DragonTalon*>(motorControllers[i]);
+            break;
+
+            default:
+            break;
+        }
+    }
+}
 
 // TODO: Add a painting motion?
 
-void Wrist::MoveWristManual(double speed)
+void Wrist::MoveWristManualSpeed(double speed)
 {
     m_wristMotor->SetControlMode(DragonTalon::TALON_CONTROL_MODE::PERCENT);
+    m_wristMotor->Set(speed);
 }
 
-void Wrist::MoveWristPresets(Wrist::PLACEMENT_HEIGHT height, bool cargo, bool flip)
+void Wrist::MoveWristManualAngle(double angle)
+{
+    m_wristMotor->SetControlMode(DragonTalon::TALON_CONTROL_MODE::POSITION);
+    m_wristMotor->Set(angle);
+}
+
+void Wrist::MoveWristPresets(PlacementHeights::PLACEMENT_HEIGHT height, bool cargo, bool flip)
 {
     m_wristMotor->SetControlMode(DragonTalon::TALON_CONTROL_MODE::POSITION);
     double targetAngle = GetWristAngle();
     if(cargo)
-    {   
+    {
         switch(height)
         {
-            case Wrist::PLACEMENT_HEIGHT::FLOOR:
+            case PlacementHeights::PLACEMENT_HEIGHT::FLOOR:
                 targetAngle = cargoAngle[Wrist::CARGO_WRIST_PRESETS::CARGO_FLOOR];
                 break;
-            case Wrist::PLACEMENT_HEIGHT::CARGOSHIP:
+            case PlacementHeights::PLACEMENT_HEIGHT::CARGOSHIP:
                 targetAngle = cargoAngle[Wrist::CARGO_WRIST_PRESETS::CARGO_SHIP];
                 break;
-            case Wrist::PLACEMENT_HEIGHT::HUMAN_PLAYER:
+            case PlacementHeights::PLACEMENT_HEIGHT::HUMAN_PLAYER:
                 targetAngle = cargoAngle[Wrist::CARGO_WRIST_PRESETS::CARGO_HP];
                 break;
-            case Wrist::PLACEMENT_HEIGHT::ROCKET_LOW:
+            case PlacementHeights::PLACEMENT_HEIGHT::ROCKET_LOW:
                 targetAngle = cargoAngle[Wrist::CARGO_WRIST_PRESETS::CARGO_LOW];
                 break;
-            case Wrist::PLACEMENT_HEIGHT::ROCKET_MID:
+            case PlacementHeights::PLACEMENT_HEIGHT::ROCKET_MID:
                 targetAngle = cargoAngle[Wrist::CARGO_WRIST_PRESETS::CARGO_MID];
                 break;
-            case Wrist::PLACEMENT_HEIGHT::ROCKET_HIGH:
+            case PlacementHeights::PLACEMENT_HEIGHT::ROCKET_HIGH:
                 targetAngle = cargoAngle[Wrist::CARGO_WRIST_PRESETS::CARGO_HIGH];
                 break;
             default:
@@ -50,22 +70,22 @@ void Wrist::MoveWristPresets(Wrist::PLACEMENT_HEIGHT height, bool cargo, bool fl
     {
         switch(height)
         {
-            case Wrist::PLACEMENT_HEIGHT::FLOOR:
+            case PlacementHeights::PLACEMENT_HEIGHT::FLOOR:
                 targetAngle = hatchAngle[Wrist::HATCH_WRIST_PRESETS::HATCH_FLOOR];
                 break;
-            case Wrist::PLACEMENT_HEIGHT::CARGOSHIP:
+            case PlacementHeights::PLACEMENT_HEIGHT::CARGOSHIP:
                 targetAngle = hatchAngle[Wrist::HATCH_WRIST_PRESETS::HATCH_LOW];
                 break;
-            case Wrist::PLACEMENT_HEIGHT::HUMAN_PLAYER:
+            case PlacementHeights::PLACEMENT_HEIGHT::HUMAN_PLAYER:
                 targetAngle = hatchAngle[Wrist::HATCH_WRIST_PRESETS::HATCH_LOW];
                 break;
-            case Wrist::PLACEMENT_HEIGHT::ROCKET_LOW:
+            case PlacementHeights::PLACEMENT_HEIGHT::ROCKET_LOW:
                 targetAngle = hatchAngle[Wrist::HATCH_WRIST_PRESETS::HATCH_LOW];
                 break;
-            case Wrist::PLACEMENT_HEIGHT::ROCKET_MID:
+            case PlacementHeights::PLACEMENT_HEIGHT::ROCKET_MID:
                 targetAngle = hatchAngle[Wrist::HATCH_WRIST_PRESETS::HATCH_MID];
                 break;
-            case Wrist::PLACEMENT_HEIGHT::ROCKET_HIGH:
+            case PlacementHeights::PLACEMENT_HEIGHT::ROCKET_HIGH:
                 targetAngle = hatchAngle[Wrist::HATCH_WRIST_PRESETS::HATCH_HIGH];
                 break;
             default:
@@ -76,7 +96,7 @@ void Wrist::MoveWristPresets(Wrist::PLACEMENT_HEIGHT height, bool cargo, bool fl
     if(flip)
         targetAngle = -targetAngle;
 
-    m_wristMotor->Set(targetAngle / 360); // Sets in rotations from degrees
+    m_wristMotor->Set(targetAngle / 360.0); // Sets in rotations from degrees
 }
 
 /*
@@ -85,4 +105,9 @@ void Wrist::MoveWristPresets(Wrist::PLACEMENT_HEIGHT height, bool cargo, bool fl
 double Wrist::GetWristAngle()
 {
     return m_wristMotor->GetRotations() * 360;
+}
+
+IMechanism::MECHANISM_TYPE Wrist::GetType() const
+{
+    return IMechanism::MECHANISM_TYPE::WRIST;
 }

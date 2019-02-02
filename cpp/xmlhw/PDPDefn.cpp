@@ -14,7 +14,7 @@
 #include <frc/SmartDashboard/SmartDashboard.h>
 
 // Team 302 includes
-//#include <subsys/PDPFactory.h>
+#include <hw/DragonPDP.h>
 #include <xmlhw/PDPDefn.h>
 
 // Third Party Includes
@@ -74,10 +74,10 @@ PowerDistributionPanel* PDPDefn::ParseXML
     }
 
     // create object
-    /*if ( !hasError )
+    if ( !hasError )
     {
-        powerpanel = PDPFactory::GetFactory()->CreatePDP( canID );
-    }*/
+        powerpanel = DragonPDP::GetInstance()->CreatePDP( canID );
+    }
     return powerpanel;
 }
 
