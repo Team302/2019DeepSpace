@@ -11,13 +11,13 @@
 
 // Team 302 includes
 #include <xmlhw/RobotDefn.h>
-//#include <xmlhw/CameraDefn.h>
+#include <xmlhw/CameraDefn.h>
 #include <xmlhw/ChassisDefn.h>
 //#include <xmlhw/LidarDefn.h>
-//#include <xmlhw/MechanismDefn.h>
+#include <xmlhw/MechanismDefn.h>
 //#include <xmlhw/PCMDefn.h>
-//#include <xmlhw/PDPDefn.h>
-//#include <xmlhw/PigeonDefn.h>
+#include <xmlhw/PDPDefn.h>
+#include <xmlhw/PigeonDefn.h>
 
 // Third Party Includes
 #include <pugixml/pugixml.hpp>
@@ -56,7 +56,7 @@ void RobotDefn::ParseXML()
                 }
                 else if ( strcmp( child.name(), "mechanism") == 0 )
                 {
-                    //MechanismDefn::ParseXML( child );
+                    MechanismDefn::ParseXML( child );
                 }
                 else if ( strcmp( child.name(), "pcm") == 0 )
                 {
@@ -64,11 +64,11 @@ void RobotDefn::ParseXML()
                 }
                 else if ( strcmp( child.name(), "pdp") == 0 )
                 {
-                    //PDPDefn::ParseXML( child );
+                    PDPDefn::ParseXML( child );
                 }
                 else if ( strcmp( child.name(), "pigeon") == 0 )
                 {
-                    //PigeonDefn::ParseXML( child );
+                    PigeonDefn::ParseXML( child );
                 }
                 else if ( strcmp( child.name(), "lidar") == 0 )
                 {
@@ -76,7 +76,7 @@ void RobotDefn::ParseXML()
                 }
                 else if ( strcmp( child.name(), "camera") == 0 )
                 {
-                    //CameraDefn::ParseXML( child );
+                    CameraDefn::ParseXML( child );
                 }
                 else
                 {

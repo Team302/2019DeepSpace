@@ -11,10 +11,8 @@
 // FRC includes
 
 // Team 302 includes
-//#include <hw/TrueColors.h>
 
 // Third Party Includes
-#include <pugixml/pugixml.hpp>
 
 
 class RobotDefn

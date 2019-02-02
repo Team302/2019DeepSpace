@@ -39,7 +39,7 @@
 #include <frc/AnalogInput.h>
 
 // Team302 includes
-//#include <hw/DragonAnalogInput.h>
+#include <hw/DragonAnalogInput.h>
 
 // Third Party includes
 #include <pugixml/pugixml.hpp>
@@ -61,8 +61,7 @@ class AnalogInputDefn
         // Returns:     DragonAnalogInput*      AnalogInput (or nullptr if XML
         //                                  	is ill-formed
         //-----------------------------------------------------------------------
-        //static DragonAnalogInput* ParseXML
-        void static ParseXML
+        static DragonAnalogInput* ParseXML
         (
             pugi::xml_node      sensorNode
         );
