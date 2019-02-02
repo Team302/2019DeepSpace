@@ -1,8 +1,12 @@
+//LEDs by Chris
+//TODO:make LED.cpp and LED.h work with CANifier Factory
+
+
 #include <hw/LED.h>
 
 
 
-#include <ctre/phoenix/CANifier.h>
+#include <CANifier.h>
 
 using namespace ctre::phoenix;
 
@@ -16,13 +20,13 @@ CAN = new CANifier( 48 );
 }
 void LED::SetColor( Colors color )
 {
-double r = 0;
+double r = 0;//creating rgb numbers
 double g = 0;
 double b = 0;
 
  
 
-switch(color)
+switch(color)//switch that assigns rgb values to each color (orange doesn't work, for some reason.)
     {
     case RED:
     r = 255;
@@ -64,7 +68,7 @@ switch(color)
  
     break;
     }   
-    CAN->SetLEDOutput( r, CAN->LEDChannelB );
+    CAN->SetLEDOutput( r, CAN->LEDChannelB );//outputting rgb values to LED strip
     CAN->SetLEDOutput( g, CAN->LEDChannelA );
     CAN->SetLEDOutput( b, CAN->LEDChannelC );
 

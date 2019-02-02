@@ -1,3 +1,4 @@
+//LEDs - By Chris
 #pragma once
 
 #include <frc/CANifier.h>
@@ -12,7 +13,7 @@ class LED
 {
     public:
 
-    enum Colors
+    enum Colors //enum containing colors
     { 
         RED,
         PURPLE,
