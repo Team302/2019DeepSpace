@@ -36,7 +36,7 @@
 #include <frc/SmartDashboard/SmartDashboard.h>
 
 // Team302 includes
-//#include <hw/DragonAnalogInput.h>
+#include <hw/DragonAnalogInput.h>
 #include <xmlhw/AnalogInputDefn.h>
 
 // Third Party includes
@@ -52,18 +52,17 @@ using namespace frc;
 // Returns:     DragonAnalogInput*      AnalogInput (or nullptr if XML
 //                                  	is ill-formed
 //-----------------------------------------------------------------------
-//DragonAnalogInput* AnalogInputDefn::ParseXML
-void AnalogInputDefn::ParseXML
+DragonAnalogInput* AnalogInputDefn::ParseXML
 (
     pugi::xml_node      motorNode
 )
 {
-	//DragonAnalogInput* sensor = nullptr;
+	DragonAnalogInput* sensor = nullptr;
 
 
 
 
-	//DragonAnalogInput::ANALOG_SENSOR_TYPE type = DragonAnalogInput::ANALOG_GENERAL;
+	DragonAnalogInput::ANALOG_SENSOR_TYPE type = DragonAnalogInput::ANALOG_GENERAL;
 	int 						analogID = 0;
     float						voltageMin = 0.0;
     float						voltageMax = 5.0;
@@ -72,35 +71,33 @@ void AnalogInputDefn::ParseXML
 
     bool hasError = false;
 
-    // TODO:: Finish Parsing
     for (pugi::xml_attribute attr = motorNode.first_attribute(); attr; attr = attr.next_attribute())
     {
         if ( strcmp( attr.name(), "type" ) == 0 )
         {
         	int iVal = attr.as_int();
-        	/*switch ( iVal )
+        	switch ( iVal )
         	{
-        	case DragonAnalogInput::ANALOG_GENERAL:
-        		type = DragonAnalogInput::ANALOG_GENERAL;
-        		break;
+                case DragonAnalogInput::ANALOG_GENERAL:
+                    type = DragonAnalogInput::ANALOG_GENERAL;
+                    break;
 
-        	case DragonAnalogInput::ANALOG_GYRO:
-        		type = DragonAnalogInput::ANALOG_GYRO;
-        		break;
+                case DragonAnalogInput::ANALOG_GYRO:
+                    type = DragonAnalogInput::ANALOG_GYRO;
+                    break;
 
-        	case DragonAnalogInput::POTENTIOMETER:
-        		type = DragonAnalogInput::POTENTIOMETER;
-        		break;
+                case DragonAnalogInput::POTENTIOMETER:
+                    type = DragonAnalogInput::POTENTIOMETER;
+                    break;
 
-        	case DragonAnalogInput::PRESSURE_GAUGE:
-        		type = DragonAnalogInput::PRESSURE_GAUGE;
-        		break;
+                case DragonAnalogInput::PRESSURE_GAUGE:
+                    type = DragonAnalogInput::PRESSURE_GAUGE;
+                    break;
 
-        	default:
-        		printf( "==>> AnalogInputDefn::ParseXML: invalid type %d \n", iVal );
-        		break;
-
-        	}*/
+                default:
+                    printf( "==>> AnalogInputDefn::ParseXML: invalid type %d \n", iVal );
+                    break;
+        	}
         }
         else if ( strcmp( attr.name(), "analogId" ) == 0 )
         {
@@ -131,16 +128,7 @@ void AnalogInputDefn::ParseXML
 
     if ( !hasError )
     {
-//        printf( "Creating AnalogInput \n");
-//    	printf( "type: %d \n", type );
-//    	printf( "analog ID: %d \n", analogID );
-//    	printf( "min voltage: %g \n", voltageMin );
-//    	printf( "max voltage: %g \n", voltageMax );
-//    	printf( "min output value: %g \n", outputMin );
-//    	printf( "max output value: %g \n", outputMax );
-
-    	//sensor = new DragonAnalogInput( type, analogID, voltageMin, voltageMax, outputMin, outputMax );
-
+    	sensor = new DragonAnalogInput( type, analogID, voltageMin, voltageMax, outputMin, outputMax );
     }
-    //return sensor;
+    return sensor;
 }
