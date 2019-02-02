@@ -12,11 +12,13 @@
 
 class Intake : public IMechanism  {
  public:
-  Intake();
+  Intake(std::vector<IDragonMotorController*> motorControllers);
   void IntakePreset(bool cargo, bool outtake);
   void IntakeManual(double speed);
 
   bool ObjectPresent();
+
+  IMechanism::MECHANISM_TYPE GetType() const override;
   
  private:
   DragonTalon* m_intakeMotor;

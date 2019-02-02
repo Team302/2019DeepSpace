@@ -95,7 +95,7 @@ TeleopControl::TeleopControl() : m_axisIDs(),
 			m_axisIDs[ ROBOT_ROTATION_MAGNITUDE ]    		= IDragonGamePad::AXIS_IDENTIFIER::RIGHT_JOYSTICK_X;    // XBOX_X_AXIS_RIGHT_JOYSTICK;
 
 			m_controllerIndex[ DRIVE_BOOST_MODE ]           = 0;
-			m_buttonIDs[ DRIVE_BOOST_MODE ]                 = IDragonGamePad::BUTTON_IDENTIFIER::A_BUTTON;          // XBOX_A_BUTTON;
+			m_buttonIDs[ DRIVE_BOOST_MODE ]                 = IDragonGamePad::BUTTON_IDENTIFIER::RIGHT_BUMPER;
     	}
 		// else if ( ds->GetJoystickType( 0 ) == GenericHID::kHIDJoystick )
 		// {

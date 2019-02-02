@@ -5,9 +5,22 @@
 
 #include "subsys/Wrist.h"
 
-Wrist::Wrist() :
-    m_wristMotor(new DragonTalon(DragonTalon::TALON_TYPE::WRIST, 5, 0, 0)) // TODO: make this xml
-{}
+Wrist::Wrist(std::vector<IDragonMotorController*> motorControllers) :
+    m_wristMotor(nullptr)
+{
+    for (int i = 0; i < motorControllers.size(); i++)
+    {
+        switch (motorControllers[i]->GetType())
+        {
+            case IDragonMotorController::TALON_TYPE::WRIST:
+                m_wristMotor = static_cast<DragonTalon*>(motorControllers[i]);
+            break;
+
+            default:
+            break;
+        }
+    }
+}
 
 // TODO: Add a painting motion?
 
@@ -28,7 +41,7 @@ void Wrist::MoveWristPresets(PlacementHeights::PLACEMENT_HEIGHT height, bool car
     m_wristMotor->SetControlMode(DragonTalon::TALON_CONTROL_MODE::POSITION);
     double targetAngle = GetWristAngle();
     if(cargo)
-    {   
+    {
         switch(height)
         {
             case PlacementHeights::PLACEMENT_HEIGHT::FLOOR:
@@ -83,7 +96,7 @@ void Wrist::MoveWristPresets(PlacementHeights::PLACEMENT_HEIGHT height, bool car
     if(flip)
         targetAngle = -targetAngle;
 
-    m_wristMotor->Set(targetAngle / 360); // Sets in rotations from degrees
+    m_wristMotor->Set(targetAngle / 360.0); // Sets in rotations from degrees
 }
 
 /*
@@ -92,4 +105,9 @@ void Wrist::MoveWristPresets(PlacementHeights::PLACEMENT_HEIGHT height, bool car
 double Wrist::GetWristAngle()
 {
     return m_wristMotor->GetRotations() * 360;
+}
+
+IMechanism::MECHANISM_TYPE Wrist::GetType() const
+{
+    return IMechanism::MECHANISM_TYPE::WRIST;
 }

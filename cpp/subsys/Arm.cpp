@@ -26,6 +26,9 @@ Arm::Arm(std::vector<IDragonMotorController*> motorControllers)
             break;
         }
     }
+
+    m_armMaster->SetControlMode(IDragonMotorController::DRAGON_CONTROL_MODE::PERCENT_OUTPUT);
+    m_armMaster->Set(0);
 }
 
 void Arm::MoveArmPresets(PlacementHeights::PLACEMENT_HEIGHT height, bool cargo, bool flip)

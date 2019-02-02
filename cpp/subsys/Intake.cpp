@@ -8,10 +8,25 @@
 #include "subsys/Intake.h"
 #include "hal/PDP.h"
 
-Intake::Intake() :
-m_intakeMotor(new DragonTalon(IDragonMotorController::TALON_TYPE::INTAKE, 0, 0, 0))
+Intake::Intake(std::vector<IDragonMotorController*> motorControllers) :
+m_intakeMotor(nullptr)
 {
+    for (int i = 0; i < motorControllers.size(); i++)
+    {
+        switch (motorControllers[i]->GetType())
+        {
+            case IDragonMotorController::TALON_TYPE::INTAKE:
+                m_intakeMotor = static_cast<DragonTalon*>(motorControllers[i]);
+            break;
+
+            default:
+            break;
+        }
+    }
+
+
     m_intakeMotor->SetControlMode(IDragonMotorController::DRAGON_CONTROL_MODE::PERCENT_OUTPUT);
+    m_intakeMotor->Set(0);
 }
 
 void Intake::IntakeManual(double speed)
@@ -37,4 +52,7 @@ bool Intake::ObjectPresent()
 }
 
 
-
+IMechanism::MECHANISM_TYPE Intake::GetType() const
+{
+    return IMechanism::MECHANISM_TYPE::INTAKE;
+}
