@@ -12,7 +12,7 @@
 #include <subsys/Intake.h>
 #include <subsys/Arm.h>
 #include <subsys/Wrist.h>
-//#include <subsys/Climber.h>
+#include <subsys/Climber.h>
 
 MechanismFactory* MechanismFactory::m_mechanismFactory = nullptr;
 
@@ -64,11 +64,11 @@ IMechanism* MechanismFactory::GetIMechanism
 //=======================================================================================
 IMechanism* MechanismFactory::CreateMechanism
 (
-    IMechanism::MECHANISM_TYPE                   type,               // <I> - manipulator Type
-    const std::vector<IDragonMotorController*>&  motorControllers,   // <I> - Motor Controllers
-    const DragonDigitalInputVector&              digitalInputs,      // <I> - Digital Inputs
-    const DragonAnalogInputVector&               analogInputs,       // <I> - Analog Inputs
-    const DragonServoVector&                     servos              // <I> - servos
+    IMechanism::MECHANISM_TYPE           type,               // <I> - manipulator Type
+    const IDragonMotorControllerVector&  motorControllers,   // <I> - Motor Controllers
+    const DragonDigitalInputVector&      digitalInputs,      // <I> - Digital Inputs
+    const DragonAnalogInputVector&       analogInputs,       // <I> - Analog Inputs
+    const DragonServoVector&             servos              // <I> - servos
 )
 {
     IMechanism* subsys = nullptr;
@@ -76,10 +76,11 @@ IMechanism* MechanismFactory::CreateMechanism
 
     switch ( index )
     {
-//        case IMechanism::CLIMBER:
-//            subsys = new Climber( type, motorControllers );//, digitalInputs, analogInputs );
-//            m_climber = subsys;
-//            break;
+        case IMechanism::CLIMBER:
+            subsys = new Climber( type, motorControllers );//, digitalInputs, analogInputs );
+            //subsys = new Climber( type, motorControllers );//, digitalInputs, analogInputs );
+            m_climber = subsys;
+            break;
 
         case IMechanism::INTAKE:
             subsys = new Intake( motorControllers );
@@ -112,13 +113,6 @@ MechanismFactory::MechanismFactory() : m_climber( nullptr ),
                                        m_intake( nullptr ),
                                        m_arm( nullptr ),
                                        m_wrist( nullptr )
-{
-//	m_mechanisms.resize( IMechanism::MAX_MECHANISM_TYPES );
-//	for ( auto inx=0; inx<IMechanism::MAX_MECHANISM_TYPES; ++inx )
-//	{
-//		m_mechanisms[inx] = nullptr;
-//	}
-}
 
 MechanismFactory::~MechanismFactory()
 {

@@ -32,7 +32,7 @@ class MechanismFactory
 		IMechanism* CreateMechanism
 		(
 			IMechanism::MECHANISM_TYPE		        type,				// <I> - manipulator Type
-			const std::vector<IDragonMotorController*>&		    motorControllers,	// <I> - Motor Controllers
+			const IDragonMotorControllerVector&	    motorControllers,	// <I> - Motor Controllers
 			const DragonDigitalInputVector&         digitalInputs,      // <I> - Digital Inputs
 			const DragonAnalogInputVector&          analogInputs,       // <I> - Analog Inputs
 			const DragonServoVector&                servos              // <I> - servos
