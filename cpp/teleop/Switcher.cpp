@@ -58,8 +58,8 @@ void Switcher::GamepieceUpdate()
 
     m_intake->IntakeManual( m_intakeSpeed );
     m_wrist->MoveWristManualSpeed( m_wristSpeed );
-    m_arm->MoveArmExtensionSpeed( m_extendSpeed );
-    m_arm->MoveArmManualAngle( m_armTargetPosition );
+    m_arm->MoveExtensionSpeed( m_extendSpeed );
+    m_arm->MoveArmAngle( m_armTargetPosition );
 }
 
 void Switcher::ClimberUpdate()

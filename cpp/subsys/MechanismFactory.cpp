@@ -1,6 +1,3 @@
-#pragma once
-
-
 #include <subsys/MechanismFactory.h>
 #include <subsys/IMechanism.h>
 #include <vector>
@@ -77,7 +74,7 @@ IMechanism* MechanismFactory::CreateMechanism
     switch ( index )
     {
         case IMechanism::CLIMBER:
-            subsys = new Climber( type, motorControllers );//, digitalInputs, analogInputs );
+            subsys = new Climber( motorControllers, servos );//, digitalInputs, analogInputs );
             //subsys = new Climber( type, motorControllers );//, digitalInputs, analogInputs );
             m_climber = subsys;
             break;
@@ -113,6 +110,8 @@ MechanismFactory::MechanismFactory() : m_climber( nullptr ),
                                        m_intake( nullptr ),
                                        m_arm( nullptr ),
                                        m_wrist( nullptr )
+{
+}
 
 MechanismFactory::~MechanismFactory()
 {

@@ -64,6 +64,7 @@ void Wrist::MoveWristPresets(PlacementHeights::PLACEMENT_HEIGHT height, bool car
                 break;
             default:
                 targetAngle = GetWristAngle();
+                break;
         }
     }
     else
@@ -90,6 +91,7 @@ void Wrist::MoveWristPresets(PlacementHeights::PLACEMENT_HEIGHT height, bool car
                 break;
             default:
                 targetAngle = GetWristAngle();
+                break;
         }
     }
 
