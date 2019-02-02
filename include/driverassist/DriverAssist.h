@@ -13,25 +13,25 @@ Driver assist contains all sub driver assist thingys and allocates teleop contro
 #pragma once
 
 #include "subsys/PlacementHeights.h"
+#include "teleop/Switcher.h"
 
 class DriverAssist
 {
 public:
-    static DriverAssist* GetDriverAssist();  // singleton class get method
     void Update(); // runs everything lol
 
+    DriverAssist();
     ~DriverAssist() = default;
 
 private:
-    enum DriverAssistMode
-    {
-        APPROACH_TARGET,
-        DEPLOY
-    };
-
-    DriverAssist() {}; // empty constructor
-
     void GoToPosition(PlacementHeights::PLACEMENT_HEIGHT placementHeight);
+    void GoToTarget();
 
-    static DriverAssist* m_driverAssist;
+    Switcher* m_switcher;
+
+    bool m_goingToPosition;
+    bool m_goingToTarget;
+    bool m_deploy;
+
+
 };
