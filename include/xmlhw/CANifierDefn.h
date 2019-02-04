@@ -18,13 +18,6 @@ class CANifierDefn
 {
     public:
 
-      enum USAGE
-      {
-        UNKNOWN_CANIFIER = -1,
-        CANIFIER_1,
-        CANIFIER_2
-      };
-
         CANifierDefn() = delete;
         virtual ~CANifierDefn() = delete;
     /*Method: ParseXML
