@@ -94,8 +94,7 @@
 // Returns:     DragonTalon*        motor controller (or nullptr if XML
 //                                  is ill-formed
 //-----------------------------------------------------------------------
-//DragonTalon* MotorDefn::ParseXML
-void MotorDefn::ParseXML
+IDragonMotorController* MotorDefn::ParseXML
 (
     pugi::xml_node      motorNode
 )
