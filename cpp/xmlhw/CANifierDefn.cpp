@@ -5,6 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 #include <xmlhw/CANifierDefn.h>
+#include <hw/CanifierFactory.h>
 
 //Third Party includes
 #include <pugixml/pugixml.hpp>
@@ -24,7 +25,6 @@ ctre::phoenix::CANifier* CANifierDefn::ParseXML
 ctre::phoenix::CANifier* canifier = nullptr;
 // initialize attributes to default values
 	int canID = 0;
-    CANifierDefn::USAGE usage = CANifierDefn::USAGE::UNKNOWN_CANIFIER;
 	bool hasError = false;
 
 //Parse/validate xml
@@ -42,28 +42,7 @@ ctre::phoenix::CANifier* canifier = nullptr;
                 printf( "==>> CANifierDefn::ParseXML invalid CAN ID %d \n", iVal );
                 hasError = true;
             }
-		}
-        else if(strcmp(attr.name(), "usage" ) == 0)
-        {
-            int iVal = attr.as_int();
-            switch(iVal)
-            {
-            case CANifierDefn::USAGE::CANIFIER_1:
-                usage = CANifierDefn::USAGE::CANIFIER_1;
-                break;
-
-            case CANifierDefn::USAGE::CANIFIER_2:
-                usage = CANifierDefn::USAGE::CANIFIER_2;
-                break;
-
-            case CANifierDefn::USAGE::UNKNOWN_CANIFIER:
-                usage = CANifierDefn::USAGE::UNKNOWN_CANIFIER;
-                hasError = true;
-                printf("==>> CANifierDefn:: unknown CANifier usage");
-                break;
-            }
-        }
-		
+		}		
 		else
 		{
 		    hasError = true;
@@ -75,8 +54,7 @@ ctre::phoenix::CANifier* canifier = nullptr;
 	if (!hasError)
 	{
         //creates CANifier object if no error in XML
-		canifier = new ctre::phoenix::CANifier(canID);
-		
+        canifier = CanifierFactory::GetInstance()->GetCanifier(canID);		
 	}
     return canifier;
 }
