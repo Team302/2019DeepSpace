@@ -11,7 +11,7 @@
 // FRC includes
 
 // Team 302 includes
-//#include <hw/DragonTalon.h>
+#include <hw/IDragonMotorController.h>
 
 // Third Party Includes
 #include <pugixml/pugixml.hpp>
@@ -33,8 +33,7 @@ class MotorDefn
         // Returns:     DragonTalon*        motor controller (or nullptr if XML
         //                                  is ill-formed
         //-----------------------------------------------------------------------
-        //static DragonTalon* ParseXML
-        static void ParseXML
+        static IDragonMotorController* ParseXML
         (
             pugi::xml_node      motorNode
         );
