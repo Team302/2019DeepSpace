@@ -14,7 +14,7 @@
 // FRC includes
 
 // Team 302 includes
-//#include <hw/DragonDigitalInput.h>
+#include <hw/DragonDigitalInput.h>
 
 // Third Party includes
 #include <pugixml/pugixml.hpp>
@@ -34,16 +34,12 @@ class DigitalInputDefn
         //     ====================================================
         //        enum DIGITAL_INPUT_TYPE
         //        {
-        //            UNKNOWN_DIGITAL_INPUT_TYPE = -1,
-        //            CUBE_PRESENT,
-        //            ELEVATOR_POSITION_0,
-        //            ELEVATOR_POSITION_1,
-        //            ELEVATOR_POSITION_2,
-        //            ELEVATOR_POSITION_3,
-        //            ELEVATOR_POSITION_4,
-        //            ELEVATOR_POSITION_5,
-        //            ELEVATOR_POSITION_6,
-        //            MAX_DIGITAL_INPPUT_TYPES
+        //           	UNKNOWN_DIGITAL_INPUT_TYPE = -1,
+		//	            FRONT_LEFT_LINE_DETECT,
+		//	            FRONT_RIGHT_LINE_DETECT,
+		//	            BACK_LEFT_LINE_DETECT,
+		//	            BACK_RIGHT_LINE_DETECT,
+		//	            MAX_DIGITAL_INPUT_TYPES
         //        };
         //
         //     ==================================================== -->
@@ -59,10 +55,9 @@ class DigitalInputDefn
         //
         // Returns:     DragonDigitalInput*
         //-----------------------------------------------------------------------
-        //static DragonDigitalInput* ParseXML
-        static void ParseXML
+        static DragonDigitalInput*ParseXML
         (
-            pugi::xml_node      motorNode
+            pugi::xml_node      DigitalNode
         );
 
 };
