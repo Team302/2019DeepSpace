@@ -6,7 +6,6 @@
 //
 // <!ELEMENT chassis (motor*) >
 // <!ATTLIST chassis
-//           type              ( 0 | 1 | 2  ) "0"
 //           wheelDiameter     CDATA #REQUIRED
 //           wheelBase         CDATA #REQUIRED
 //           track             CDATA #REQUIRED
@@ -26,9 +25,9 @@
 // C++ includes
 
 // FRC includes
-//#include <subsys/IChassis.h>
 
 // Team302 includes
+#include <subsys/chassis/DragonChassis.h>
 
 // Third Party includes
 #include <pugixml/pugixml.hpp>
@@ -41,12 +40,11 @@ class ChassisDefn
 
 		//-----------------------------------------------------------------------
 		// Method:      ParseXML
-		// Description: Parse a Chassis XML element and create an IChassis from
+		// Description: Parse a Chassis XML element and create a DragonChassi from
 		//              its definition.
-		// Returns:     IChassis*        	chassis (or nullptr if XML is ill-formed)
+		// Returns:     DragonChassis*        	chassis (or nullptr if XML is ill-formed)
 		//-----------------------------------------------------------------------
-		//static IChassis* ParseXML
-		static void ParseXML
+		static DragonChassis* ParseXML
 		(
 			pugi::xml_node      chassisNode
 		);
