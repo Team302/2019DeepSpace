@@ -44,13 +44,17 @@ using namespace frc;
 //            HATCH_PRESENT_SIDE2,
 //            ARM_MIN_POSITION,
 //            ARM_MAX_POSITION,
+//			  FRONT_LEFT_LINE_DETECT,
+//			  FRONT_RIGHT_LINE_DETECT,
+//			  BACK_LEFT_LINE_DETECT,
+//			  BACK_RIGHT_LINE_DETECT,
 //            MAX_DIGITAL_INPPUT_TYPES
 //        };
 //
 //     ==================================================== -->
 //<!ELEMENT digitalInput EMPTY>
 //<!ATTLIST digitalInput
-//          usage             (  0 |  1 |  2 |  3 |  4 ) "0"
+//          usage             (  0 |  1 |  2 |  3 |  4 | 5 | 6 | 8 ) "0"
 //          digitalId         (  0 |  1 |  2 |  3 |  4 |  5 |  6 |  7 |  8 |  9 |
 //                              10 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18 | 19 |
 //                              20 | 21 | 22 | 23 | 24 | 25 ) "0"
@@ -101,6 +105,22 @@ DragonDigitalInput* DigitalInputDefn::ParseXML
 
                 case DragonDigitalInput::DIGITAL_INPUT_TYPE::ARM_MAX_POSITION:
                     usage = DragonDigitalInput::DIGITAL_INPUT_TYPE::ARM_MAX_POSITION;
+                    break;
+
+                case DragonDigitalInput::DIGITAL_INPUT_TYPE::FRONT_LEFT_LINE_DETECT:
+                    usage = DragonDigitalInput::DIGITAL_INPUT_TYPE::FRONT_LEFT_LINE_DETECT;
+                    break;
+
+                case DragonDigitalInput::DIGITAL_INPUT_TYPE::FRONT_RIGHT_LINE_DETECT:
+                    usage = DragonDigitalInput::DIGITAL_INPUT_TYPE::FRONT_RIGHT_LINE_DETECT;
+                    break;
+
+                case DragonDigitalInput::DIGITAL_INPUT_TYPE::BACK_LEFT_LINE_DETECT:
+                    usage = DragonDigitalInput::DIGITAL_INPUT_TYPE::BACK_LEFT_LINE_DETECT;
+                    break;
+
+                case DragonDigitalInput::DIGITAL_INPUT_TYPE::BACK_RIGHT_LINE_DETECT:
+                    usage = DragonDigitalInput::DIGITAL_INPUT_TYPE::BACK_RIGHT_LINE_DETECT;
                     break;
 
                 default:
