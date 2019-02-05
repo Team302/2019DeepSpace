@@ -20,7 +20,7 @@
 
 // Team302 includes
 #include <xmlhw/DigitalInputDefn.h>
-//#include <hw/DragonDigitalInput.h>
+#include <hw/DragonDigitalInput.h>
 
 // Third Party includes
 #include <pugixml/pugixml.hpp>
@@ -44,10 +44,10 @@ using namespace frc;
 //            HATCH_PRESENT_SIDE2,
 //            ARM_MIN_POSITION,
 //            ARM_MAX_POSITION,
-//			  FRONT_LEFT_LINE_DETECT,
-//			  FRONT_RIGHT_LINE_DETECT,
-//			  BACK_LEFT_LINE_DETECT,
-//			  BACK_RIGHT_LINE_DETECT,
+//			      FRONT_LEFT_LINE_DETECT,
+//			      FRONT_RIGHT_LINE_DETECT,
+//			      BACK_LEFT_LINE_DETECT,
+//			      BACK_RIGHT_LINE_DETECT,
 //            MAX_DIGITAL_INPPUT_TYPES
 //        };
 //

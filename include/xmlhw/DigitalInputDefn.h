@@ -40,10 +40,10 @@ class DigitalInputDefn
         //            HATCH_PRESENT_SIDE2,
         //            ARM_MIN_POSITION,
         //            ARM_MAX_POSITION,
-        //			  FRONT_LEFT_LINE_DETECT,
-        //			  FRONT_RIGHT_LINE_DETECT,
-        //			  BACK_LEFT_LINE_DETECT,
-        //			  BACK_RIGHT_LINE_DETECT,
+        //			      FRONT_LEFT_LINE_DETECT,
+        //			      FRONT_RIGHT_LINE_DETECT,
+        //			      BACK_LEFT_LINE_DETECT,
+        //			      BACK_RIGHT_LINE_DETECT,
         //            MAX_DIGITAL_INPPUT_TYPES
         //        };
         //
@@ -61,8 +61,9 @@ class DigitalInputDefn
         // Returns:     DragonDigitalInput*
         //-----------------------------------------------------------------------
         static DragonDigitalInput* ParseXML
+r
         (
-            pugi::xml_node      motorNode
+            pugi::xml_node      DigitalNode
         );
 
 };
