@@ -43,9 +43,9 @@ class MechanismFactory
 		MechanismFactory();
 		virtual ~MechanismFactory();
 
+		IMechanism*                 m_wrist;
 		IMechanism*                 m_intake;
 		IMechanism*                 m_arm;
-		IMechanism*                 m_wrist;
 		IMechanism*                 m_climber;
 
 		static MechanismFactory*	m_mechanismFactory;
