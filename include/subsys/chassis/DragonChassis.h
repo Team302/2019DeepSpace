@@ -13,6 +13,8 @@
 
 class DragonChassis {
 public:
+
+    static DragonChassis* GetInstance();
     // Constructor
     DragonChassis
     (
@@ -54,4 +56,6 @@ private:
 
     double m_leftDistanceOffset;
     double m_rightDistanceOffset;
+
+    static DragonChassis*   m_instance;
 };
