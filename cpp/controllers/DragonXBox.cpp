@@ -46,12 +46,12 @@ DragonXBox::DragonXBox
 {
     // Create Axis Objects
     // TODO:: check axis IDs
-    m_axis[ LEFT_JOYSTICK_X]  = new AnalogAxis( m_xbox, 1, false );
-    m_axis[ LEFT_JOYSTICK_Y]  = new AnalogAxis( m_xbox, 2, true  );
-    m_axis[ RIGHT_JOYSTICK_X] = new AnalogAxis( m_xbox, 3, false );
-    m_axis[ RIGHT_JOYSTICK_Y] = new AnalogAxis( m_xbox, 4, true  );
-    m_axis[ LEFT_TRIGGER]     = new AnalogAxis( m_xbox, 5, false );
-    m_axis[ RIGHT_TRIGGER]    = new AnalogAxis( m_xbox, 6, false );
+    m_axis[ LEFT_JOYSTICK_X]  = new AnalogAxis( m_xbox, 0, false );
+    m_axis[ LEFT_JOYSTICK_Y]  = new AnalogAxis( m_xbox, 1, true  );
+    m_axis[ LEFT_TRIGGER]     = new AnalogAxis( m_xbox, 2, false );
+    m_axis[ RIGHT_TRIGGER]    = new AnalogAxis( m_xbox, 3, false );
+    m_axis[ RIGHT_JOYSTICK_X] = new AnalogAxis( m_xbox, 4, false );
+    m_axis[ RIGHT_JOYSTICK_Y] = new AnalogAxis( m_xbox, 5, true  );
 
     // Create DigitalButton Objects for the physical buttons
     m_button[A_BUTTON]            = new DigitalButton( m_xbox, 1  );
