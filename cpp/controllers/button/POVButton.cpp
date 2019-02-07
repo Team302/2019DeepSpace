@@ -14,6 +14,7 @@
 // OR OTHER DEALINGS IN THE SOFTWARE.
 //====================================================================================================================================================
 
+#include  <frc/GenericHID.h>
 
 #include <controllers/button/POVButton.h>
 #include <controllers/IDragonGamePad.h>
@@ -26,8 +27,8 @@
 //==================================================================================
 POVButton::POVButton
 (
-    IDragonGamePad*                     gamepad,        // <I> - gamepad to query
-    IDragonGamePad::BUTTON_IDENTIFIER   buttonID        // <I> - button ID this maps to           
+    frc::GenericHID*                    gamepad,        // <I> - gamepad to query
+    int                                 buttonID        // <I> - button ID this maps to           
 ) : m_gamepad( gamepad ),                               //       false axis in the expected direction
     m_button( buttonID )
 {
@@ -45,7 +46,7 @@ bool POVButton::IsButtonPressed() const
     bool pressed = false;
     if ( m_gamepad != nullptr )
     {
-        pressed = m_gamepad->IsRawButtonPressed( m_button );
+        pressed = ( m_button == m_gamepad->GetPOV() );
     }
     return pressed;
 }
