@@ -26,7 +26,7 @@
 /// Description:    This is a decorator for modifying button behavior.
 /// </summary>
 //==================================================================================
-class ToggleButton : ButtonDecorator
+class ToggleButton : public ButtonDecorator
 {
     public:
         ToggleButton 

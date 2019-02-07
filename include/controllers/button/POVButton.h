@@ -16,6 +16,8 @@
 #ifndef SRC_MAIN_INCLUDE_CONTROLLERS_BUTTON_POVBUTTON_H_
 #define SRC_MAIN_INCLUDE_CONTROLLERS_BUTTON_POVBUTTON_H_
 
+#include <frc/GenericHID.h>
+
 #include <controllers/button/IButton.h>
 #include <controllers/IDragonGamePad.h>
 
@@ -30,8 +32,8 @@ class POVButton: public IButton
     public:
         POVButton
         (
-            IDragonGamePad*                     gamepad,        // <I> - gamepad to query
-            IDragonGamePad::BUTTON_IDENTIFIER   buttonID        // <I> - button ID this maps to           
+            frc::GenericHID*                    gamepad,        // <I> - gamepad to query
+            int                                 buttonID        // <I> - button ID this maps to           
         );
 
         ~POVButton() = default;
@@ -47,8 +49,8 @@ class POVButton: public IButton
  
     private:
 
-        IDragonGamePad*                     m_gamepad;
-        IDragonGamePad::BUTTON_IDENTIFIER   m_button;
+        frc::GenericHID*                        m_gamepad;
+        int                                     m_button;
 };
 
 #endif
