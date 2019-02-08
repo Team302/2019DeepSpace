@@ -11,6 +11,9 @@
 #include "hw/DragonSparkMax.h"
 #include <vector>
 
+//Test include
+#include "frc/XboxController.h"
+
 class Switcher {
  public:
   Switcher();
@@ -47,4 +50,8 @@ private:
   bool m_dropBuddyClimb;
 
   const double ELEV_SPEED = 1.0;
+
+  // Test things, need to be replaced soon
+  frc::XboxController* m_mainController;
+  frc::XboxController* m_secondaryController;
 };

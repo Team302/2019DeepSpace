@@ -52,7 +52,7 @@ public:
     virtual void EnableCurrentLimiting(bool enabled) = 0;
     virtual void EnableBrakeMode(bool enabled) = 0;
     virtual void SetPIDF(double p, double i, double d, double f) = 0;
-    virtual void SetInverted(bool inverted) = 0;
+    virtual void Invert(bool inverted) = 0;
 
 protected:
     IDragonMotorController() = default;

@@ -1,12 +1,18 @@
 #include "hw/DragonTalon.h"
 
 DragonTalon::DragonTalon(IDragonMotorController::TALON_TYPE deviceType, int deviceID, int countsPerRev, double gearRatio) :
-	m_id(deviceID),
     m_talon(new TalonSRX(deviceID)),
-    m_countsPerRev(countsPerRev),
     m_controlMode(TALON_CONTROL_MODE::PERCENT),
-    m_tickOffset((long) m_talon->GetSelectedSensorPosition())
+	m_type(deviceType),
+	m_id(deviceID),
+	m_countsPerRev(countsPerRev),
+    m_tickOffset(0),
+	m_gearRatio(gearRatio)
 {
+	// m_tickOffset
+	// m_talon->GetSelectedSensorPo
+	m_tickOffset = m_talon->GetSelectedSensorPosition();
+	printf("Im constructing a dragon talon id: %d, type: %d \n", deviceID, deviceType);
 }
 
 double DragonTalon::GetRotations() const
@@ -20,23 +26,24 @@ double DragonTalon::GetRPS() const
 }
 
 void DragonTalon::SetControlMode(IDragonMotorController::DRAGON_CONTROL_MODE mode)
-{
-    switch (m_controlMode)
+{ 
+    switch (mode)
     {
-        case DRAGON_CONTROL_MODE::PERCENT_OUTPUT:
+        case IDragonMotorController::DRAGON_CONTROL_MODE::PERCENT_OUTPUT:
             DragonTalon::SetControlMode(DragonTalon::TALON_CONTROL_MODE::PERCENT);
         break;
 
-        case DRAGON_CONTROL_MODE::ROTATIONS:
+        case IDragonMotorController::DRAGON_CONTROL_MODE::ROTATIONS:
             DragonTalon::SetControlMode(DragonTalon::TALON_CONTROL_MODE::POSITION);
         break;
         
-        case DRAGON_CONTROL_MODE::RPS:
+        case IDragonMotorController::DRAGON_CONTROL_MODE::RPS:
             DragonTalon::SetControlMode(DragonTalon::TALON_CONTROL_MODE::VELOCITY);
         break;
         
         default:
             // bad place to be
+			printf("SCREAMIN!!!!!111 invalid controlmode set in DragonTalon SetControlMode\n");
             DragonTalon::SetControlMode(DragonTalon::TALON_CONTROL_MODE::PERCENT);
         break;
     }
@@ -47,7 +54,8 @@ void DragonTalon::SetControlMode(DragonTalon::TALON_CONTROL_MODE mode)
     if (m_controlMode != mode)
     {
         m_controlMode = mode;
-        DragonTalon::Set(0);
+		printf("mode changed \n");
+        // DragonTalon::Set(0);
     }
     
 }
@@ -61,7 +69,9 @@ void DragonTalon::Set(double value)
         break;
 
         case TALON_CONTROL_MODE::POSITION:
-            m_talon->Set(ctre::phoenix::motorcontrol::ControlMode::Position, value * (double) m_countsPerRev * m_gearRatio);
+		// return ((m_talon->GetSelectedSensorPosition() - m_tickOffset) / (double) m_countsPerRev) * m_gearRatio;
+            // m_talon->Set(ctre::phoenix::motorcontrol::ControlMode::Position, (value + m_tickOffset) / ((double) m_countsPerRev * m_gearRatio));
+			m_talon->Set(ctre::phoenix::motorcontrol::ControlMode::Position, (value * m_countsPerRev / m_gearRatio) + m_tickOffset);
         break;
 
         case TALON_CONTROL_MODE::VELOCITY:
@@ -89,13 +99,17 @@ void DragonTalon::Set(double value)
 
 void DragonTalon::SetRotationOffset(double rotations)
 {
-    m_tickOffset = (long)(rotations * m_countsPerRev);
+    // m_tickOffset = (rotations * m_countsPerRev * m_gearRatio);
+	double newRotations = -rotations + DragonTalon::GetRotations();
+	m_tickOffset += (int) (newRotations * m_countsPerRev / m_gearRatio);
+	printf("tick offset: %d \n", m_tickOffset);
 }
 
 void DragonTalon::SetVoltageRamping(double ramping)
 {
     m_talon->ConfigOpenloopRamp(ramping);
 }
+
 
 void DragonTalon::EnableCurrentLimiting(bool enabled)
 {
@@ -115,7 +129,7 @@ void DragonTalon::SetPIDF(double p, double i, double d, double f)
     m_talon->Config_kF(0, f);
 }
 
-void DragonTalon::SetInverted(bool inverted)
+void DragonTalon::Invert(bool inverted)
 {
     m_talon->SetInverted(inverted);
 }

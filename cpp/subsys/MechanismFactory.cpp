@@ -102,7 +102,6 @@ IMechanism* MechanismFactory::CreateMechanism
             break;
     }
 
-
     return subsys;
 }
 

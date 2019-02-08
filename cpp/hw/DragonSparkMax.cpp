@@ -82,7 +82,7 @@ void DragonSparkMax::SetPIDF(double p, double i, double d, double f)
     // TODO:
 }
 
-void DragonSparkMax::SetInverted(bool inverted)
+void DragonSparkMax::Invert(bool inverted)
 {
     m_spark->SetInverted(inverted);
 }

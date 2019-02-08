@@ -10,11 +10,99 @@
 #include <iostream>
 
 #include <frc/smartdashboard/SmartDashboard.h>
+#include <hw/IDragonMotorController.h>
+#include <hw/DragonTalon.h>
+#include <hw/DragonSparkMax.h>
+#include <subsys/MechanismFactory.h>
+#include <subsys/chassis/DragonChassis.h>
+#include <driverassist/DriverAssist.h>
+
 
 void Robot::RobotInit() {
   m_chooser.SetDefaultOption(kAutoNameDefault, kAutoNameDefault);
   m_chooser.AddOption(kAutoNameCustom, kAutoNameCustom);
   frc::SmartDashboard::PutData("Auto Modes", &m_chooser);
+
+  DragonTalon* armMaster = new DragonTalon(IDragonMotorController::TALON_TYPE::ARM_MASTER, 2, 1024, 11.0/17);
+  DragonTalon* armSlave = new DragonTalon(IDragonMotorController::TALON_TYPE::ARM_SLAVE, 13, 1024, 11.0/17);
+  DragonTalon* intake = new DragonTalon(IDragonMotorController::TALON_TYPE::INTAKE, 7, 1024, 1);
+  DragonTalon* wrist = new DragonTalon(IDragonMotorController::TALON_TYPE::WRIST, 5, 1024, 11.0/17);
+  DragonTalon* armExtend = new DragonTalon(IDragonMotorController::TALON_TYPE::ARM_EXTENSION, 4, 1024, 1);
+  DragonTalon* elevDrive = new DragonTalon(IDragonMotorController::TALON_TYPE::ELEVATOR_DRIVE, 10, 1024, 1);
+  DragonTalon* elevClimb = new DragonTalon(IDragonMotorController::TALON_TYPE::ELEVATOR_WINCH, 6, 1024, 1);
+
+  DragonSparkMax* frontL = new DragonSparkMax(0, IDragonMotorController::TALON_TYPE::FRONT_LEFT_DRIVE, CANSparkMax::MotorType::kBrushless);
+  DragonSparkMax* middleL = new DragonSparkMax(1, IDragonMotorController::TALON_TYPE::MIDDLE_LEFT_DRIVE, CANSparkMax::MotorType::kBrushless);
+  DragonSparkMax* backL = new DragonSparkMax(3, IDragonMotorController::TALON_TYPE::BACK_LEFT_DRIVE, CANSparkMax::MotorType::kBrushless);
+  DragonSparkMax* frontR = new DragonSparkMax(15, IDragonMotorController::TALON_TYPE::FRONT_RIGHT_DRIVE, CANSparkMax::MotorType::kBrushless);
+  DragonSparkMax* middleR = new DragonSparkMax(14, IDragonMotorController::TALON_TYPE::MIDDLE_RIGHT_DRIVE, CANSparkMax::MotorType::kBrushless);
+  DragonSparkMax* backR = new DragonSparkMax(12, IDragonMotorController::TALON_TYPE::BACK_RIGHT_DRIVE, CANSparkMax::MotorType::kBrushless);
+
+  frontL->Invert(false);
+  middleL->Invert(false);
+  backL->Invert(false);
+  frontR->Invert(true);
+  middleR->Invert(true);
+  backR->Invert(true);
+
+  armMaster->Invert(false);
+  armSlave->Invert(true);
+  armExtend->Invert(false);
+  intake->Invert(false);
+  wrist->Invert(true);
+  elevDrive->Invert(false);
+  elevClimb->Invert(false);
+
+  frontL->EnableBrakeMode(false);
+  middleL->EnableBrakeMode(false);
+  backL->EnableBrakeMode(false);
+  frontR->EnableBrakeMode(false);
+  middleR->EnableBrakeMode(false);
+  backR->EnableBrakeMode(false);
+
+  armMaster->EnableBrakeMode(true);
+  armSlave->EnableBrakeMode(true);
+  armExtend->EnableBrakeMode(true);
+  intake->EnableBrakeMode(true);
+  wrist->EnableBrakeMode(true);
+  elevDrive->EnableBrakeMode(true);
+  elevClimb->EnableBrakeMode(true);
+
+  wrist->SetPIDF(5, 0, 0, 0);
+  wrist->SetSensorInverted(true);
+
+  armMaster->SetRotationOffset(-118.2 / 360);
+  armMaster->SetPIDF(15, 0, 0, 0);
+  armSlave->SetAsSlave(2);
+
+  IDragonMotorControllerVector tempMotors;
+  tempMotors.emplace_back(armMaster);
+  tempMotors.emplace_back(armSlave);
+  tempMotors.emplace_back(armExtend);
+  tempMotors.emplace_back(intake);
+  tempMotors.emplace_back(wrist);
+  tempMotors.emplace_back(elevDrive);
+  tempMotors.emplace_back(elevClimb);
+  
+  tempMotors.emplace_back(frontL);
+  tempMotors.emplace_back(middleL);
+  tempMotors.emplace_back(backL);
+  tempMotors.emplace_back(frontR);
+  tempMotors.emplace_back(middleR);
+  tempMotors.emplace_back(backR);
+
+  DragonDigitalInputVector tempDigital;
+  DragonAnalogInputVector tempAnalog;
+  DragonServoVector tempServo;
+
+  MechanismFactory::GetMechanismFactory()->CreateMechanism(IMechanism::MECHANISM_TYPE::ARM, tempMotors, tempDigital, tempAnalog, tempServo);
+  MechanismFactory::GetMechanismFactory()->CreateMechanism(IMechanism::MECHANISM_TYPE::CLIMBER, tempMotors, tempDigital, tempAnalog, tempServo);
+  MechanismFactory::GetMechanismFactory()->CreateMechanism(IMechanism::MECHANISM_TYPE::INTAKE, tempMotors, tempDigital, tempAnalog, tempServo);
+  MechanismFactory::GetMechanismFactory()->CreateMechanism(IMechanism::MECHANISM_TYPE::WRIST, tempMotors, tempDigital, tempAnalog, tempServo);
+
+  DragonChassis::CreateDragonChassis(tempMotors, 6.0);
+
+  m_driverAssist = new DriverAssist();
 }
 
 /**
@@ -61,7 +149,10 @@ void Robot::AutonomousPeriodic() {
 
 void Robot::TeleopInit() {}
 
-void Robot::TeleopPeriodic() {}
+void Robot::TeleopPeriodic()
+{
+  m_driverAssist->Update();
+}
 
 void Robot::TestPeriodic() {}
 
