@@ -23,10 +23,10 @@ void Robot::RobotInit() {
   m_chooser.AddOption(kAutoNameCustom, kAutoNameCustom);
   frc::SmartDashboard::PutData("Auto Modes", &m_chooser);
 
-  DragonTalon* armMaster = new DragonTalon(IDragonMotorController::TALON_TYPE::ARM_MASTER, 2, 1024, 11.0/17);
-  DragonTalon* armSlave = new DragonTalon(IDragonMotorController::TALON_TYPE::ARM_SLAVE, 13, 1024, 11.0/17);
+  DragonTalon* armMaster = new DragonTalon(IDragonMotorController::TALON_TYPE::ARM_MASTER, 2, 1024, ((11.0/17) * (90/70.0)) );
+  DragonTalon* armSlave = new DragonTalon(IDragonMotorController::TALON_TYPE::ARM_SLAVE, 13, 1024, ((11.0/17) * (90/70.0)) );
   DragonTalon* intake = new DragonTalon(IDragonMotorController::TALON_TYPE::INTAKE, 7, 1024, 1);
-  DragonTalon* wrist = new DragonTalon(IDragonMotorController::TALON_TYPE::WRIST, 5, 1024, 11.0/17);
+  DragonTalon* wrist = new DragonTalon(IDragonMotorController::TALON_TYPE::WRIST, 5, 1024, (11.0/17) * (180.0/164.2));
   DragonTalon* armExtend = new DragonTalon(IDragonMotorController::TALON_TYPE::ARM_EXTENSION, 4, 1024, 1);
   DragonTalon* elevDrive = new DragonTalon(IDragonMotorController::TALON_TYPE::ELEVATOR_DRIVE, 10, 1024, 1);
   DragonTalon* elevClimb = new DragonTalon(IDragonMotorController::TALON_TYPE::ELEVATOR_WINCH, 6, 1024, 1);
@@ -70,8 +70,9 @@ void Robot::RobotInit() {
 
   wrist->SetPIDF(5, 0, 0, 0);
   wrist->SetSensorInverted(true);
+  wrist->SetRotationOffset(50.37 / 360);
 
-  armMaster->SetRotationOffset(-118.2 / 360);
+  armMaster->SetRotationOffset( (-118.2 / 360) * (90/70.0) - (5.557 / 360) );
   armMaster->SetPIDF(15, 0, 0, 0);
   armSlave->SetAsSlave(2);
 

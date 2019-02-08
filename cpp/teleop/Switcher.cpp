@@ -90,9 +90,11 @@ void Switcher::GamepieceUpdate()
     m_arm->MoveExtensionSpeed( m_extendSpeed );
     m_arm->MoveArmAngle( m_armTargetPosition );
 
-    frc::SmartDashboard::PutNumber("Arm Target Angle", m_armTargetPosition);
-    frc::SmartDashboard::PutNumber("Arm Real Angle", m_arm->GetArmRealAngle());
-    frc::SmartDashboard::PutNumber("Arm Speed", armSpeed);
+    frc::SmartDashboard::PutNumber("Wrist Real Angle", m_wrist->GetWristAngle());
+
+    // frc::SmartDashboard::PutNumber("Arm Target Angle", m_armTargetPosition);
+    // frc::SmartDashboard::PutNumber("Arm Real Angle", m_arm->GetArmRealAngle());
+    // frc::SmartDashboard::PutNumber("Arm Speed", armSpeed);
     // m_arm->MoveArmSpeed(armSpeed);
 }
 
