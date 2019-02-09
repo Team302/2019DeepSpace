@@ -61,14 +61,22 @@ PowerDistributionPanel* PDPDefn::ParseXML
     // parse/validate xml
     for (pugi::xml_attribute attr = PDPNode.first_attribute(); attr; attr = attr.next_attribute())
     {
-        int iVal = attr.as_int();
-        if ( iVal > -1 && iVal < 63 )
+        if ( strcmp( attr.name(), "canId" ) == 0 )
         {
-            canID = iVal;
+            int iVal = attr.as_int();
+            if ( iVal > -1 && iVal < 63 )
+            {
+                canID = iVal;
+            }
+            else
+            {
+                printf( "==>> PDPDefn::ParseXML invalid canId %d \n", iVal );
+                hasError = true;
+            }
         }
         else
         {
-            printf( "==>> PDPDefn::ParseXML invalid canId %d \n", iVal );
+            printf( "==>> PDPDefn::ParseXML invalid attribute %s \n", attr.name() );
             hasError = true;
         }
     }
