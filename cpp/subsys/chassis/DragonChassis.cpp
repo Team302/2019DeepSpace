@@ -9,6 +9,14 @@
 #include <iostream>
 #include <cmath>
 
+
+DragonChassis* DragonChassis::m_instance = nullptr;
+
+DragonChassis* DragonChassis::GetInstance()
+{
+	return DragonChassis::m_instance;
+}
+
 DragonChassis::DragonChassis(std::vector<IDragonMotorController*> motorControllers, double wheelDiameter) :
 m_frontLeft(nullptr),
 m_middleLeft(nullptr),
