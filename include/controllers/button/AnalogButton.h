@@ -33,6 +33,12 @@ class AnalogButton: public IButton
         (
             AnalogAxis*                         axis            // <I> - axis to treat as a button
         );
+        AnalogButton
+        (
+            AnalogAxis*                         axis,           // <I> - axis to treat as a button
+            double                              minValue,       // <I> - minimum value for true
+            double                              maxValue        // <I> - maximum value for true
+        );
 
         //==================================================================================
         /// <summary>
@@ -46,7 +52,8 @@ class AnalogButton: public IButton
     private:
 
         AnalogAxis*                     m_axis;
-        const double                    m_AXIS_TOLERANCE = 0.4;
+        double                          m_minValue;
+        double                          m_maxValue;
 };
 
 #endif

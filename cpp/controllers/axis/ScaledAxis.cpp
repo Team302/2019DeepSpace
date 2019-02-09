@@ -25,6 +25,7 @@
 #include <controllers/axis/ScaledAxis.h>
 
 #include <cmath>
+#include <iostream>
 
 ScaledAxis::ScaledAxis() : m_scale( 1.0 )
 {
@@ -42,7 +43,14 @@ void ScaledAxis::SetScaleFactor
     double      scaleFactor            // <I> - scale factor must be > 0.0 and <= 1.0
 )
 {
-    m_scale = scaleFactor;
+    if ( m_scale > 0.0 )
+    {
+        m_scale = scaleFactor;
+    }
+    else
+    {
+        m_scale = -1.0 * scaleFactor;
+    }
 }
 
 

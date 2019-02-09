@@ -27,6 +27,7 @@
 #ifndef SRC_MAIN_INCLUDE_CONTROLLER_AXIS_ANALOGAXIS_H_
 #define SRC_MAIN_INCLUDE_CONTROLLER_AXIS_ANALOGAXIS_H_
 
+#include <frc/GenericHID.h>
 
 #include <controllers/IDragonGamePad.h>
 #include <controllers/axis/IProfile.h>
@@ -44,8 +45,8 @@ class AnalogAxis
     public:
         AnalogAxis
         (
-            IDragonGamePad*                     gamepad,        // <I> - gamepad to query
-            IDragonGamePad::AXIS_IDENTIFIER     axisID,         // <I> - axis ID this maps to
+            frc::GenericHID*                    gamepad,        // <I> - gamepad to query
+            int                                 axisID,         // <I> - axis ID this maps to
             bool                                flipped         // <I> - true axis is reversed from what is expected, 
         );                                                      //       false axis has the expected direction
 
@@ -92,8 +93,8 @@ class AnalogAxis
  
     private:
 
-        IDragonGamePad*                     m_gamepad;
-        IDragonGamePad::AXIS_IDENTIFIER     m_axis;
+        frc::GenericHID*                    m_gamepad;
+        int                                 m_axis;
         IProfile*                           m_profile;
         IDeadband*                          m_deadband;
         ScaledAxis*                         m_scale;
