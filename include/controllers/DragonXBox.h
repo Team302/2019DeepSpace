@@ -133,19 +133,6 @@ class DragonXBox : public IDragonGamePad
             BUTTON_MODE mode          /// <I> - button behavior
         ) override;
 
-
-        double GetRawAxis
-        (
-            AXIS_IDENTIFIER    axis        // <I> - axis identifier to read
-        ) const override;
-
-        bool IsRawButtonPressed
-        (
-            BUTTON_IDENTIFIER    button         // <I> - button to check
-        ) const override;  
-
-        int GetPOVValue() const override;
-
     private:
         frc::XboxController*        m_xbox;
         AnalogAxis*                 m_axis[MAX_AXIS];

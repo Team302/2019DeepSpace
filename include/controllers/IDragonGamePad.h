@@ -57,12 +57,11 @@ class IDragonGamePad
         };
 
 
+        // TODO:  Add debouncing
         enum BUTTON_MODE
         {
             STANDARD,
-            DEBOUNCED,
             TOGGLE,
-            DEBOUNCED_TOGGLE,
             MAX_BUTTON_MODES
        };
 
@@ -185,18 +184,6 @@ class IDragonGamePad
             BUTTON_IDENTIFIER button, /// <I> - button to check
             BUTTON_MODE mode          /// <I> - button behavior
         ) = 0;
-
-        virtual double GetRawAxis
-        (
-            AXIS_IDENTIFIER    axis        // <I> - axis identifier to read
-        ) const = 0;
-        virtual bool IsRawButtonPressed
-        (
-            BUTTON_IDENTIFIER    button         // <I> - button to check
-        ) const = 0;  
-
-        virtual int GetPOVValue() const = 0;
-
 };
 
 #endif 

@@ -17,6 +17,8 @@
 #include <iostream>
 #include <cmath>
 
+#include <frc/GenericHID.h>
+
 #include <controllers/axis/AnalogAxis.h>
 
 #include <controllers/axis/LinearProfile.h>
@@ -30,16 +32,19 @@
 
 AnalogAxis::AnalogAxis
 (
-    IDragonGamePad*                     gamepad,            // <I> - gamepad to query
-    IDragonGamePad::AXIS_IDENTIFIER     axisID,             // <I> - axis ID this maps to
+    frc::GenericHID*                    gamepad,            // <I> - gamepad to query
+    int                                 axisID,             // <I> - axis ID this maps to
     bool                                flipAxis            // <I> - true axis is reversed from what is expected
 ) : m_gamepad( gamepad ),                                   //       false axis in the expected direction
     m_axis( axisID ),
     m_profile( LinearProfile::GetInstance() ),  
     m_deadband( NoDeadbandValue::GetInstance() ), 
-    m_scale( new ScaledAxis() )
+    m_scale( new ScaledAxis()  )
 {
-    m_scale = flipAxis ? new ScaledAxis() : new FlippedAxis();
+    if ( flipAxis )
+    {
+        m_scale->SetScaleFactor( -1.0 );
+    }
 }
 
 //==================================================================================

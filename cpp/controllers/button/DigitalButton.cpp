@@ -23,6 +23,8 @@
 // OR OTHER DEALINGS IN THE SOFTWARE.
 //====================================================================================================================================================
 
+#include <frc/GenericHID.h>
+
 #include <controllers/button/DigitalButton.h>
 #include <controllers/IDragonGamePad.h>
 
@@ -34,9 +36,9 @@
 //==================================================================================
 DigitalButton::DigitalButton
 (
-    IDragonGamePad*                     gamepad,        // <I> - gamepad to query
-    IDragonGamePad::BUTTON_IDENTIFIER   buttonID        // <I> - button ID this maps to           
-) : m_gamepad( gamepad ),                                   //       false axis in the expected direction
+    frc::GenericHID*                    gamepad,        // <I> - gamepad to query
+    int                                 buttonID        // <I> - button ID this maps to           
+) : m_gamepad( gamepad ),                               //       false axis in the expected direction
     m_button( buttonID )
 {
 }
@@ -53,7 +55,7 @@ bool DigitalButton::IsButtonPressed() const
     bool pressed = false;
     if ( m_gamepad != nullptr )
     {
-        pressed = m_gamepad->IsRawButtonPressed( m_button );
+        pressed = m_gamepad->GetRawButton( m_button );
     }
     return pressed;
 }

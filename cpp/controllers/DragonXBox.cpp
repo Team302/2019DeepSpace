@@ -28,7 +28,11 @@
 #include <controllers/axis/IDeadband.h>
 #include <controllers/axis/IProfile.h>
 
+#include <controllers/button/AnalogButton.h>
 #include <controllers/button/DigitalButton.h>
+#include <controllers/button/ButtonDecorator.h>
+#include <controllers/button/POVButton.h>
+#include <controllers/button/ToggleButton.h>
 
 
 #include <frc/GenericHID.h>
@@ -37,32 +41,50 @@
 DragonXBox::DragonXBox
 ( 
     int port
-) : m_xbox( new frc::XboxController( port ) ),
-    m_axis()
+) : m_xbox( new frc::XboxController( port ) )
 {
     // Create Axis Objects
-    m_axis[ LEFT_JOYSTICK_X]  = new AnalogAxis( this, LEFT_JOYSTICK_X, false  );
-    m_axis[ LEFT_JOYSTICK_Y]  = new AnalogAxis( this, LEFT_JOYSTICK_Y, true   );
-    m_axis[ RIGHT_JOYSTICK_X] = new AnalogAxis( this, RIGHT_JOYSTICK_X, false );
-    m_axis[ RIGHT_JOYSTICK_Y] = new AnalogAxis( this, RIGHT_JOYSTICK_Y, true  );
-    m_axis[ LEFT_TRIGGER]     = new AnalogAxis( this, LEFT_TRIGGER,     false );
-    m_axis[ RIGHT_TRIGGER]    = new AnalogAxis( this, RIGHT_TRIGGER,    false );
+    m_axis[ LEFT_JOYSTICK_X ]  = new AnalogAxis( m_xbox, 0, false );
+    m_axis[ LEFT_JOYSTICK_Y]  = new AnalogAxis( m_xbox, 1, true  );
+    m_axis[ LEFT_TRIGGER]     = new AnalogAxis( m_xbox, 2, false );
+    m_axis[ RIGHT_TRIGGER]    = new AnalogAxis( m_xbox, 3, false );
+    m_axis[ RIGHT_JOYSTICK_X] = new AnalogAxis( m_xbox, 4, false );
+    m_axis[ RIGHT_JOYSTICK_Y] = new AnalogAxis( m_xbox, 5, true  );
+
+    /*
+    m_axis[ LEFT_JOYSTICK_Y ] =  nullptr;
+    m_axis[ RIGHT_JOYSTICK_X ] =  nullptr;
+    m_axis[ RIGHT_JOYSTICK_Y ] =  nullptr;
+    m_axis[ LEFT_TRIGGER ] =  nullptr;
+    m_axis[ RIGHT_TRIGGER ] =  nullptr;    
+    */
 
     // Create DigitalButton Objects for the physical buttons
-    m_button[A_BUTTON]            = new DigitalButton( this, A_BUTTON            );
-    m_button[B_BUTTON]            = new DigitalButton( this, B_BUTTON            );
-    m_button[X_BUTTON]            = new DigitalButton( this, X_BUTTON            );
-    m_button[Y_BUTTON]            = new DigitalButton( this, Y_BUTTON            );
-    m_button[LEFT_BUMPER]         = new DigitalButton( this, LEFT_BUMPER         );
-    m_button[RIGHT_BUMPER]        = new DigitalButton( this, RIGHT_BUMPER        );
-    m_button[BACK_BUTTON]         = new DigitalButton( this, BACK_BUTTON         );
-    m_button[START_BUTTON]        = new DigitalButton( this, START_BUTTON        );
-    m_button[LEFT_STICK_PRESSED]  = new DigitalButton( this, LEFT_STICK_PRESSED  );
-    m_button[RIGHT_STICK_PRESSED] = new DigitalButton( this, RIGHT_STICK_PRESSED );
+    m_button[A_BUTTON]            = new DigitalButton( m_xbox, 1  );
+    m_button[B_BUTTON]            = new DigitalButton( m_xbox, 2  );
+    m_button[X_BUTTON]            = new DigitalButton( m_xbox, 3  );
+    m_button[Y_BUTTON]            = new DigitalButton( m_xbox, 4  );
+    m_button[LEFT_BUMPER]         = new DigitalButton( m_xbox, 5  );
+    m_button[RIGHT_BUMPER]        = new DigitalButton( m_xbox, 6  );
+    m_button[BACK_BUTTON]         = new DigitalButton( m_xbox, 7  );
+    m_button[START_BUTTON]        = new DigitalButton( m_xbox, 8  );
+    m_button[LEFT_STICK_PRESSED]  = new DigitalButton( m_xbox, 9  );
+    m_button[RIGHT_STICK_PRESSED] = new DigitalButton( m_xbox, 10 );
     
     // Create AnalogButton Objects for the triggers
+    m_button[LEFT_TRIGGER_PRESSED] = new AnalogButton( m_axis[LEFT_TRIGGER] );
+    m_button[RIGHT_TRIGGER_PRESSED] = new AnalogButton( m_axis[RIGHT_TRIGGER] );
 
     // Create POVButton Objects for the POV
+
+    m_button[POV_0]   = new POVButton( m_xbox, 0   );
+    m_button[POV_45]  = new POVButton( m_xbox, 45  );
+    m_button[POV_90]  = new POVButton( m_xbox, 90  );
+    m_button[POV_135] = new POVButton( m_xbox, 135 );
+    m_button[POV_180] = new POVButton( m_xbox, 180 );
+    m_button[POV_225] = new POVButton( m_xbox, 225 );
+    m_button[POV_270] = new POVButton( m_xbox, 270 );
+    m_button[POV_315] = new POVButton( m_xbox, 315 );
 }
 
 DragonXBox::~DragonXBox()
@@ -86,7 +108,11 @@ float DragonXBox::GetAxisValue
     float value = 0.0;
     if ( m_axis[axis] != nullptr )
     {
-        m_axis[axis]->GetAxisValue();
+        value = m_axis[axis]->GetAxisValue();
+    }
+    else
+    {
+        printf( "==>> no axis %d \n", axis );
     }
     return value;
 }
@@ -105,6 +131,10 @@ bool DragonXBox::IsButtonPressed
 ) const
 {
     bool isPressed = false;
+    if ( m_button[button] != nullptr )
+    {
+        isPressed = m_button[button]->IsButtonPressed();
+    }
     return isPressed;
 }
 
@@ -192,70 +222,16 @@ void DragonXBox::SetAxisDeadband
         BUTTON_MODE mode          /// <I> - button behavior
     )
     {
-
-    }
-
-    double DragonXBox::GetRawAxis
-    (
-        AXIS_IDENTIFIER    axis        // <I> - axis identifier to read
-    ) const 
-    {
-        double value = 0.0;
-        return value;
-    }
-
-    bool DragonXBox::IsRawButtonPressed
-    (
-        BUTTON_IDENTIFIER    button         // <I> - button to check
-    ) const 
-    {
-        bool pressed = false;
-        //switch statement to check if button is pressed depending on which button is identified
-        switch(button)
+        if ( m_button[button] != nullptr )
         {
-            case A_BUTTON:
-                pressed = m_xbox->GetAButton();
-                break;
-		    case B_BUTTON:
-                pressed = m_xbox->GetBButton();
-                break;
-		    case X_BUTTON:
-                pressed = m_xbox->GetXButton();
-                break;
-		    case Y_BUTTON:
-                pressed = m_xbox->GetYButton();
-                break;
-		    case LEFT_BUMPER:
-                pressed = m_xbox->GetBumper( frc::GenericHID::kLeftHand );
-                break;
-		    case RIGHT_BUMPER:
-                pressed = m_xbox->GetBumper( frc::GenericHID::kRightHand );
-                break;
-		    case BACK_BUTTON:
-                pressed = m_xbox->GetBackButton();
-                break;
-		    case START_BUTTON:
-                pressed = m_xbox->GetStartButton();
-                break;
-            case LEFT_STICK_PRESSED:
-                pressed = m_xbox->GetStickButton( frc::GenericHID::kLeftHand );
-                break;
-		    case RIGHT_STICK_PRESSED:
-                pressed = m_xbox->GetStickButton( frc::GenericHID::kRightHand );
-                break;
-
-            default:
-                pressed = false;
-                break;
+            if ( mode == BUTTON_MODE::TOGGLE)
+            {
+                auto btn = new ToggleButton( m_button[button] );
+                m_button[button] = btn;
+            }
+            // TODO: should have else to re-create the button or remove the toggle decorator
         }
+    }
 
-        return pressed; //returns bool for is button pressed
-    }  
-
-
-    int DragonXBox::GetPOVValue() const
-    {
-        return m_xbox->GetPOV();
-    }  
 
 

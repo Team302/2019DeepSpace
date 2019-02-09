@@ -65,19 +65,19 @@
         enum MECHANISM_TYPE
         {
             UNKNOWN_MECHANISM = -1,
-            ARM,
             WRIST,
             INTAKE,
+            ARM,
             CLIMBER,
-			BUDDY_CLIMB,
             MAX_MECHANISM_TYPES
         };
 
 
 	==================================================== -->
-<!ELEMENT mechanism (motor*, analogInput*, digitalInput* )>
+<!ELEMENT mechanism (motor*, analogInput*, digitalInput*, servo* )>
 <!ATTLIST mechanism 
-          type              ( 0 | 1 | 2 | 3 | 4 ) "0"
+          type              ( 0 | 1 | 2 | 3 ) "0"
+
 >
 
 
@@ -214,20 +214,21 @@
 <!-- ====================================================
 	 digitalInput 
 	 ====================================================
-        enum DIGITAL_INPUT_TYPE
-        {
-            UNKNOWN_DIGITAL_INPUT_TYPE = -1,
-            CARGO_PRESENT,
-            HATCH_PRESENT_SIDE1,
-            HATCH_PRESENT_SIDE2,
-            ARM_MIN_POSITION,
-            ARM_MAX_POSITION,
-			FRONT_LEFT_LINE_DETECT,
-			FRONT_RIGHT_LINE_DETECT,
-			BACK_LEFT_LINE_DETECT,
-			BACK_RIGHT_LINE_DETECT,
-            MAX_DIGITAL_INPPUT_TYPES
-        };		
+	        enum DIGITAL_INPUT_TYPE
+                {
+                UNKNOWN_DIGITAL_INPUT_TYPE = -1,
+                CARGO_PRESENT,
+                HATCH_PRESENT_SIDE1,
+                HATCH_PRESENT_SIDE2,
+                ARM_MIN_POSITION,
+                ARM_MAX_POSITION,
+		            FRONT_LEFT_LINE_DETECT,
+		            FRONT_RIGHT_LINE_DETECT,
+		            BACK_LEFT_LINE_DETECT,
+		            BACK_RIGHT_LINE_DETECT,
+                MAX_DIGITAL_INPPUT_TYPES
+                };		
+
 
 	 ==================================================== -->
 <!ELEMENT digitalInput EMPTY>
