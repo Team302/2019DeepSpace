@@ -15,19 +15,20 @@ class DragonDigitalInput
 {
 	public:
 
-		enum DIGITAL_INPUT_TYPE
-		{
-			UNKNOWN_DIGITAL_INPUT_TYPE = -1,
-			CUBE_PRESENT,
-			ELEVATOR_FLOOR,
-			ELEVATOR_SWITCH,
-			ELEVATOR_SCALE,
-			ELEVATOR_MAX,
-			ELEVATOR_POSITION_4,
-			ELEVATOR_POSITION_5,
-			ELEVATOR_POSITION_6,
-			MAX_DIGITAL_INPPUT_TYPES
-		};
+        enum DIGITAL_INPUT_TYPE
+        {
+            UNKNOWN_DIGITAL_INPUT_TYPE = -1,
+            CARGO_PRESENT,
+            HATCH_PRESENT_SIDE1,
+            HATCH_PRESENT_SIDE2,
+            ARM_MIN_POSITION,
+            ARM_MAX_POSITION,
+			  FRONT_LEFT_LINE_DETECT,
+			  FRONT_RIGHT_LINE_DETECT,
+			  BACK_LEFT_LINE_DETECT,
+			  BACK_RIGHT_LINE_DETECT,
+            MAX_DIGITAL_INPPUT_TYPES
+        };		
 
 		//------------------------------------------------------------------------------
 		// Method:		<<constructor>>
