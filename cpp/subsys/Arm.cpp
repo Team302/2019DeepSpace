@@ -7,8 +7,9 @@
 
 #include "subsys/Arm.h"
 #include "hw/DragonTalon.h"
+#include <hw/IDragonMotorController.h>
 
-Arm::Arm(std::vector<IDragonMotorController*> motorControllers) :
+Arm::Arm(IDragonMotorControllerVector motorControllers) :
 m_armTargetAngle(0.0),
 m_extenderTargetRotations(0.0),
 m_armMaster(nullptr),
@@ -30,12 +31,10 @@ m_extender(nullptr)
             break;
         }
     }
-
-    m_armMaster->ConfigMotionAcceleration(0.1);
-    m_armMaster->ConfigMotionCruiseVelocity(0.5);
-
-    m_armMaster->SetControlMode(IDragonMotorController::DRAGON_CONTROL_MODE::PERCENT_OUTPUT);
-    m_armMaster->Set(0);
+    // m_armMaster->ConfigMotionAcceleration(0.1);
+    // m_armMaster->ConfigMotionCruiseVelocity(0.5);
+    // m_armMaster->SetControlMode(IDragonMotorController::DRAGON_CONTROL_MODE::PERCENT_OUTPUT);
+    // m_armMaster->Set(0);
 }
 
 void Arm::MoveArmPreset(PlacementHeights::PLACEMENT_HEIGHT height, bool cargo, bool flip)
@@ -113,7 +112,7 @@ void Arm::MoveArmSpeed(double speed)
 void Arm::MoveArmAngle(double angle)
 {
     m_armMaster->SetControlMode(IDragonMotorController::DRAGON_CONTROL_MODE::ROTATIONS);
-    m_armMaster->Set(angle);
+    m_armMaster->Set(angle / 360.0);
 }
 
 void Arm::MoveExtentionPreset(PlacementHeights::PLACEMENT_HEIGHT height, bool cargo)

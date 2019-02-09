@@ -30,11 +30,11 @@ IMechanism* MechanismFactory::GetIMechanism
 	IMechanism* subsys = nullptr;
     switch ( type )
     {
-        case IMechanism::WRIST:
-            subsys = m_wrist;
+        case IMechanism::CLIMBER:
+            subsys = m_climber;
             break;
 
-       case IMechanism::INTAKE:
+        case IMechanism::INTAKE:
             subsys = m_intake;
             break;
 
@@ -42,14 +42,15 @@ IMechanism* MechanismFactory::GetIMechanism
             subsys = m_arm;
             break;
 
-        case IMechanism::CLIMBER:
-            subsys = m_climber;
+        case IMechanism::WRIST:
+            subsys = m_wrist;
             break;
 
         default:
             printf( "==>> Unknown mechanism %d \n", type );
             break;
     }
+
 	return subsys;
 }
 
@@ -72,10 +73,10 @@ IMechanism* MechanismFactory::CreateMechanism
 
     switch ( index )
     {
-        case IMechanism::WRIST:
-            subsys = new Wrist( motorControllers );
-            //subsys = new Wrist( type, motorControllers, digitalInputs, analogInputs );
-            m_wrist = subsys;
+        case IMechanism::CLIMBER:
+            subsys = new Climber( motorControllers, servos );//, digitalInputs, analogInputs );
+            //subsys = new Climber( type, motorControllers );//, digitalInputs, analogInputs );
+            m_climber = subsys;
             break;
 
         case IMechanism::INTAKE:
@@ -84,16 +85,16 @@ IMechanism* MechanismFactory::CreateMechanism
             m_intake = subsys;
             break;
 
+        case IMechanism::WRIST:
+            subsys = new Wrist( motorControllers );
+            //subsys = new Wrist( type, motorControllers, digitalInputs, analogInputs );
+            m_wrist = subsys;
+            break;
+
         case IMechanism::ARM:
             subsys = new Arm( motorControllers );
             // subsys = new Arm( type, motorControllers, digitalInputs, analogInputs );
             m_arm = subsys;
-            break;
-
-        case IMechanism::CLIMBER:
-            subsys = new Climber( motorControllers, servos );//, digitalInputs, analogInputs );
-            //subsys = new Climber( type, motorControllers );//, digitalInputs, analogInputs );
-            m_climber = subsys;
             break;
 
         default:
@@ -101,23 +102,21 @@ IMechanism* MechanismFactory::CreateMechanism
             break;
     }
 
-
     return subsys;
 }
 
-MechanismFactory::MechanismFactory() : m_wrist( nullptr ),
+MechanismFactory::MechanismFactory() : m_climber( nullptr ),
                                        m_intake( nullptr ),
                                        m_arm( nullptr ),
-                                       m_climber( nullptr )
-                                       
+                                       m_wrist( nullptr )
 {
 }
 
 MechanismFactory::~MechanismFactory()
 {
-    delete m_wrist;
+    delete m_climber;
     delete m_intake;
     delete m_arm;
-    delete m_climber;
+    delete m_wrist;
 }
 

@@ -13,16 +13,18 @@
 
 class DragonChassis {
 public:
-
-    static DragonChassis* GetInstance();
     // Constructor
     DragonChassis
     (
-        std::vector<IDragonMotorController*> motorControllers, // Motor controllers
+        IDragonMotorControllerVector motorControllers, // Motor controllers
         double wheelDiameter                                   // Diameter of the wheel
     );
     DragonChassis() = delete;           // Delete default constructor
     virtual ~DragonChassis() = default; // Default deconstructor
+
+    // Singleton thingys
+    static void CreateDragonChassis(IDragonMotorControllerVector motorControllers, double wheelDiameter);
+    static DragonChassis* GetInstance();
 
     // Getters
     double GetVelocity() const; // in inches per second
@@ -44,6 +46,8 @@ private:
     double GetLeftDistance() const;
     double GetRightDistance() const;
 
+    static DragonChassis* m_dragonChassis;
+
     // Motor controllers
     IDragonMotorController* m_frontLeft;
     IDragonMotorController* m_middleLeft;
@@ -56,6 +60,4 @@ private:
 
     double m_leftDistanceOffset;
     double m_rightDistanceOffset;
-
-    static DragonChassis*   m_instance;
 };

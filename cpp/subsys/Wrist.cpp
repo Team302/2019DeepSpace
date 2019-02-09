@@ -33,7 +33,7 @@ void Wrist::MoveWristManualSpeed(double speed)
 void Wrist::MoveWristManualAngle(double angle)
 {
     m_wristMotor->SetControlMode(DragonTalon::TALON_CONTROL_MODE::POSITION);
-    m_wristMotor->Set(angle);
+    m_wristMotor->Set(angle / 360);
 }
 
 void Wrist::MoveWristPresets(PlacementHeights::PLACEMENT_HEIGHT height, bool cargo, bool flip)

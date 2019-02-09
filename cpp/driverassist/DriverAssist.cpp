@@ -8,13 +8,17 @@
 #include "driverassist/DriverAssist.h"
 
 DriverAssist::DriverAssist() :
-    m_switcher(new Switcher())
+    m_switcher(new Switcher()),
+    m_goingToPosition(false),
+    m_goingToTarget(false),
+    m_deploy(false)
 {
 }
 
 // The update method runs every periodic process of this class
 void DriverAssist::Update()
 {
+    
     // ask switcher if drivers are trying to move
     // if they are, cancel any overlapping driverassist processes
     // TODO: add these into switcher
@@ -51,7 +55,7 @@ void DriverAssist::Update()
     if (!m_deploy && !m_goingToPosition)
     {
         m_switcher->GamepieceUpdate();
-        m_switcher->ClimberUpdate();
+        //m_switcher->ClimberUpdate();
     }
 }
 
@@ -66,5 +70,5 @@ void DriverAssist::GoToPosition(PlacementHeights::PLACEMENT_HEIGHT placementHeig
 
 void DriverAssist::GoToTarget()
 {
-    m_goingToTarget;
+    // m_goingToTarget;
 }

@@ -8,7 +8,7 @@
 #include "subsys/Intake.h"
 #include "hal/PDP.h"
 
-Intake::Intake(std::vector<IDragonMotorController*> motorControllers) :
+Intake::Intake(IDragonMotorControllerVector motorControllers) :
 m_intakeMotor(nullptr)
 {
     for (int i = 0; i < motorControllers.size(); i++)
@@ -23,8 +23,6 @@ m_intakeMotor(nullptr)
             break;
         }
     }
-
-
     m_intakeMotor->SetControlMode(IDragonMotorController::DRAGON_CONTROL_MODE::PERCENT_OUTPUT);
     m_intakeMotor->Set(0);
 }
