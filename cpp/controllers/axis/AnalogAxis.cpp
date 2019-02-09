@@ -39,9 +39,12 @@ AnalogAxis::AnalogAxis
     m_axis( axisID ),
     m_profile( LinearProfile::GetInstance() ),  
     m_deadband( NoDeadbandValue::GetInstance() ), 
-    m_scale( new ScaledAxis() )
+    m_scale( new ScaledAxis()  )
 {
-    m_scale = flipAxis ? new ScaledAxis() : new FlippedAxis();
+    if ( flipAxis )
+    {
+        m_scale->SetScaleFactor( -1.0 );
+    }
 }
 
 //==================================================================================
