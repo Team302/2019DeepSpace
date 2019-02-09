@@ -41,17 +41,23 @@
 DragonXBox::DragonXBox
 ( 
     int port
-) : m_xbox( new frc::XboxController( port ) ),
-    m_axis()
+) : m_xbox( new frc::XboxController( port ) )
 {
     // Create Axis Objects
-    // TODO:: check axis IDs
-    m_axis[ LEFT_JOYSTICK_X]  = new AnalogAxis( m_xbox, 0, false );
+    m_axis[ LEFT_JOYSTICK_X ]  = new AnalogAxis( m_xbox, 0, false );
     m_axis[ LEFT_JOYSTICK_Y]  = new AnalogAxis( m_xbox, 1, true  );
     m_axis[ LEFT_TRIGGER]     = new AnalogAxis( m_xbox, 2, false );
     m_axis[ RIGHT_TRIGGER]    = new AnalogAxis( m_xbox, 3, false );
     m_axis[ RIGHT_JOYSTICK_X] = new AnalogAxis( m_xbox, 4, false );
     m_axis[ RIGHT_JOYSTICK_Y] = new AnalogAxis( m_xbox, 5, true  );
+
+    /*
+    m_axis[ LEFT_JOYSTICK_Y ] =  nullptr;
+    m_axis[ RIGHT_JOYSTICK_X ] =  nullptr;
+    m_axis[ RIGHT_JOYSTICK_Y ] =  nullptr;
+    m_axis[ LEFT_TRIGGER ] =  nullptr;
+    m_axis[ RIGHT_TRIGGER ] =  nullptr;    
+    */
 
     // Create DigitalButton Objects for the physical buttons
     m_button[A_BUTTON]            = new DigitalButton( m_xbox, 1  );
@@ -102,7 +108,11 @@ float DragonXBox::GetAxisValue
     float value = 0.0;
     if ( m_axis[axis] != nullptr )
     {
-        m_axis[axis]->GetAxisValue();
+        value = m_axis[axis]->GetAxisValue();
+    }
+    else
+    {
+        printf( "==>> no axis %d \n", axis );
     }
     return value;
 }
