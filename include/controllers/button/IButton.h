@@ -35,6 +35,26 @@ class IButton
         /// </summary>
         //==================================================================================
         virtual bool IsButtonPressed() const = 0;
+        
+
+        //==================================================================================
+        /// <summary>
+        /// Method:         WasButtonReleased
+        /// Description:    Read whether the button was released since the last query.  This
+        ///                 is only valid for digital buttons (normal buttons and bumpers).
+        /// </summary>
+        //==================================================================================
+        virtual bool WasButtonReleased() const = 0;
+        
+
+        //==================================================================================
+        /// <summary>
+        /// Method:         WasButtonPressed
+        /// Description:    Read whether the button was pressed since the last query.  This
+        ///                 is only valid for digital buttons (normal buttons and bumpers).
+        /// </summary>
+        //==================================================================================
+        virtual bool WasButtonPressed() const = 0;
 
     protected:
         IButton() = default;

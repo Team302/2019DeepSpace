@@ -137,7 +137,49 @@ bool DragonXBox::IsButtonPressed
     }
     return isPressed;
 }
+        
 
+    //==================================================================================
+    /// <summary>
+    /// Method:         WasButtonReleased
+    /// Description:    Read whether the button was released since the last query.  This
+    ///                 is only valid for digital buttons (normal buttons and bumpers).
+    /// </summary>
+    //==================================================================================
+    bool DragonXBox::WasButtonReleased
+    (
+        BUTTON_IDENTIFIER    button // <I> - button to check
+    ) const    
+    {
+        bool isPressed = false;
+        if ( m_button[button] != nullptr )
+        {
+            isPressed = m_button[button]->WasButtonReleased();
+        }
+        return isPressed;
+    }
+    
+
+    //==================================================================================
+    /// <summary>
+    /// Method:         WasButtonPressed
+    /// Description:    Read whether the button was pressed since the last query.  This
+    ///                 is only valid for digital buttons (normal buttons and bumpers).
+    /// </summary>
+    //==================================================================================
+    bool DragonXBox::WasButtonPressed
+    (
+        BUTTON_IDENTIFIER    button // <I> - button to check
+    ) const        
+    {
+        bool isPressed = false;
+        if ( m_button[button] != nullptr )
+        {
+            isPressed = m_button[button]->WasButtonPressed();
+        }
+        return isPressed;
+    }
+ 
 
 //setters
 ///-------------------------------------------------------------------------------------------------
