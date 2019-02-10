@@ -4,8 +4,7 @@
 
 #ifndef SRC_SUBSYS_XMLPARSING_SERVODEFN_H_
 #define SRC_SUBSYS_XMLPARSING_SERVODEFN_H_
-
-// C++ Includes
+ // C++ Includes
 #include <iostream>
 
 // FRC includes

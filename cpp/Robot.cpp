@@ -5,16 +5,24 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#include "Robot.h"
+#include <Robot.h>
+
 
 #include <iostream>
 
 #include <frc/smartdashboard/SmartDashboard.h>
 
+#include <hw/DragonServo.h>
+
+
+using namespace frc;
+
 void Robot::RobotInit() {
   m_chooser.SetDefaultOption(kAutoNameDefault, kAutoNameDefault);
   m_chooser.AddOption(kAutoNameCustom, kAutoNameCustom);
   frc::SmartDashboard::PutData("Auto Modes", &m_chooser);
+  
+  m_dragonServo = new DragonServo(DragonServo::ROTATE_LIMELIGHT, 2, 0, 180);//creating a test servo
 }
 
 /**
@@ -59,9 +67,16 @@ void Robot::AutonomousPeriodic() {
   }
 }
 
-void Robot::TeleopInit() {}
+void Robot::TeleopInit() { }
 
-void Robot::TeleopPeriodic() {}
+void Robot::TeleopPeriodic() 
+{
+
+//m_servo->SetAngle(90);
+//DragonServo->SetAngle();
+m_dragonServo->SetAngle(180);//test servo move to 180 deg
+ 
+}
 
 void Robot::TestPeriodic() {}
 
