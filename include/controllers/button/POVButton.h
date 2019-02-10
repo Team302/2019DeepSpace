@@ -46,7 +46,27 @@ class POVButton: public IButton
         /// </summary>
         //==================================================================================
         bool IsButtonPressed() const override;
- 
+        
+
+        //==================================================================================
+        /// <summary>
+        /// Method:         WasButtonReleased
+        /// Description:    Read whether the button was released since the last query.  This
+        ///                 is only valid for digital buttons (normal buttons and bumpers).
+        /// </summary>
+        //==================================================================================
+        bool WasButtonReleased() const override;
+        
+
+        //==================================================================================
+        /// <summary>
+        /// Method:         WasButtonPressed
+        /// Description:    Read whether the button was pressed since the last query.  This
+        ///                 is only valid for digital buttons (normal buttons and bumpers).
+        /// </summary>
+        //==================================================================================
+        bool WasButtonPressed() const override;
+  
     private:
 
         frc::GenericHID*                        m_gamepad;
