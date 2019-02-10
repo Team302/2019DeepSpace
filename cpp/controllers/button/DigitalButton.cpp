@@ -60,5 +60,24 @@ bool DigitalButton::IsButtonPressed() const
     return pressed;
 }
 
+bool DigitalButton::WasButtonReleased() const 
+{
+    bool pressed = false;
+    if ( m_gamepad != nullptr )
+    {
+        pressed = m_gamepad->GetRawButtonReleased( m_button );
+    }
+    return pressed;
+}
+
+bool DigitalButton::WasButtonPressed() const 
+{
+    bool pressed = false;
+    if ( m_gamepad != nullptr )
+    {
+        pressed = m_gamepad->GetRawButtonPressed( m_button );
+    }
+    return pressed;
+}
 
 

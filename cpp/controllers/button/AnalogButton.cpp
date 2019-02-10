@@ -60,6 +60,14 @@ bool AnalogButton::IsButtonPressed() const
     return pressed;
 }
 
+bool AnalogButton::WasButtonReleased() const 
+{
+    return !IsButtonPressed();
+}
 
+bool AnalogButton::WasButtonPressed() const 
+{
+    return IsButtonPressed();
+}
 
 

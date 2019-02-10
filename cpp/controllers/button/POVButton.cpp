@@ -51,6 +51,15 @@ bool POVButton::IsButtonPressed() const
     return pressed;
 }
 
+bool POVButton::WasButtonReleased() const 
+{
+    return !IsButtonPressed();
+}
+
+bool POVButton::WasButtonPressed() const 
+{
+    return IsButtonPressed();
+}
 
 
 
