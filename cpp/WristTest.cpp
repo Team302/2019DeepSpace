@@ -1,19 +1,24 @@
-#include "WristTest.h"
+#include "Test/WristTest.h"
 
 #include <iostream>
 
 #include <frc/smartdashboard/SmartDashboard.h>
 
+#include "subsys/Wrist.h"
+
+
 WristTest::WristTest ()
 {
-    Wrist = new Wrist;
+    m_wrist = new Wrist ();
+    m_prevhgt = Wrist::PLACEMENT_HEIGHT::MAX_PLACEMENT_HEIGHTS;
 }
 
-void WristTest::Run(PLACEMENT_HEIGHT hgt) 
+
+void WristTest::Run(Wrist::PLACEMENT_HEIGHT hgt) 
 {
     if (hgt != m_prevhgt)
     {
-        Wrist -> Set(hgt);
+        m_wrist -> Set(hgt);
         m_counts = 0;
         m_isDone = false;
     }
@@ -24,7 +29,7 @@ void WristTest::Run(PLACEMENT_HEIGHT hgt)
 
     if (m_counts > 9)
     {
-        double angle = Wrist -> Get();
+        double angle = m_wrist -> Get();
         m_isDone = true;
         printf ("Target %d Angle %g \n", hgt, angle);
     }
@@ -36,7 +41,7 @@ bool WristTest::IsDone()
 {
     if (m_isDone = true)
     {
-    printf ('Automated Systems Test Completed');
+    printf ("Automated Systems Test Completed \n");
     }
 }
 
