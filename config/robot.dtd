@@ -72,14 +72,25 @@
             MAX_MECHANISM_TYPES
         };
 
+        enum MECHANISM_DATA_TYPE
+        {
+            WRIST_ANGLE_OFFSET,
+            ARM_ANGLE_OFFSET,
+            ARM_EXTENSION_OFFSET,
+            MAX_MECHANISM_DATA_TYPES
+        };
 
 	==================================================== -->
-<!ELEMENT mechanism (motor*, analogInput*, digitalInput*, servo* )>
+<!ELEMENT mechanism (motor*, analogInput*, digitalInput*, servo*, mechanismData*)>
 <!ATTLIST mechanism 
           type              ( 0 | 1 | 2 | 3 ) "0"
-
 >
 
+<!ELEMENT mechanismData EMPTY>
+<!ATTLIST mechanismData 
+          dataType
+          value CDATA "0.0"
+>
 
 <!-- ====================================================
         enum LIDAR_USAGE
