@@ -7,11 +7,11 @@
 #define SRC_MAIN_CPP_XMLHW_TALONTACH_H_
 
 // C++ Includes
-
+#include <iostream>
 // FRC includes
 
 // Team 302 includes
-//TODO Add the hw file for Talon Tach
+#include <hw/DragonTalonTach.h>
 
 // Third Party Includes
 #include <pugixml/pugixml.hpp>
@@ -22,17 +22,15 @@ class TalonTachDefn
 {
     public:
 
-        TalonTachDefn() = delete; // ask Mr. Wits what this mean
+        TalonTachDefn() = delete; 
         virtual ~TalonTachDefn() = delete;
-
 
                 //-----------------------------------------------------------------------
         // Method:      ParseXML
         // Description: Parse a TalonTach XML element 
-        // Returns:     void
+        // Returns:     DragonTalonTach
         //-----------------------------------------------------------------------
-        //static DragonTalon*ParseXML
-        static void ParseXML
+        static DragonTalonTach* ParseXML
         (
             pugi::xml_node      talontachNode
         );

@@ -6,7 +6,7 @@
 
 //Team 302 includes
 #include <xmlhw/TalonTach.h>
-//#include <hw/DragonTalonTach.h>
+#include <hw/DragonTalonTach.h>
 
 //Third Party Includes
 
@@ -17,12 +17,14 @@
 //	 ====================================================
 //	 enum TALON_TACH_USAGE
 ///	 {
-//	 	  MIN_WRIST_ANGLE,
+//	 	  UNKNOWN_TALON_TACH_USAGE = -1
+//        MIN_WRIST_ANGLE,
 //        MAX_WRIST_ANGLE,
 //        TOP_HATCH_PRESENT,
 //        BOTTOM_HATCH_PRESENT,
 //        ARM_BOTTOM,
 //        ARM_TOP
+//        MAX_TALON_TACH_USAGE
 //	 };
 //	 ==================================================== -->
 //<!ELEMENT talontach EMPTY>
@@ -40,15 +42,18 @@
 //  Returns:    DragonTachTalon        
 //>
 
-//DragonTalonTach* TalonTachDefn::ParseXML
-void TalonTachDefn::ParseXML // Node is where it takes the thing from robot.dtd talontach
+DragonTalonTach* TalonTachDefn::ParseXML// Node is where it takes the thing from robot.dtd talontach
 (
     pugi::xml_node      talontachNode
 )
 {
-    //TalonTachUse::TALON_TACH_USAGE = TalonTachUse::UNKNOWN_TALON_TACH_USAGE
-    int canID = 0; //change this
-    int generalpin = 0; //TODO change this number
+    DragonTalonTach*         talontach = nullptr;
+
+    DragonTalonTach::TALON_TACH_USAGE usage = DragonTalonTach::UNKNOWN_TALON_TACH_USAGE;
+    int canID = 0;
+    ctre::phoenix::CANifier::GeneralPin generalpin;
+    
+    bool reversed = false;
 
     bool hasError = false;
  
@@ -58,34 +63,34 @@ void TalonTachDefn::ParseXML // Node is where it takes the thing from robot.dtd 
         if (strcmp(attr.name(), "usage" ) == 0) // attribute usage.  Usage is for using things like a digital input and type is for differnt types like mechanisms.
         {
             int iVal = attr.as_int();
-            /*switch (iVal) // enum for the things the talon tach is going to do 
+            switch (iVal) // enum for the things the talon tach is going to do 
             {
-                case  TalonTachUse::TALON_TACH_USAGE::MAX_WRIST_ANGLE:
-                    usage = TalonTachUse::TALON_TACH_USEAGE::MAX_WRIST_ANGLE;
+                case  DragonTalonTach::TALON_TACH_USAGE::MAX_WRIST_ANGLE:
+                    usage = DragonTalonTach::TALON_TACH_USAGE::MAX_WRIST_ANGLE;
                     break;
-                case TalonTachUse::TALON_TACH_USAGE::MIN_WRIST_ANGLE:
-                    usage = TalonTachUse::TALON_TACH_USAGE::MIN_WRIST_ANGLE;
+                case DragonTalonTach::TALON_TACH_USAGE::MIN_WRIST_ANGLE:
+                    usage = DragonTalonTach::TALON_TACH_USAGE::MIN_WRIST_ANGLE;
                     break;
-                case TalonTachUse::TALON_TACH_USAGE::TOP_HATCH_PRESENT:
-                    usage = TalonTachUse::TALON_TACH_USAGE::TOP_HATCH_PRESENT;
+                case DragonTalonTach::TALON_TACH_USAGE::TOP_HATCH_PRESENT:
+                    usage = DragonTalonTach::TALON_TACH_USAGE::TOP_HATCH_PRESENT;
                     break;
-                case TalonTachUse::TALON_TACH_USAGE::BOTTOM_HATCH_PRESENT:
-                    usage = TalonTachUse::TALON_TACH_USAGE::BOTTOM_HATCH_PRESENT;
+                case DragonTalonTach::TALON_TACH_USAGE::BOTTOM_HATCH_PRESENT:
+                    usage = DragonTalonTach::TALON_TACH_USAGE::BOTTOM_HATCH_PRESENT;
                     break;
-                case TalonTachUse::TALON_TACH_USAGE::ARM_BOTTOM:
-                    usage = TalonTachUse::TALON_TACH_USAGE::ARM_BOTTOM;
+                case DragonTalonTach::TALON_TACH_USAGE::ARM_BOTTOM:
+                    usage = DragonTalonTach::TALON_TACH_USAGE::ARM_BOTTOM;
                     break;
-                case TalonTachUse::TALON_TACH_USAGE::ARM_TOP:
-                    usage = TalonTachUse::TALON_TACH_USAGE::ARM_TOP;
+                case DragonTalonTach::TALON_TACH_USAGE::ARM_TOP:
+                    usage = DragonTalonTach::TALON_TACH_USAGE::ARM_TOP;
                     break;
-            }*/
+            }
         }
         else if ( strcmp( attr.name(), "canId") == 0 ) // attribute canID
         {
            int iVal = attr.as_int(); //value of the ID
            if(iVal > -1 && iVal < 63 )  //Value between 0 and 62
            {
-               canID = attr.as_int();
+               canID  = attr.as_int();
            }
            else
            {
@@ -97,7 +102,7 @@ void TalonTachDefn::ParseXML // Node is where it takes the thing from robot.dtd 
         {    int iVal = attr.as_int(); // value of the ID
             if (iVal > -1 && iVal < 12) //Value between 0 and 11
             {
-                generalpin = attr.as_int(); 
+                generalpin = (ctre::phoenix::CANifier::GeneralPin)attr.as_int(); 
             }
             else
             {
@@ -105,6 +110,10 @@ void TalonTachDefn::ParseXML // Node is where it takes the thing from robot.dtd 
                 hasError = true;
             }
         }   
+        else if ( strcmp( attr.name(), "reversed" ) == 0 )
+        {
+            reversed = attr.as_bool();
+        }
         else
         {
             printf("==>>TalonTachDefn::ParseXML invalid attribute %s |n" ,attr.name() );
@@ -112,10 +121,10 @@ void TalonTachDefn::ParseXML // Node is where it takes the thing from robot.dtd 
         }
     }
 
-    if (!hasError) 
+    if ( !hasError )
     {
-        //input = new DragonTalonTach( usage, canID, generalpin); // if their is no errors creats DragonTalonTach
+        talontach = new DragonTalonTach (usage, canID, generalpin, reversed );
     }
-    //return input
+    return talontach;
 
 }
