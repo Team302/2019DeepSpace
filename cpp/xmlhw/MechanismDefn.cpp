@@ -4,6 +4,8 @@
 
 // C++ Includes
 #include <iostream>
+#include <utility>
+#include <vector>
 
 // FRC includes
 #include <frc/AnalogInput.h>
@@ -22,8 +24,10 @@
 #include <hw/DragonDigitalInput.h>
 #include <hw/DragonServo.h>
 #include <hw/IDragonMotorController.h>
+#include <subsys/IMechanism.h>
 
 #include <xmlhw/MechanismDefn.h>
+#include <xmlhw/MechanismDataDefn.h>
 
 // Third Party Includes
 #include <pugixml/pugixml.hpp>
@@ -112,6 +116,8 @@ void MechanismDefn::ParseXML
     DragonDigitalInputVector digitals;
     DragonServoVector servos;
 
+    mechParameters parameters;
+
     // Parse/validate subobject xml
     for (pugi::xml_node child = mechanismNode.first_child(); child; child = child.next_sibling())
     {
@@ -130,6 +136,11 @@ void MechanismDefn::ParseXML
         else if ( strcmp( child.name(), "servo") == 0 )
         {
 //            servos.emplace_back( ServoDefn::ParseXML( child ) );
+        }
+        else if ( strcmp( child.name(), "mechanismData") == 0 )
+        {
+            // Mechanism Data
+            parameters.emplace_back( MechanismDataDefn::ParseXML( child ) );
         }
         else
         {
