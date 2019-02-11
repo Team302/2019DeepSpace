@@ -5,21 +5,22 @@
 #include <frc/TimedRobot.h>
 #include <frc/smartdashboard/SendableChooser.h>
 
-#include <Wrist.cpp>
+#include "subsys/Wrist.h"
+
 
 class WristTest  {
  public:
   WristTest();
-  void Run(PLACEMENT_HEIGHT);
+  void Run(Wrist::PLACEMENT_HEIGHT);
   bool IsDone();
   
   private:
-  double m_prevhgt = KEEP_SAME;
+  Wrist::PLACEMENT_HEIGHT m_prevhgt; 
   bool m_isDone = false;
   int m_counts = 0;
 
+  Wrist* m_wrist;
 
- private:
-  TimeOut 400;
-}
+  //TimeOut 400;
+};
 
