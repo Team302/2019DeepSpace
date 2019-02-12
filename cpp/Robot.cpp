@@ -23,7 +23,8 @@ void Robot::RobotInit() {
   frc::SmartDashboard::PutData("Auto Modes", &m_chooser);
   
   m_dragonServo = new DragonServo(DragonServo::ROTATE_LIMELIGHT, 2, 0, 180);//creating a test servo
-}
+  
+  }
 
 /**
  * This function is called every robot packet, no matter the mode. Use
@@ -74,6 +75,7 @@ void Robot::TeleopPeriodic()
 
 //m_servo->SetAngle(90);
 //DragonServo->SetAngle();
+
 m_dragonServo->SetAngle(180);//test servo move to 180 deg
  
 }

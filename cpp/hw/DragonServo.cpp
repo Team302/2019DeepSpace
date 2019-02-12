@@ -18,7 +18,7 @@ DragonServo::DragonServo
 //    printf( "==>> DragonServo usage %d id %d \n", m_usage, deviceID );
 )
 {
-    
+    m_servo =new Servo(deviceID);
 }
 
 
