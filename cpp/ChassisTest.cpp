@@ -9,24 +9,48 @@ ChassisTest::ChassisTest ()
     m_chassis = new DragonChassis;
 }
 
-void ChassisTest::Init ()
+void ChassisTest::Init (CHASSIS_PRESETS)
 {
     m_ChassisCounts = 0;
 
     m_isDone = false;
+
+    double left = 0.0;
+    double right = 0.0;
+    m_chassisPresets = CHASSIS_PRESETS;
 }
 
-void ChassisTest::Execute (CHASSIS_PRESETS)
+void ChassisTest::Execute ()
 {
-    SetLeftRightMagnitudes(.5, .5);
-    if (SetLeftRightMagnitudes(.5, .5))
+    switch (m_chassisPresets)
     {
-        m_ChassisCounts++;
-    }
+        case CHASSIS_FORWARDS :
+            left = .5;
+            right = .5;
+            break;
 
-    if (m_ChassisCounts == 1500)
-    {
-        m_isDone = true;
+        case CHASSIS_BACKWARDS :
+            left = -.5;
+            right = -.5;
+            break;
+
+        case CHASSIS_LEFT : 
+            left = -.5;
+            right = .5;
+            break;
+
+        case CHASSIS_RIGHT :
+            left = .5;
+            right = -.5;
+            break;
+
+        case CHASSIS_STOP :
+            left = 0;
+            right = 0;
+            break;
+
+        default :
+            break;
     }
 }
 //TODO #1 Use enum to set speeds based on what direction we need to move
