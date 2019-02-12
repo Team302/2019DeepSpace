@@ -61,7 +61,6 @@ class DigitalInputDefn
         // Returns:     DragonDigitalInput*
         //-----------------------------------------------------------------------
         static DragonDigitalInput* ParseXML
-r
         (
             pugi::xml_node      DigitalNode
         );
