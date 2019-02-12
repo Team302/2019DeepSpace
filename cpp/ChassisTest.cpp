@@ -52,6 +52,7 @@ void ChassisTest::Execute ()
         default :
             break;
     }
+    SetLeftRightMagnitudes(left, right);
 }
 //TODO #1 Use enum to set speeds based on what direction we need to move
 bool ChassisTest::IsDone ()
