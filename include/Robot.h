@@ -12,6 +12,7 @@
 #include <frc/TimedRobot.h>
 #include <frc/smartdashboard/SendableChooser.h>
 #include "driverassist/DriverAssist.h"
+#include "hw/DragonLidar.h"
 
 
 class Robot : public frc::TimedRobot {
@@ -29,6 +30,8 @@ class Robot : public frc::TimedRobot {
   const std::string kAutoNameDefault = "Default";
   const std::string kAutoNameCustom = "My Auto";
   std::string m_autoSelected;
-
+  DragonLidar* m_lidar;
+  int INPUT_PIN = 1;
+  int TRIGGER_PIN = 2;
   DriverAssist* m_driverAssist;
 };
