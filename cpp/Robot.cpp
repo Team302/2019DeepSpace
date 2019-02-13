@@ -16,14 +16,16 @@
 #include <subsys/MechanismFactory.h>
 #include <subsys/chassis/DragonChassis.h>
 #include <driverassist/DriverAssist.h>
+#include <hw/DragonLidar.h>
 
 
 void Robot::RobotInit() {
   m_chooser.SetDefaultOption(kAutoNameDefault, kAutoNameDefault);
   m_chooser.AddOption(kAutoNameCustom, kAutoNameCustom);
   frc::SmartDashboard::PutData("Auto Modes", &m_chooser);
+  m_lidar = new DragonLidar(DragonLidar::LIDAR_USAGE::FORWARD_GRABBER,INPUT_PIN,TRIGGER_PIN);
 
-  DragonTalon* armMaster = new DragonTalon(IDragonMotorController::TALON_TYPE::ARM_MASTER, 2, 1024, ((11.0/17) * (90/70.0)) );
+  /*DragonTalon* armMaster = new DragonTalon(IDragonMotorController::TALON_TYPE::ARM_MASTER, 2, 1024, ((11.0/17) * (90/70.0)) );
   DragonTalon* armSlave = new DragonTalon(IDragonMotorController::TALON_TYPE::ARM_SLAVE, 13, 1024, ((11.0/17) * (90/70.0)) );
   DragonTalon* intake = new DragonTalon(IDragonMotorController::TALON_TYPE::INTAKE, 7, 1024, 1);
   DragonTalon* wrist = new DragonTalon(IDragonMotorController::TALON_TYPE::WRIST, 5, 1024, (11.0/17) * (180.0/164.2));
@@ -104,6 +106,9 @@ void Robot::RobotInit() {
   DragonChassis::CreateDragonChassis(tempMotors, 6.0);
 
   m_driverAssist = new DriverAssist();
+  */
+
+
 }
 
 /**
@@ -152,7 +157,8 @@ void Robot::TeleopInit() {}
 
 void Robot::TeleopPeriodic()
 {
-  m_driverAssist->Update();
+  double distance = m_lidar->GetDistance();
+  frc::SmartDashboard::PutNumber("Lidar Distance", distance);
 }
 
 void Robot::TestPeriodic() {}
