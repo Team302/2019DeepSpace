@@ -8,14 +8,15 @@
 #include "teleop/Switcher.h"
 #include "subsys/MechanismFactory.h"
 #include <frc/smartdashboard/SmartDashboard.h>
+#include <subsys/IMechanism.h>
 
 //TODO: xml baby
 Switcher::Switcher() :
-m_arm( dynamic_cast<Arm*>(MechanismFactory::GetMechanismFactory()->GetIMechanism(IMechanism::MECHANISM_TYPE::ARM)) ),
-m_intake( dynamic_cast<Intake*>(MechanismFactory::GetMechanismFactory()->GetIMechanism(IMechanism::MECHANISM_TYPE::INTAKE)) ),
-m_wrist( dynamic_cast<Wrist*>(MechanismFactory::GetMechanismFactory()->GetIMechanism(IMechanism::MECHANISM_TYPE::WRIST)) ),
+m_arm( MechanismFactory::GetMechanismFactory()->GetArm() ),
+m_intake( MechanismFactory::GetMechanismFactory()->GetIntake() ),
+m_wrist( MechanismFactory::GetMechanismFactory()->GetWrist() ),
 m_chassis( DragonChassis::GetInstance() ),
-m_climber( dynamic_cast<Climber*>(MechanismFactory::GetMechanismFactory()->GetIMechanism(IMechanism::MECHANISM_TYPE::CLIMBER ))),
+m_climber( MechanismFactory::GetMechanismFactory()->GetClimber() ),
 m_mainController( new frc::XboxController(0) ),
 m_secondaryController( new frc::XboxController(1) )
 {
