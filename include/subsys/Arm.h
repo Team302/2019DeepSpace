@@ -31,6 +31,19 @@ public:
   double GetExtenderTargetRotations();
 
   IMechanism::MECHANISM_TYPE GetType() const override;
+  void SetParam
+  (
+      IMechanism::MECHANISM_PARAM_TYPE  param,          // <I> - parameter to set
+      double                            value           // <I> - parameter value
+  ) override;
+  void SetPID
+  (
+      PIDData*       pid                 // <I> - PID control information
+  ) override;
+
+
+
+
 
 private: 
   enum HATCH_WRIST_PRESETS
