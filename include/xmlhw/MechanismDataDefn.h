@@ -25,6 +25,7 @@
 
 // Team 302 includes
 #include <subsys/IMechanism.h>
+#include <subsys/MechParamData.h>
 
 // Third Party Includes
 #include <pugixml/pugixml.hpp>
