@@ -1,5 +1,6 @@
 #include <subsys/MechanismFactory.h>
 #include <subsys/IMechanism.h>
+#include <subsys/MechParamData.h>
 #include <vector>
 
 #include <hw/DragonAnalogInput.h>
@@ -10,6 +11,7 @@
 #include <subsys/Arm.h>
 #include <subsys/Wrist.h>
 #include <subsys/Climber.h>
+#include <xmlhw/PIDData.h>
 
 MechanismFactory* MechanismFactory::m_mechanismFactory = nullptr;
 
@@ -65,7 +67,9 @@ IMechanism* MechanismFactory::CreateMechanism
     const IDragonMotorControllerVector&  motorControllers,   // <I> - Motor Controllers
     const DragonDigitalInputVector&      digitalInputs,      // <I> - Digital Inputs
     const DragonAnalogInputVector&       analogInputs,       // <I> - Analog Inputs
-    const DragonServoVector&             servos              // <I> - servos
+    const DragonServoVector&             servos,             // <I> - servos
+    const mechParameters&                parameters,         // <I> - parameters
+    const std::vector<PIDData*>          pid                 // <I> - PID control info
 )
 {
     IMechanism* subsys = nullptr;
@@ -74,32 +78,72 @@ IMechanism* MechanismFactory::CreateMechanism
     switch ( index )
     {
         case IMechanism::CLIMBER:
-            subsys = new Climber( motorControllers, servos );//, digitalInputs, analogInputs );
-            //subsys = new Climber( type, motorControllers );//, digitalInputs, analogInputs );
+            subsys = new Climber( motorControllers, servos );
+            // for ( auto itr=parmeters.begin(); itr!=parameters.end(); ++itr )
+            // {
+            //     subsys->SetParam( itr.first, itr.second );
+            // }
+            // for ( auto itr=pid.begin(); itr!=pid.end; ++itr)
+            // {
+            //     subsys->SetPID( itr );
+            // }
             m_climber = subsys;
             break;
 
         case IMechanism::INTAKE:
             subsys = new Intake( motorControllers );
-            //subsys = new Intake( type, motorControllers, digitalInputs, analogInputs );
+            // for ( auto itr=parmeters.begin(); itr!=parameters.end(); ++itr )
+            // {
+            //     subsys->SetParam( itr.first, itr.second );
+            // }
+            // for ( auto itr=pid.begin(); itr!=pid.end; ++itr)
+            // {
+            //     subsys->SetPID( itr );
+            // }
             m_intake = subsys;
             break;
 
         case IMechanism::WRIST:
             subsys = new Wrist( motorControllers );
-            //subsys = new Wrist( type, motorControllers, digitalInputs, analogInputs );
+            // for ( auto itr=parmeters.begin(); itr!=parameters.end(); ++itr )
+            // {
+            //     subsys->SetParam( itr.first, itr.second );
+            // }
+            // for ( auto itr=pid.begin(); itr!=pid.end; ++itr)
+            // {
+            //     subsys->SetPID( itr );
+            // }
             m_wrist = subsys;
             break;
 
         case IMechanism::ARM:
             subsys = new Arm( motorControllers );
-            // subsys = new Arm( type, motorControllers, digitalInputs, analogInputs );
+            // for ( auto itr=parmeters.begin(); itr!=parameters.end(); ++itr )
+            // {
+            //     subsys->SetParam( itr.first, itr.second );
+            // }
+            // for ( auto itr=pid.begin(); itr!=pid.end; ++itr)
+            // {
+            //     subsys->SetPID( itr );
+            // }
             m_arm = subsys;
             break;
 
         default:
             printf( "==>> Unknown mechanism %d \n", index );
             break;
+    }
+
+    if ( subsys!= nullptr )
+    {
+        for ( auto inx=0; inx<parameters.size(); ++inx )
+        {
+            subsys->SetParam( parameters[inx].first, parameters[inx].second );
+        }
+        for ( auto inx=0; inx<pid.size(); ++inx )
+        {
+            subsys->SetPID( pid[inx] );
+        }
     }
 
     return subsys;
