@@ -24,6 +24,7 @@
 
 // Team 302 includes
 #include <subsys/IMechanism.h>
+#include <subsys/MechParamData.h>
 #include <xmlhw/MechanismDataDefn.h>
 
 // Third Party Includes
@@ -54,7 +55,7 @@ mechParamData  MechanismDataDefn::ParseXML
     mechParamData mechData;
 
     // initialize attributes to default values
-    mechData.first = IMechanism::MECHANISM_PARAM_TYPE::MECHANISM_DATA_UNKNOWN;
+    mechData.first = IMechanism::MECHANISM_PARAM_TYPE::MECHANISM_PARAM_UNKNOWN;
     mechData.second = 0.0;
 
     bool hasError = false;
@@ -62,10 +63,10 @@ mechParamData  MechanismDataDefn::ParseXML
     // parse/validate xml
     for (pugi::xml_attribute attr = MechanismDataNode.first_attribute(); attr; attr = attr.next_attribute())
     {
-        if ( strcmp( attr.name(), "dataType" ) == 0 )
+        if ( strcmp( attr.name(), "paramType" ) == 0 )
         {
             IMechanism::MECHANISM_PARAM_TYPE type = (IMechanism::MECHANISM_PARAM_TYPE)attr.as_int();
-            if ( type > IMechanism::MECHANISM_PARAM_TYPE::MECHANISM_DATA_UNKNOWN && 
+            if ( type > IMechanism::MECHANISM_PARAM_TYPE::MECHANISM_PARAM_UNKNOWN && 
                  type < IMechanism::MECHANISM_PARAM_TYPE::MAX_MECHANISM_PARAM_TYPES )
             {
                 mechData.first = type;
