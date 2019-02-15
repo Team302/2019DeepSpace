@@ -7,6 +7,8 @@
 
 #include "subsys/Intake.h"
 #include "hal/PDP.h"
+#include <subsys/IMechanism.h>
+#include <xmlhw/PIDData.h>
 
 Intake::Intake(IDragonMotorControllerVector motorControllers) :
 m_intakeMotor(nullptr)
@@ -54,3 +56,23 @@ IMechanism::MECHANISM_TYPE Intake::GetType() const
 {
     return IMechanism::MECHANISM_TYPE::INTAKE;
 }
+
+void Intake::SetParam
+(
+    IMechanism::MECHANISM_PARAM_TYPE    param,          // <I> - parameter to set
+    double                              value           // <I> - parameter value
+) 
+{
+    // TODO:  Override values
+}
+void Intake::SetPID
+(
+    PIDData*        pid                 // <I> - PID control information
+) 
+{
+    // TODO:  Override values
+}
+
+
+
+
