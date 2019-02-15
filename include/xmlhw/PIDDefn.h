@@ -1,5 +1,5 @@
 //====================================================================================================================================================
-// MechanismDataDefn.h
+// PIDDefn.h
 //====================================================================================================================================================
 // Copyright 2018 Lake Orion Robobitcs FIRST Team 302
 //
@@ -24,13 +24,12 @@
 // FRC includes
 
 // Team 302 includes
-#include <subsys/IMechanism.h>
-#include <subsys/MechParamData.h>
+#include <xmlhw/PIDData.h>
 
 // Third Party Includes
 #include <pugixml/pugixml.hpp>
 
-class MechanismDataDefn
+class PIDDefn
 {
     public:
 
@@ -49,9 +48,9 @@ class MechanismDataDefn
         // Returns:     PowerDistributionPanel*        PDP object (or nullptr if XML
         //                                             is ill-formed
         //-----------------------------------------------------------------------
-        static mechParamData  ParseXML
+        static PIDData*  ParseXML
         (
-            pugi::xml_node      MechanismDataNode
+            pugi::xml_node      PIDNode
         );
 };
 

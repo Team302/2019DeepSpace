@@ -6,6 +6,8 @@
 /*----------------------------------------------------------------------------*/
 
 #include "subsys/Arm.h"
+#include <subsys/IMechanism.h>
+#include <xmlhw/PIDData.h>
 #include "hw/DragonTalon.h"
 #include <hw/IDragonMotorController.h>
 
@@ -214,3 +216,21 @@ IMechanism::MECHANISM_TYPE Arm::GetType() const
 {
     return IMechanism::MECHANISM_TYPE::ARM;
 }
+
+void Arm::SetParam
+(
+    IMechanism::MECHANISM_PARAM_TYPE    param,          // <I> - parameter to set
+    double                              value           // <I> - parameter value
+) 
+{
+    // TODO:  Override values
+}
+void Arm::SetPID
+(
+    PIDData*        pid                 // <I> - PID control information
+) 
+{
+    // TODO:  Override values
+}
+
+
