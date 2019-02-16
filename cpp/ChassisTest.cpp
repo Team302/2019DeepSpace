@@ -11,19 +11,11 @@ ChassisTest::ChassisTest ()
 
 void ChassisTest::Init (CHASSIS_PRESETS)
 {
-    m_forwardCounts = 0;
-    m_backwardsCounts = 0;
-    m_leftCounts = 0;
-    m_rightCounts = 0;
-
-    m_isDoneForwards = false;
-    m_isDoneBackwards = false;
-    m_isDoneLeft = false;
-    m_isDoneRight = false;
-
     double left = 0.0;
     double right = 0.0;
-    double m_targetCounts = 6000;
+    double m_targetCounts = 0;
+    double m_counts = 0;
+    bool m_isDone = false;
     m_chassisPresets = CHASSIS_PRESETS;
 }
 
@@ -34,25 +26,29 @@ void ChassisTest::Execute ()
         case CHASSIS_FORWARDS :
             left = .5;
             right = .5;
-            m_targetCounts = 6000;
+            m_targetCounts = 1500;
+            
             break;
 
         case CHASSIS_BACKWARDS :
             left = -.5;
             right = -.5;
-            m_targetCounts = 6000;
+            m_targetCounts = 1500;
+            
             break;
 
         case CHASSIS_LEFT : 
             left = -.5;
             right = .5;
-            m_targetCounts = 6000;
+            m_targetCounts = 750;
+            
             break;
 
         case CHASSIS_RIGHT :
             left = .5;
             right = -.5;
-            m_targetCounts = 6000;
+            m_targetCounts = 750;
+            
             break;
 
         case CHASSIS_STOP :
@@ -64,12 +60,16 @@ void ChassisTest::Execute ()
             break;
     }
     SetLeftRightMagnitudes(left, right);
-
+    m_counts++;
+    if (m_counts == m_targetCounts)
+    {
+        m_isDone = true;
+    }
 }
 //TODO #1 Use enum to set speeds based on what direction we need to move
 bool ChassisTest::IsDone ()
 {
-    if (m_forwardCounts == true && m_backwardsCounts == true && m_leftCounts == true && m_rightCounts == true)
+    if (m_isDone = true)
     {
         SetLeftRightMagnitudes(0, 0);
         printf ("Automated Systems Test Complete \n");
