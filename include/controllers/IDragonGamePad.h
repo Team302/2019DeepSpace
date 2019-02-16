@@ -53,6 +53,15 @@ class IDragonGamePad
             POV_270,
             POV_315,
             MAX_BUTTONS,
+            GAMEPAD_SWITCH_18,
+            GAMEPAD_SWITCH_19,
+            GAMEPAD_SWITCH_20,
+            GAMEPAD_SWITCH_21,
+            GAMEPAD_BUTTON_14_UP,
+            GAMEPAD_BUTTON_14_DOWN,
+            GAMEPAD_BUTTON_15_UP,
+            GAMEPAD_BUTTON_15_DOWN,
+            MAX_GAMEPAD_BUTTONS,
             UNDEFINED_BUTTON
         };
 
@@ -74,7 +83,37 @@ class IDragonGamePad
             LEFT_TRIGGER,
             RIGHT_TRIGGER,
             MAX_AXIS,
+            GAMEPAD_AXIS_16,
+            GAMEPAD_AXIS_17,
+            GAMEPAD_DIAL_22,//Dial has 6 settings for axis. Dial setting 22 = highest, 27 = lowest.
+            GAMEPAD_DIAL_23,
+            GAMEPAD_DIAL_24,
+            GAMEPAD_DIAL_25,
+            GAMEPAD_DIAL_26,
+            GAMEPAD_DIAL_27,
+            LEFT_ANALOG_BUTTON_AXIS,
+            RIGHT_ANALOG_BUTTON_AXIS,
+            MAX_GAMEPAD_AXIS,
             UNDEFINED_AXIS
+        };
+
+        enum ANALOG_BUTTON_IDENTIFIER
+        {
+            GAMEPAD_BUTTON_1,
+            GAMEPAD_BUTTON_2,
+            GAMEPAD_BUTTON_3,
+            GAMEPAD_BUTTON_4,
+            GAMEPAD_BUTTON_5,
+            GAMEPAD_BUTTON_6,
+            GAMEPAD_BUTTON_7,
+            GAMEPAD_BUTTON_8,
+            GAMEPAD_BUTTON_9,
+            GAMEPAD_BUTTON_10,
+            GAMEPAD_BUTTON_11,
+            GAMEPAD_BUTTON_12,
+            GAMEPAD_BUTTON_13,
+            GAMEPAD_BIG_RED_BUTTON,
+            MAX_ANALOG_BUTTONS
         };
 
 
