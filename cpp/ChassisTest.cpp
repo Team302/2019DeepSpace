@@ -96,7 +96,7 @@ void ChassisTest::Execute ()
 //TODO #1 Use enum to set speeds based on what direction we need to move
 bool ChassisTest::IsDone ()
 {
-    if (m_forwardCounts == true, m_backwardsCounts == true, m_leftCounts == true, m_rightCounts == true)
+    if (m_forwardCounts == true && m_backwardsCounts == true && m_leftCounts == true && m_rightCounts == true)
     {
         SetLeftRightMagnitudes(0, 0);
         printf ("Automated Systems Test Complete \n");
