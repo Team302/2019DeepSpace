@@ -63,6 +63,7 @@ void ChassisTest::Execute ()
     if (SetLeftRightMagnitudes(.5, .5))
     {
         m_forwardCounts++;
+        GetDistance((left+right) /2);
         if (m_forwardCounts == 1500);
         {
             printf("Driving Forwards complete \n");
@@ -71,6 +72,7 @@ void ChassisTest::Execute ()
     else if (SetLeftRightMagnitudes(-.5, -.5))
     {
         m_backwardsCounts++;
+        GetDistance((left+right) /2);
         if (m_backwardsCounts == 1500);
         {
             printf("Driving Backwards complete \n");
@@ -79,6 +81,7 @@ void ChassisTest::Execute ()
     else if (SetLeftRightMagnitudes(-.5, .5))
     {
         m_leftCounts++;
+        GetDistance((left+right) /2);
         if (m_leftCounts == 1500);
         {
             printf("Driving Left complete \n");
@@ -87,6 +90,7 @@ void ChassisTest::Execute ()
     else if (SetLeftRightMagnitudes(.5, -.5))
     {
         m_rightCounts++;
+        GetDistance((left+right) /2);
         if (m_rightCounts == 1500);
         {
             printf("Driving Right complete \n");
