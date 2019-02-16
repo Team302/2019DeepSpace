@@ -53,16 +53,21 @@ void CameraDefn::ParseXML
 
 // initialize attributes to default values
 	cs::VideoMode::PixelFormat type = cs::VideoMode::kUnknown;
-	int 				width = 0;
-	int 				height = 0;
-	int 				fps = 0;
+	int				 	ID = 0;
+	int 				width = 640;
+	int 				height = 480;
+	int 				fps = 30;
 
 	bool hasError = false;
 
 //Parse/validate xml
 	for(pugi::xml_attribute attr = cameraNode.first_attribute(); attr; attr = attr.next_attribute() )
 	{
-		if (strcmp(attr.name(), "type" ) == 0)
+		if ( strcmp( attr.name(), "ID") == 0 )
+		{
+			ID = attr.as_int();
+		}
+		else if (strcmp(attr.name(), "format" ) == 0)
 		{
 			int iVal = attr.as_int();
 			switch(iVal)
@@ -120,7 +125,7 @@ void CameraDefn::ParseXML
 		CameraServer* server = CameraServer::GetInstance();
 		if ( server != nullptr )
 		{
-		    cs::UsbCamera camera = server->StartAutomaticCapture();
+		    cs::UsbCamera camera = server->StartAutomaticCapture( ID );
             camera.SetVideoMode(type, width, height, fps );
 		}
 		else

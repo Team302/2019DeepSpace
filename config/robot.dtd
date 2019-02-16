@@ -168,10 +168,11 @@
 
 <!ELEMENT camera EMPTY>
 <!ATTLIST camera 
-          type              ( 0 | 1 | 2 | 3 | 4 ) "0"
-          width			 	CDATA "0"
-          height		 	CDATA "0"
-          fps			 	CDATA "0"
+          id                CDATA "0"
+          format            ( 0 | 1 | 2 | 3 | 4 ) "0"
+          width			 	CDATA "640"
+          height		 	CDATA "480"
+          fps			 	CDATA "30"
 >
 
 
