@@ -24,7 +24,8 @@ class ChassisTest {
 
     private:
     DragonChassis* m_chassis;
-    int m_ChassisCounts = 0;
+    int m_Counts = 0;
     bool m_isDone = false;
+    double m_targetCounts = 0;
 
 }
