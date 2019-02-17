@@ -66,7 +66,7 @@ void ChassisTest::Execute ()
         m_isDone = true;
     }
 }
-//TODO #1 Use enum to set speeds based on what direction we need to move
+//TODO #1 Track draw
 bool ChassisTest::IsDone ()
 {
     if (m_isDone = true)
