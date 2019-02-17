@@ -28,6 +28,7 @@
 
 #include <xmlhw/MechanismDefn.h>
 #include <xmlhw/MechanismDataDefn.h>
+#include <xmlhw/PIDDefn.h>
 
 // Third Party Includes
 #include <pugixml/pugixml.hpp>
@@ -117,6 +118,7 @@ void MechanismDefn::ParseXML
     DragonServoVector servos;
 
     mechParameters parameters;
+    std::vector<PIDData*> pidControlVector;
 
     // Parse/validate subobject xml
     for (pugi::xml_node child = mechanismNode.first_child(); child; child = child.next_sibling())
@@ -142,6 +144,10 @@ void MechanismDefn::ParseXML
             // Mechanism Data
             parameters.emplace_back( MechanismDataDefn::ParseXML( child ) );
         }
+        else if ( strcmp( child.name(), "PID") == 0 )
+        {
+            pidControlVector.emplace_back( PIDDefn::ParseXML( child ) );
+        }
         else
         {
             printf( "==>> MechanismDefn::ParseXML unknown mechanism child %s \n", child.name() );
@@ -157,6 +163,8 @@ void MechanismDefn::ParseXML
                                   motors,                   // dragon talons
                                   digitals,                 // dragon digital inputs
                                   analogIns,                // dragon analog inputs
-                                  servos );                 // dragon servos
+                                  servos,                   // dragon servos
+                                  parameters,               // mechanism parameters
+                                  pidControlVector );       // pid control information
     }
 }

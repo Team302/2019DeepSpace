@@ -1,5 +1,5 @@
 //====================================================================================================================================================
-// MechanismDataDefn.h
+// PIDDefn.h
 //====================================================================================================================================================
 // Copyright 2018 Lake Orion Robobitcs FIRST Team 302
 //
@@ -23,9 +23,8 @@
 #include <frc/SmartDashboard/SmartDashboard.h>
 
 // Team 302 includes
-#include <subsys/IMechanism.h>
-#include <subsys/MechParamData.h>
-#include <xmlhw/MechanismDataDefn.h>
+#include <xmlhw/PIDData.h>
+#include <xmlhw/PIDDefn.h>
 
 // Third Party Includes
 #include <pugixml/pugixml.hpp>
@@ -46,48 +45,67 @@ using namespace frc;
 //
 // Returns:     mechParamData        mechanism data
 //-----------------------------------------------------------------------
-mechParamData  MechanismDataDefn::ParseXML
+PIDData* PIDDefn::ParseXML
 (
-    pugi::xml_node      MechanismDataNode
+    pugi::xml_node      PIDNode
 )
 {
     // initialize output
-    mechParamData mechData;
+    PIDData* data = nullptr;
 
     // initialize attributes to default values
-    mechData.first = IMechanism::MECHANISM_PARAM_TYPE::MECHANISM_PARAM_UNKNOWN;
-    mechData.second = 0.0;
+    PIDData::CONTROL_MODE mode;
+    double p = 0.0;
+    double i = 0.0;
+    double d = 0.0;
+    double f = 0.0;
+    double maxAccel = 0.0;
+    double cruiseVel = 0.0;
 
     bool hasError = false;
 
     // parse/validate xml
-    for (pugi::xml_attribute attr = MechanismDataNode.first_attribute(); attr; attr = attr.next_attribute())
+    for (pugi::xml_attribute attr = PIDNode.first_attribute(); attr; attr = attr.next_attribute())
     {
-        if ( strcmp( attr.name(), "paramType" ) == 0 )
+        if ( strcmp( attr.name(), "mode" ) == 0 )
         {
-            IMechanism::MECHANISM_PARAM_TYPE type = (IMechanism::MECHANISM_PARAM_TYPE)attr.as_int();
-            if ( type > IMechanism::MECHANISM_PARAM_TYPE::MECHANISM_PARAM_UNKNOWN && 
-                 type < IMechanism::MECHANISM_PARAM_TYPE::MAX_MECHANISM_PARAM_TYPES )
-            {
-                mechData.first = type;
-            }
-            else
-            {
-                printf( "==>> MechanismDataDefn::ParseXML invalid dataType %d \n", type );
-                hasError = true;
-            }
+            mode = (PIDData::CONTROL_MODE)attr.as_int();
         }
-        else if ( strcmp( attr.name(), "value") == 0 )
+        else if ( strcmp( attr.name(), "proportional") == 0 )
         {
-            mechData.second = attr.as_double();
+            p = attr.as_double();
+        }       
+         else if ( strcmp( attr.name(), "integral") == 0 )
+        {
+            i = attr.as_double();
+        }        
+        else if ( strcmp( attr.name(), "derivative") == 0 )
+        {
+            d = attr.as_double();
+        }        
+        else if ( strcmp( attr.name(), "feedforward") == 0 )
+        {
+            f = attr.as_double();
+        }        
+        else if ( strcmp( attr.name(), "maxacceleration") == 0 )
+        {
+            maxAccel = attr.as_double();
+        }
+        else if ( strcmp( attr.name(), "cruisevelocity") == 0 )
+        {
+            cruiseVel = attr.as_double();
         }
         else
         {
-            printf( "==>> MechanismDataDefn::ParseXML invalid attribute %s \n", attr.name() );
+            printf( "==>> PIDDefn::ParseXML invalid attribute %s \n", attr.name() );
             hasError = true;
         }
     }
-    return mechData;
+    if ( !hasError )
+    {
+        data = new PIDData( mode, p, i, d, f, maxAccel, cruiseVel );
+    }
+    return data;
 }
 
 
