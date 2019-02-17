@@ -11,8 +11,6 @@ ChassisTest::ChassisTest ()
 
 void ChassisTest::Init (CHASSIS_PRESETS)
 {
-    double left = 0.0;
-    double right = 0.0;
     double m_targetCounts = 0;
     double m_counts = 0;
     bool m_isDone = false;
@@ -21,6 +19,8 @@ void ChassisTest::Init (CHASSIS_PRESETS)
 
 void ChassisTest::Execute ()
 {
+    double left = 0.0;
+    double right = 0.0;
     switch (m_chassisPresets)
     {
         case CHASSIS_FORWARDS :
