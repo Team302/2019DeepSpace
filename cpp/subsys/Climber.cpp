@@ -6,6 +6,8 @@
 /*----------------------------------------------------------------------------*/
 
 #include "subsys/Climber.h"
+#include <subsys/IMechanism.h>
+#include <xmlhw/PIDData.h>
 
 Climber::Climber(std::vector<IDragonMotorController*> motorControllers, std::vector<DragonServo*> servos) :
 m_climbElevator(nullptr),
@@ -66,3 +68,21 @@ IMechanism::MECHANISM_TYPE Climber::GetType() const
 {
     return IMechanism::MECHANISM_TYPE::CLIMBER;
 }
+
+void Climber::SetParam
+(
+    IMechanism::MECHANISM_PARAM_TYPE    param,          // <I> - parameter to set
+    double                              value           // <I> - parameter value
+) 
+{
+    // TODO:  Override values
+}
+void Climber::SetPID
+(
+    PIDData*        pid                 // <I> - PID control information
+) 
+{
+    // TODO:  Override values
+}
+
+

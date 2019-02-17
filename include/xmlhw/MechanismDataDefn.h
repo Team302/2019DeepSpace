@@ -1,12 +1,5 @@
-
-/*========================================================================================================
- * ButtonDecorator.cpp
- *========================================================================================================
- *
- * File Description:  Wrapper for an XBOX controller used to control the robot in teleop mode.
- *
- *========================================================================================================*/
-
+//====================================================================================================================================================
+// MechanismDataDefn.h
 //====================================================================================================================================================
 // Copyright 2018 Lake Orion Robobitcs FIRST Team 302
 //
@@ -22,43 +15,43 @@
 // OR OTHER DEALINGS IN THE SOFTWARE.
 //====================================================================================================================================================
 
-#include <controllers/button/ButtonDecorator.h>
-#include <controllers/button/IButton.h>
+#pragma once
 
-ButtonDecorator::ButtonDecorator
-(
-    IButton* button      // <I> - concrete button to decorate
-) : IButton(),
-    m_button( button )
-{
-}
+// C++ Includes
+#include <iostream>
+#include <utility>
 
-bool ButtonDecorator::IsButtonPressed() const
-{
-    bool isPressed = false;
-    if ( m_button != nullptr )
-    {
-        isPressed = m_button->IsButtonPressed();
-    }
-    return isPressed;
-}
+// FRC includes
 
-bool ButtonDecorator::WasButtonReleased() const 
-{
-    bool isPressed = false;
-    if ( m_button != nullptr )
-    {
-        isPressed = m_button->WasButtonReleased();
-    }
-    return isPressed;
-}
+// Team 302 includes
+#include <subsys/IMechanism.h>
+#include <subsys/MechParamData.h>
 
-bool ButtonDecorator::WasButtonPressed() const 
+// Third Party Includes
+#include <pugixml/pugixml.hpp>
+
+class MechanismDataDefn
 {
-    bool isPressed = false;
-    if ( m_button != nullptr )
-    {
-        isPressed = m_button->WasButtonPressed();
-    }
-    return isPressed;
-}
+    public:
+
+
+
+
+        //-----------------------------------------------------------------------
+        // Method:      ParseXML
+        // Description: Parse MechanismData XML element 
+        //  <!ELEMENT mechanismData EMPTY>
+        //  <!ATTLIST mechanismData 
+        //            dataType
+        //            value CDATA "0.0"
+        //  >
+        //
+        // Returns:     PowerDistributionPanel*        PDP object (or nullptr if XML
+        //                                             is ill-formed
+        //-----------------------------------------------------------------------
+        static mechParamData  ParseXML
+        (
+            pugi::xml_node      MechanismDataNode
+        );
+};
+

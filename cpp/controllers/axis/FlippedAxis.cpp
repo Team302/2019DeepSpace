@@ -38,12 +38,12 @@ FlippedAxis::FlippedAxis() : ScaledAxis()
 /// Description:    Set a scalefactor
 /// </summary>
 //==================================================================================
-void FlippedAxis::SetScaleFactor
+/*void FlippedAxis::SetScaleFactor
 (
     double      scaleFactor            // <I> - scale factor must be > 0.0 and <= 1.0
 )
 {
     ScaledAxis::SetScaleFactor( (-1.0 * std::abs(scaleFactor)) );
-}
+}*/
 
 

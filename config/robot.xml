@@ -116,5 +116,108 @@
 	 Mechanisms
 	 ==================================================== -->    
     
- 
+	<!-- Wrist -->
+	<mechanism type="0">
+		<motor usage="9" 
+			   canId="5"
+			   type="0"
+               inverted="true"
+         	   feedbackDevice="0"
+          	   countsPerRev="1024"
+		   	   brakeMode="true"
+        	   gearRatio="1.0" 
+        	   peakCurrentDuration="50"
+        	   continuousCurrentLimit="30"
+        	   peakCurrentLimit="40" 
+        	   currentLimiting="true"/>
+	</mechanism>
+	
+	<!-- Intake --> 
+	<mechanism type="1"> 
+		<motor usage="10"
+			   canId="7"
+			   type="0"
+               inverted="false"
+         	   feedbackDevice="0"
+          	   countsPerRev="1024"
+		   	   brakeMode="true"
+        	   gearRatio="1.0" 
+        	   peakCurrentDuration="50"
+        	   continuousCurrentLimit="30"
+        	   peakCurrentLimit="40" 
+        	   currentLimiting="true"/>
+	</mechanism>
+	<!-- Arm -->
+	<mechanism type="2">
+		<!-- Master Arm-->
+		<motor usage="6"
+			   canId="2"
+			   type="0"
+               inverted="false"
+         	   feedbackDevice="0"
+          	   countsPerRev="1024"
+		   	   brakeMode="true"
+        	   gearRatio="1.0" 
+        	   peakCurrentDuration="50"
+        	   continuousCurrentLimit="30"
+        	   peakCurrentLimit="40" 
+        	   currentLimiting="true"/>
+		<!-- SlaveArm -->
+		<motor usage="7"
+			   canId="13"
+			   type="0"
+               inverted="true"
+         	   feedbackDevice="0"
+          	   countsPerRev="1024"
+		   	   brakeMode="true"
+        	   gearRatio="1.0" 
+        	   peakCurrentDuration="50"
+        	   continuousCurrentLimit="30"
+        	   peakCurrentLimit="40" 
+        	   currentLimiting="true"/>
+		<!-- Arm Extender -->
+		<motor usage="8"
+			   canId="4"
+			   type="0"
+               inverted="false"
+         	   feedbackDevice="0"
+          	   countsPerRev="1024"
+		   	   brakeMode="true"
+        	   gearRatio="1.0" 
+        	   peakCurrentDuration="50"
+        	   continuousCurrentLimit="30"
+        	   peakCurrentLimit="40" 
+        	   currentLimiting="true"/>
+	</mechanism>
+	<!-- Climber -->
+	<mechanism type=2>
+		<!--Climber Winch-->
+		<motor usage="11"
+			   canId="6"
+			   type="0"
+               inverted="false"
+         	   feedbackDevice="0"
+          	   countsPerRev="1024"
+		   	   brakeMode="true"
+        	   gearRatio="1.0" 
+        	   peakCurrentDuration="50"
+        	   continuousCurrentLimit="30"
+        	   peakCurrentLimit="40" 
+        	   currentLimiting="true"/>
+		<!-- Climb Driver Wheel-->
+		<motor usage="12"
+			   canId="10"
+			   type="0"
+               inverted="false"
+         	   feedbackDevice="0"
+          	   countsPerRev="1024"
+		   	   brakeMode="true"
+        	   gearRatio="1.0" 
+        	   peakCurrentDuration="50"
+        	   continuousCurrentLimit="30"
+        	   peakCurrentLimit="40" 
+        	   currentLimiting="true"/>
+	</mechanism>
+			
+
 </robot>

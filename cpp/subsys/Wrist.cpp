@@ -4,6 +4,8 @@
 */
 
 #include "subsys/Wrist.h"
+#include <subsys/IMechanism.h>
+#include <xmlhw/PIDData.h>
 
 Wrist::Wrist(std::vector<IDragonMotorController*> motorControllers) :
     m_wristMotor(nullptr)
@@ -33,7 +35,7 @@ void Wrist::MoveWristManualSpeed(double speed)
 void Wrist::MoveWristManualAngle(double angle)
 {
     m_wristMotor->SetControlMode(DragonTalon::TALON_CONTROL_MODE::POSITION);
-    m_wristMotor->Set(angle);
+    m_wristMotor->Set(angle / 360);
 }
 
 void Wrist::MoveWristPresets(PlacementHeights::PLACEMENT_HEIGHT height, bool cargo, bool flip)
@@ -64,6 +66,7 @@ void Wrist::MoveWristPresets(PlacementHeights::PLACEMENT_HEIGHT height, bool car
                 break;
             default:
                 targetAngle = GetWristAngle();
+                break;
         }
     }
     else
@@ -90,6 +93,7 @@ void Wrist::MoveWristPresets(PlacementHeights::PLACEMENT_HEIGHT height, bool car
                 break;
             default:
                 targetAngle = GetWristAngle();
+                break;
         }
     }
 
@@ -111,3 +115,22 @@ IMechanism::MECHANISM_TYPE Wrist::GetType() const
 {
     return IMechanism::MECHANISM_TYPE::WRIST;
 }
+void Wrist::SetParam
+(
+    IMechanism::MECHANISM_PARAM_TYPE    param,          // <I> - parameter to set
+    double                              value           // <I> - parameter value
+) 
+{
+    // TODO:  Override values
+}
+void Wrist::SetPID
+(
+    PIDData*        pid                 // <I> - PID control information
+) 
+{
+    // TODO:  Override values
+}
+
+
+
+

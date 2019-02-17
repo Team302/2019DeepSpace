@@ -33,6 +33,12 @@ class AnalogButton: public IButton
         (
             AnalogAxis*                         axis            // <I> - axis to treat as a button
         );
+        AnalogButton
+        (
+            AnalogAxis*                         axis,           // <I> - axis to treat as a button
+            double                              minValue,       // <I> - minimum value for true
+            double                              maxValue        // <I> - maximum value for true
+        );
 
         //==================================================================================
         /// <summary>
@@ -42,11 +48,32 @@ class AnalogButton: public IButton
         /// </summary>
         //==================================================================================
         bool IsButtonPressed() const override;
+        
+
+        //==================================================================================
+        /// <summary>
+        /// Method:         WasButtonReleased
+        /// Description:    Read whether the button was released since the last query.  This
+        ///                 is only valid for digital buttons (normal buttons and bumpers).
+        /// </summary>
+        //==================================================================================
+        bool WasButtonReleased() const override;
+        
+
+        //==================================================================================
+        /// <summary>
+        /// Method:         WasButtonPressed
+        /// Description:    Read whether the button was pressed since the last query.  This
+        ///                 is only valid for digital buttons (normal buttons and bumpers).
+        /// </summary>
+        //==================================================================================
+        bool WasButtonPressed() const override;
  
     private:
 
         AnalogAxis*                     m_axis;
-        const double                    m_AXIS_TOLERANCE = 0.4;
+        double                          m_minValue;
+        double                          m_maxValue;
 };
 
 #endif

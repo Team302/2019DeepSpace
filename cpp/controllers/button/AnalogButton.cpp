@@ -20,14 +20,25 @@
 
 //==================================================================================
 /// <summary>
-/// Class:          DigitalButton
-/// Description:    This is the standard button on a gamepad.
+/// Class:          AnalogButton
+/// Description:    This treats a analog input as a button on a gamepad.
 /// </summary>
 //==================================================================================
 AnalogButton::AnalogButton
 (
-    AnalogAxis*                         axis        // <I> - axis to turn into a button
-) : m_axis( axis )                                  
+    AnalogAxis*                         axis,           // <I> - axis to turn into a button
+    double                              minValue,       // <I> - minimum value for true 
+    double                              maxValue        // <I> - maximum value for true 
+) : m_axis( axis ), 
+    m_minValue( minValue ),
+    m_maxValue( maxValue )                                  
+{
+}AnalogButton::AnalogButton
+(
+    AnalogAxis*                         axis            // <I> - axis to turn into a button
+) : m_axis( axis ), 
+    m_minValue( 0.4 ),
+    m_maxValue( 1.0 )                                  
 {
 }
 
@@ -44,11 +55,19 @@ bool AnalogButton::IsButtonPressed() const
     if ( m_axis != nullptr )
     {
         auto axisValue = m_axis->GetAxisValue();
-        pressed = (axisValue > m_AXIS_TOLERANCE);
+        pressed = (axisValue > m_minValue && axisValue < m_maxValue );
     }
     return pressed;
 }
 
+bool AnalogButton::WasButtonReleased() const 
+{
+    return !IsButtonPressed();
+}
 
+bool AnalogButton::WasButtonPressed() const 
+{
+    return IsButtonPressed();
+}
 
 

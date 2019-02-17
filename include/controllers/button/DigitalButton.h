@@ -16,6 +16,8 @@
 #ifndef SRC_MAIN_INCLUDE_CONTROLLERS_BUTTON_DIGITALBUTTON_H_
 #define SRC_MAIN_INCLUDE_CONTROLLERS_BUTTON_DIGITALBUTTON_H_
 
+#include <frc/GenericHID.h>
+
 #include <controllers/button/IButton.h>
 #include <controllers/IDragonGamePad.h>
 
@@ -30,8 +32,8 @@ class DigitalButton: public IButton
     public:
         DigitalButton
         (
-            IDragonGamePad*                     gamepad,        // <I> - gamepad to query
-            IDragonGamePad::BUTTON_IDENTIFIER   buttonID        // <I> - button ID this maps to           
+            frc::GenericHID*            gamepad,        // <I> - gamepad to query
+            int                         buttonID        // <I> - button ID this maps to           
         );
 
         //==================================================================================
@@ -42,11 +44,31 @@ class DigitalButton: public IButton
         /// </summary>
         //==================================================================================
         bool IsButtonPressed() const override;
- 
+        
+
+        //==================================================================================
+        /// <summary>
+        /// Method:         WasButtonReleased
+        /// Description:    Read whether the button was released since the last query.  This
+        ///                 is only valid for digital buttons (normal buttons and bumpers).
+        /// </summary>
+        //==================================================================================
+        bool WasButtonReleased() const override;
+        
+
+        //==================================================================================
+        /// <summary>
+        /// Method:         WasButtonPressed
+        /// Description:    Read whether the button was pressed since the last query.  This
+        ///                 is only valid for digital buttons (normal buttons and bumpers).
+        /// </summary>
+        //==================================================================================
+        bool WasButtonPressed() const override;
+  
     private:
 
-        IDragonGamePad*                     m_gamepad;
-        IDragonGamePad::BUTTON_IDENTIFIER   m_button;
+        frc::GenericHID*                    m_gamepad;
+        int                                 m_button;
 };
 
 #endif

@@ -2,8 +2,7 @@
  * MechanismFactory.h
  */
 
-#ifndef SRC_FACTORIES_MECHANISMFACTORY_H_
-#define SRC_FACTORIES_MECHANISMFACTORY_H_
+#pragma once
 
 #include <subsys/IMechanism.h>
 #include <vector>
@@ -11,8 +10,15 @@
 #include <hw/DragonAnalogInput.h>
 #include <hw/DragonDigitalInput.h>
 #include <hw/DragonServo.h>
-#include <hw/DragonSolenoid.h>
 #include <hw/DragonTalon.h>
+#include <subsys/Arm.h>
+#include <subsys/Climber.h>
+#include <subsys/Intake.h>
+#include <subsys/Wrist.h>
+#include <subsys/IMechanism.h>
+#include <subsys/MechParamData.h>
+#include <xmlhw/PIDData.h>
+
 
 class MechanismFactory
 {
@@ -34,28 +40,32 @@ class MechanismFactory
 		IMechanism* CreateMechanism
 		(
 			IMechanism::MECHANISM_TYPE		        type,				// <I> - manipulator Type
-			const DragonTalonVector&			    motorControllers,	// <I> - Motor Controllers
-			const DragonSolenoidVector&		        solenoids,			// <I> - Solenoids
+			const IDragonMotorControllerVector&	    motorControllers,	// <I> - Motor Controllers
 			const DragonDigitalInputVector&         digitalInputs,      // <I> - Digital Inputs
 			const DragonAnalogInputVector&          analogInputs,       // <I> - Analog Inputs
-			const DragonServoVector&                servos              // <I> - servos
+			const DragonServoVector&                servos,             // <I> - servos
+		    const mechParameters&                	parameters,         // <I> - parameters
+    		const std::vector<PIDData*>          	pid                 // <I> - PID control info
 		);
+
+		inline Wrist* GetWrist() { return m_wrist != nullptr ? dynamic_cast<Wrist*>( m_wrist ) : nullptr; };
+		inline Intake* GetIntake() { return m_intake != nullptr ? dynamic_cast<Intake*>( m_intake ) : nullptr; };
+		inline Arm* GetArm() { return m_arm != nullptr ? dynamic_cast<Arm*>( m_arm ) : nullptr; };
+		inline Climber* GetClimber() { return m_climber != nullptr ? dynamic_cast<Climber*>( m_climber ) : nullptr; };
 
 
 	private:
 		MechanismFactory();
 		virtual ~MechanismFactory();
 
-		IMechanism*                 m_lift;
-		IMechanism*                 m_grabber;
+		IMechanism*                 m_wrist;
+		IMechanism*                 m_intake;
+		IMechanism*                 m_arm;
 		IMechanism*                 m_climber;
-		IMechanism*                 m_sidehanger;
-		IMechanism*                 m_activeGrabber;
 
 		static MechanismFactory*	m_mechanismFactory;
+		
 //		IMechanismVector            m_mechanisms;
 
 
 };
-
-#endif /* SRC_FACTORIES_MECHANISMFACTORY_H_ */

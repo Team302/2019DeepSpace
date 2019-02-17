@@ -41,7 +41,11 @@ class TeleopControl
             GOTO_ROCKET_LOW,
             GOTO_ROCKET_MED,
             GOTO_ROCKET_HIGH,
-            CLIMB_ELEVATOR,
+            CLIMB_ELEVATOR_UP,
+            CLIMB_ELEVATOR_DOWN,
+            CLIMB_DRIVE,
+            ALLOW_CLIMB_DRIVE,
+            DROP_BUDDY_CLIMB,
             MAX_FUNCTION_IDENTIFIER
         };
 

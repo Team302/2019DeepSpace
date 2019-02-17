@@ -37,7 +37,7 @@ public:
     void EnableCurrentLimiting(bool enabled) override;
     void EnableBrakeMode(bool enabled) override;
     void SetPIDF(double p, double i, double d, double f) override;
-    void SetInverted(bool inverted) override;
+    void Invert(bool inverted) override;
 
 private:
     int m_id;

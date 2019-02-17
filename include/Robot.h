@@ -11,8 +11,11 @@
 
 #include <frc/TimedRobot.h>
 #include <frc/smartdashboard/SendableChooser.h>
-//#include <frc/WPILib.h>
+
 #include <frc/XboxController.h>
+#include "driverassist/DriverAssist.h"
+
+
 class Robot : public frc::TimedRobot {
  public:
   void RobotInit() override;
@@ -30,4 +33,5 @@ class Robot : public frc::TimedRobot {
   const std::string kAutoNameCustom = "My Auto";
   std::string m_autoSelected;
 
+  DriverAssist* m_driverAssist;
 };

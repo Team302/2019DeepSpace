@@ -4,11 +4,15 @@
 #include <subsys/Arm.h>
 #include <subsys/Intake.h>
 #include <subsys/Wrist.h>
+#include <subsys/Climber.h>
 #include <subsys/chassis/DragonChassis.h>
 #include <teleop/TeleopControl.h>
 #include <controllers/DragonXBox.h>
 #include "hw/DragonSparkMax.h"
 #include <vector>
+
+//Test include
+#include "frc/XboxController.h"
 
 class Switcher {
  public:
@@ -23,6 +27,7 @@ private:
   Intake* m_intake;
   Wrist* m_wrist;
   DragonChassis* m_chassis;
+  Climber* m_climber;
 
   const bool FRONT_LEFT_SPARK_INVERTED = false;
   const bool MIDDLE_LEFT_SPARK_INVERTED = false;
@@ -39,4 +44,14 @@ private:
   double m_wristSpeed;
   double m_extendSpeed;
   // CLIMBER THINGS
+  double m_climbDriveSpeed;
+  double m_climbElevSpeed;
+  bool m_allowClimbDrive; 
+  bool m_dropBuddyClimb;
+
+  const double ELEV_SPEED = 1.0;
+
+  // Test things, need to be replaced soon
+  frc::XboxController* m_mainController;
+  frc::XboxController* m_secondaryController;
 };

@@ -69,7 +69,7 @@ class DragonTalon : public IDragonMotorController
     void EnableCurrentLimiting(bool enabled) override; 
     void EnableBrakeMode(bool enabled) override; 
     void SetPIDF(double p, double i, double d, double f) override; 
-    void SetInverted(bool inverted) override; 
+    void Invert(bool inverted) override; 
 
     // Setters (TalonSRX)
     // more complete SetControlMode method compared to the overrided one
@@ -103,7 +103,7 @@ class DragonTalon : public IDragonMotorController
 
     int m_id;
     int m_countsPerRev;
-    long m_tickOffset;
+    int m_tickOffset;
     double m_gearRatio;
 };
 

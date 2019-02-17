@@ -66,7 +66,33 @@ class DragonXBox : public IDragonGamePad
         (
             BUTTON_IDENTIFIER    button         // <I> - button to check
         ) const override;
+        
 
+        //==================================================================================
+        /// <summary>
+        /// Method:         WasButtonReleased
+        /// Description:    Read whether the button was released since the last query.  This
+        ///                 is only valid for digital buttons (normal buttons and bumpers).
+        /// </summary>
+        //==================================================================================
+        bool WasButtonReleased
+        (
+            BUTTON_IDENTIFIER    button         // <I> - button to check
+        ) const override;
+        
+
+        //==================================================================================
+        /// <summary>
+        /// Method:         WasButtonPressed
+        /// Description:    Read whether the button was pressed since the last query.  This
+        ///                 is only valid for digital buttons (normal buttons and bumpers).
+        /// </summary>
+        //==================================================================================
+        bool WasButtonPressed
+        (
+            BUTTON_IDENTIFIER    button         // <I> - button to check
+        ) const override;
+ 
 
         //setters
  
@@ -132,19 +158,6 @@ class DragonXBox : public IDragonGamePad
             BUTTON_IDENTIFIER button, /// <I> - button to check
             BUTTON_MODE mode          /// <I> - button behavior
         ) override;
-
-
-        double GetRawAxis
-        (
-            AXIS_IDENTIFIER    axis        // <I> - axis identifier to read
-        ) const override;
-
-        bool IsRawButtonPressed
-        (
-            BUTTON_IDENTIFIER    button         // <I> - button to check
-        ) const override;  
-
-        int GetPOVValue() const override;
 
     private:
         frc::XboxController*        m_xbox;

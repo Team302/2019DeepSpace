@@ -38,6 +38,7 @@ class IDragonGamePad
             LEFT_BUMPER,
             RIGHT_BUMPER,
             BACK_BUTTON,
+            SELECT_BUTTON,
             START_BUTTON,
             LEFT_STICK_PRESSED,
             RIGHT_STICK_PRESSED,
@@ -56,12 +57,11 @@ class IDragonGamePad
         };
 
 
+        // TODO:  Add debouncing
         enum BUTTON_MODE
         {
             STANDARD,
-            DEBOUNCED,
             TOGGLE,
-            DEBOUNCED_TOGGLE,
             MAX_BUTTON_MODES
        };
 
@@ -120,7 +120,31 @@ class IDragonGamePad
             BUTTON_IDENTIFIER    button         // <I> - button to check
         ) const = 0;
 
+        
 
+        //==================================================================================
+        /// <summary>
+        /// Method:         WasButtonReleased
+        /// Description:    Read whether the button was released since the last query.  This
+        ///                 is only valid for digital buttons (normal buttons and bumpers).
+        /// </summary>
+        //==================================================================================
+        virtual bool WasButtonReleased
+        (
+            BUTTON_IDENTIFIER    button         // <I> - button to check
+        ) const = 0;        
+
+        //==================================================================================
+        /// <summary>
+        /// Method:         WasButtonPressed
+        /// Description:    Read whether the button was pressed since the last query.  This
+        ///                 is only valid for digital buttons (normal buttons and bumpers).
+        /// </summary>
+        //==================================================================================
+        virtual bool WasButtonPressed
+        (
+            BUTTON_IDENTIFIER    button         // <I> - button to check
+        ) const = 0; 
         //setters
 
         ///==================================================================================
@@ -184,18 +208,6 @@ class IDragonGamePad
             BUTTON_IDENTIFIER button, /// <I> - button to check
             BUTTON_MODE mode          /// <I> - button behavior
         ) = 0;
-
-        virtual double GetRawAxis
-        (
-            AXIS_IDENTIFIER    axis        // <I> - axis identifier to read
-        ) const = 0;
-        virtual bool IsRawButtonPressed
-        (
-            BUTTON_IDENTIFIER    button         // <I> - button to check
-        ) const = 0;  
-
-        virtual int GetPOVValue() const = 0;
-
 };
 
 #endif 

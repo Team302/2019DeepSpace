@@ -16,17 +16,34 @@ class Arm : public IMechanism
 public:
   Arm(std::vector<IDragonMotorController*> motorControllers);
   
-  void MoveArmPresets(PlacementHeights::PLACEMENT_HEIGHT height, bool cargo, bool flip);
-  void MoveArmManualSpeed(double speed);
-  void MoveArmManualAngle(double angle);
+  void MoveArmPreset(PlacementHeights::PLACEMENT_HEIGHT height, bool cargo, bool flip);
+  void MoveArmSpeed(double speed);
+  void MoveArmAngle(double angle);
 
-  void MoveArmExtensionInches(double inches);
-  void MoveArmExtensionSpeed(double speed);
+  void MoveExtentionPreset(PlacementHeights::PLACEMENT_HEIGHT height, bool cargo);
+  void MoveExtensionSpeed(double speed);
+  void MoveExtensionInches(double inches);
 
-  double GetArmCurrentRealAngle();
-  double GetArmCurrentTargetAngle();
+  double GetArmRealAngle();
+  double GetArmTargetAngle();
+
+  double GetExtenderRealRotations();
+  double GetExtenderTargetRotations();
 
   IMechanism::MECHANISM_TYPE GetType() const override;
+  void SetParam
+  (
+      IMechanism::MECHANISM_PARAM_TYPE  param,          // <I> - parameter to set
+      double                            value           // <I> - parameter value
+  ) override;
+  void SetPID
+  (
+      PIDData*       pid                 // <I> - PID control information
+  ) override;
+
+
+
+
 
 private: 
   enum HATCH_WRIST_PRESETS
@@ -51,8 +68,13 @@ private:
     MAX_CARGO_POS
   };
 
-  double hatchAngle[MAX_HATCH_POS] = { 1, 2, 3, 4 };
-  double cargoAngle[MAX_CARGO_POS] = { 1, 2, 3, 4, 5, 6 };
+  double hatchAngle[MAX_HATCH_POS] =        { 1, 2, 3, 4 };
+  double cargoAngle[MAX_CARGO_POS] =        { 1, 2, 3, 4, 5, 6 };
+  double extenderHatchRots[MAX_HATCH_POS] = { 1, 2, 3, 4 };
+  double extenderCargoRots[MAX_CARGO_POS] = { 1, 2, 3, 4, 5, 6 };
+
+  double m_armTargetAngle;
+  double m_extenderTargetRotations;
   
   DragonTalon* m_armMaster;
   DragonTalon* m_extender;

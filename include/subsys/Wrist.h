@@ -15,17 +15,6 @@ class Wrist : public IMechanism {
  public:
   Wrist(std::vector<IDragonMotorController*> motorControllers);
 
-  enum PLACEMENT_HEIGHT
-  {
-    FLOOR,
-    HUMAN_PLAYER,
-    CARGOSHIP,
-    ROCKET_LOW,
-    ROCKET_MID,
-    ROCKET_HIGH,
-    MAX_PLACEMENT_HEIGHTS
-  };
-
   void MoveWristPresets(PlacementHeights::PLACEMENT_HEIGHT height, bool cargo, bool flip);
   void MoveWristManualSpeed(double speed);
   void MoveWristManualAngle(double angle);
@@ -33,6 +22,18 @@ class Wrist : public IMechanism {
   double GetWristAngle();
 
   IMechanism::MECHANISM_TYPE GetType() const override;
+  void SetParam
+  (
+      IMechanism::MECHANISM_PARAM_TYPE  param,          // <I> - parameter to set
+      double                            value           // <I> - parameter value
+  ) override;
+  void SetPID
+  (
+     PIDData*        pid                 // <I> - PID control information
+  ) override;
+
+
+
 
  private:
   enum HATCH_WRIST_PRESETS

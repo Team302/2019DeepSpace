@@ -9,7 +9,9 @@
 #include <iostream>
 #include <cmath>
 
-DragonChassis::DragonChassis(std::vector<IDragonMotorController*> motorControllers, double wheelDiameter) :
+DragonChassis* DragonChassis::m_dragonChassis = nullptr;
+
+DragonChassis::DragonChassis(IDragonMotorControllerVector motorControllers, double wheelDiameter) :
 m_frontLeft(nullptr),
 m_middleLeft(nullptr),
 m_backLeft(nullptr),
@@ -51,13 +53,22 @@ m_rightDistanceOffset(0.0)
                 break;
 
             default:
-                printf("WARNING: DragonChassis recieved invalid motor %d \n", element->GetType());
                 break;
         }
     }
-
     // Zero out the encoder values right away
     ResetChassis();
+}
+
+void DragonChassis::CreateDragonChassis(IDragonMotorControllerVector motorControllers, double wheelDiameter)
+{
+    if (DragonChassis::m_dragonChassis == nullptr)
+        DragonChassis::m_dragonChassis = new DragonChassis(motorControllers, wheelDiameter);
+}
+
+DragonChassis* DragonChassis::GetInstance()
+{
+    return DragonChassis::m_dragonChassis;
 }
 
 double DragonChassis::GetVelocity() const
