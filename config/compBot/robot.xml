@@ -146,6 +146,39 @@
         	   continuousCurrentLimit="30"
         	   peakCurrentLimit="40" 
         	   currentLimiting="true"/>
+		<mechanismData paramType="0"
+					   value="49.420699 / 360.0"/>		
+		<mechanismData paramType="3"
+					   value="0.0"/>
+		<mechanismData paramType="4"
+					   value="51.38"/>
+		<mechanismData paramType="5"
+					   value="-61.83"/>
+		<mechanismData paramType="6"
+					   value="139.57"/>
+		<mechanismData paramType="7"
+					   value="77.56"/>
+		<mechanismData paramType="8"
+					   value="11.51"/>
+		<mechanismData paramType="9"
+					   value="0.0"/>
+		<mechanismData paramType="10"
+					   value="-56.1"/>
+		<mechanismData paramType="11"
+					   value="64.03"/>
+		<mechanismData paramType="12"
+					   value="-41.5"/>
+		<mechanismData paramType="13"
+					   value="17.86"/>
+		<mechanismData paramType="14"
+					   value="-32.0"/>
+		<mechanismData paramType="15"
+					   value="-33.66"/>
+		<PID mode="2"
+			 proportional="5.0"
+			 derivative="10.0"
+			 maxacceleration="150.0"
+			 cruisevelocity="200.0"/>
 	</mechanism>
 	
 	<!-- Intake --> 
