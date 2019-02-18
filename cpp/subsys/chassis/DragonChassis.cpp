@@ -8,19 +8,21 @@
 #include "subsys/chassis/DragonChassis.h"
 #include <iostream>
 #include <cmath>
+#include "frc/smartdashboard/SmartDashboard.h"
 
 DragonChassis* DragonChassis::m_dragonChassis = nullptr;
 
-DragonChassis::DragonChassis(IDragonMotorControllerVector motorControllers, double wheelDiameter) :
+DragonChassis::DragonChassis(IDragonMotorControllerVector motorControllers, double wheelDiameter, double base, double track) :
+m_wheelDiameter(wheelDiameter),
+m_base(base),
+m_track(track),
+m_controlMode(PERCENT_POWER),
 m_frontLeft(nullptr),
 m_middleLeft(nullptr),
 m_backLeft(nullptr),
 m_frontRight(nullptr),
 m_middleRight(nullptr),
-m_backRight(nullptr),
-m_wheelDiameter(wheelDiameter),
-m_leftDistanceOffset(0.0),
-m_rightDistanceOffset(0.0)
+m_backRight(nullptr)
 {
     // Get all of the motors from the motorControllers vector into the specific motors
     for (int i = 0; i < motorControllers.size(); i++)
@@ -56,14 +58,15 @@ m_rightDistanceOffset(0.0)
                 break;
         }
     }
+
     // Zero out the encoder values right away
     ResetChassis();
 }
 
-void DragonChassis::CreateDragonChassis(IDragonMotorControllerVector motorControllers, double wheelDiameter)
+void DragonChassis::CreateDragonChassis(IDragonMotorControllerVector motorControllers, double wheelDiameter, double base, double track)
 {
     if (DragonChassis::m_dragonChassis == nullptr)
-        DragonChassis::m_dragonChassis = new DragonChassis(motorControllers, wheelDiameter);
+        DragonChassis::m_dragonChassis = new DragonChassis(motorControllers, wheelDiameter, base, track);
 }
 
 DragonChassis* DragonChassis::GetInstance()
@@ -90,8 +93,8 @@ double DragonChassis::GetRightVelocity() const
 
 double DragonChassis::GetDistance() const
 {
-    double leftDistance = GetLeftDistance() - m_leftDistanceOffset;
-    double rightDistance = GetRightDistance() - m_rightDistanceOffset;
+    double leftDistance = GetLeftDistance();
+    double rightDistance = GetRightDistance();
     return (leftDistance + rightDistance) / 2.0;
 }
 
@@ -136,6 +139,16 @@ double DragonChassis::GetRightDistance() const
     return bestValue * m_wheelDiameter * M_PI;
 }
 
+double DragonChassis::GetLeftMiddleDistance() const
+{
+    return m_middleLeft->GetRotations() * m_wheelDiameter * M_PI;
+}
+
+double DragonChassis::GetRightMiddleDistance() const
+{
+    return m_middleRight->GetRotations() * m_wheelDiameter * M_PI;
+}
+
 void DragonChassis::EnableBrakeMode(bool enabled)
 {
     m_frontLeft->EnableBrakeMode(enabled);
@@ -146,25 +159,94 @@ void DragonChassis::EnableBrakeMode(bool enabled)
     m_backRight->EnableBrakeMode(enabled);
 }
 
+void DragonChassis::SetDriveMode(DRIVE_MODE controlMode)
+{
+    // m_frontLeft->SetControlMode(controlMode);
+    // m_middleLeft->SetControlMode(controlMode);
+    // m_backLeft->SetControlMode(controlMode);
+    // m_frontRight->SetControlMode(controlMode);
+    // m_middleRight->SetControlMode(controlMode);
+    // m_backRight->SetControlMode(controlMode);
+    switch (controlMode)
+    {
+        case PERCENT_POWER:
+            m_middleLeft->SetControlMode(IDragonMotorController::PERCENT_OUTPUT);
+            m_middleRight->SetControlMode(IDragonMotorController::PERCENT_OUTPUT);
+            break;
+
+        case POSITION_INCHES:
+            m_middleLeft->SetControlMode(IDragonMotorController::ROTATIONS);
+            m_middleRight->SetControlMode(IDragonMotorController::ROTATIONS);
+            break;
+
+        case VELOCITY_INCH_SEC:
+            m_middleLeft->SetControlMode(IDragonMotorController::RPS);
+            m_middleRight->SetControlMode(IDragonMotorController::RPS);
+            break;
+    }
+
+    m_controlMode = controlMode;
+}
+
 void DragonChassis::SetDriveMode(IDragonMotorController::DRAGON_CONTROL_MODE controlMode)
 {
-    m_frontLeft->SetControlMode(controlMode);
     m_middleLeft->SetControlMode(controlMode);
-    m_backLeft->SetControlMode(controlMode);
-    m_frontRight->SetControlMode(controlMode);
     m_middleRight->SetControlMode(controlMode);
-    m_backRight->SetControlMode(controlMode);
+
+    switch (controlMode)
+    {
+        case IDragonMotorController::PERCENT_OUTPUT:
+            m_controlMode = PERCENT_POWER;
+            break;
+
+        case IDragonMotorController::ROTATIONS:
+            m_controlMode = POSITION_INCHES;
+            break;
+
+        case IDragonMotorController::RPS:
+            m_controlMode = VELOCITY_INCH_SEC;
+            break;
+        
+        default:
+            printf("chaissis setdrivemode bad\n");
+            break;
+    }
 }
 
 void DragonChassis::SetLeftRightMagnitudes(double left, double right)
 {
-    m_frontLeft->Set(left);
-    m_middleLeft->Set(left);
-    m_backLeft->Set(left);
+    // m_frontLeft->Set(left);
+    // m_middleLeft->Set(left);
+    // m_backLeft->Set(left);
 
-    m_frontRight->Set(right);
-    m_middleRight->Set(right);
-    m_backRight->Set(right);
+    // m_frontRight->Set(right);
+    // m_middleRight->Set(right);
+    // m_backRight->Set(right);
+
+    switch (m_controlMode)
+    {
+        case PERCENT_POWER:
+            m_middleLeft->Set(left);
+            m_middleRight->Set(right);
+            break;
+
+        case POSITION_INCHES:
+            m_middleLeft->Set(left / (m_wheelDiameter * M_PI));
+            m_middleRight->Set(right / (m_wheelDiameter * M_PI));
+
+            break;
+
+        case VELOCITY_INCH_SEC:
+            m_middleLeft->Set(left / (m_wheelDiameter * M_PI));
+            m_middleRight->Set(right / (m_wheelDiameter * M_PI));
+            break;
+
+        default:
+            m_middleLeft->Set(0);
+            m_middleRight->Set(0);
+            printf("BAD dragon chassis left right mag default \n");
+            break;
+    }
 }
 
 void DragonChassis::UpdateChassis()
@@ -179,6 +261,23 @@ void DragonChassis::EnableCurrentLimiting(bool enabled)
 
 void DragonChassis::ResetChassis()
 {
-    m_leftDistanceOffset = GetLeftDistance();
-    m_rightDistanceOffset = GetRightDistance();
+    // m_frontLeft->SetRotationOffset(0);
+    // m_middleLeft->SetRotationOffset(0);
+    // m_backLeft->SetRotationOffset(0);
+    // m_frontRight->SetRotationOffset(0);
+    // m_middleRight->SetRotationOffset(0);
+    // m_backRight->SetRotationOffset(0);
+
+    m_middleLeft->SetRotationOffset(0);
+    m_middleRight->SetRotationOffset(0);
+}
+
+void DragonChassis::SetVoltageRamping(double secondsToMax, double secondsToMaxClosedLoop)
+{
+    m_frontLeft->SetVoltageRamping(secondsToMax, secondsToMaxClosedLoop);
+    m_middleLeft->SetVoltageRamping(secondsToMax, secondsToMaxClosedLoop);
+    m_backLeft->SetVoltageRamping(secondsToMax, secondsToMaxClosedLoop);
+    m_frontRight->SetVoltageRamping(secondsToMax, secondsToMaxClosedLoop);
+    m_middleRight->SetVoltageRamping(secondsToMax, secondsToMaxClosedLoop);
+    m_backRight->SetVoltageRamping(secondsToMax, secondsToMaxClosedLoop);
 }

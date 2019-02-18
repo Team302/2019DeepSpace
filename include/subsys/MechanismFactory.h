@@ -44,8 +44,8 @@ class MechanismFactory
 			const DragonDigitalInputVector&         digitalInputs,      // <I> - Digital Inputs
 			const DragonAnalogInputVector&          analogInputs,       // <I> - Analog Inputs
 			const DragonServoVector&                servos,             // <I> - servos
-		    const mechParameters&                	parameters,         // <I> - parameters
-    		const std::vector<PIDData*>          	pid                 // <I> - PID control info
+		    	const mechParameters&                	parameters,         // <I> - parameters
+    			const std::vector<PIDData*>          	pid                 // <I> - PID control info
 		);
 
 		inline Wrist* GetWrist() { return m_wrist != nullptr ? dynamic_cast<Wrist*>( m_wrist ) : nullptr; };

@@ -51,6 +51,11 @@ bool Intake::ObjectPresent()
     return true; //Yay we have one we did it go score!!!!
 }
 
+void Intake::EnableBrakeMode(bool brakeEnabled)
+{
+    m_intakeMotor->EnableBrakeMode(brakeEnabled);
+}
+
 
 IMechanism::MECHANISM_TYPE Intake::GetType() const
 {
