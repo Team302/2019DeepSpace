@@ -23,9 +23,9 @@ class ChassisTest {
     };
 
     private:
-    DragonChassis* m_chassis;
-    int m_Counts = 0;
+    chassis::DragonChassis::GetInstance();
+    int m_counts = 0;
     bool m_isDone = false;
     double m_targetCounts = 0;
 
-}
+};
