@@ -20,6 +20,9 @@ class DragonPigeon : public PigeonIMU
     public:
 
         static DragonPigeon* GetPigeon();
+        double GetPitch();
+        double GetRoll();
+        double GetYaw();
         DragonPigeon
         (
             int  canID
@@ -32,6 +35,7 @@ class DragonPigeon : public PigeonIMU
 
 
         static DragonPigeon*        m_instance;
+        PigeonIMU* m_pigeon;
 };
 
 #endif /* SRC_SUBSYS_COMPONENTS_DRAGONPIGEON_H_ */

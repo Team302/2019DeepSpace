@@ -26,8 +26,31 @@ DragonPigeon* DragonPigeon::GetPigeon()
 DragonPigeon::DragonPigeon
 (
     int  canID
-) : PigeonIMU( canID )
+) : PigeonIMU( canID ),
+    m_pigeon(new ctre::phoenix::sensors::PigeonIMU(canID))
 {
     DragonPigeon::m_instance = this;
+}
+
+double DragonPigeon::GetPitch()
+{
+    double ypr[3];
+    m_pigeon->GetYawPitchRoll(ypr);
+
+    return ypr[1]; // yaw = 0 pitch = 1 roll = 2 
+}
+double DragonPigeon::GetRoll()
+{
+    double ypr[3];
+    m_pigeon->GetYawPitchRoll(ypr);
+
+    return ypr[2]; // yaw = 0 pitch = 1 roll = 2 
+}
+double DragonPigeon::GetYaw()
+{
+    double ypr[3];
+    m_pigeon->GetYawPitchRoll(ypr);
+
+    return ypr[0]; // yaw = 0 pitch = 1 roll = 2 
 }
 

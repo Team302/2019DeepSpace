@@ -24,8 +24,8 @@ class DragonLidar
     public:
         enum LIDAR_USAGE
         {
-            FORWARD_GRABBER,
-            DOWNWARD_GRABBER,
+            FORWARD,
+            BACKWARD,
             MAX_LIDAR_USAGES
         };
         DragonLidar

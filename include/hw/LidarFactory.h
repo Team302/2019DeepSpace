@@ -35,7 +35,7 @@ class LidarFactory
         ~LidarFactory() = default;
 
         static LidarFactory*        m_lidarFactory;
-        static DragonLidar*         m_downwardLidar;
+        static DragonLidar*         m_backwardLidar;
         static DragonLidar*         m_forwardLidar;
 
 
