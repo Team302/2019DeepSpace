@@ -17,14 +17,30 @@
 <!-- ====================================================
 	 Lidars
 	 ==================================================== -->    
-
-	 
-	 
+	<!-- Lidar 1 -->
+	<lidar usage = "0"
+		   inputpin = "5"
+		   triggerpin = "6"/>
+	<!-- Lidar 2 -->
+	<lidar usage = "1"
+		   inputpin = "7"
+		   triggerpin = "8"/>
 <!-- ====================================================
 	 camera
 	==================================================== -->
 
-	
+<!-- ====================================================
+	 CANifiers
+==================================================== -->
+	<!--CANifier 1-->
+	<canifier usage = "0"
+			  canId = 30/>
+	<!--CANifier 2-->
+	<canifier usage = "0"
+			  canId = 31/>
+	<!--CANifier 3-->
+	<canifier usage = "0"
+			  canId = 32/>
        
 <!-- ====================================================
 	 Chassis
@@ -116,5 +132,147 @@
 	 Mechanisms
 	 ==================================================== -->    
     
- 
+	<!-- Wrist -->
+	<mechanism type="0">
+		<motor usage="9" 
+			   canId="5"
+			   type="0"
+               inverted="true"
+         	   feedbackDevice="0"
+          	   countsPerRev="1024"
+		   	   brakeMode="true"
+        	   gearRatio="1.0" 
+        	   peakCurrentDuration="50"
+        	   continuousCurrentLimit="30"
+        	   peakCurrentLimit="40" 
+        	   currentLimiting="true"/>
+		<mechanismData paramType="0"
+					   value="49.420699 / 360.0"/>		
+		<mechanismData paramType="3"
+					   value="0.0"/>
+		<mechanismData paramType="4"
+					   value="51.38"/>
+		<mechanismData paramType="5"
+					   value="-61.83"/>
+		<mechanismData paramType="6"
+					   value="139.57"/>
+		<mechanismData paramType="7"
+					   value="77.56"/>
+		<mechanismData paramType="8"
+					   value="11.51"/>
+		<mechanismData paramType="9"
+					   value="0.0"/>
+		<mechanismData paramType="10"
+					   value="-56.1"/>
+		<mechanismData paramType="11"
+					   value="64.03"/>
+		<mechanismData paramType="12"
+					   value="-41.5"/>
+		<mechanismData paramType="13"
+					   value="17.86"/>
+		<mechanismData paramType="14"
+					   value="-32.0"/>
+		<mechanismData paramType="15"
+					   value="-33.66"/>
+		<PID mode="2"
+			 proportional="5.0"
+			 derivative="10.0"
+			 maxacceleration="150.0"
+			 cruisevelocity="200.0"/>
+	</mechanism>
+	
+	<!-- Intake --> 
+	<mechanism type="1"> 
+		<motor usage="10"
+			   canId="4"
+			   type="0"
+               inverted="false"
+         	   feedbackDevice="0"
+          	   countsPerRev="1024"
+		   	   brakeMode="true"
+        	   gearRatio="1.0" 
+        	   peakCurrentDuration="50"
+        	   continuousCurrentLimit="30"
+        	   peakCurrentLimit="40" 
+        	   currentLimiting="true"/>
+	</mechanism>
+	<!-- Arm -->
+	<mechanism type="2">
+		<!-- Master Arm-->
+		<motor usage="6"
+			   canId="2"
+			   type="0"
+               inverted="false"
+         	   feedbackDevice="0"
+          	   countsPerRev="1024"
+		   	   brakeMode="true"
+        	   gearRatio="1.0" 
+        	   peakCurrentDuration="50"
+        	   continuousCurrentLimit="30"
+        	   peakCurrentLimit="40" 
+        	   currentLimiting="true"/>
+		<!-- SlaveArm -->
+		<motor usage="7"
+			   canId="13"
+			   type="0"
+               inverted="true"
+         	   feedbackDevice="0"
+          	   countsPerRev="1024"
+		   	   brakeMode="true"
+        	   gearRatio="1.0" 
+        	   peakCurrentDuration="50"
+        	   continuousCurrentLimit="30"
+        	   peakCurrentLimit="40" 
+        	   currentLimiting="true"/>
+		<!-- Arm Extender -->
+		<motor usage="8"
+			   canId="6"
+			   type="0"
+               inverted="false"
+         	   feedbackDevice="0"
+          	   countsPerRev="1024"
+		   	   brakeMode="true"
+        	   gearRatio="1.0" 
+        	   peakCurrentDuration="50"
+        	   continuousCurrentLimit="30"
+        	   peakCurrentLimit="40" 
+        	   currentLimiting="true"/>
+	</mechanism>
+	<!-- Climber -->
+	<mechanism type=2>
+		<!--Climber Winch-->
+		<motor usage="11"
+			   canId="11"
+			   type="0"
+               inverted="false"
+         	   feedbackDevice="0"
+          	   countsPerRev="1024"
+		   	   brakeMode="true"
+        	   gearRatio="1.0" 
+        	   peakCurrentDuration="50"
+        	   continuousCurrentLimit="30"
+        	   peakCurrentLimit="40" 
+        	   currentLimiting="true"/>
+		<!-- Climb Driver Wheel-->
+		<motor usage="12"
+			   canId="10"
+			   type="0"
+               inverted="false"
+         	   feedbackDevice="0"
+          	   countsPerRev="1024"
+		   	   brakeMode="true"
+        	   gearRatio="1.0" 
+        	   peakCurrentDuration="50"
+        	   continuousCurrentLimit="30"
+        	   peakCurrentLimit="40" 
+        	   currentLimiting="true"/>
+	</mechanism>
+<!-- ====================================================
+	 Talon Tachs
+	 ==================================================== -->    
+    <!--Talon Tach>	
+	<talontach usage ="0"
+			   canId ="30"
+			   generalpin ="5"-->		
+
 </robot>
