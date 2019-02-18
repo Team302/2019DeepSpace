@@ -15,6 +15,7 @@ class Intake : public IMechanism  {
   Intake(std::vector<IDragonMotorController*> motorControllers);
   void IntakePreset(bool cargo, bool outtake);
   void IntakeManual(double speed);
+  void EnableBrakeMode(bool brakeEnabled);
 
   bool ObjectPresent();
 

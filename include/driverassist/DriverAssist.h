@@ -14,6 +14,8 @@ Driver assist contains all sub driver assist thingys and allocates teleop contro
 
 #include "subsys/PlacementHeights.h"
 #include "teleop/Switcher.h"
+#include "driverassist/MoveArmToPosition.h"
+#include "driverassist/DeployGamePiece.h"
 
 class DriverAssist
 {
@@ -24,14 +26,21 @@ public:
     ~DriverAssist() = default;
 
 private:
-    void GoToPosition(PlacementHeights::PLACEMENT_HEIGHT placementHeight);
-    void GoToTarget();
+
+    //Litter Helper Method
+    void GetDesiredHeight();
+    void AttemptingGamePieceCancel();
+    void AttemptingDriveCancel();
 
     Switcher* m_switcher;
+    MoveArmToPosition* m_MoveArmToPos;
+    DeployGamePiece* m_deployGamePiece;
 
-    bool m_goingToPosition;
-    bool m_goingToTarget;
+    // queues
     bool m_deploy;
 
-
+    // helper Bools
+    bool m_cargo;
+    bool m_flip;
+    PlacementHeights::PLACEMENT_HEIGHT m_height;
 };

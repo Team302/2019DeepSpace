@@ -11,6 +11,7 @@ class PlacementHeights {
  public:
   enum PLACEMENT_HEIGHT
   {
+    START_POSITION,
     FLOOR,
     HUMAN_PLAYER,
     CARGOSHIP,

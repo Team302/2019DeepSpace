@@ -48,10 +48,10 @@ public:
     virtual void SetControlMode(DRAGON_CONTROL_MODE mode) = 0;
     virtual void Set(double value) = 0;
     virtual void SetRotationOffset(double rotations) = 0;
-    virtual void SetVoltageRamping(double ramping) = 0;
+    virtual void SetVoltageRamping(double ramping, double closedLoopRamping = -1) = 0;
     virtual void EnableCurrentLimiting(bool enabled) = 0;
     virtual void EnableBrakeMode(bool enabled) = 0;
-    virtual void SetPIDF(double p, double i, double d, double f) = 0;
+    virtual void SetPIDF(double p, double i, double d, double f, int slot = 0) = 0;
     virtual void Invert(bool inverted) = 0;
 
 protected:

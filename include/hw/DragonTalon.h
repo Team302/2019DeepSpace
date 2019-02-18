@@ -65,10 +65,10 @@ class DragonTalon : public IDragonMotorController
     void SetControlMode(IDragonMotorController::DRAGON_CONTROL_MODE mode) override; //:D
     void Set(double value) override;
     void SetRotationOffset(double rotations) override;
-    void SetVoltageRamping(double ramping) override; // seconds 0 to full, set to 0 to disable
+    void SetVoltageRamping(double ramping, double rampingClosedLoop = -1) override; // seconds 0 to full, set to 0 to disable
     void EnableCurrentLimiting(bool enabled) override; 
     void EnableBrakeMode(bool enabled) override; 
-    void SetPIDF(double p, double i, double d, double f) override; 
+    void SetPIDF(double p, double i, double d, double f, int slot = 0) override; 
     void Invert(bool inverted) override; 
 
     // Setters (TalonSRX)
