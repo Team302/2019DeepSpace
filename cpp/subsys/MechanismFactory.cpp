@@ -79,53 +79,21 @@ IMechanism* MechanismFactory::CreateMechanism
     {
         case IMechanism::CLIMBER:
             subsys = new Climber( motorControllers, servos );
-            // for ( auto itr=parmeters.begin(); itr!=parameters.end(); ++itr )
-            // {
-            //     subsys->SetParam( itr.first, itr.second );
-            // }
-            // for ( auto itr=pid.begin(); itr!=pid.end; ++itr)
-            // {
-            //     subsys->SetPID( itr );
-            // }
             m_climber = subsys;
             break;
 
         case IMechanism::INTAKE:
             subsys = new Intake( motorControllers );
-            // for ( auto itr=parmeters.begin(); itr!=parameters.end(); ++itr )
-            // {
-            //     subsys->SetParam( itr.first, itr.second );
-            // }
-            // for ( auto itr=pid.begin(); itr!=pid.end; ++itr)
-            // {
-            //     subsys->SetPID( itr );
-            // }
             m_intake = subsys;
             break;
 
         case IMechanism::WRIST:
-            subsys = new Wrist( motorControllers );
-            // for ( auto itr=parmeters.begin(); itr!=parameters.end(); ++itr )
-            // {
-            //     subsys->SetParam( itr.first, itr.second );
-            // }
-            // for ( auto itr=pid.begin(); itr!=pid.end; ++itr)
-            // {
-            //     subsys->SetPID( itr );
-            // }
+           subsys = new Wrist( motorControllers );
             m_wrist = subsys;
             break;
 
         case IMechanism::ARM:
             subsys = new Arm( motorControllers );
-            // for ( auto itr=parmeters.begin(); itr!=parameters.end(); ++itr )
-            // {
-            //     subsys->SetParam( itr.first, itr.second );
-            // }
-            // for ( auto itr=pid.begin(); itr!=pid.end; ++itr)
-            // {
-            //     subsys->SetPID( itr );
-            // }
             m_arm = subsys;
             break;
 

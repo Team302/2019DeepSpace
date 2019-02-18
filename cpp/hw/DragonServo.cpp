@@ -100,5 +100,3 @@ DragonServo::SERVO_USAGE DragonServo::GetUsage() const
 {
     return m_usage;
 }
-
-

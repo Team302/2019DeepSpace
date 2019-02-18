@@ -101,7 +101,7 @@ DragonChassis* ChassisDefn::ParseXML
     //--------------------------------------------------------------------------------------------
     if ( !hasError )
     {
-        chassis = new DragonChassis( motors, wheelDiameter );
+        chassis = new DragonChassis( motors, wheelDiameter, wheelBase, track );
     }
     //return chassis;
 }

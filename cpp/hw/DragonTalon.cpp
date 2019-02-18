@@ -54,7 +54,7 @@ void DragonTalon::SetControlMode(DragonTalon::TALON_CONTROL_MODE mode)
     if (m_controlMode != mode)
     {
         m_controlMode = mode;
-		printf("mode changed \n");
+		// printf("mode changed \n");
         // DragonTalon::Set(0);
     }
     
@@ -88,7 +88,7 @@ void DragonTalon::Set(double value)
         break;
 
         case TALON_CONTROL_MODE::MOTION_MAGIC:
-            m_talon->Set(ctre::phoenix::motorcontrol::ControlMode::MotionMagic, value);
+            m_talon->Set(ctre::phoenix::motorcontrol::ControlMode::MotionMagic, (value * m_countsPerRev / m_gearRatio) + m_tickOffset);
         break;
 
         default:
@@ -102,12 +102,16 @@ void DragonTalon::SetRotationOffset(double rotations)
     // m_tickOffset = (rotations * m_countsPerRev * m_gearRatio);
 	double newRotations = -rotations + DragonTalon::GetRotations();
 	m_tickOffset += (int) (newRotations * m_countsPerRev / m_gearRatio);
-	printf("tick offset: %d \n", m_tickOffset);
 }
 
-void DragonTalon::SetVoltageRamping(double ramping)
+void DragonTalon::SetVoltageRamping(double ramping, double rampingClosedLoop)
 {
     m_talon->ConfigOpenloopRamp(ramping);
+
+	if (rampingClosedLoop >= 0)
+	{
+		m_talon->ConfigClosedloopRamp(rampingClosedLoop);
+	}
 }
 
 
@@ -121,12 +125,12 @@ void DragonTalon::EnableBrakeMode(bool enabled)
     m_talon->SetNeutralMode(enabled ? ctre::phoenix::motorcontrol::NeutralMode::Brake : ctre::phoenix::motorcontrol::NeutralMode::Coast);
 }
 
-void DragonTalon::SetPIDF(double p, double i, double d, double f)
+void DragonTalon::SetPIDF(double p, double i, double d, double f, int slot)
 {
-    m_talon->Config_kP(0, p);
-    m_talon->Config_kI(0, i);
-    m_talon->Config_kD(0, d);
-    m_talon->Config_kF(0, f);
+    m_talon->Config_kP(slot, p);
+    m_talon->Config_kI(slot, i);
+    m_talon->Config_kD(slot, d);
+    m_talon->Config_kF(slot, f);
 }
 
 void DragonTalon::Invert(bool inverted)

@@ -126,7 +126,7 @@ void CameraDefn::ParseXML
 		if ( server != nullptr )
 		{
 		    cs::UsbCamera camera = server->StartAutomaticCapture( ID );
-            camera.SetVideoMode(type, width, height, fps );
+            	    camera.SetVideoMode(type, width, height, fps );
 		}
 		else
 		{
