@@ -43,6 +43,7 @@ class Wrist : public IMechanism {
     HATCH_KEEP_SAME = -1,
     HATCH_START_POSITION,
     HATCH_FLOOR,
+    HATCH_HP,
     HATCH_LOW,
     HATCH_MID,
     HATCH_HIGH,
@@ -60,10 +61,11 @@ class Wrist : public IMechanism {
     CARGO_MID,
     CARGO_HIGH,
     MAX_CARGO_POS
-  };
-
-  double hatchAngle[MAX_HATCH_POS] = { 0, 48.6, 120, 90, 20 };
-  double cargoAngle[MAX_CARGO_POS] = { 0, 48.6, 55.56, -52.65, 17.86, -32.0, -44 };
+  };//                                                       
+//                                 start floor    hp    low  mid   high
+  double hatchAngle[MAX_HATCH_POS] = { 0, 51.38, -61.83, 139.57, 77.56, 11.51 };
+  //                               
+  double cargoAngle[MAX_CARGO_POS] = { 0, -56.1, 64.03, -41.5, 17.86, -32.0, -33.66 };
 
   // Talons
   DragonTalon* m_wristMotor;

@@ -10,9 +10,12 @@
 #include <xmlhw/PIDData.h>
 #include "hw/DragonTalon.h"
 #include <hw/IDragonMotorController.h>
+#include <cmath>
+#include "frc/smartdashboard/SmartDashboard.h"
 
 Arm::Arm(IDragonMotorControllerVector motorControllers) :
 m_armTargetAngle(0.0),
+m_previousArmRealAngle(0.0),
 m_extenderTargetRotations(0.0),
 m_armMaster(nullptr),
 m_extender(nullptr)
@@ -107,6 +110,7 @@ void Arm::MoveArmPreset(PlacementHeights::PLACEMENT_HEIGHT height, bool cargo, b
 
     m_armMaster->SetControlMode(DragonTalon::TALON_CONTROL_MODE::MOTION_MAGIC);
     m_armMaster->Set(m_armTargetAngle / 360.0); // Sets in rotations from degrees
+    m_previousArmRealAngle = GetArmRealAngle();
 }
 
 void Arm::MoveArmMotionMagic(double angle)
@@ -198,7 +202,9 @@ void Arm::MoveExtentionPreset(PlacementHeights::PLACEMENT_HEIGHT height, bool ca
 
 void Arm::MoveExtensionSpeed(double speed)
 {
+    speed -= 0.1; //0.085
     m_extender->SetControlMode(IDragonMotorController::DRAGON_CONTROL_MODE::PERCENT_OUTPUT);
+    CorrectExtenderPower(speed); //if we are gonna be out of bounds, pull in
     m_extender->Set(speed);
 }
 
@@ -234,6 +240,37 @@ IMechanism::MECHANISM_TYPE Arm::GetType() const
     return IMechanism::MECHANISM_TYPE::ARM;
 }
 
+double Arm::OurDegreesToRads(double ourDegrees)
+{
+    return - ((ourDegrees / 360.0) - (1/4.0)) * 2 * M_PI;
+}
+
+void Arm::CorrectExtenderPower(double &power)
+{
+    double degreesPerSecond = GetArmRealAngle() - m_previousArmRealAngle;
+    degreesPerSecond / 0.02;
+
+    double correctedAngle = GetArmRealAngle() + degreesPerSecond * 0.5;
+    // double maxLegalExtender = (1-std::abs(cos(OurDegreesToRads(m_armTargetAngle)))) * 7.625;
+    double realRads = OurDegreesToRads(GetArmRealAngle());
+    double predictedRads = OurDegreesToRads(correctedAngle);
+    double realMaxLegalExtender = Map(std::abs(cos(realRads)), 1, 0.76, 2.0, 7.625);
+    double predictedMaxLegalExtender = Map(std::abs(cos(predictedRads)), 1, 0.76, 2.0, 7.625);
+    // frc::SmartDashboard::PutNumber("Max Legal Inches", maxLegalExtender);
+
+    // frc::SmartDashboard::PutNumber("")
+    if (GetExtenderRealInches() > realMaxLegalExtender || GetExtenderRealInches() > predictedMaxLegalExtender)
+    {
+        power = -1;
+    }
+    m_previousArmRealAngle = GetArmRealAngle();
+}
+
+double Arm::Map(double x, double in_min, double in_max, double out_min, double out_max)
+{
+  return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+}
+
 void Arm::SetParam
 (
     IMechanism::MECHANISM_PARAM_TYPE    param,          // <I> - parameter to set
@@ -249,5 +286,7 @@ void Arm::SetPID
 {
     // TODO:  Override values
 }
+
+
 
 

@@ -55,6 +55,8 @@ void MoveArmToPosition::Update()
             break;
 
         default:
+            printf("DANGER DANGER DANGER\n");
+
             break;
     }
 }
@@ -66,5 +68,8 @@ void MoveArmToPosition::Cancel()
 
 bool MoveArmToPosition::IsDone()
 {
+    frc::SmartDashboard::PutBoolean("Arm at target (sequence)", true);
+    frc::SmartDashboard::PutBoolean("Wrist at target (sequence)", true);
+    frc::SmartDashboard::PutBoolean("Extend at target (sequence)", true);
     return (m_currentState == MOVE_STATE::DONE);
 }

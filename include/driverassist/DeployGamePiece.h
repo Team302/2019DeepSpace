@@ -38,11 +38,11 @@ private:
     DeployState m_state;
 
     const double CARGO_SHOOT_TIME = 0.75;
-    const double WRIST_ANGLE_DELTA = -45;
-    const double OUTTAKE_ANGLE_THRESHOLD = 37;
+    const double WRIST_ANGLE_DELTA = -80;
+    const double OUTTAKE_ANGLE_THRESHOLD = 60;
     const double DONE_WRIST_THRESH = 8;
 
-    const double CARGO_SHOOT_SPEED = 0.25;
-    const double HATCH_OUTTAKE_SPEED = -1;
+    const double CARGO_SHOOT_SPEED = -1.0;
+    const double HATCH_OUTTAKE_SPEED = 0.50;
     
 };

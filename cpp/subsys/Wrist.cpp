@@ -86,7 +86,7 @@ void Wrist::MoveWristPresets(PlacementHeights::PLACEMENT_HEIGHT height, bool car
                 m_targetAngle = hatchAngle[Wrist::HATCH_WRIST_PRESETS::HATCH_LOW];
                 break;
             case PlacementHeights::PLACEMENT_HEIGHT::HUMAN_PLAYER:
-                m_targetAngle = hatchAngle[Wrist::HATCH_WRIST_PRESETS::HATCH_LOW];
+                m_targetAngle = hatchAngle[Wrist::HATCH_WRIST_PRESETS::HATCH_HP];
                 break;
             case PlacementHeights::PLACEMENT_HEIGHT::ROCKET_LOW:
                 m_targetAngle = hatchAngle[Wrist::HATCH_WRIST_PRESETS::HATCH_LOW];
@@ -111,6 +111,7 @@ void Wrist::MoveWristPresets(PlacementHeights::PLACEMENT_HEIGHT height, bool car
 
 void Wrist::MoveWristMotionMagic(double angle)
 {
+    m_targetAngle = angle;
     m_wristMotor->SetControlMode(DragonTalon::TALON_CONTROL_MODE::MOTION_MAGIC);
     m_wristMotor->Set(angle / 360);
 }

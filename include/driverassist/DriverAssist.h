@@ -38,6 +38,7 @@ private:
 
     // queues
     bool m_deploy;
+    bool m_climbMode;
 
     // helper Bools
     bool m_cargo;
