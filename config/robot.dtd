@@ -304,7 +304,7 @@
 		{
 			UNKNOWN_SERVO_USAGE = -1,
 			LIMELIGHT_ANGLE,
-      DROP_BUDDY_CLIMB,
+			DROP_BUDDY_CLIMB,
 			MAX_SERVO_USAGES
 		};
 
@@ -346,3 +346,4 @@
 
           
 >
+
