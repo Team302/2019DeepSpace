@@ -69,12 +69,17 @@ private:
     MAX_CARGO_POS
   };
 
-  double hatchAngle[MAX_HATCH_POS] =        { 0, -151.1, -91.76, -158.53, -93.22, -23.76 };
-  double cargoAngle[MAX_CARGO_POS] =        { 0, -130.59, -103.5, -73.16, -116.0, -61.6, -12.59 };
-  double extenderHatchInches[MAX_HATCH_POS] = { 0, 8.0, 0, 2.5, 0, 0 };
-  double extenderCargoInches[MAX_CARGO_POS] = { 0, 0.0, 0, 0, 0, 0, 8.0 };
+  double OurDegreesToRads(double degrees);
+  void CorrectExtenderPower(double &power);
+  double Map(double x, double in_min, double in_max, double out_min, double out_max);
+
+  double hatchAngle[MAX_HATCH_POS] =        { 0, -140, -91.76, -154.58, -93.22, -23.76 };
+  double cargoAngle[MAX_CARGO_POS] =        { 0, -110.6, -94.13, -64.7, -99.5, -48.69 -13.75 };
+  double extenderHatchInches[MAX_HATCH_POS] = { 0, 7.625, 0, 1.75, 0, 0 };
+  double extenderCargoInches[MAX_CARGO_POS] = { 0, 0.0, 0, 0, 0, 0, 7.625 };
 
   double m_armTargetAngle;
+  double m_previousArmRealAngle;
   double m_extenderTargetRotations;
   
   DragonTalon* m_armMaster;
@@ -83,4 +88,6 @@ private:
 
 // const double INCHES_PER_REVOLUTION = 8 / 6.7578125;
 // const double INCHES_PER_REVOLUTION = 8 / 6.3578125;
-const double INCHES_PER_REVOLUTION = 8 / 8.849609375;
+  // const double INCHES_PER_REVOLUTION = 1.0;
+// const double INCHES_PER_REVOLUTION = 8 / 8.849609375;
+const double INCHES_PER_REVOLUTION = 7.625 / 9.28515625;
