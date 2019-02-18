@@ -43,19 +43,19 @@ class IMechanism
             CARGO_LOW_ANGLE,
             CARGO_MID_ANGLE,
             CARGO_HIGH_ANGLE,
-            HATCH_START_EXTENSION,
-            HATCH_FLOOR_EXTENSION,
             HATCH_HP_EXTENSION,
-            HATCH_LOW_EXTENSION,
             HATCH_MID_EXTENSION,
             HATCH_HIGH_EXTENSION,
-            CARGO_START_EXTENSION,
             CARGO_FLOOR_EXTENSION,
             CARGO_HP_EXTENSION,
             CARGO_SHIP_EXTENSION,
             CARGO_LOW_EXTENSION,
             CARGO_MID_EXTENSION,
             CARGO_HIGH_EXTENSION,
+            CARGO_INTAKE_SPEED_PARAM,
+            CARGO_OUTTAKE_SPEED_PARAM,
+            HATCH_INTAKE_SPEED_PARAM,
+            HATCH_OUTTAKE_SPEED_PARAM,
             MAX_MECHANISM_PARAM_TYPES
         };
 

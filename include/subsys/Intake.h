@@ -37,8 +37,8 @@ class Intake : public IMechanism  {
   DragonTalon* m_intakeMotor;
 
   // Speeds for intake/outtake. Cargo and Hatch intake speeds should be opposite signs
-  const double CARGO_INTAKE_SPEED = 1.0;
-  const double CARGO_OUTTAKE_SPEED = -1.0;
-  const double HATCH_INTAKE_SPEED = -1.0;
-  const double HATCH_OUTTAKE_SPEED = 1.0;
+  double CARGO_INTAKE_SPEED = 1.0;
+  double CARGO_OUTTAKE_SPEED = -1.0;
+  double HATCH_INTAKE_SPEED = -1.0;
+  double HATCH_OUTTAKE_SPEED = 1.0;
 };
