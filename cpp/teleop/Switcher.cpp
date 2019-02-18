@@ -18,6 +18,7 @@ Switcher::Switcher() :
 			m_chassis( DragonChassis::GetInstance() ),
                         m_climber( MechanismFactory::GetMechanismFactory()->GetClimber() ),
                         m_limelight(new DragonLimelight()),
+                       m_allowClimbDrive(false),
 			m_mainController( new frc::XboxController(0) ),
                        	m_secondaryController(new frc::XboxController(1)),
                        	m_holdMode(false),
@@ -30,6 +31,12 @@ Switcher::Switcher() :
 
 void Switcher::DriveUpdate()
 {
+    // Hold to allow drive elevator motor
+    if(m_mainController->GetAButtonPressed())
+        m_allowClimbDrive = true;
+    if (m_mainController->GetAButtonReleased())
+        m_allowClimbDrive = false;
+
     if (m_mainController->GetYButtonPressed())
         m_visionMode = !m_visionMode;
 
@@ -85,6 +92,11 @@ void Switcher::DriveUpdate()
             forwardSpeed = 0.0;
     if (std::abs(turnSpeed) < 0.11)
             turnSpeed = 0.0;
+
+    if(m_allowClimbDrive)
+        m_climber->SetClimbDriveSpeed(forwardSpeed);
+    else
+        m_climber->SetClimbDriveSpeed(0.0);
 
 
     frc::SmartDashboard::PutNumber("real left inches", m_chassis->GetLeftMiddleDistance());
@@ -143,7 +155,7 @@ void Switcher::GamepieceUpdate(bool cargo)
         extendSpeed = 0;
     // m_wristSpeed = -TeleopControl::GetInstance()->GetAxisValue( TeleopControl::ROTATE_WRIST );
     // m_wristSpeed = m_secondaryController->GetRawAxis(5);
-    double wristSpeed = -m_secondaryController->GetRawAxis(5);
+    double wristSpeed = -m_secondaryController->GetRawAxis(5) * 1.5;
     if (std::abs(wristSpeed) < 0.1)
         wristSpeed = 0;
     // m_intakeSpeed = TeleopControl::GetInstance()->GetAxisValue( TeleopControl::INTAKE ) - TeleopControl::GetInstance()->GetAxisValue( TeleopControl::OUTAKE );
@@ -154,29 +166,39 @@ void Switcher::GamepieceUpdate(bool cargo)
     // Send angles and speeds to mechanisms
     m_intake->IntakeManual(intakeSpeed);
     m_wrist->MoveWristManualAngle(m_wrist->GetWristTargetAngle() + wristSpeed); // offset target angle by speed
-    m_arm->MoveExtensionSpeed(extendSpeed - 0.085);                             // -0.171
+    m_arm->MoveExtensionSpeed(extendSpeed);                             // -0.171
     // m_arm->MoveExtensionInches(m_arm->GetExtenderTargetInches() + m_extendSpeed * 0.02);
     m_arm->MoveArmAngle(m_arm->GetArmTargetAngle() + armSpeed); // offset target angle by speed
 }
 
 void Switcher::ClimberUpdate()
 {
-    if (TeleopControl::GetInstance()->IsButtonPressed(TeleopControl::FUNCTION_IDENTIFIER::CLIMB_ELEVATOR_UP))
-        m_climbElevSpeed = ELEV_SPEED;
-    else if (TeleopControl::GetInstance()->IsButtonPressed(TeleopControl::FUNCTION_IDENTIFIER::CLIMB_ELEVATOR_DOWN))
-        m_climbElevSpeed = -ELEV_SPEED;
-    else
-        m_climbElevSpeed = 0.0;
+    // if (TeleopControl::GetInstance()->IsButtonPressed(TeleopControl::FUNCTION_IDENTIFIER::CLIMB_ELEVATOR_UP))
+    //     m_climbElevSpeed = ELEV_SPEED;
+    // else if (TeleopControl::GetInstance()->IsButtonPressed(TeleopControl::FUNCTION_IDENTIFIER::CLIMB_ELEVATOR_DOWN))
+    //     m_climbElevSpeed = -ELEV_SPEED;
+    // else
+    //     m_climbElevSpeed = 0.0;
 
-    m_climbDriveSpeed = TeleopControl::GetInstance()->GetAxisValue(TeleopControl::FUNCTION_IDENTIFIER::CLIMB_DRIVE);
-    m_allowClimbDrive = TeleopControl::GetInstance()->IsButtonPressed(TeleopControl::FUNCTION_IDENTIFIER::ALLOW_CLIMB_DRIVE);
-    m_dropBuddyClimb = TeleopControl::GetInstance()->IsButtonPressed(TeleopControl::FUNCTION_IDENTIFIER::DROP_BUDDY_CLIMB);
+    double armSpeed = -m_secondaryController->GetRawAxis(1) * 1.25;
+    if (std::abs(armSpeed) < 0.1)
+        armSpeed = 0;
 
-    if (m_allowClimbDrive)
-        m_climber->SetClimbDriveSpeed(m_climbDriveSpeed);
-    else
-        m_climber->SetClimbDriveSpeed(0.0);
+    double wristSpeed = -m_secondaryController->GetRawAxis(5);
+    if (std::abs(wristSpeed) < 0.1)
+        wristSpeed = 0;
+
+    double extendSpeed = m_secondaryController->GetRawAxis(0);
+    if (std::abs(extendSpeed) < 0.1)
+        extendSpeed = 0;
+
+    m_wrist->MoveWristManualSpeed(wristSpeed);
+    m_arm->MoveArmAngle(m_arm->GetArmTargetAngle() + armSpeed);
+    m_arm->MoveExtensionSpeed(extendSpeed - 0.085);
+
+    m_climbElevSpeed = m_secondaryController->GetBumper(frc::GenericHID::JoystickHand::kLeftHand) - m_secondaryController->GetBumper(frc::GenericHID::JoystickHand::kRightHand);
+    // m_dropBuddyClimb = TeleopControl::GetInstance()->IsButtonPressed(TeleopControl::FUNCTION_IDENTIFIER::DROP_BUDDY_CLIMB);
 
     m_climber->MoveClimbElevator(m_climbElevSpeed);
-    m_climber->DropBuddyClimb(m_dropBuddyClimb);
+    // m_climber->DropBuddyClimb(m_dropBuddyClimb);
 }

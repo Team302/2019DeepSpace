@@ -84,10 +84,10 @@ void Robot::RobotInit() {
   // solenoids, digital inputs, analog inputs, etc.
   RobotDefn::ParseXML();
   /*
-  DragonTalon* armMaster = new DragonTalon(IDragonMotorController::TALON_TYPE::ARM_MASTER, 2, 1024, ((11.0/17) * (90/70.0)) );
-  DragonTalon* armSlave = new DragonTalon(IDragonMotorController::TALON_TYPE::ARM_SLAVE, 13, 1024, ((11.0/17) * (90/70.0)) );
+  DragonTalon* armMaster = new DragonTalon(IDragonMotorController::TALON_TYPE::ARM_MASTER, 2, 1024, 180/233.4375 ); //((11.0/17) * (90/70.0))
+  DragonTalon* armSlave = new DragonTalon(IDragonMotorController::TALON_TYPE::ARM_SLAVE, 13, 1024, 180/233.4375 );
   DragonTalon* intake = new DragonTalon(IDragonMotorController::TALON_TYPE::INTAKE, 6, 1024, 1); //id 7 on practice
-  DragonTalon* wrist = new DragonTalon(IDragonMotorController::TALON_TYPE::WRIST, 5, 1024, 180/236.6); //(11.0/17) * (180.0/164.2)
+  DragonTalon* wrist = new DragonTalon(IDragonMotorController::TALON_TYPE::WRIST, 5, 1024, 180/235.6); //(11.0/17) * (180.0/164.2)
   DragonTalon* armExtend = new DragonTalon(IDragonMotorController::TALON_TYPE::ARM_EXTENSION, 4, 1024, 1);
   DragonTalon* elevDrive = new DragonTalon(IDragonMotorController::TALON_TYPE::ELEVATOR_DRIVE, 10, 1024, 1);
   DragonTalon* elevClimb = new DragonTalon(IDragonMotorController::TALON_TYPE::ELEVATOR_WINCH, 11, 1024, 1); //6 on practice
@@ -126,7 +126,7 @@ void Robot::RobotInit() {
   armExtend->Invert(false);
   intake->Invert(true);
   wrist->Invert(true);
-  elevDrive->Invert(false);
+  elevDrive->Invert(true);
   elevClimb->Invert(false);
 
   frontL->EnableBrakeMode(false);
@@ -143,18 +143,18 @@ void Robot::RobotInit() {
   wrist->EnableBrakeMode(true);
   elevDrive->EnableBrakeMode(true);
   elevClimb->EnableBrakeMode(true);
-  printf("OMG WE DEPLOYED CODE");
+
+  printf("OMG WE DEPLOYED CODE 13\n");
   wrist->SetPIDF(5, 0, 10.0, 0);
   wrist->SetSensorInverted(false); //was true
-  wrist->SetRotationOffset(55.55 / 360.0); // 50.37
-  wrist->SetRotationOffset(0);
+  wrist->SetRotationOffset(49.420699 / 360.0); // 55.55
   wrist->ConfigMotionAcceleration(150);
   wrist->ConfigMotionCruiseVelocity(200);
 
-  armExtend->SetPIDF(10, 0, 0, 0);
-  armExtend->SetRotationOffset(8 / INCHES_PER_REVOLUTION);
+  armExtend->SetPIDF(20, 0, 0, 0);
+  armExtend->SetRotationOffset(7.625 / INCHES_PER_REVOLUTION);
 
-  armMaster->SetRotationOffset((-153.528428571) / 360); //-157.528428571
+  armMaster->SetRotationOffset((-138.00) / 360.0); //-137
   armMaster->SetPIDF(15, 0, 0, 0);
   armMaster->ConfigMotionAcceleration(60);
   armMaster->ConfigMotionCruiseVelocity(200);

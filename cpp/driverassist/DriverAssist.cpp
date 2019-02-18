@@ -14,6 +14,7 @@ DriverAssist::DriverAssist() : m_switcher(new Switcher()),
                                m_MoveArmToPos(new MoveArmToPosition()),
                                m_deployGamePiece(new DeployGamePiece()),
                                m_deploy(false),
+                               m_climbMode(false),
                                m_cargo(false),
                                m_flip(false),
                                m_height(PlacementHeights::PLACEMENT_HEIGHT::FLOOR)
@@ -23,27 +24,41 @@ DriverAssist::DriverAssist() : m_switcher(new Switcher()),
 // The update method runs every periodic process of this class
 void DriverAssist::Update()
 {
+    if(m_switcher->m_secondaryController->GetStartButtonPressed())
+        m_climbMode = !m_climbMode;
+
     DriverAssist::AttemptingDriveCancel();
     DriverAssist::AttemptingGamePieceCancel();
-    GetDesiredHeight();
     // ask switcher if drivers are trying to move
     // if they are, cancel any overlapping driverassist processes
     // TODO: add these into switcher
     // they should have a high tolerance so that there aren't accidental
     // joystick movements that could cancel the processes
-    // after we determine what we can run, run them below
-    if (m_MoveArmToPos->IsDone())
-    {
-        if (m_deploy)
-        {
-            m_deployGamePiece->Deploy(m_cargo, m_flip, true);
-            m_deploy = false;
-        }
 
-        if (m_deployGamePiece->IsDone())
+    // after we determine what we can run, run them below
+    SmartDashboard::PutBoolean("Climb Mode", m_climbMode);
+    if(m_climbMode)
+    {
+        m_switcher->ClimberUpdate();
+    }
+    else
+    {
+        GetDesiredHeight();
+        if (m_MoveArmToPos->IsDone())
         {
-            m_switcher->GamepieceUpdate(m_cargo);
-            // m_switcher->ClimberUpdate();
+            // printf("movearmtopos is done\n");
+            if (m_deploy)
+            {
+                m_deployGamePiece->Deploy(m_cargo, m_flip, true);
+                m_deploy = false;
+            }
+
+            if (m_deployGamePiece->IsDone())
+            {
+                // printf("deploy game piece is done (run gamepiece update)\n");
+                m_switcher->GamepieceUpdate(m_cargo);
+                // m_switcher->ClimberUpdate();
+            }
         }
     }
 
@@ -53,6 +68,7 @@ void DriverAssist::Update()
         m_switcher->DriveUpdate();
     }
 
+    
     m_MoveArmToPos->Update();
     m_deployGamePiece->Update();
 
@@ -81,6 +97,7 @@ void DriverAssist::GetDesiredHeight()
     if (m_switcher->m_secondaryController->GetAButtonPressed())
     {
         m_height = PlacementHeights::PLACEMENT_HEIGHT::FLOOR;
+        m_MoveArmToPos->SetTargetPosition(m_height, m_cargo, m_flip);
     }
     else if (m_switcher->m_secondaryController->GetXButtonPressed())
     {
