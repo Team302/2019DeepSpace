@@ -91,9 +91,13 @@
             CARGO_LOW_ANGLE,
             CARGO_MID_ANGLE,
             CARGO_HIGH_ANGLE,
+            HATCH_START_EXTENSION,
+            HATCH_FLOOR_EXTENSION,
             HATCH_HP_EXTENSION,
+            HATCH_LOW_EXTENSION,
             HATCH_MID_EXTENSION,
             HATCH_HIGH_EXTENSION,
+            CARGO_START_EXTENSION,
             CARGO_FLOOR_EXTENSION,
             CARGO_HP_EXTENSION,
             CARGO_SHIP_EXTENSION,
@@ -114,7 +118,7 @@
 <!ATTLIST mechanismData 
           paramType         (  0 |  1 |  2 |  3 |  4 |  5 |  6 |  7 |  8 |  9 | 
           					  10 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18 | 19 |
-                              20 | 21 ) "0"
+                              20 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 ) "0"
           value             CDATA REQUIRED
 >
 
@@ -124,7 +128,8 @@
         {
             VELOCITY,
             POSITION,
-            MOTION_MAGIC
+            MOTION_MAGIC,
+            ROTATIONS
         };
 
 	==================================================== -->
