@@ -19,11 +19,11 @@ class ChassisTest {
         CHASSIS_BACKWARDS,
         CHASSIS_LEFT,
         CHASSIS_RIGHT,
-        CHASSIS_STOP,
+        CHASSIS_STOP
     };
 
     private:
-    m_chassisPresets;
+    CHASSIS_PRESETS m_chassisPresets;
     int m_counts;
     bool m_isDone;
     double m_targetCounts;
