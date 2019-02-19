@@ -68,7 +68,30 @@ void Intake::SetParam
     double                              value           // <I> - parameter value
 ) 
 {
-    // TODO:  Override values
+    switch(param)
+    {
+        case CARGO_INTAKE_SPEED_PARAM:
+        CARGO_INTAKE_SPEED = value;
+        break;
+
+        case CARGO_OUTTAKE_SPEED_PARAM:
+        CARGO_OUTTAKE_SPEED = value;
+        break;
+
+        case HATCH_INTAKE_SPEED_PARAM:
+        HATCH_INTAKE_SPEED = value;
+        break;
+
+        case HATCH_OUTTAKE_SPEED_PARAM:
+        HATCH_OUTTAKE_SPEED = value;
+        break;
+
+        default:
+        printf("Intake.cpp is getting an invalid parameter");
+        break;
+
+
+    }
 }
 void Intake::SetPID
 (
