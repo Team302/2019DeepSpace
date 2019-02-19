@@ -14,7 +14,7 @@ ChassisTest::ChassisTest ()
 
 void ChassisTest::Init ()
 {
-    m_chassisPresets = CHASSIS_PRESETS;
+    m_chassisPresets = ChassisTest::CHASSIS_STOP;
 }
 
 void ChassisTest::Execute ()
