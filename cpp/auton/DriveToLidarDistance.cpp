@@ -13,7 +13,7 @@ DriveToLidarDistance::DriveToLidarDistance() : m_lidar( nullptr )
     LidarFactory* factory = LidarFactory::GetLidarFactory();
     if ( factory != nullptr )
     {
-        m_lidar = factory->GetLidar( DragonLidar::FORWARD_GRABBER );
+        m_lidar = factory->GetLidar( DragonLidar::FORWARD);
     }
 }
 
