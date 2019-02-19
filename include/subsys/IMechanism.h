@@ -56,6 +56,10 @@ class IMechanism
             CARGO_LOW_EXTENSION,
             CARGO_MID_EXTENSION,
             CARGO_HIGH_EXTENSION,
+            CARGO_INTAKE_SPEED_PARAM,
+            CARGO_OUTTAKE_SPEED_PARAM,
+            HATCH_INTAKE_SPEED_PARAM,
+            HATCH_OUTTAKE_SPEED_PARAM,
             MAX_MECHANISM_PARAM_TYPES
         };
 
