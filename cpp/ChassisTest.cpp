@@ -6,7 +6,7 @@
 
 ChassisTest::ChassisTest ()
 {
-    DragonChassis::GetInstance();
+    m_chassis = DragonChassis::GetInstance();
     double m_targetCounts = 0;
     double m_counts = 0;
     bool m_isDone = false;
@@ -59,7 +59,7 @@ void ChassisTest::Execute ()
         default :
             break;
     }
-    SetLeftRightMagnitudes(left, right);
+    m_chassis -> SetLeftRightMagnitudes(left, right);
     m_counts++;
     if (m_counts == m_targetCounts)
     {
@@ -71,7 +71,7 @@ bool ChassisTest::IsDone ()
 {
     if (m_isDone = true)
     {
-        SetLeftRightMagnitudes(0, 0);
+        m_chassis -> SetLeftRightMagnitudes(0, 0);
         printf ("Automated Systems Test Complete \n");
     }
 }
