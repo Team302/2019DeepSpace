@@ -263,6 +263,9 @@ void Arm::CorrectExtenderPower(double &power)
     {
         power = -1;
     }
+    else if (GetExtenderRealInches() < 0.0)
+        power = 0;
+
     m_previousArmRealAngle = GetArmRealAngle();
 }
 
