@@ -1,10 +1,11 @@
-#include "Test/WristTest.h"
+#include "WristTest.h"
 
 #include <iostream>
 
 #include <frc/smartdashboard/SmartDashboard.h>
 
 #include "subsys/Wrist.h"
+
 
 
 WristTest::WristTest ()
