@@ -28,9 +28,15 @@ m_axisScale(),
 m_axisInversionFactor(),
 m_axisProfile()
 {
+    for ( auto inx=0; inx<m_maxAxis; ++inx )
+		{
+			m_axisScale[inx] = 1.0;
+			m_axisInversionFactor[inx] = 1.0;
+			m_axisProfile[inx] = LINEAR;
+		}
     //Create Axis objects
-    m_axis[GAMEPAD_AXIS_16] = new AnalogAxis(m_gamepad, GAMEPAD_AXIS_16,false);
-    m_axis[GAMEPAD_AXIS_17] = new AnalogAxis(m_gamepad, GAMEPAD_AXIS_17,false);
+    m_axis[GAMEPAD_AXIS_16] = new AnalogAxis(m_gamepad, 0,false);
+    m_axis[GAMEPAD_AXIS_17] = new AnalogAxis(m_gamepad, 0,false);
     m_axis[GAMEPAD_DIAL_22] = new AnalogAxis(m_gamepad, GAMEPAD_DIAL_22,false);
     m_axis[GAMEPAD_DIAL_23] = new AnalogAxis(m_gamepad, GAMEPAD_DIAL_23,false);
     m_axis[GAMEPAD_DIAL_24] = new AnalogAxis(m_gamepad, GAMEPAD_DIAL_24,false);
@@ -56,14 +62,14 @@ m_axisProfile()
     m_analogButtons[GAMEPAD_BUTTON_13] = new AnalogButton( m_axis[RIGHT_ANALOG_BUTTON_AXIS], BUTTON_13_LOWERBAND,BUTTON_13_UPPERBAND);
     //m_analogButtons[GAMEPAD_BIG_RED_BUTTON] = new AnalogButton(m_gamepad, GAMEPAD_BIG_RED_BUTTON,);
 
-    m_button[GAMEPAD_SWITCH_18] = new DigitalButton(m_gamepad, GAMEPAD_SWITCH_18);
-    m_button[GAMEPAD_SWITCH_19] = new DigitalButton(m_gamepad, GAMEPAD_SWITCH_19);
-    m_button[GAMEPAD_SWITCH_20] = new DigitalButton(m_gamepad, GAMEPAD_SWITCH_20);
-    m_button[GAMEPAD_SWITCH_21] = new DigitalButton(m_gamepad, GAMEPAD_SWITCH_21);
-    m_button[GAMEPAD_BUTTON_14_UP] = new DigitalButton(m_gamepad, GAMEPAD_BUTTON_14_UP);
-    m_button[GAMEPAD_BUTTON_14_DOWN] = new DigitalButton(m_gamepad, GAMEPAD_BUTTON_14_DOWN);
-    m_button[GAMEPAD_BUTTON_15_UP] = new DigitalButton(m_gamepad, GAMEPAD_BUTTON_15_UP);
-    m_button[GAMEPAD_BUTTON_15_DOWN] = new DigitalButton(m_gamepad, GAMEPAD_BUTTON_15_DOWN);
+    m_button[GAMEPAD_SWITCH_18] = new DigitalButton(m_gamepad, 1);
+    m_button[GAMEPAD_SWITCH_19] = new DigitalButton(m_gamepad, 2);
+    m_button[GAMEPAD_SWITCH_20] = new DigitalButton(m_gamepad, 3);
+    m_button[GAMEPAD_SWITCH_21] = new DigitalButton(m_gamepad, 4);
+    m_button[GAMEPAD_BUTTON_14_UP] = new DigitalButton(m_gamepad, 7);
+    m_button[GAMEPAD_BUTTON_14_DOWN] = new DigitalButton(m_gamepad, 6);
+    m_button[GAMEPAD_BUTTON_15_UP] = new DigitalButton(m_gamepad, 9);
+    m_button[GAMEPAD_BUTTON_15_DOWN] = new DigitalButton(m_gamepad, 8);
 }
 
 DragonGamepad::~DragonGamepad()
@@ -77,12 +83,62 @@ float DragonGamepad::GetAxisValue
     AXIS_IDENTIFIER axis
 ) const
 {
-    float value = 0.0;
-    if ( m_axis[axis] != nullptr )
-    {
-        m_axis[axis]->GetAxisValue();
-    }
-    return value;   
+    double output = 0.0;
+	if ( axis < MAX_GAMEPAD_AXIS )
+	{
+		switch ( axis )//switch method to find out the axes for each gamepad buttons that use axis.
+		{
+		case GAMEPAD_AXIS_16:
+			output = m_gamepad->GetY( frc::GenericHID::kLeftHand ) * m_axisInversionFactor[ axis ];
+			break;
+
+		case GAMEPAD_AXIS_17:
+			output = m_gamepad->GetY( frc::GenericHID::kRightHand ) * m_axisInversionFactor[ axis ];
+			break;
+
+		// jw - changed 2 to axis
+		case GAMEPAD_DIAL_22: //Dial has six settings, 22-27.
+			output = m_gamepad->GetY( frc::GenericHID::kLeftHand ) * m_axisInversionFactor[ axis ];
+			break;
+
+		case GAMEPAD_DIAL_23:
+			output = m_gamepad->GetY( frc::GenericHID::kLeftHand ) * m_axisInversionFactor[ axis ];
+			break;
+
+		case GAMEPAD_DIAL_24:
+			output = m_gamepad->GetY( frc::GenericHID::kLeftHand ) * m_axisInversionFactor[ axis ];
+			break;
+
+		case GAMEPAD_DIAL_25:
+			output = m_gamepad->GetY( frc::GenericHID::kLeftHand ) * m_axisInversionFactor[ axis ];
+			break;
+
+		case GAMEPAD_DIAL_26:
+			output = m_gamepad->GetY( frc::GenericHID::kLeftHand ) * m_axisInversionFactor[ axis ];
+			break;
+
+		case GAMEPAD_DIAL_27:
+			output = m_gamepad->GetY( frc::GenericHID::kLeftHand ) * m_axisInversionFactor[ axis ];
+			break;
+
+		default:
+			break;
+
+		}
+		if (std::abs(output) < APPLY_STANDARD_DEADBAND)
+		{
+			output = 0.0;
+		}
+		else if (std::abs(output)> APPLY_STANDARD_DEADBAND)
+		{
+			if ( m_axisProfile[axis] == CUBED )
+			{
+				output = pow( output, 3.0 );
+			}
+			output = output * m_axisScale[axis];
+		}
+	}
+	return output;
 }
 
 bool DragonGamepad::IsButtonPressed
@@ -144,59 +200,14 @@ double DragonGamepad::GetRawAxis
     AXIS_IDENTIFIER axis
 )
 {
-    double value = 0.0;
-    if(axis < MAX_GAMEPAD_AXIS)
+    float value = 0.0;
+    if ( m_axis[axis] != nullptr )
     {
-        switch(axis)
-        {
-            case GAMEPAD_AXIS_16:
-            value = m_gamepad->GetY(frc::GenericHID::kLeftHand) * m_axisInversionFactor[axis];
-            break;
-
-            case GAMEPAD_AXIS_17:
-            value = m_gamepad->GetY(frc::GenericHID::kRightHand) * m_axisInversionFactor[axis];
-            break;
-
-            case GAMEPAD_DIAL_22:
-            value = m_gamepad->GetY(frc::GenericHID::kLeftHand) * m_axisInversionFactor[axis];
-            break;
-
-            case GAMEPAD_DIAL_23:
-            value = m_gamepad->GetY(frc::GenericHID::kLeftHand) * m_axisInversionFactor[axis];
-            break;
-
-            case GAMEPAD_DIAL_24:
-            value = m_gamepad->GetY(frc::GenericHID::kLeftHand) * m_axisInversionFactor[axis];
-            break; 
-
-            case GAMEPAD_DIAL_25:
-            value = m_gamepad->GetY(frc::GenericHID::kLeftHand) * m_axisInversionFactor[axis];
-            break;
-
-            case GAMEPAD_DIAL_26:
-            value = m_gamepad->GetY(frc::GenericHID::kLeftHand) * m_axisInversionFactor[axis];
-            break;
-
-            case GAMEPAD_DIAL_27:
-            value = m_gamepad->GetY(frc::GenericHID::kLeftHand) * m_axisInversionFactor[axis];
-            break;
-        
-        if (std::abs(value) < APPLY_STANDARD_DEADBAND)
-		{
-			value = 0.0;
-		}
-		else if (std::abs(value) > APPLY_STANDARD_DEADBAND)
-		{
-			if ( m_axisProfile[axis] == CUBED )
-			{
-				value = pow( value, 3.0 );
-			}
-			value = value * m_axisScale[axis];
-		}
-        
-            
-
-        }
+        value = m_axis[axis]->GetAxisValue();
+    }
+    else
+    {
+        printf( "==>> no axis %d \n", axis );
     }
     return value;
 }
@@ -207,9 +218,22 @@ bool DragonGamepad::IsRawButtonPressed
 ) 
 {
     bool pressed = false;
-    if(m_analogButtons[button] != nullptr)
+    if(m_button[button] != nullptr)
     {
         pressed = m_button[button]->IsButtonPressed();
+    }
+    return pressed;
+}
+
+bool DragonGamepad::IsRawButtonPressed
+(
+    ANALOG_BUTTON_IDENTIFIER button
+) 
+{
+    bool pressed = false;
+    if(m_analogButtons[button] != nullptr)
+    {
+        pressed = m_analogButtons[button]->IsButtonPressed();
     }
     return pressed;
 }
@@ -218,4 +242,20 @@ int DragonGamepad::GetPOVValue
 )
 {
     return 0;
+}
+
+bool DragonGamepad::WasButtonPressed
+(
+    BUTTON_IDENTIFIER button
+) const
+{
+    return false;
+}
+
+bool DragonGamepad::WasButtonReleased
+(
+    BUTTON_IDENTIFIER button
+) const
+{
+    return false;
 }
