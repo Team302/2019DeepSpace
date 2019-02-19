@@ -6,14 +6,14 @@
 
 ChassisTest::ChassisTest ()
 {
-    m_chassis = new DragonChassis;
-}
-
-void ChassisTest::Init (CHASSIS_PRESETS)
-{
+    DragonChassis::GetInstance();
     double m_targetCounts = 0;
     double m_counts = 0;
     bool m_isDone = false;
+}
+
+void ChassisTest::Init ()
+{
     m_chassisPresets = CHASSIS_PRESETS;
 }
 
