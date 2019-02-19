@@ -16,8 +16,6 @@ using namespace nt;
 
 class DragonLimelight {
  public:
-  DragonLimelight();
-
   //Enums
   enum LED_MODE 
   {
@@ -81,7 +79,11 @@ class DragonLimelight {
 
   void PrintValues(); // Prints out all values to ensure everything is working and connected
 
+  static DragonLimelight* GetInstance();
+
  private:
   std::shared_ptr<NetworkTable> table;
 
+  DragonLimelight();
+  static DragonLimelight* m_instance;
 };

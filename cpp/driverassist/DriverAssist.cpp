@@ -10,11 +10,16 @@
 
 using namespace frc;
 
-DriverAssist::DriverAssist() : m_switcher(new Switcher()),
+DriverAssist::DriverAssist() : m_chassis(DragonChassis::GetInstance()),
+                               m_switcher(new Switcher()),
                                m_MoveArmToPos(new MoveArmToPosition()),
                                m_deployGamePiece(new DeployGamePiece()),
+                               m_holdDrivePositon(new HoldDrivePosition()),
+                               m_targetAllign(new TargetAllign()),
                                m_deploy(false),
                                m_climbMode(false),
+                               m_holdMode(false),
+                               m_visionMode(false),
                                m_cargo(false),
                                m_flip(false),
                                m_height(PlacementHeights::PLACEMENT_HEIGHT::FLOOR)
@@ -24,6 +29,9 @@ DriverAssist::DriverAssist() : m_switcher(new Switcher()),
 // The update method runs every periodic process of this class
 void DriverAssist::Update()
 {
+    // Checks for vision, hold, and allows for switcher driving
+    UpdateDriverControls();
+
     if(m_switcher->m_secondaryController->GetStartButtonPressed())
         m_climbMode = !m_climbMode;
 
@@ -43,7 +51,7 @@ void DriverAssist::Update()
     }
     else
     {
-        GetDesiredHeight();
+        UpdateSecondaryControls();
         if (m_MoveArmToPos->IsDone())
         {
             // printf("movearmtopos is done\n");
@@ -61,16 +69,10 @@ void DriverAssist::Update()
             }
         }
     }
-
-    // allow driver control when not running overlapping processes
-    if (true) // TODO: dont check if true, check of m_approachTarget->IsDone();
-    {
-        m_switcher->DriveUpdate();
-    }
-
     
     m_MoveArmToPos->Update();
     m_deployGamePiece->Update();
+    m_chassis->UpdateChassis();
 
     frc::SmartDashboard::PutBoolean("Robot Fipped", m_flip);
     frc::SmartDashboard::PutBoolean("Cargo mode", m_cargo);
@@ -79,7 +81,7 @@ void DriverAssist::Update()
 
 // Helper Methods
 
-void DriverAssist::GetDesiredHeight()
+void DriverAssist::UpdateSecondaryControls()
 {
     if (m_switcher->m_secondaryController->GetBumperPressed(frc::GenericHID::JoystickHand::kLeftHand))
         m_deploy = true;
@@ -99,7 +101,7 @@ void DriverAssist::GetDesiredHeight()
         m_height = PlacementHeights::PLACEMENT_HEIGHT::FLOOR;
         m_MoveArmToPos->SetTargetPosition(m_height, m_cargo, m_flip);
     }
-    else if (m_switcher->m_secondaryController->GetXButtonPressed())
+    if (m_switcher->m_secondaryController->GetXButtonPressed())
     {
         m_height = PlacementHeights::PLACEMENT_HEIGHT::HUMAN_PLAYER;
     }
@@ -121,7 +123,62 @@ void DriverAssist::GetDesiredHeight()
     }
     m_MoveArmToPos->SetTargetPosition(m_height, m_cargo, m_flip);
 }
+void DriverAssist::UpdateDriverControls()
+{
+    if (m_switcher->m_mainController->GetBumperPressed(frc::GenericHID::JoystickHand::kLeftHand))
+    {
+        m_visionMode = true;
+        m_holdMode = false;
+        m_targetAllign->Init();
+    }
+    else if (m_switcher->m_mainController->GetBumperReleased(frc::GenericHID::JoystickHand::kLeftHand))
+    {
+        m_visionMode = false;
+    }
 
+    if(m_switcher->m_mainController->GetBumperPressed(frc::GenericHID::JoystickHand::kRightHand))
+    {
+        m_holdMode = true;
+        m_visionMode = false;
+        m_holdDrivePositon->ResetLeftRightTargetPosition();
+    }
+    else if (m_switcher->m_mainController->GetBumperReleased(frc::GenericHID::JoystickHand::kRightHand))
+    {
+        m_holdMode = false;
+    }
+
+    if(m_visionMode)
+    {
+        m_targetAllign->Update();
+        if(m_targetAllign->IsDone())
+            m_visionMode = false;
+    }
+    else if(m_holdMode)
+    {    
+        double forwardSpeed = - (m_switcher->m_mainController->GetRawAxis(1));
+        double turnSpeed = (m_switcher->m_mainController->GetRawAxis(4));
+
+        // deadbands
+        if (std::abs(forwardSpeed) < 0.11)
+                forwardSpeed = 0.0;
+        if (std::abs(turnSpeed) < 0.11)
+                turnSpeed = 0.0;
+
+        forwardSpeed *= HOLD_MODE_MAX_INCHES_PER_SECOND_TURNING;
+        turnSpeed *= HOLD_MODE_MAX_INCHES_PER_SECOND_FORWARD;
+        double leftOffset = forwardSpeed + turnSpeed;
+        double rightOffset = forwardSpeed - turnSpeed;
+        leftOffset *= 0.02;
+        rightOffset *= 0.02;
+
+        m_holdDrivePositon->SetLeftRightTargetOffsetPosition(leftOffset, rightOffset);
+        m_holdDrivePositon->RunHoldMode();
+    }
+    else
+    {
+        m_switcher->DriveUpdate();
+    }
+}
 void DriverAssist::AttemptingGamePieceCancel()
 {
     if (std::abs(m_switcher->m_secondaryController->GetRawAxis(0)) > 0.50)

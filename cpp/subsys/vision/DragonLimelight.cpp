@@ -5,6 +5,8 @@
 
 #include "subsys/vision/DragonLimelight.h"
 
+DragonLimelight* DragonLimelight::m_instance = nullptr;
+
 DragonLimelight::DragonLimelight() :
     table(NetworkTableInstance::GetDefault().GetTable("limelight"))
 {}
@@ -79,4 +81,14 @@ void DragonLimelight::PrintValues()
     printf("Area: %f \n", GetTargetArea());
     printf("Skew: %f \n", GetTargetSkew());
     printf("Latency: %f \n", GetPipelineLatency());
+}
+
+DragonLimelight* DragonLimelight::GetInstance()
+{
+    if(m_instance == nullptr)
+    {
+        m_instance = new DragonLimelight();
+    }
+
+    return m_instance;
 }

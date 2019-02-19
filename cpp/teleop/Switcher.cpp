@@ -9,21 +9,22 @@
 #include "subsys/MechanismFactory.h"
 #include <frc/smartdashboard/SmartDashboard.h>
 #include <subsys/IMechanism.h>
+#include <subsys/vision/DragonLimelight.h>
 
 //TODO: xml baby
 Switcher::Switcher() :
 			m_arm( MechanismFactory::GetMechanismFactory()->GetArm() ),
 			m_intake( MechanismFactory::GetMechanismFactory()->GetIntake() ),
 			m_wrist( MechanismFactory::GetMechanismFactory()->GetWrist() ),
-			m_chassis( DragonChassis::GetInstance() ),
-                        m_climber( MechanismFactory::GetMechanismFactory()->GetClimber() ),
-                        m_limelight(new DragonLimelight()),
-                       m_allowClimbDrive(false),
+			m_chassis( DragonChassis::GetInstance() ),                     
+            m_climber( MechanismFactory::GetMechanismFactory()->GetClimber() ),
+            m_limelight(DragonLimelight::GetInstance()),
+            m_allowClimbDrive(false),
 			m_mainController( new frc::XboxController(0) ),
-                       	m_secondaryController(new frc::XboxController(1)),
-                       	m_holdMode(false),
-                       	m_leftTargetInches(0),
-                       	m_rightTargetInches(0)
+            m_secondaryController(new frc::XboxController(1)),
+           	m_holdMode(false),
+            m_leftTargetInches(0),
+            m_rightTargetInches(0)
 {
     m_visionMode = false;
     m_camMode = false;
@@ -37,20 +38,9 @@ void Switcher::DriveUpdate()
     if (m_mainController->GetAButtonReleased())
         m_allowClimbDrive = false;
 
-    if (m_mainController->GetYButtonPressed())
+    
+    if(m_mainController->GetBButtonPressed())
         m_visionMode = !m_visionMode;
-
-    if (m_visionMode)
-    {
-        m_limelight->SetCamMode(DragonLimelight::CAM_MODE::CAM_VISION);
-        m_limelight->SetLEDMode(DragonLimelight::LED_MODE::LED_ON);
-    }
-    else
-    {
-        m_limelight->SetCamMode(DragonLimelight::CAM_MODE::CAM_DRIVER);
-        m_limelight->SetLEDMode(DragonLimelight::LED_MODE::LED_OFF);
-    }
-
     if(m_mainController->GetXButtonPressed())
         m_camMode = !m_camMode;
 
@@ -63,24 +53,20 @@ void Switcher::DriveUpdate()
         m_limelight->SetStreamMode(DragonLimelight::STREAM_MODE::STREAM_SECOND_AND_MAIN);
     }
 
-    if (m_mainController->GetBumperPressed(XboxController::JoystickHand::kRightHand))
+    if(m_visionMode)
     {
-        m_holdMode = true;
-        m_leftTargetInches = m_chassis->GetLeftMiddleDistance(); //TODO hi it negative
-        m_rightTargetInches = m_chassis->GetRightMiddleDistance();
-        // printf("get bumper pressed \n");
+        m_limelight->SetLEDMode(DragonLimelight::LED_MODE::LED_ON);
     }
-    else if (m_mainController->GetBumperReleased(XboxController::JoystickHand::kRightHand))
+    else
     {
-        m_holdMode = false;
+        m_limelight->SetLEDMode(DragonLimelight::LED_MODE::LED_OFF);
     }
         
     //TODO:
     // try smoothing only the forward backward value instead of both forward backward and turning
     // this might give extra control
     // also try voltage ramping
-    m_chassis->UpdateChassis();
-    m_chassis->SetDriveMode(m_holdMode ? DragonChassis::POSITION_INCHES : DragonChassis::PERCENT_POWER);
+    m_chassis->SetDriveMode(DragonChassis::PERCENT_POWER);
 
     // double forwardSpeed = TeleopControl::GetInstance()->GetAxisValue( TeleopControl::ROBOT_Y_MAGNITUDE );
     // double turnSpeed = TeleopControl::GetInstance()->GetAxisValue( TeleopControl::ROBOT_X_MAGNITUDE ); // TODO: this should be ROBOT_TURN_MAGNITUDE, not ROBOT_X_MAGNITUDE
@@ -102,44 +88,30 @@ void Switcher::DriveUpdate()
     frc::SmartDashboard::PutNumber("real left inches", m_chassis->GetLeftMiddleDistance());
     frc::SmartDashboard::PutNumber("real right inches", m_chassis->GetRightMiddleDistance());
 
-    if (m_holdMode)
+    forwardSpeed = std::pow(forwardSpeed, 3);
+    turnSpeed = std::pow(turnSpeed, 3);
+
+    double leftSpeed = forwardSpeed + turnSpeed;
+    double rightSpeed = forwardSpeed - turnSpeed;
+
+    // scale drive magnetudes into -1 to 1 range
+    double maxValue = 1.0;
+    if (std::abs(leftSpeed) > maxValue)
     {
-        forwardSpeed *= HOLD_MODE_MAX_INCHES_PER_SECOND_TURNING;
-        turnSpeed *= HOLD_MODE_MAX_INCHES_PER_SECOND_FORWARD;
-        double leftSpeed = forwardSpeed + turnSpeed;
-        double rightSpeed = forwardSpeed - turnSpeed;
-        m_leftTargetInches += leftSpeed * 0.02;
-        m_rightTargetInches += rightSpeed * 0.02;
-
-        m_chassis->SetLeftRightMagnitudes(m_leftTargetInches, m_rightTargetInches);
+        maxValue = std::abs(leftSpeed);
     }
-    else
+    if (std::abs(rightSpeed) > maxValue)
     {
-        forwardSpeed = std::pow(forwardSpeed, 3);
-        turnSpeed = std::pow(turnSpeed, 3);
-
-        double leftSpeed = forwardSpeed + turnSpeed;
-        double rightSpeed = forwardSpeed - turnSpeed;
-
-        // scale drive magnetudes into -1 to 1 range
-        double maxValue = 1.0;
-        if (std::abs(leftSpeed) > maxValue)
-        {
-            maxValue = std::abs(leftSpeed);
-        }
-        if (std::abs(rightSpeed) > maxValue)
-        {
-            maxValue = std::abs(rightSpeed);
-        }
-
-        leftSpeed /= maxValue;
-        rightSpeed /= maxValue;
-
-        // printf("forward Speed: %f \n", forwardSpeed);
-        // printf("turning speed: %f \n", turnSpeed);
-
-        m_chassis->SetLeftRightMagnitudes(leftSpeed, rightSpeed);
+        maxValue = std::abs(rightSpeed);
     }
+
+    leftSpeed /= maxValue;
+    rightSpeed /= maxValue;
+
+    // printf("forward Speed: %f \n", forwardSpeed);
+    // printf("turning speed: %f \n", turnSpeed);
+
+    m_chassis->SetLeftRightMagnitudes(leftSpeed, rightSpeed);
 }
 
 void Switcher::GamepieceUpdate(bool cargo)

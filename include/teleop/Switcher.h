@@ -27,7 +27,7 @@ class Switcher {
   frc::XboxController* m_secondaryController;
 
 private:
-Arm* m_arm;
+  Arm* m_arm;
   Intake* m_intake;
   Wrist* m_wrist;
   DragonChassis* m_chassis;
@@ -58,4 +58,5 @@ Arm* m_arm;
   const double HOLD_MODE_MAX_INCHES_PER_SECOND_FORWARD = 6.0;
 
   const double ELEV_SPEED = 1.0;
+
 };
