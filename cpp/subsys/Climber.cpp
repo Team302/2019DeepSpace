@@ -75,7 +75,20 @@ void Climber::SetParam
     double                              value           // <I> - parameter value
 ) 
 {
-    // TODO:  Override values
+    switch(param)
+    {
+        case SERVO_LOCKED_POSITION_PARAM:
+        SERVO_DROPPED_POSITION = value;
+        break;
+
+        case SERVO_DROPPED_POSITION_PARAM:
+        SERVO_DROPPED_POSITION = value;
+        break;
+
+        default:
+        printf("Climber.cpp is getting an invalid parameter");
+        break;
+    }
 }
 void Climber::SetPID
 (

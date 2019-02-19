@@ -60,6 +60,8 @@ class IMechanism
             CARGO_OUTTAKE_SPEED_PARAM,
             HATCH_INTAKE_SPEED_PARAM,
             HATCH_OUTTAKE_SPEED_PARAM,
+            SERVO_LOCKED_POSITION_PARAM,
+            SERVO_DROPPED_POSITION_PARAM,
             MAX_MECHANISM_PARAM_TYPES
         };
 
