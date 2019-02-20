@@ -30,7 +30,7 @@ m_extender(nullptr)
             break;
 
             default:
-                printf("Nothing Selected \n")
+                printf("Nothing Selected \n");
             break;
         }
     }
