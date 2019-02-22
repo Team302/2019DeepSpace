@@ -12,6 +12,7 @@
 #include <frc/TimedRobot.h>
 #include <frc/smartdashboard/SendableChooser.h>
 #include "driverassist/DriverAssist.h"
+#include <hw/DragonTalon.h>
 
 // include mechs for printing angles
 #include "subsys/Arm.h"
@@ -28,6 +29,7 @@ class Robot : public frc::TimedRobot {
   void AutonomousPeriodic() override;
   void TeleopInit() override;
   void TeleopPeriodic() override;
+  void TestInit() override;
   void TestPeriodic() override;
   void Vision();
 
@@ -43,6 +45,10 @@ class Robot : public frc::TimedRobot {
   Wrist* m_wrist;
   Intake* m_intake;
   Climber* m_climber;
+
+  DragonTalon* m_armMasterMotor;
+  DragonTalon* m_wristMotor;
+  DragonTalon* m_extenderMotor;
 
   const double m_P_POSITION = 1.0;
   const double m_I_POSITION = 0.0; //1e-4
