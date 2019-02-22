@@ -19,6 +19,7 @@ class Wrist : public IMechanism {
   void MoveWristMotionMagic(double angle);
   void MoveWristManualSpeed(double speed);
   void MoveWristManualAngle(double angle);
+  void ResetTarget();
 
   double GetWristRealAngle();
   double GetWristTargetAngle();
@@ -63,9 +64,9 @@ class Wrist : public IMechanism {
     MAX_CARGO_POS
   };//                                                       
 //                                 start floor    hp    low  mid   high
-  double hatchAngle[MAX_HATCH_POS] = { 0, 51.38, -61.83, 139.57, 77.56, 11.51 };
+  double hatchAngle[MAX_HATCH_POS] = { 0, 51.38, -66.88, 150.40, 90.54, 27.54 };
   //                               
-  double cargoAngle[MAX_CARGO_POS] = { 0, -56.1, 64.03, -41.5, 17.86, -32.0, -33.66 };
+  double cargoAngle[MAX_CARGO_POS] = { 0, -56.1, 64.03, -41.5, 17.86, -32.0, -48.30 };
 
   // Talons
   DragonTalon* m_wristMotor;

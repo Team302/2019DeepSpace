@@ -20,6 +20,7 @@ public:
   void MoveArmMotionMagic(double angle);
   void MoveArmSpeed(double speed);
   void MoveArmAngle(double angle);
+  void ResetTarget();
 
   void MoveExtentionPreset(PlacementHeights::PLACEMENT_HEIGHT height, bool cargo);
   void MoveExtensionSpeed(double speed);
@@ -73,8 +74,14 @@ private:
   void CorrectExtenderPower(double &power);
   double Map(double x, double in_min, double in_max, double out_min, double out_max);
 
-  double hatchAngle[MAX_HATCH_POS] =        { 0, -140, -91.76, -154.58, -93.22, -23.76 };
-  double cargoAngle[MAX_CARGO_POS] =        { 0, -110.6, -94.13, -64.7, -99.5, -48.69 -13.75 };
+  double hatchAngle[MAX_HATCH_POS] =        { 0, -140, -85.77, -148.1, -83.33, -23.76 };
+  double cargoAngle[MAX_CARGO_POS] =        { 0, -110.6, -94.13, -64.7, -99.5, -50.73 -13.75 };
+
+  //practice bot
+  // double extenderHatchInches[MAX_HATCH_POS] = { 0, 6.8, 0, 0.925, 0, 0 };
+  // double extenderCargoInches[MAX_CARGO_POS] = { 0, 0.0, 0, 0, 0, 0, 6.8 };
+
+  // comp bot
   double extenderHatchInches[MAX_HATCH_POS] = { 0, 7.625, 0, 1.75, 0, 0 };
   double extenderCargoInches[MAX_CARGO_POS] = { 0, 0.0, 0, 0, 0, 0, 7.625 };
 
@@ -84,6 +91,8 @@ private:
   
   DragonTalon* m_armMaster;
   DragonTalon* m_extender;
+
+  const double EXTENDER_HOLD_POWER = -0.1;
 };
 
 // const double INCHES_PER_REVOLUTION = 8 / 6.7578125;
