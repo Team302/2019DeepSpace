@@ -116,6 +116,11 @@ void Wrist::MoveWristMotionMagic(double angle)
     m_wristMotor->Set(angle / 360);
 }
 
+void Wrist::ResetTarget()
+{
+    m_targetAngle = GetWristRealAngle();
+}
+
 /*
 * Returns current wrist angle
 */

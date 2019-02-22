@@ -132,6 +132,11 @@ void Arm::MoveArmAngle(double angle)
     m_armTargetAngle = angle; // update target angle
 }
 
+void Arm::ResetTarget()
+{
+    m_armTargetAngle = GetArmRealAngle();
+}
+
 void Arm::MoveExtentionPreset(PlacementHeights::PLACEMENT_HEIGHT height, bool cargo)
 {
     if(cargo)
@@ -202,7 +207,7 @@ void Arm::MoveExtentionPreset(PlacementHeights::PLACEMENT_HEIGHT height, bool ca
 
 void Arm::MoveExtensionSpeed(double speed)
 {
-    speed -= 0.1; //0.085
+    speed += EXTENDER_HOLD_POWER;
     m_extender->SetControlMode(IDragonMotorController::DRAGON_CONTROL_MODE::PERCENT_OUTPUT);
     CorrectExtenderPower(speed); //if we are gonna be out of bounds, pull in
     m_extender->Set(speed);
@@ -254,8 +259,15 @@ void Arm::CorrectExtenderPower(double &power)
     // double maxLegalExtender = (1-std::abs(cos(OurDegreesToRads(m_armTargetAngle)))) * 7.625;
     double realRads = OurDegreesToRads(GetArmRealAngle());
     double predictedRads = OurDegreesToRads(correctedAngle);
-    double realMaxLegalExtender = Map(std::abs(cos(realRads)), 1, 0.76, 2.0, 7.625);
+
+    //practice bot
+    // double realMaxLegalExtender = Map(std::abs(cos(realRads)), 1, 0.76, 1.175, 6.8); //BIG TODO: make MAX_EXTENDER_DISTANCE constant
+    // double predictedMaxLegalExtender = Map(std::abs(cos(predictedRads)), 1, 0.76, 1.175, 6.8);
+
+    // comp bot
+    double realMaxLegalExtender = Map(std::abs(cos(realRads)), 1, 0.76, 2.0, 7.625); //BIG TODO: make MAX_EXTENDER_DISTANCE constant
     double predictedMaxLegalExtender = Map(std::abs(cos(predictedRads)), 1, 0.76, 2.0, 7.625);
+
     // frc::SmartDashboard::PutNumber("Max Legal Inches", maxLegalExtender);
 
     // frc::SmartDashboard::PutNumber("")
@@ -264,7 +276,7 @@ void Arm::CorrectExtenderPower(double &power)
         power = -1;
     }
     else if (GetExtenderRealInches() < 0.0)
-        power = 0;
+        power = EXTENDER_HOLD_POWER;
 
     m_previousArmRealAngle = GetArmRealAngle();
 }

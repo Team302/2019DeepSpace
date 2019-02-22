@@ -5,6 +5,8 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
+#include "Robot.h"
+
 #include <iostream>
 #include <frc/smartdashboard/SmartDashboard.h>
 #include <cameraserver/CameraServer.h>
@@ -12,7 +14,6 @@
 #include <opencv2/core/core.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
 
-#include "Robot.h"
 #include "hw/DragonVision.h"
 #include <thread>
 
@@ -83,14 +84,35 @@ void Robot::RobotInit() {
   // create the hardware (chassis + mechanisms along with their talons,
   // solenoids, digital inputs, analog inputs, etc.
   RobotDefn::ParseXML();
-  /*
+  
+  
+  /*  
+  
+  printf("OMG WE DEPLOYED CODE 23\n");
+
+  // arm extend difference between comp and practice bot: 0.825
+
+  // PRAC BOT
+  // DragonTalon* armMaster = new DragonTalon(IDragonMotorController::TALON_TYPE::ARM_MASTER, 2, 1024, 180/233.4375 ); //((11.0/17) * (90/70.0))
+  // DragonTalon* armSlave = new DragonTalon(IDragonMotorController::TALON_TYPE::ARM_SLAVE, 13, 1024, 180/233.4375 );
+  // DragonTalon* intake = new DragonTalon(IDragonMotorController::TALON_TYPE::INTAKE, 7, 1024, 1); //id 7 on practice, 6 on comp
+  // DragonTalon* wrist = new DragonTalon(IDragonMotorController::TALON_TYPE::WRIST, 5, 1024, 180/235.6); //(11.0/17) * (180.0/164.2)
+  // DragonTalon* armExtend = new DragonTalon(IDragonMotorController::TALON_TYPE::ARM_EXTENSION, 4, 1024, 1);
+  // DragonTalon* elevDrive = new DragonTalon(IDragonMotorController::TALON_TYPE::ELEVATOR_DRIVE, 10, 1024, 1);
+  // DragonTalon* elevClimb = new DragonTalon(IDragonMotorController::TALON_TYPE::ELEVATOR_WINCH, 6, 1024, 1); 
+
+  // COMP BOT
   DragonTalon* armMaster = new DragonTalon(IDragonMotorController::TALON_TYPE::ARM_MASTER, 2, 1024, 180/233.4375 ); //((11.0/17) * (90/70.0))
   DragonTalon* armSlave = new DragonTalon(IDragonMotorController::TALON_TYPE::ARM_SLAVE, 13, 1024, 180/233.4375 );
-  DragonTalon* intake = new DragonTalon(IDragonMotorController::TALON_TYPE::INTAKE, 6, 1024, 1); //id 7 on practice
+  DragonTalon* intake = new DragonTalon(IDragonMotorController::TALON_TYPE::INTAKE, 6, 1024, 1); //id 7 on practice, 6 on comp
   DragonTalon* wrist = new DragonTalon(IDragonMotorController::TALON_TYPE::WRIST, 5, 1024, 180/235.6); //(11.0/17) * (180.0/164.2)
   DragonTalon* armExtend = new DragonTalon(IDragonMotorController::TALON_TYPE::ARM_EXTENSION, 4, 1024, 1);
   DragonTalon* elevDrive = new DragonTalon(IDragonMotorController::TALON_TYPE::ELEVATOR_DRIVE, 10, 1024, 1);
-  DragonTalon* elevClimb = new DragonTalon(IDragonMotorController::TALON_TYPE::ELEVATOR_WINCH, 11, 1024, 1); //6 on practice
+  DragonTalon* elevClimb = new DragonTalon(IDragonMotorController::TALON_TYPE::ELEVATOR_WINCH, 11, 1024, 1);
+
+  m_armMasterMotor = armMaster;
+  m_wristMotor = wrist;
+  m_extenderMotor = armExtend;
 
   DragonSparkMax* frontL = new DragonSparkMax(16, IDragonMotorController::TALON_TYPE::FRONT_LEFT_DRIVE, CANSparkMax::MotorType::kBrushless, (1/5.0));
   DragonSparkMax* middleL = new DragonSparkMax(1, IDragonMotorController::TALON_TYPE::MIDDLE_LEFT_DRIVE, CANSparkMax::MotorType::kBrushless, (1/5.0));
@@ -144,17 +166,19 @@ void Robot::RobotInit() {
   elevDrive->EnableBrakeMode(true);
   elevClimb->EnableBrakeMode(true);
 
-  printf("OMG WE DEPLOYED CODE 13\n");
   wrist->SetPIDF(5, 0, 10.0, 0);
   wrist->SetSensorInverted(false); //was true
-  wrist->SetRotationOffset(49.420699 / 360.0); // 55.55
+  wrist->SetRotationOffset(158.74 / 360.0); // 55.55
   wrist->ConfigMotionAcceleration(150);
   wrist->ConfigMotionCruiseVelocity(200);
 
   armExtend->SetPIDF(20, 0, 0, 0);
-  armExtend->SetRotationOffset(7.625 / INCHES_PER_REVOLUTION);
+  //practice bot
+  // armExtend->SetRotationOffset(6.8 / INCHES_PER_REVOLUTION);
+  //comp bot
+  armExtend->SetRotationOffset(0.0 / INCHES_PER_REVOLUTION);
 
-  armMaster->SetRotationOffset((-138.00) / 360.0); //-137
+  armMaster->SetRotationOffset((-167.00) / 360.0); //-137
   armMaster->SetPIDF(15, 0, 0, 0);
   armMaster->ConfigMotionAcceleration(60);
   armMaster->ConfigMotionCruiseVelocity(200);
@@ -193,9 +217,14 @@ void Robot::RobotInit() {
 
   DragonChassis::CreateDragonChassis(tempMotors, 6.0, 1, 1);
   DragonChassis::GetInstance()->SetVoltageRamping(0.25, 0);
+
+  m_driverAssist = new DriverAssist();  
   */
 
-  m_driverAssist = new DriverAssist();
+
+
+
+
 }
 
 /**
@@ -246,6 +275,17 @@ void Robot::TeleopPeriodic()
 
   frc::SmartDashboard::PutNumber("Extender Target Inches", m_arm->GetExtenderTargetInches());
   frc::SmartDashboard::PutNumber("Extender Real Inches", m_arm->GetExtenderRealInches());
+}
+
+void Robot::TestInit()
+{
+  // set offsets for test robot starting config
+  m_wristMotor->SetRotationOffset(49.420699 / 360.0); // 55.55
+  m_armMasterMotor->SetRotationOffset((-138.00) / 360.0); //-137
+  m_extenderMotor->SetRotationOffset(7.625 / INCHES_PER_REVOLUTION);
+
+  m_wrist->ResetTarget();
+  m_arm->ResetTarget();
 }
 
 void Robot::TestPeriodic() {}
