@@ -37,13 +37,13 @@ void Intake::IntakeManual(double speed)
 void Intake::IntakePreset(bool cargo, bool outtake)
 {
     if(cargo)
-        m_intakeMotor->Set(CARGO_INTAKE_SPEED);
+        m_intakeMotor->Set(m_cargoIntakeSpeed);
     else if(cargo && outtake)
-        m_intakeMotor->Set(CARGO_OUTTAKE_SPEED);
+        m_intakeMotor->Set(m_cargoOuttakeSpeed);
     else if(outtake)
-        m_intakeMotor->Set(HATCH_OUTTAKE_SPEED);
+        m_intakeMotor->Set(m_hatchOuttakeSpeed);
     else
-        m_intakeMotor->Set(HATCH_INTAKE_SPEED);
+        m_intakeMotor->Set(m_hatchIntakeSpeed);
 }
 
 bool Intake::ObjectPresent()
@@ -71,24 +71,24 @@ void Intake::SetParam
     switch(param)
     {
         case CARGO_INTAKE_SPEED_PARAM:
-        CARGO_INTAKE_SPEED = value;
-        break;
+            m_cargoIntakeSpeed = value;
+            break;
 
         case CARGO_OUTTAKE_SPEED_PARAM:
-        CARGO_OUTTAKE_SPEED = value;
-        break;
+            m_cargoOuttakeSpeed = value;
+            break;
 
         case HATCH_INTAKE_SPEED_PARAM:
-        HATCH_INTAKE_SPEED = value;
-        break;
+            m_hatchIntakeSpeed = value;
+            break;
 
         case HATCH_OUTTAKE_SPEED_PARAM:
-        HATCH_OUTTAKE_SPEED = value;
-        break;
+            m_hatchOuttakeSpeed = value;
+            break;
 
         default:
-        printf("Intake.cpp is getting an invalid parameter");
-        break;
+            printf("Intake.cpp is getting an invalid parameter");
+            break;
 
 
     }
