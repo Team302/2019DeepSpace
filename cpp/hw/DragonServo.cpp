@@ -20,9 +20,6 @@ DragonServo::DragonServo
 	m_minAngle( minAngle ),
 	m_maxAngle( maxAngle )
 {
-//    printf( "==>> DragonServo usage %d id %d \n", m_usage, deviceID );
-)
-{
     m_servo =new Servo(deviceID);
 }
 
