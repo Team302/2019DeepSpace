@@ -206,6 +206,14 @@ mechParamData  MechanismDataDefn::ParseXML
             {
                 mechData.first = IMechanism::MECHANISM_PARAM_TYPE::SERVO_DROPPED_POSITION_PARAM;               
             }
+            else if ( strcmp( param, "EXTENDER_HOLD_POWER") == 0 )
+            {
+                mechData.first = IMechanism::MECHANISM_PARAM_TYPE::EXTENDER_HOLD_POWER;
+            }
+            else if ( strcmp( param, "EXTENDER_INCHES_PER_REVOLUTION" ) == 0 )
+            {
+                mechData.first = IMechanism::MECHANISM_PARAM_TYPE::EXTENDER_INCHES_PER_REVOLUTION;
+            }
             else
             {
                 printf( "==>> MechanismDataDefn::ParseXML invalid dataType %s \n", param );

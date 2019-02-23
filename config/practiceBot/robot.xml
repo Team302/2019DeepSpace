@@ -301,6 +301,10 @@
 					   value="0.0"/>
 		<mechanismData paramType="CARGO_HIGH_EXTENSION"
 					   value="6.8"/>					   
+		<mechanismData paramType="EXTENDER_HOLD_POWER"
+					   value="-0.1"/>					   
+		<mechanismData paramType="EXTENDER_INCHES_PER_REVOLUTION"
+					   value="7.625 / 9.28515625"/>					   
 		<PID mode="2"
 			 proportional="15.0"
 			 maxacceleration="60.0"
