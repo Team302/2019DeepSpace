@@ -65,17 +65,152 @@ mechParamData  MechanismDataDefn::ParseXML
     {
         if ( strcmp( attr.name(), "paramType" ) == 0 )
         {
-            IMechanism::MECHANISM_PARAM_TYPE type = (IMechanism::MECHANISM_PARAM_TYPE)attr.as_int();
-            if ( type > IMechanism::MECHANISM_PARAM_TYPE::MECHANISM_PARAM_UNKNOWN && 
-                 type < IMechanism::MECHANISM_PARAM_TYPE::MAX_MECHANISM_PARAM_TYPES )
+            auto param = attr.value();
+            if ( strcmp( param, "WRIST_ANGLE_OFFSET") == 0 )
             {
-                mechData.first = type;
+                mechData.first = IMechanism::MECHANISM_PARAM_TYPE::WRIST_ANGLE_OFFSET;               
+            }
+            else if ( strcmp( param, "ARM_ANGLE_OFFSET" ) == 0 )
+            {
+                mechData.first = IMechanism::MECHANISM_PARAM_TYPE::ARM_ANGLE_OFFSET;               
+            }
+            else if ( strcmp( param, "ARM_EXTENSION_OFFSET" ) == 0 )
+            {
+                mechData.first = IMechanism::MECHANISM_PARAM_TYPE::ARM_EXTENSION_OFFSET;               
+            }
+            else if ( strcmp( param, "HATCH_START_ANGLE" ) == 0 )
+            {
+                mechData.first = IMechanism::MECHANISM_PARAM_TYPE::HATCH_START_ANGLE;               
+            }
+            else if ( strcmp( param, "HATCH_FLOOR_ANGLE" ) == 0 )
+            {
+                mechData.first = IMechanism::MECHANISM_PARAM_TYPE::HATCH_FLOOR_ANGLE;               
+            }
+            else if ( strcmp( param, "HATCH_HP_ANGLE" ) == 0 )
+            {
+                mechData.first = IMechanism::MECHANISM_PARAM_TYPE::HATCH_HP_ANGLE; 
+            }
+            else if ( strcmp( param, "HATCH_LOW_ANGLE" ) == 0 )
+            {
+                mechData.first = IMechanism::MECHANISM_PARAM_TYPE::HATCH_LOW_ANGLE;               
+            }
+            else if ( strcmp( param, "HATCH_MID_ANGLE" ) == 0 )
+            {
+                mechData.first = IMechanism::MECHANISM_PARAM_TYPE::HATCH_MID_ANGLE;               
+            }
+            else if ( strcmp( param, "HATCH_HIGH_ANGLE" ) == 0 )
+            {
+                mechData.first = IMechanism::MECHANISM_PARAM_TYPE::HATCH_HIGH_ANGLE;               
+            }
+            else if ( strcmp( param, "CARGO_START_ANGLE" ) == 0 )
+            {
+                mechData.first = IMechanism::MECHANISM_PARAM_TYPE::CARGO_START_ANGLE;               
+            }
+            else if ( strcmp( param, "CARGO_FLOOR_ANGLE" ) == 0 )
+            {
+                mechData.first = IMechanism::MECHANISM_PARAM_TYPE::CARGO_FLOOR_ANGLE;               
+            }
+            else if ( strcmp( param, "CARGO_HP_ANGLE" ) == 0 )
+            {
+                mechData.first = IMechanism::MECHANISM_PARAM_TYPE::CARGO_HP_ANGLE;               
+            }
+            else if ( strcmp( param, "CARGO_SHIP_ANGLE" ) == 0 )
+            {
+                mechData.first = IMechanism::MECHANISM_PARAM_TYPE::CARGO_SHIP_ANGLE;               
+            }
+            else if ( strcmp( param, "CARGO_LOW_ANGLE" ) == 0 )
+            {
+                mechData.first = IMechanism::MECHANISM_PARAM_TYPE::CARGO_LOW_ANGLE;               
+            }
+            else if ( strcmp( param, "CARGO_MID_ANGLE" ) == 0 )
+            {
+                mechData.first = IMechanism::MECHANISM_PARAM_TYPE::CARGO_MID_ANGLE;               
+            }
+            else if ( strcmp( param, "CARGO_HIGH_ANGLE" ) == 0 )
+            {
+                mechData.first = IMechanism::MECHANISM_PARAM_TYPE::CARGO_HIGH_ANGLE;               
+            }
+            else if ( strcmp( param, "HATCH_START_EXTENSION" ) == 0 )
+            {
+                mechData.first = IMechanism::MECHANISM_PARAM_TYPE::HATCH_START_EXTENSION;               
+            }
+            else if ( strcmp( param, "HATCH_FLOOR_EXTENSION" ) == 0 )
+            {
+                mechData.first = IMechanism::MECHANISM_PARAM_TYPE::HATCH_FLOOR_EXTENSION;               
+            }
+            else if ( strcmp( param, "HATCH_HP_EXTENSION" ) == 0 )
+            {
+                mechData.first = IMechanism::MECHANISM_PARAM_TYPE::HATCH_HP_EXTENSION;               
+            }
+            else if ( strcmp( param, "HATCH_LOW_EXTENSION" ) == 0 )
+            {
+                mechData.first = IMechanism::MECHANISM_PARAM_TYPE::HATCH_LOW_EXTENSION;               
+            }
+            else if ( strcmp( param, "HATCH_MID_EXTENSION" ) == 0 )
+            {
+                mechData.first = IMechanism::MECHANISM_PARAM_TYPE::HATCH_MID_EXTENSION;               
+            }
+            else if ( strcmp( param, "HATCH_HIGH_EXTENSION" ) == 0 )
+            {
+                mechData.first = IMechanism::MECHANISM_PARAM_TYPE::HATCH_HIGH_EXTENSION;               
+            }
+            else if ( strcmp( param, "CARGO_START_EXTENSION" ) == 0 )
+            {
+                mechData.first = IMechanism::MECHANISM_PARAM_TYPE::CARGO_START_EXTENSION;               
+            }
+            else if ( strcmp( param, "CARGO_FLOOR_EXTENSION" ) == 0 )
+            {
+                mechData.first = IMechanism::MECHANISM_PARAM_TYPE::CARGO_FLOOR_EXTENSION;               
+            }
+            else if ( strcmp( param, "CARGO_HP_EXTENSION" ) == 0 )
+            {
+                mechData.first = IMechanism::MECHANISM_PARAM_TYPE::CARGO_HP_EXTENSION;               
+            }
+            else if ( strcmp( param, "CARGO_SHIP_EXTENSION" ) == 0 )
+            {
+                mechData.first = IMechanism::MECHANISM_PARAM_TYPE::CARGO_SHIP_EXTENSION;               
+            }
+            else if ( strcmp( param, "CARGO_LOW_EXTENSION" ) == 0 )
+            {
+                mechData.first = IMechanism::MECHANISM_PARAM_TYPE::CARGO_LOW_EXTENSION;               
+            }
+            else if ( strcmp( param, "CARGO_MID_EXTENSION" ) == 0 )
+            {
+                mechData.first = IMechanism::MECHANISM_PARAM_TYPE::CARGO_MID_EXTENSION;               
+            }
+            else if ( strcmp( param, "CARGO_HIGH_EXTENSION" ) == 0 )
+            {
+                mechData.first = IMechanism::MECHANISM_PARAM_TYPE::CARGO_HIGH_EXTENSION;               
+            }
+            else if ( strcmp( param, "CARGO_INTAKE_SPEED_PARAM" ) == 0 )
+            {
+                mechData.first = IMechanism::MECHANISM_PARAM_TYPE::CARGO_INTAKE_SPEED_PARAM;               
+            }
+            else if ( strcmp( param, "CARGO_OUTTAKE_SPEED_PARAM" ) == 0 )
+            {
+                mechData.first = IMechanism::MECHANISM_PARAM_TYPE::CARGO_OUTTAKE_SPEED_PARAM;               
+            }
+            else if ( strcmp( param, "HATCH_INTAKE_SPEED_PARAM" ) == 0 )
+            {
+                mechData.first = IMechanism::MECHANISM_PARAM_TYPE::HATCH_INTAKE_SPEED_PARAM;               
+            }
+            else if ( strcmp( param, "HATCH_OUTTAKE_SPEED_PARAM" ) == 0 )
+            {
+                mechData.first = IMechanism::MECHANISM_PARAM_TYPE::HATCH_OUTTAKE_SPEED_PARAM;               
+            }
+            else if ( strcmp( param, "SERVO_LOCKED_POSITION_PARAM" ) == 0 )
+            {
+                mechData.first = IMechanism::MECHANISM_PARAM_TYPE::SERVO_LOCKED_POSITION_PARAM;               
+            }
+            else if ( strcmp( param, "SERVO_DROPPED_POSITION_PARAM" ) == 0 )
+            {
+                mechData.first = IMechanism::MECHANISM_PARAM_TYPE::SERVO_DROPPED_POSITION_PARAM;               
             }
             else
             {
-                printf( "==>> MechanismDataDefn::ParseXML invalid dataType %d \n", type );
+                printf( "==>> MechanismDataDefn::ParseXML invalid dataType %s \n", param );
                 hasError = true;
-            }
+            }            
         }
         else if ( strcmp( attr.name(), "value") == 0 )
         {
