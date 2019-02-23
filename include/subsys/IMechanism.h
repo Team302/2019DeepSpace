@@ -62,6 +62,8 @@ class IMechanism
             HATCH_OUTTAKE_SPEED_PARAM,
             SERVO_LOCKED_POSITION_PARAM,
             SERVO_DROPPED_POSITION_PARAM,
+            EXTENDER_HOLD_POWER,
+            EXTENDER_INCHES_PER_REVOLUTION,
             MAX_MECHANISM_PARAM_TYPES
         };
 
