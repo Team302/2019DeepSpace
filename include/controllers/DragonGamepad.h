@@ -4,6 +4,8 @@
 /* must be accompanied by the FIRST BSD license file in the root directory of */
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
+#ifndef SRC_MAIN_INCLUDE_COMMON_CONTROLLERS_DRAGONGAMEPAD_H_
+#define SRC_MAIN_INCLUDE_COMMON_CONTROLLERS_DRAGONGAMEPAD_H_
 
 #include <controllers/IDragonGamePad.h>
 #include <controllers/axis/AnalogAxis.h>
@@ -13,7 +15,7 @@
 #include <frc/GenericHID.h>
 #include <frc/Joystick.h>
 
-class DragonGamepad : IDragonGamePad
+class DragonGamepad : public IDragonGamePad
 {
  public:
   DragonGamepad
@@ -61,6 +63,11 @@ class DragonGamepad : IDragonGamePad
   bool IsRawButtonPressed
   (
     BUTTON_IDENTIFIER button
+  );
+
+  bool IsRawButtonPressed
+  (
+    ANALOG_BUTTON_IDENTIFIER button
   );
 
   float GetAxisValue
@@ -151,3 +158,5 @@ class DragonGamepad : IDragonGamePad
 
   DragonGamepad() = delete;
 };
+
+#endif

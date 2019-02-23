@@ -94,8 +94,11 @@ class IDragonGamePad
             LEFT_ANALOG_BUTTON_AXIS,
             RIGHT_ANALOG_BUTTON_AXIS,
             MAX_GAMEPAD_AXIS,
+
             UNDEFINED_AXIS
         };
+
+        
 
         enum ANALOG_BUTTON_IDENTIFIER
         {
@@ -115,6 +118,7 @@ class IDragonGamePad
             GAMEPAD_BIG_RED_BUTTON,
             MAX_ANALOG_BUTTONS
         };
+
 
 
         enum AXIS_DEADBAND
