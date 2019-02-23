@@ -133,7 +133,7 @@ void Wrist::SetParam
         break;
 
         case HATCH_HP_ANGLE:
-        hatchAngle[HATCH_FLOOR] = value;
+        //hatchAngle[HATCH_FLOOR] = value; We must include a HP preset for Wrist.
         break;
 
         case HATCH_MID_ANGLE:

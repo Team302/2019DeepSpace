@@ -54,6 +54,7 @@ private:
     HATCH_MID,
     HATCH_HIGH,
     MAX_HATCH_POS
+    //include a HP preset here
   };
 
   enum CARGO_WRIST_PRESETS

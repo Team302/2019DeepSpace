@@ -44,6 +44,7 @@ class Wrist : public IMechanism {
     HATCH_MID,
     HATCH_HIGH,
     MAX_HATCH_POS
+    //include HP preset here
   };
 
   enum CARGO_WRIST_PRESETS

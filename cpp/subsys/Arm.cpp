@@ -223,7 +223,48 @@ void Arm::SetParam
     double                              value           // <I> - parameter value
 ) 
 {
-    // TODO:  Override values
+    switch(param)
+    {
+        case HATCH_HP_EXTENSION:
+        //hatchAngle[] TODO: We must include a HP preset for Arm and Wrist.
+        break;
+
+        case HATCH_MID_EXTENSION:
+        hatchAngle[HATCH_MID] = value;
+        break;
+
+        case HATCH_HIGH_EXTENSION:
+        hatchAngle[HATCH_HIGH] = value;
+        break;
+
+        case CARGO_FLOOR_EXTENSION:
+        cargoAngle[CARGO_FLOOR] = value;
+        break;
+
+        case CARGO_HP_EXTENSION:
+        cargoAngle[CARGO_HP] = value;
+        break;
+
+        case CARGO_SHIP_EXTENSION:
+        cargoAngle[CARGO_SHIP] = value;
+        break;
+
+        case CARGO_LOW_EXTENSION:
+        cargoAngle[CARGO_LOW] = value;
+        break;
+
+        case CARGO_MID_EXTENSION:
+        cargoAngle[CARGO_MID] = value;
+        break;
+
+        case CARGO_HIGH_EXTENSION:
+        cargoAngle[CARGO_HIGH] = value;
+        break;
+
+        default:
+        printf("Arm.cpp error: recieving unexpected arm parameter: line 265\n");
+        break;
+    }
 }
 void Arm::SetPID
 (
