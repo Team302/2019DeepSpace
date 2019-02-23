@@ -141,13 +141,13 @@
          	   feedbackDevice="0"
           	   countsPerRev="1024"
 		   	   brakeMode="true"
-        	   gearRatio="1.0" 
+        	   gearRatio="180/235.6" 
         	   peakCurrentDuration="50"
         	   continuousCurrentLimit="30"
         	   peakCurrentLimit="40" 
         	   currentLimiting="true"/>
 		<mechanismData paramType="WRIST_ANGLE_OFFSET"
-					   value="49.420699 / 360.0"/>		
+					   value="158.74 / 360.0"/>		
 		<mechanismData paramType="HATCH_START_ANGLE"
 					   value="0.0"/>
 		<mechanismData paramType="HATCH_FLOOR_ANGLE"
@@ -184,9 +184,9 @@
 	<!-- Intake --> 
 	<mechanism type="1"> 
 		<motor usage="10"
-			   canId="4"
+			   canId="7"
 			   type="0"
-               inverted="false"
+               inverted="true"
          	   feedbackDevice="0"
           	   countsPerRev="1024"
 		   	   brakeMode="true"
@@ -214,7 +214,7 @@
          	   feedbackDevice="0"
           	   countsPerRev="1024"
 		   	   brakeMode="true"
-        	   gearRatio="1.0" 
+        	   gearRatio="180/233.4375" 
         	   peakCurrentDuration="50"
         	   continuousCurrentLimit="30"
         	   peakCurrentLimit="40" 
@@ -227,7 +227,7 @@
          	   feedbackDevice="0"
           	   countsPerRev="1024"
 		   	   brakeMode="true"
-        	   gearRatio="1.0" 
+        	   gearRatio="180/233.4375" 
         	   peakCurrentDuration="50"
         	   continuousCurrentLimit="30"
         	   peakCurrentLimit="40" 
@@ -237,6 +237,7 @@
 			   canId="6"
 			   type="0"
                inverted="false"
+			   sensorInverted="true"
          	   feedbackDevice="0"
           	   countsPerRev="1024"
 		   	   brakeMode="true"
@@ -246,7 +247,7 @@
         	   peakCurrentLimit="40" 
         	   currentLimiting="true"/>
 		<mechanismData paramType="ARM_ANGLE_OFFSET"
-					   value="(-138.00) / 360.0"/>		
+					   value="(-167.00) / 360.0"/>		
 		<mechanismData paramType="ARM_EXTENSION_OFFSET"
 					   value="9.28515625"/>
 		<mechanismData paramType="HATCH_START_ANGLE"
