@@ -153,13 +153,13 @@
 		<mechanismData paramType="HATCH_FLOOR_ANGLE"
 					   value="51.38"/>
 		<mechanismData paramType="HATCH_HP_ANGLE"
-					   value="-61.83"/>
+					   value="-66.88"/>
 		<mechanismData paramType="HATCH_LOW_ANGLE"
-					   value="139.57"/>
+					   value="150.40"/>
 		<mechanismData paramType="HATCH_MID_ANGLE"
-					   value="77.56"/>
+					   value="90.54"/>
 		<mechanismData paramType="HATCH_HIGH_ANGLE"
-					   value="11.51"/>
+					   value="27.54"/>
 		<mechanismData paramType="CARGO_START_ANGLE"
 					   value="0.0"/>
 		<mechanismData paramType="CARGO_FLOOR_ANGLE"
@@ -173,7 +173,7 @@
 		<mechanismData paramType="CARGO_MID_ANGLE"
 					   value="-32.0"/>
 		<mechanismData paramType="CARGO_HIGH_ANGLE"
-					   value="-33.66"/>
+					   value="-48.30"/>
 		<PID mode="2"
 			 proportional="5.0"
 			 derivative="10.0"
@@ -195,6 +195,14 @@
         	   continuousCurrentLimit="30"
         	   peakCurrentLimit="40" 
         	   currentLimiting="true"/>
+		<mechanismData paramType="CARGO_INTAKE_SPEED_PARAM"
+					   value="1.0"/>	
+		<mechanismData paramType="CARGO_OUTTAKE_SPEED_PARAM"
+					   value="-1.0"/>	
+		<mechanismData paramType="HATCH_INTAKE_SPEED_PARAM"
+					   value="-1.0"/>	
+		<mechanismData paramType="HATCH_OUTTAKE_SPEED_PARAM"
+					   value="1.0"/>	
 	</mechanism>
 	<!-- Arm -->
 	<mechanism type="2">
@@ -246,11 +254,11 @@
 		<mechanismData paramType="HATCH_FLOOR_ANGLE"
 					   value="-140.0"/>
 		<mechanismData paramType="HATCH_HP_ANGLE"
-					   value="-91.76"/>
+					   value="-85.77"/>
 		<mechanismData paramType="HATCH_LOW_ANGLE"
-					   value="-154.58"/>
+					   value="-148.1"/>
 		<mechanismData paramType="HATCH_MID_ANGLE"
-					   value="-93.22"/>
+					   value="-83.33"/>
 		<mechanismData paramType="HATCH_HIGH_ANGLE"
 					   value="-23.76"/>
 		<mechanismData paramType="CARGO_START_ANGLE"
@@ -264,17 +272,17 @@
 		<mechanismData paramType="CARGO_LOW_ANGLE"
 					   value="-99.5"/>
 		<mechanismData paramType="CARGO_MID_ANGLE"
-					   value="-48.69"/>
+					   value="-50.73"/>
 		<mechanismData paramType="CARGO_HIGH_ANGLE"
 					   value="-13.75"/>
 		<mechanismData paramType="HATCH_START_EXTENSION"
 					   value="0.0"/>
 		<mechanismData paramType="HATCH_FLOOR_EXTENSION"
-					   value="7.625"/>
+					   value="6.8"/>
 		<mechanismData paramType="HATCH_HP_EXTENSION"
 					   value="0.0"/>
 		<mechanismData paramType="HATCH_LOW_EXTENSION"
-					   value="1.75"/>
+					   value="0.925"/>
 		<mechanismData paramType="HATCH_MID_EXTENSION"
 					   value="0.0"/>
 		<mechanismData paramType="HATCH_HIGH_EXTENSION"
@@ -292,7 +300,7 @@
 		<mechanismData paramType="CARGO_MID_EXTENSION"
 					   value="0.0"/>
 		<mechanismData paramType="CARGO_HIGH_EXTENSION"
-					   value="7.625"/>
+					   value="6.8"/>					   
 		<PID mode="2"
 			 proportional="15.0"
 			 maxacceleration="60.0"
@@ -328,6 +336,10 @@
         	   continuousCurrentLimit="30"
         	   peakCurrentLimit="40" 
         	   currentLimiting="true"/>
+		<mechanismData paramType="SERVO_LOCKED_POSITION_PARAM"
+					   value="0.0"/>
+		<mechanismData paramType="SERVO_DROPPED_POSITION_PARAM"
+					   value="1.0"/>					   
 	</mechanism>
 <!-- ====================================================
 	 Talon Tachs

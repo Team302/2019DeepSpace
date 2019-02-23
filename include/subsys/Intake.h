@@ -10,7 +10,8 @@
 #include <subsys/IMechanism.h>
 #include <hw/DragonTalon.h> 
 
-class Intake : public IMechanism  {
+class Intake : public IMechanism  
+{
  public:
   Intake(std::vector<IDragonMotorController*> motorControllers);
   void IntakePreset(bool cargo, bool outtake);
@@ -37,8 +38,8 @@ class Intake : public IMechanism  {
   DragonTalon* m_intakeMotor;
 
   // Speeds for intake/outtake. Cargo and Hatch intake speeds should be opposite signs
-  const double CARGO_INTAKE_SPEED = 1.0;
-  const double CARGO_OUTTAKE_SPEED = -1.0;
-  const double HATCH_INTAKE_SPEED = -1.0;
-  const double HATCH_OUTTAKE_SPEED = 1.0;
+  double m_cargoIntakeSpeed  = 1.0;
+  double m_cargoOuttakeSpeed = -1.0;
+  double m_hatchIntakeSpeed  = -1.0;
+  double m_hatchOuttakeSpeed = 1.0;
 };
