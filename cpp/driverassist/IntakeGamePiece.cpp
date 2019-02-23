@@ -13,17 +13,15 @@
 #include "subsys/MechanismFactory.h"
 
 
-IntakeGamePiece::IntakeGamePiece() :
-    m_arm(dynamic_cast<Arm*>(MechanismFactory::GetMechanismFactory()->GetIMechanism(IMechanism::MECHANISM_TYPE::ARM))),
-    m_wrist(dynamic_cast<Wrist*>(MechanismFactory::GetMechanismFactory()->GetIMechanism(IMechanism::MECHANISM_TYPE::WRIST))),
-    m_intake(dynamic_cast<Intake*>(MechanismFactory::GetMechanismFactory()->GetIMechanism(IMechanism::MECHANISM_TYPE::INTAKE))),
-    m_elapsedTime(0.0),
-    m_armInitialAngle(0.0),
-    m_armAngleOffset(0.0),
-    m_state(INTAKE_STATE::DONE) 
-    {
-
-    }
+IntakeGamePiece::IntakeGamePiece() : m_arm(MechanismFactory::GetMechanismFactory()->GetArm()),
+                                     m_wrist(MechanismFactory::GetMechanismFactory()->GetWrist()),
+                                     m_intake(MechanismFactory::GetMechanismFactory()->GetIntake()),
+                                     m_elapsedTime(0.0),
+                                     m_armInitialAngle(0.0),
+                                     m_armAngleOffset(0.0),
+                                     m_state(INTAKE_STATE::DONE) 
+{
+}
 
 void IntakeGamePiece::Update()
 {
