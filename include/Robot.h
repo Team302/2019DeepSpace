@@ -32,6 +32,7 @@ class Robot : public frc::TimedRobot {
   void TestInit() override;
   void TestPeriodic() override;
   void Vision();
+  void MainPeriodic();
 
  private:
   frc::SendableChooser<std::string> m_chooser;

@@ -18,8 +18,13 @@
 class PIDData
 {
     public:
+        enum PID_TARGET
+        {
+            ARM,
+            EXTENDER,
+            GENERAL
+        };
 
-    
         enum CONTROL_MODE
         {
             VELOCITY,
@@ -29,45 +34,21 @@ class PIDData
 
         PIDData
         (
-            CONTROL_MODE        mode,
-            double              proportional
-        );
-        PIDData
-        (
-            CONTROL_MODE        mode,
-            double              proportional,
-            double              integral
-        );        
-        PIDData
-        (
-            CONTROL_MODE        mode,
-            double              proportional,
-            double              integral,
-            double              derivative
-        );
-        PIDData
-        (
-            CONTROL_MODE        mode,
-            double              proportional,
-            double              integral,
-            double              derivative,
-            double              feedforward
-        );
-        PIDData
-        (
-            CONTROL_MODE        mode,
-            double              proportional,
-            double              integral,
-            double              derivative,
-            double              feedforward,
-            double              maxAcceleration,
-            double              cruiseVelocity
+            CONTROL_MODE            mode,
+            PID_TARGET  pidTarget,
+            double                  proportional,
+            double                  integral,
+            double                  derivative,
+            double                  feedforward,
+            double                  maxAcceleration,
+            double                  cruiseVelocity
         );
 
 
         virtual ~PIDData() = default;
 
         inline CONTROL_MODE GetMode() { return m_mode; };
+        inline PID_TARGET GetPidTarget() { return m_pidTarget; };
         inline double GetP() { return m_proportional; };
         inline double GetI() { return m_integral; };
         inline double GetD() { return m_derivative; };
@@ -80,6 +61,7 @@ class PIDData
         PIDData() = delete;
 
         CONTROL_MODE                    m_mode;
+        PID_TARGET                      m_pidTarget;
         double                          m_proportional;
         double                          m_integral;
         double                          m_derivative;
