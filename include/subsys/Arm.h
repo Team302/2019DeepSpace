@@ -42,9 +42,13 @@ public:
   (
       PIDData*       pid                 // <I> - PID control information
   ) override;
+
+  void SetPracticeStartingPos();
+  void SetLegalStartingPos();
   
 
 private: 
+  //TODO: rename these to HATCH_ARM_PRESETS and CARGO_ARM_PRESETS... not wrist
   enum HATCH_WRIST_PRESETS
   {
     HATCH_KEEP_SAME = -1,
@@ -88,6 +92,17 @@ private:
   double m_armTargetAngle;
   double m_previousArmRealAngle;
   double m_extenderTargetRotations;
+
+  // legal match starting configuration
+  double m_armLegalStartingAngle;
+  double m_extenderLegalStartingInches;
+  
+  // starting config for testing; intake flush with floor
+  double m_armTestStartingAngle;
+  double m_extenderTestStartingInches;
+
+  double m_extenderMinDistance; // i wish i could make these const :///
+  double m_extenderMaxDistance;
   
   DragonTalon* m_armMaster;
   DragonTalon* m_extender;
@@ -99,4 +114,6 @@ private:
 // const double INCHES_PER_REVOLUTION = 8 / 6.3578125;
   // const double INCHES_PER_REVOLUTION = 1.0;
 // const double INCHES_PER_REVOLUTION = 8 / 8.849609375;
-const double INCHES_PER_REVOLUTION = 7.625 / 9.28515625;
+
+
+// const double INCHES_PER_REVOLUTION = 7.625 / 9.28515625; //big ol' todo here. fix where it crashes when builds

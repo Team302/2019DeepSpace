@@ -2,12 +2,10 @@
  * IMechanism.h
  */
 
-#ifndef SRC_INTERFACES_IMECHANISM_H_
-#define SRC_INTERFACES_IMECHANISM_H_
+#pragma once
+
 
 #include <vector>
-
-
 #include <xmlhw/PIDData.h>
 
 class IMechanism
@@ -27,29 +25,26 @@ class IMechanism
         enum MECHANISM_PARAM_TYPE
         {
             MECHANISM_PARAM_UNKNOWN = -1,
-            WRIST_ANGLE_OFFSET,
-            ARM_ANGLE_OFFSET,
-            ARM_EXTENSION_OFFSET,
-            HATCH_START_ANGLE,
+            LEGAL_STARTING_ANGLE,
+            TEST_STARTING_ANGLE,
+            EXTENDER_LEGAL_STARTING_INCHES,
+            EXTENDER_TEST_STARTING_INCHES,
             HATCH_FLOOR_ANGLE,
             HATCH_HP_ANGLE,
             HATCH_LOW_ANGLE,
             HATCH_MID_ANGLE,
             HATCH_HIGH_ANGLE,
-            CARGO_START_ANGLE,
             CARGO_FLOOR_ANGLE,
             CARGO_HP_ANGLE,
             CARGO_SHIP_ANGLE,
             CARGO_LOW_ANGLE,
             CARGO_MID_ANGLE,
             CARGO_HIGH_ANGLE,
-            HATCH_START_EXTENSION,
             HATCH_FLOOR_EXTENSION,
             HATCH_HP_EXTENSION,
             HATCH_LOW_EXTENSION,
             HATCH_MID_EXTENSION,
             HATCH_HIGH_EXTENSION,
-            CARGO_START_EXTENSION,
             CARGO_FLOOR_EXTENSION,
             CARGO_HP_EXTENSION,
             CARGO_SHIP_EXTENSION,
@@ -62,12 +57,8 @@ class IMechanism
             HATCH_OUTTAKE_SPEED_PARAM,
             SERVO_LOCKED_POSITION_PARAM,
             SERVO_DROPPED_POSITION_PARAM,
-            EXTENDER_HOLD_POWER,
-            EXTENDER_INCHES_PER_REVOLUTION,
             MAX_MECHANISM_PARAM_TYPES
         };
-
-
 
 
 
@@ -91,4 +82,3 @@ typedef std::vector<IMechanism*> IMechanismVector;
 
 
 
-#endif /* SRC_INTERFACES_IMECHANISM_H_ */

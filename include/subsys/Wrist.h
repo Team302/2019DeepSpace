@@ -35,7 +35,8 @@ class Wrist : public IMechanism {
      PIDData*        pid                 // <I> - PID control information
   ) override;
 
-
+  void SetPracticeStartingPos();
+  void SetLegalStartingPos();
 
 
  private:
@@ -63,7 +64,7 @@ class Wrist : public IMechanism {
     CARGO_HIGH,
     MAX_CARGO_POS
   };//                                                       
-//                                 start floor    hp    low  mid   high
+//                                 start  floor    hp     low     mid   high
   double hatchAngle[MAX_HATCH_POS] = { 0, 51.38, -66.88, 150.40, 90.54, 27.54 };
   //                               
   double cargoAngle[MAX_CARGO_POS] = { 0, -56.1, 64.03, -41.5, 17.86, -32.0, -48.30 };
@@ -72,4 +73,7 @@ class Wrist : public IMechanism {
   DragonTalon* m_wristMotor;
 
   double m_targetAngle;
+
+  double m_wristTestStartingAngle;
+  double m_wristLegalStartingAngle;
 };
