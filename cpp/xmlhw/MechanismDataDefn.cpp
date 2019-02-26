@@ -126,6 +126,10 @@ mechParamData  MechanismDataDefn::ParseXML
             {
                 mechData.first = IMechanism::MECHANISM_PARAM_TYPE::CARGO_HIGH_ANGLE;               
             }
+            else if ( strcmp( param, "CARGO_HP_EXTENSION" ) == 0 )
+            {
+                mechData.first = IMechanism::MECHANISM_PARAM_TYPE::CARGO_HP_EXTENSION;               
+            }
             else if ( strcmp( param, "HATCH_FLOOR_EXTENSION" ) == 0 )
             {
                 mechData.first = IMechanism::MECHANISM_PARAM_TYPE::HATCH_FLOOR_EXTENSION;               

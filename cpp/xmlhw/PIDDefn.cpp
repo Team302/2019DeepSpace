@@ -73,7 +73,7 @@ PIDData* PIDDefn::ParseXML
         {
             mode = (PIDData::CONTROL_MODE)attr.as_int();
         }
-        else if ( strcmp( attr.name(), "pidTarget" ) == 0 )
+        else if ( strcmp( attr.name(), "pidtarget" ) == 0 )
         {
             auto target = attr.value();
             if ( strcmp( target, "ARM") == 0 )
