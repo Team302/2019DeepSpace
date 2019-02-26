@@ -247,15 +247,20 @@
          	   feedbackDevice="0"
           	   countsPerRev="1024"
 		   	   brakeMode="true"
-        	   gearRatio="1.0" 
+        	   gearRatio="7.625 / 9.28515625" 
         	   peakCurrentDuration="50"
         	   continuousCurrentLimit="30"
         	   peakCurrentLimit="40" 
         	   currentLimiting="true"/>
-		<mechanismData paramType="ARM_ANGLE_OFFSET"
-					   value="(-167.00) / 360.0"/>		
-		<mechanismData paramType="ARM_EXTENSION_OFFSET"
-					   value="9.28515625"/>
+	
+		<mechanismData paramType="LEGAL_STARTING_ANGLE"
+					   value="-167.00"/>
+		<mechanismData paramType="TEST_STARTING_ANGLE"
+					   value="-138.00"/>
+		<mechanismData paramType="EXTENDER_LEGAL_STARTING_INCHES"
+					   value="0.0"/>
+		<mechanismData paramType="EXTENDER_TEST_STARTING_INCHES"
+					   value="7.625"/>
 		<mechanismData paramType="HATCH_START_ANGLE"
 					   value="0.0"/>		
 		<mechanismData paramType="HATCH_FLOOR_ANGLE"
@@ -309,14 +314,14 @@
 		<mechanismData paramType="CARGO_HIGH_EXTENSION"
 					   value="7.625"/>					   
 		<mechanismData paramType="EXTENDER_HOLD_POWER"
-					   value="-0.1"/>					   
-		<mechanismData paramType="EXTENDER_INCHES_PER_REVOLUTION"
-					   value="7.625 / 9.28515625"/>					   
+					   value="-0.1"/>					      
 		<PID mode="2"
+			 pidtarget="0"
 			 proportional="15.0"
 			 maxacceleration="60.0"
 			 cruisevelocity="200.0"/>
-		<PID mode="3"
+		<PID mode="1"
+			 pidtarget="1"
 			 proportional="10.0"/>	
 	</mechanism>
 	<!-- Climber -->

@@ -35,7 +35,7 @@ class PIDData
         PIDData
         (
             CONTROL_MODE            mode,
-            PID_TARGET  pidTarget,
+            PID_TARGET              pidTarget,
             double                  proportional,
             double                  integral,
             double                  derivative,
