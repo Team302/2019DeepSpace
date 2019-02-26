@@ -51,45 +51,48 @@
              track="18.0">
              
  		<!-- Left (middle, front, back) -->
-        <motor usage="0"
-        	   canId="1"
+         <motor usage="MIDDLE_LEFT_DRIVE"
+               canId="1"
 			   type="sparkmax_brushless"
-         	   feedbackDevice="0"
-         	   countsPerRev="1"
+               inverted="true"
+        	   feedbackDevice="0"
+          	   countsPerRev="1"
 		   	   brakeMode="false"
         	   gearRatio="6.0" 
         	   peakCurrentDuration="50"
         	   continuousCurrentLimit="30"
         	   peakCurrentLimit="40" 
         	   currentLimiting="true"  />
-         <motor usage="1"
-               canId="0"
+        <motor usage="FRONT_LEFT_DRIVE"
+        	   canId="16"
+			   pdpId="0"
 			   type="sparkmax_brushless"
-               inverted="true"
-        	   feedbackDevice="0"
-          	   countsPerRev="1"
+         	   feedbackDevice="0"
+         	   countsPerRev="1"
 		   	   brakeMode="false"
+			   slaveTo="1"
         	   gearRatio="6.0" 
         	   peakCurrentDuration="50"
         	   continuousCurrentLimit="30"
         	   peakCurrentLimit="40" 
         	   currentLimiting="true"  />
 
-         <motor usage="2"
-               canId="2"
+         <motor usage="BACK_LEFT_DRIVE"
+               canId="3"
 			   type="sparkmax_brushless"
                inverted="true"
         	   feedbackDevice="0"
           	   countsPerRev="1"
 		   	   brakeMode="false"
+			   slaveTo="1"
         	   gearRatio="6.0" 
         	   peakCurrentDuration="50"
         	   continuousCurrentLimit="30"
         	   peakCurrentLimit="40" 
         	   currentLimiting="true"  />		
 			   
- 		<!-- Left (middle, front, back) -->
-        <motor usage="3"
+ 		<!-- Right (middle, front, back) -->
+        <motor usage="MIDDLE_RIGHT_DRIVE"
         	   canId="14"
 			   type="sparkmax_brushless"
         	   feedbackDevice="0"
@@ -100,25 +103,27 @@
         	   continuousCurrentLimit="30"
         	   peakCurrentLimit="40" 
         	   currentLimiting="true"  />
-        <motor usage="4"
+        <motor usage="FRONT_RIGHT_DRIVE"
                canId="15"
 			   type="sparkmax_brushless"
                inverted="true"
          	   feedbackDevice="0"
           	   countsPerRev="1"
 		   	   brakeMode="false"
+			   slaveTo="14"
         	   gearRatio="6.0" 
         	   peakCurrentDuration="50"
         	   continuousCurrentLimit="30"
         	   peakCurrentLimit="40" 
         	   currentLimiting="true"  />
-        <motor usage="5"
+        <motor usage="BACK_RIGHT_DRIVE"
                canId="12"
 			   type="sparkmax_brushless"
                inverted="true"
          	   feedbackDevice="0"
           	   countsPerRev="1"
 		   	   brakeMode="false"
+			   slaveTo="14"
         	   gearRatio="6.0" 
         	   peakCurrentDuration="50"
         	   continuousCurrentLimit="30"
@@ -134,9 +139,9 @@
     
 	<!-- Wrist -->
 	<mechanism type="0">
-		<motor usage="9" 
+		<motor usage="WRIST" 
 			   canId="5"
-			   type="0"
+			   type="cantalon"
                inverted="true"
          	   feedbackDevice="0"
           	   countsPerRev="1024"
@@ -146,6 +151,7 @@
         	   continuousCurrentLimit="30"
         	   peakCurrentLimit="40" 
         	   currentLimiting="true"/>
+
 		<mechanismData paramType="WRIST_ANGLE_OFFSET"
 					   value="158.74 / 360.0"/>		
 		<mechanismData paramType="HATCH_START_ANGLE"
@@ -183,9 +189,9 @@
 	
 	<!-- Intake --> 
 	<mechanism type="1"> 
-		<motor usage="10"
+		<motor usage="INTAKE"
 			   canId="7"
-			   type="0"
+			   type="cantalon"
                inverted="true"
          	   feedbackDevice="0"
           	   countsPerRev="1024"
@@ -207,10 +213,11 @@
 	<!-- Arm -->
 	<mechanism type="2">
 		<!-- Master Arm-->
-		<motor usage="6"
+		<motor usage="ARM_MASTER"
 			   canId="2"
-			   type="0"
+			   type="cantalon"
                inverted="false"
+			   sensorInverted="true"
          	   feedbackDevice="0"
           	   countsPerRev="1024"
 		   	   brakeMode="true"
@@ -220,24 +227,24 @@
         	   peakCurrentLimit="40" 
         	   currentLimiting="true"/>
 		<!-- SlaveArm -->
-		<motor usage="7"
+		<motor usage="ARM_SLAVE"
 			   canId="13"
-			   type="0"
+			   type="cantalon"
                inverted="true"
          	   feedbackDevice="0"
           	   countsPerRev="1024"
 		   	   brakeMode="true"
+			   slaveTo="2"
         	   gearRatio="180/233.4375" 
         	   peakCurrentDuration="50"
         	   continuousCurrentLimit="30"
         	   peakCurrentLimit="40" 
         	   currentLimiting="true"/>
 		<!-- Arm Extender -->
-		<motor usage="8"
-			   canId="6"
-			   type="0"
+		<motor usage="ARM_EXTENSION"
+			   canId="4"
+			   type="cantalon"
                inverted="false"
-			   sensorInverted="true"
          	   feedbackDevice="0"
           	   countsPerRev="1024"
 		   	   brakeMode="true"
@@ -316,9 +323,9 @@
 	<!-- Climber -->
 	<mechanism type=2>
 		<!--Climber Winch-->
-		<motor usage="11"
-			   canId="11"
-			   type="0"
+		<motor usage="ELEVATOR_WINCH"
+			   canId="6"
+			   type="cantalon"
                inverted="false"
          	   feedbackDevice="0"
           	   countsPerRev="1024"
@@ -329,9 +336,9 @@
         	   peakCurrentLimit="40" 
         	   currentLimiting="true"/>
 		<!-- Climb Driver Wheel-->
-		<motor usage="12"
+		<motor usage="ELEVATOR_DRIVE"
 			   canId="10"
-			   type="0"
+			   type="cantalon"
                inverted="false"
          	   feedbackDevice="0"
           	   countsPerRev="1024"

@@ -104,6 +104,14 @@
             CARGO_LOW_EXTENSION,
             CARGO_MID_EXTENSION,
             CARGO_HIGH_EXTENSION,
+            CARGO_INTAKE_SPEED_PARAM,
+            CARGO_OUTTAKE_SPEED_PARAM,
+            HATCH_INTAKE_SPEED_PARAM,
+            HATCH_OUTTAKE_SPEED_PARAM,
+            SERVO_LOCKED_POSITION_PARAM,
+            SERVO_DROPPED_POSITION_PARAM,
+            EXTENDER_HOLD_POWER,
+            EXTENDER_INCHES_PER_REVOLUTION,
             MAX_MECHANISM_PARAM_TYPES
         };
 
@@ -185,23 +193,24 @@
 <!-- ====================================================
 	 motor usage options 
 	 ====================================================
-		enum MOTOR_USAGE
-		{
-			UNKNOWN_USAGGE = -1,
-			CHASSIS_MIDDLE_LEFT,
-			CHASSIS_FRONT_LEFT,
-			CHASSIS_BACK_LEFT,
-			CHASSIS_MIDDLE_RIGHT,
-			CHASSIS_FRONT_RIGHT,
-			CHASSIS_BACK_RIGHT,
-			ARM_PIVOT_MOTOR1,
-			ARM_PIVOT_MOTOR2
-			ARM_EXTENSION_MOTOR,
-			WRIST_MOTOR,
-			INTAKE_MOTOR,
-			INTAKE_MOTOR2,
-			MAX_MOTOR_USAGES
-		};
+    enum TALON_TYPE
+    {
+        UNKNOWN_TALON_TYPE = -1,
+        FRONT_LEFT_DRIVE,
+        MIDDLE_LEFT_DRIVE,
+        BACK_LEFT_DRIVE,
+        FRONT_RIGHT_DRIVE,
+        MIDDLE_RIGHT_DRIVE,
+        BACK_RIGHT_DRIVE,
+        ARM_MASTER,
+        ARM_SLAVE,
+        ARM_EXTENSION,
+        WRIST,
+        INTAKE,
+        ELEVATOR_WINCH,
+        ELEVATOR_DRIVE,
+        MAX_TALON_TYPES
+    };
 
 		
     ====================================================
@@ -226,8 +235,7 @@
 	==================================================== -->
 <!ELEMENT motor EMPTY>
 <!ATTLIST motor 
-          usage             		(  0 |  1 |  2 |  3 |  4 |  5 |  6 |  7 |  8 |  9 | 
-          					          10 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18 | 19 ) "0"
+          usage             		CDATA REQUIRED
           canId             		(  0 |  1 |  2 |  3 |  4 |  5 |  6 |  7 |  8 |  9 | 
                               		  10 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18 | 19 | 
                               		  20 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 
@@ -235,6 +243,7 @@
                               		  40 | 41 | 42 | 43 | 44 | 45 | 46 | 47 | 48 | 49 | 
                               		  50 | 51 | 52 | 53 | 54 | 55 | 56 | 57 | 58 | 59 | 
                               		  60 | 61 | 62 ) "0"
+		  pdpID						CDATA #IMPLIED
           type              		CDATA ( cantalon | sparkmax_brushless | sparkmax_brushed ) "cantalon"
           inverted          		( true | false ) "false"
           sensorInverted    		( true | false ) "false"
