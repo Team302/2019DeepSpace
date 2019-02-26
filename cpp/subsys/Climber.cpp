@@ -59,9 +59,9 @@ void Climber::MoveClimbElevator(double speed)
 void Climber::DropBuddyClimb(bool drop)
 {
     if(drop)
-        m_buddyServo->Set(SERVO_DROPPED_POSITION);
+        m_buddyServo->Set(m_servoDroppedPosition);
     else
-        m_buddyServo->Set(SERVO_LOCKED_POSITION);
+        m_buddyServo->Set(m_servoLockedPosition);
 }
 
 IMechanism::MECHANISM_TYPE Climber::GetType() const
@@ -78,12 +78,12 @@ void Climber::SetParam
     switch(param)
     {
         case SERVO_LOCKED_POSITION_PARAM:
-        SERVO_DROPPED_POSITION = value;
-        break;
+            m_servoLockedPosition = value;
+            break;
 
         case SERVO_DROPPED_POSITION_PARAM:
-        SERVO_DROPPED_POSITION = value;
-        break;
+            m_servoDroppedPosition = value;
+            break;
 
         default:
         printf("Climber.cpp is getting an invalid parameter");

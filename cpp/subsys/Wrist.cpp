@@ -144,7 +144,56 @@ void Wrist::SetParam
     double                              value           // <I> - parameter value
 ) 
 {
-    // TODO:  Override values
+    switch(param)	
+    {	
+        case WRIST_ANGLE_OFFSET:	
+
+         break;	
+
+         case HATCH_LOW_ANGLE:	
+        hatchAngle[HATCH_LOW] = value;	
+        break;	
+
+         case HATCH_HP_ANGLE:	
+        hatchAngle[HATCH_FLOOR] = value;	
+        break;	
+
+         case HATCH_MID_ANGLE:	
+        hatchAngle[HATCH_MID] = value;	
+        break;	
+
+         case HATCH_HIGH_ANGLE:	
+        hatchAngle[HATCH_HIGH] = value;	
+        break;	
+
+         case CARGO_FLOOR_ANGLE:	
+        cargoAngle[CARGO_FLOOR] = value;	
+        break;	
+
+         case CARGO_HP_ANGLE:	
+        cargoAngle[CARGO_HP] = value;	
+        break;	
+
+         case CARGO_SHIP_ANGLE:	
+        cargoAngle[CARGO_SHIP] = value; 	
+        break;	
+
+         case CARGO_LOW_ANGLE:	
+        cargoAngle[CARGO_LOW] = value;	
+        break;	
+
+         case CARGO_MID_ANGLE:	
+        cargoAngle[CARGO_MID] = value;	
+        break;	
+
+         case CARGO_HIGH_ANGLE:	
+        cargoAngle[CARGO_HIGH] = value;	
+        break;	
+
+         default:	
+        printf(" Wrist.cpp is getting a value it shouldn't. Line 125 \n");	
+        break; 	
+    }
 }
 void Wrist::SetPID
 (
