@@ -16,76 +16,16 @@
 
 PIDData::PIDData
 (
-    CONTROL_MODE        mode,
-    double              proportional
+    CONTROL_MODE            mode,
+    PID_TARGET              pidTarget,
+    double                  proportional,
+    double                  integral,
+    double                  derivative,
+    double                  feedforward,
+    double                  maxAcceleration,
+    double                  cruiseVelocity
 ) : m_mode( mode ),
-    m_proportional( proportional ),
-    m_integral( 0.0 ),
-    m_derivative( 0.0 ),
-    m_feedforward( 0.0 ),
-    m_maxAcceleration( 0.0 ),
-    m_cruiseVelocity( 0.0 )
-{
-
-}
-PIDData::PIDData
-(
-    CONTROL_MODE        mode,
-    double              proportional,
-    double              integral
-) : m_mode( mode ),
-    m_proportional( proportional ),
-    m_integral( integral ),
-    m_derivative( 0.0 ),
-    m_feedforward( 0.0 ),
-    m_maxAcceleration( 0.0 ),
-    m_cruiseVelocity( 0.0 )
-{
-
-}
-PIDData::PIDData
-(
-    CONTROL_MODE        mode,
-    double              proportional,
-    double              integral,
-    double              derivative
-) : m_mode( mode ),
-    m_proportional( proportional ),
-    m_integral( integral ),
-    m_derivative( derivative ),
-    m_feedforward( 0.0 ),
-    m_maxAcceleration( 0.0 ),
-    m_cruiseVelocity( 0.0 )
-{
-
-}
-PIDData::PIDData
-(
-    CONTROL_MODE        mode,
-    double              proportional,
-    double              integral,
-    double              derivative,
-    double              feedforward
-) : m_mode( mode ),
-    m_proportional( proportional ),
-    m_integral( integral ),
-    m_derivative( derivative ),
-    m_feedforward( feedforward ),
-    m_maxAcceleration( 0.0 ),
-    m_cruiseVelocity( 0.0 )
-{
-
-}
-PIDData::PIDData
-(
-    CONTROL_MODE        mode,
-    double              proportional,
-    double              integral,
-    double              derivative,
-    double              feedforward,
-    double              maxAcceleration,
-    double              cruiseVelocity
-) : m_mode( mode ),
+    m_pidTarget( pidTarget ),
     m_proportional( proportional ),
     m_integral( integral ),
     m_derivative( derivative ),

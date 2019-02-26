@@ -13,12 +13,17 @@
 #include <cmath>
 #include "frc/smartdashboard/SmartDashboard.h"
 
-Arm::Arm(IDragonMotorControllerVector motorControllers) :
-m_armTargetAngle(0.0),
-m_previousArmRealAngle(0.0),
-m_extenderTargetRotations(0.0),
-m_armMaster(nullptr),
-m_extender(nullptr)
+Arm::Arm(IDragonMotorControllerVector motorControllers) : m_armTargetAngle(0.0),
+                                                          m_previousArmRealAngle(0.0),
+                                                          m_extenderTargetRotations(0.0),
+                                                          m_armLegalStartingAngle(-167.00),
+                                                          m_extenderLegalStartingInches(0),
+                                                          m_armTestStartingAngle(-138.00),
+                                                          m_extenderTestStartingInches(7.625),
+                                                          m_extenderMinDistance(0.0),   // default value
+                                                          m_extenderMaxDistance(7.625), // default value
+                                                          m_armMaster(nullptr),
+                                                          m_extender(nullptr)
 {
     for (int i = 0; i < motorControllers.size(); i++)
     {
@@ -42,9 +47,9 @@ m_extender(nullptr)
 
 void Arm::MoveArmPreset(PlacementHeights::PLACEMENT_HEIGHT height, bool cargo, bool flip)
 {
-    if(cargo)
+    if (cargo)
     {
-        switch(height)
+        switch (height)
         {
             case PlacementHeights::PLACEMENT_HEIGHT::START_POSITION:
                 m_armTargetAngle = cargoAngle[Arm::CARGO_WRIST_PRESETS::CARGO_START_POSITION];
@@ -75,7 +80,7 @@ void Arm::MoveArmPreset(PlacementHeights::PLACEMENT_HEIGHT height, bool cargo, b
     }
     else
     {
-        switch(height)
+        switch (height)
         {
             case PlacementHeights::PLACEMENT_HEIGHT::START_POSITION:
                 m_armTargetAngle = hatchAngle[Arm::HATCH_WRIST_PRESETS::HATCH_START_POSITION];
@@ -105,7 +110,7 @@ void Arm::MoveArmPreset(PlacementHeights::PLACEMENT_HEIGHT height, bool cargo, b
         }
     }
 
-    if(flip)
+    if (flip)
         m_armTargetAngle = -m_armTargetAngle;
 
     m_armMaster->SetControlMode(DragonTalon::TALON_CONTROL_MODE::MOTION_MAGIC);
@@ -139,27 +144,27 @@ void Arm::ResetTarget()
 
 void Arm::MoveExtentionPreset(PlacementHeights::PLACEMENT_HEIGHT height, bool cargo)
 {
-    if(cargo)
+    if (cargo)
     {
-        switch(height)
+        switch (height)
         {
             case PlacementHeights::PLACEMENT_HEIGHT::START_POSITION:
-                m_extenderTargetRotations = extenderCargoInches[Arm::CARGO_WRIST_PRESETS::CARGO_START_POSITION] / INCHES_PER_REVOLUTION;
+                m_extenderTargetRotations = extenderCargoInches[Arm::CARGO_WRIST_PRESETS::CARGO_START_POSITION];
                 break;
             case PlacementHeights::PLACEMENT_HEIGHT::FLOOR:
-                m_extenderTargetRotations = extenderCargoInches[Arm::CARGO_WRIST_PRESETS::CARGO_FLOOR] / INCHES_PER_REVOLUTION;
+                m_extenderTargetRotations = extenderCargoInches[Arm::CARGO_WRIST_PRESETS::CARGO_FLOOR];
                 break;
             case PlacementHeights::PLACEMENT_HEIGHT::CARGOSHIP:
-                m_extenderTargetRotations = extenderCargoInches[Arm::CARGO_WRIST_PRESETS::CARGO_SHIP] / INCHES_PER_REVOLUTION;
+                m_extenderTargetRotations = extenderCargoInches[Arm::CARGO_WRIST_PRESETS::CARGO_SHIP];
                 break;
             case PlacementHeights::PLACEMENT_HEIGHT::HUMAN_PLAYER:
-                m_extenderTargetRotations = extenderCargoInches[Arm::CARGO_WRIST_PRESETS::CARGO_HP] / INCHES_PER_REVOLUTION;
+                m_extenderTargetRotations = extenderCargoInches[Arm::CARGO_WRIST_PRESETS::CARGO_HP];
                 break;
             case PlacementHeights::PLACEMENT_HEIGHT::ROCKET_LOW:
-                m_extenderTargetRotations = extenderCargoInches[Arm::CARGO_WRIST_PRESETS::CARGO_LOW] / INCHES_PER_REVOLUTION;
+                m_extenderTargetRotations = extenderCargoInches[Arm::CARGO_WRIST_PRESETS::CARGO_LOW];
                 break;
             case PlacementHeights::PLACEMENT_HEIGHT::ROCKET_MID:
-                m_extenderTargetRotations = extenderCargoInches[Arm::CARGO_WRIST_PRESETS::CARGO_MID] / INCHES_PER_REVOLUTION;
+                m_extenderTargetRotations = extenderCargoInches[Arm::CARGO_WRIST_PRESETS::CARGO_MID];
                 break;
             case PlacementHeights::PLACEMENT_HEIGHT::ROCKET_HIGH:
                 m_extenderTargetRotations = extenderCargoInches[Arm::CARGO_WRIST_PRESETS::CARGO_HIGH];
@@ -172,27 +177,27 @@ void Arm::MoveExtentionPreset(PlacementHeights::PLACEMENT_HEIGHT height, bool ca
     }
     else
     {
-        switch(height)
+        switch (height)
         {
             case PlacementHeights::PLACEMENT_HEIGHT::START_POSITION:
-                m_extenderTargetRotations = extenderHatchInches[Arm::HATCH_WRIST_PRESETS::HATCH_START_POSITION] / INCHES_PER_REVOLUTION;
+                m_extenderTargetRotations = extenderHatchInches[Arm::HATCH_WRIST_PRESETS::HATCH_START_POSITION];
             case PlacementHeights::PLACEMENT_HEIGHT::FLOOR:
-                m_extenderTargetRotations = extenderHatchInches[Arm::HATCH_WRIST_PRESETS::HATCH_FLOOR] / INCHES_PER_REVOLUTION;
+                m_extenderTargetRotations = extenderHatchInches[Arm::HATCH_WRIST_PRESETS::HATCH_FLOOR];
                 break;
             case PlacementHeights::PLACEMENT_HEIGHT::CARGOSHIP:
-                m_extenderTargetRotations = extenderHatchInches[Arm::HATCH_WRIST_PRESETS::HATCH_LOW] / INCHES_PER_REVOLUTION;
+                m_extenderTargetRotations = extenderHatchInches[Arm::HATCH_WRIST_PRESETS::HATCH_LOW];
                 break;
             case PlacementHeights::PLACEMENT_HEIGHT::HUMAN_PLAYER:
-                m_extenderTargetRotations = extenderHatchInches[Arm::HATCH_WRIST_PRESETS::HATCH_HP] / INCHES_PER_REVOLUTION;
+                m_extenderTargetRotations = extenderHatchInches[Arm::HATCH_WRIST_PRESETS::HATCH_HP];
                 break;
             case PlacementHeights::PLACEMENT_HEIGHT::ROCKET_LOW:
-                m_extenderTargetRotations = extenderHatchInches[Arm::HATCH_WRIST_PRESETS::HATCH_LOW] / INCHES_PER_REVOLUTION;
+                m_extenderTargetRotations = extenderHatchInches[Arm::HATCH_WRIST_PRESETS::HATCH_LOW];
                 break;
             case PlacementHeights::PLACEMENT_HEIGHT::ROCKET_MID:
-                m_extenderTargetRotations = extenderHatchInches[Arm::HATCH_WRIST_PRESETS::HATCH_MID] / INCHES_PER_REVOLUTION;
+                m_extenderTargetRotations = extenderHatchInches[Arm::HATCH_WRIST_PRESETS::HATCH_MID];
                 break;
             case PlacementHeights::PLACEMENT_HEIGHT::ROCKET_HIGH:
-                m_extenderTargetRotations = extenderHatchInches[Arm::HATCH_WRIST_PRESETS::HATCH_HIGH] / INCHES_PER_REVOLUTION;
+                m_extenderTargetRotations = extenderHatchInches[Arm::HATCH_WRIST_PRESETS::HATCH_HIGH];
                 break;
             default:
                 // bad
@@ -216,8 +221,8 @@ void Arm::MoveExtensionSpeed(double speed)
 void Arm::MoveExtensionInches(double inches)
 {
     m_extender->SetControlMode(IDragonMotorController::DRAGON_CONTROL_MODE::ROTATIONS);
-    m_extender->Set(inches / INCHES_PER_REVOLUTION); //TODO: multiply by a constant to convert inches to rotations
-    m_extenderTargetRotations = inches / INCHES_PER_REVOLUTION;
+    m_extender->Set(inches);
+    m_extenderTargetRotations = inches;
 }
 
 double Arm::GetArmRealAngle()
@@ -232,12 +237,12 @@ double Arm::GetArmTargetAngle()
 
 double Arm::GetExtenderRealInches()
 {
-    return m_extender->GetRotations() * INCHES_PER_REVOLUTION;
+    return m_extender->GetRotations();
 }
 
 double Arm::GetExtenderTargetInches()
 {
-    return m_extenderTargetRotations * INCHES_PER_REVOLUTION;
+    return m_extenderTargetRotations;
 }
 
 IMechanism::MECHANISM_TYPE Arm::GetType() const
@@ -247,7 +252,7 @@ IMechanism::MECHANISM_TYPE Arm::GetType() const
 
 double Arm::OurDegreesToRads(double ourDegrees)
 {
-    return - ((ourDegrees / 360.0) - (1/4.0)) * 2 * M_PI;
+    return -((ourDegrees / 360.0) - (1 / 4.0)) * 2 * M_PI;
 }
 
 void Arm::CorrectExtenderPower(double &power)
@@ -275,33 +280,177 @@ void Arm::CorrectExtenderPower(double &power)
     {
         power = -1;
     }
+    else if (GetExtenderRealInches() > m_extenderMaxDistance)
+    {
+        power -= 1;
+    }
     else if (GetExtenderRealInches() < 0.0)
+    {
         power = EXTENDER_HOLD_POWER;
+    }
 
     m_previousArmRealAngle = GetArmRealAngle();
 }
 
 double Arm::Map(double x, double in_min, double in_max, double out_min, double out_max)
 {
-  return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+    return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
 }
 
-void Arm::SetParam
-(
-    IMechanism::MECHANISM_PARAM_TYPE    param,          // <I> - parameter to set
-    double                              value           // <I> - parameter value
-) 
+void Arm::SetParam(
+    IMechanism::MECHANISM_PARAM_TYPE param, // <I> - parameter to set
+    double value                            // <I> - parameter value
+)
 {
-    // TODO:  Override values
+    switch (param)
+    {
+        // starting angle offsets
+        case LEGAL_STARTING_ANGLE:
+            m_armLegalStartingAngle = value;
+            break;
+
+        case TEST_STARTING_ANGLE:
+            m_armTestStartingAngle = value;
+            break;
+        // starting extender inch offsets
+        case EXTENDER_LEGAL_STARTING_INCHES:
+            m_extenderLegalStartingInches = value;
+            break;
+
+        case EXTENDER_TEST_STARTING_INCHES:
+            m_extenderTestStartingInches = value;
+            break;
+        // arm hatch angles
+        case HATCH_FLOOR_ANGLE:
+            hatchAngle[HATCH_FLOOR] = value;
+            break;
+
+        case HATCH_HP_ANGLE:
+            hatchAngle[HATCH_HP] = value;
+            break;
+
+        case HATCH_LOW_ANGLE:
+            hatchAngle[HATCH_LOW] = value;
+            break;
+
+        case HATCH_MID_ANGLE:
+            hatchAngle[HATCH_MID] = value;
+            break;
+
+        case HATCH_HIGH_ANGLE:
+            hatchAngle[HATCH_HIGH] = value;
+            break;
+        // arm cargo angles
+        case CARGO_FLOOR_ANGLE:
+            cargoAngle[CARGO_FLOOR] = value;
+            break;
+
+        case CARGO_HP_ANGLE:
+            cargoAngle[CARGO_HP] = value;
+            break;
+
+        case CARGO_SHIP_ANGLE:
+            cargoAngle[CARGO_SHIP] = value;
+            break;
+
+        case CARGO_LOW_ANGLE:
+            cargoAngle[CARGO_LOW] = value;
+            break;
+
+        case CARGO_MID_ANGLE:
+            cargoAngle[CARGO_MID] = value;
+            break;
+
+        case CARGO_HIGH_ANGLE:
+            cargoAngle[CARGO_HIGH] = value;
+            break;
+        // extender hatch inches
+        case HATCH_FLOOR_EXTENSION:
+            extenderHatchInches[HATCH_FLOOR] = value;
+            break;
+
+        case HATCH_HP_EXTENSION:
+            extenderHatchInches[HATCH_HP] = value;
+            break;
+
+        case HATCH_LOW_EXTENSION:
+            extenderHatchInches[HATCH_LOW] = value;
+            break;
+
+        case HATCH_MID_EXTENSION:
+            extenderHatchInches[HATCH_MID] = value;
+            break;
+
+        case HATCH_HIGH_EXTENSION:
+            extenderHatchInches[HATCH_HIGH] = value;
+            break;
+        // extender cargo inches
+        case CARGO_FLOOR_EXTENSION:
+            extenderCargoInches[CARGO_FLOOR] = value;
+            break;
+
+        case CARGO_HP_EXTENSION:
+            extenderCargoInches[CARGO_HP] = value;
+            break;
+
+        case CARGO_SHIP_EXTENSION:
+            extenderCargoInches[CARGO_SHIP] = value;
+            break;
+
+        case CARGO_LOW_EXTENSION:
+            extenderCargoInches[CARGO_LOW] = value;
+            break;
+
+        case CARGO_MID_EXTENSION:
+            extenderCargoInches[CARGO_MID] = value;
+            break;
+
+        case CARGO_HIGH_EXTENSION:
+            extenderCargoInches[CARGO_HIGH] = value;
+            break;
+
+        default:
+            printf("Arm.cpp error: recieving unexpected arm parameter.\n");
+            break;
+    }
 }
-void Arm::SetPID
-(
-    PIDData*        pid                 // <I> - PID control information
-) 
+
+void Arm::SetPID(
+    PIDData *pid // <I> - PID control information
+)
 {
-    // TODO:  Override values
+    if (pid->GetPidTarget() == PIDData::PID_TARGET::ARM)
+    {
+        m_armMaster->SetPIDF(pid->GetP(), pid->GetI(), pid->GetD(), pid->GetF());
+        if (pid->GetMode() == PIDData::MOTION_MAGIC)
+        {
+            m_armMaster->ConfigMotionAcceleration(pid->GetMaxAcceleration());
+            m_armMaster->ConfigMotionCruiseVelocity(pid->GetCruiseVelocity());
+        }
+    }
+    else if (pid->GetPidTarget() == PIDData::PID_TARGET::EXTENDER)
+    {
+        m_extender->SetPIDF(pid->GetP(), pid->GetI(), pid->GetD(), pid->GetF());
+        if (pid->GetMode() == PIDData::MOTION_MAGIC)
+        {
+            m_extender->ConfigMotionAcceleration(pid->GetMaxAcceleration());
+            m_extender->ConfigMotionCruiseVelocity(pid->GetCruiseVelocity());
+        }
+    }
 }
 
+void Arm::SetPracticeStartingPos()
+{
+    m_armMaster->SetRotationOffset(m_armTestStartingAngle / 360.0);
+    m_extender->SetRotationOffset(m_extenderTestStartingInches);
 
+    ResetTarget();
+}
 
+void Arm::SetLegalStartingPos()
+{
+    m_armMaster->SetRotationOffset(m_armLegalStartingAngle / 360.0);
+    m_extender->SetRotationOffset(m_extenderLegalStartingInches);
 
+    ResetTarget();
+}

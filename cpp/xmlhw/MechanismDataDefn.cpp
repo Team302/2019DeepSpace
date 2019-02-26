@@ -66,21 +66,21 @@ mechParamData  MechanismDataDefn::ParseXML
         if ( strcmp( attr.name(), "paramType" ) == 0 )
         {
             auto param = attr.value();
-            if ( strcmp( param, "WRIST_ANGLE_OFFSET") == 0 )
+            if ( strcmp( param, "LEGAL_STARTING_ANGLE") == 0 )
             {
-                mechData.first = IMechanism::MECHANISM_PARAM_TYPE::WRIST_ANGLE_OFFSET;               
+                mechData.first = IMechanism::MECHANISM_PARAM_TYPE::LEGAL_STARTING_ANGLE;               
             }
-            else if ( strcmp( param, "ARM_ANGLE_OFFSET" ) == 0 )
+            else if ( strcmp( param, "TEST_STARTING_ANGLE" ) == 0 )
             {
-                mechData.first = IMechanism::MECHANISM_PARAM_TYPE::ARM_ANGLE_OFFSET;               
+                mechData.first = IMechanism::MECHANISM_PARAM_TYPE::TEST_STARTING_ANGLE;               
             }
-            else if ( strcmp( param, "ARM_EXTENSION_OFFSET" ) == 0 )
+            else if ( strcmp( param, "EXTENDER_LEGAL_STARTING_INCHES" ) == 0 )
             {
-                mechData.first = IMechanism::MECHANISM_PARAM_TYPE::ARM_EXTENSION_OFFSET;               
+                mechData.first = IMechanism::MECHANISM_PARAM_TYPE::EXTENDER_LEGAL_STARTING_INCHES;               
             }
-            else if ( strcmp( param, "HATCH_START_ANGLE" ) == 0 )
+            else if ( strcmp( param, "EXTENDER_TEST_STARTING_INCHES" ) == 0 )
             {
-                mechData.first = IMechanism::MECHANISM_PARAM_TYPE::HATCH_START_ANGLE;               
+                mechData.first = IMechanism::MECHANISM_PARAM_TYPE::EXTENDER_TEST_STARTING_INCHES;               
             }
             else if ( strcmp( param, "HATCH_FLOOR_ANGLE" ) == 0 )
             {
@@ -101,10 +101,6 @@ mechParamData  MechanismDataDefn::ParseXML
             else if ( strcmp( param, "HATCH_HIGH_ANGLE" ) == 0 )
             {
                 mechData.first = IMechanism::MECHANISM_PARAM_TYPE::HATCH_HIGH_ANGLE;               
-            }
-            else if ( strcmp( param, "CARGO_START_ANGLE" ) == 0 )
-            {
-                mechData.first = IMechanism::MECHANISM_PARAM_TYPE::CARGO_START_ANGLE;               
             }
             else if ( strcmp( param, "CARGO_FLOOR_ANGLE" ) == 0 )
             {
@@ -130,10 +126,6 @@ mechParamData  MechanismDataDefn::ParseXML
             {
                 mechData.first = IMechanism::MECHANISM_PARAM_TYPE::CARGO_HIGH_ANGLE;               
             }
-            else if ( strcmp( param, "HATCH_START_EXTENSION" ) == 0 )
-            {
-                mechData.first = IMechanism::MECHANISM_PARAM_TYPE::HATCH_START_EXTENSION;               
-            }
             else if ( strcmp( param, "HATCH_FLOOR_EXTENSION" ) == 0 )
             {
                 mechData.first = IMechanism::MECHANISM_PARAM_TYPE::HATCH_FLOOR_EXTENSION;               
@@ -154,17 +146,9 @@ mechParamData  MechanismDataDefn::ParseXML
             {
                 mechData.first = IMechanism::MECHANISM_PARAM_TYPE::HATCH_HIGH_EXTENSION;               
             }
-            else if ( strcmp( param, "CARGO_START_EXTENSION" ) == 0 )
-            {
-                mechData.first = IMechanism::MECHANISM_PARAM_TYPE::CARGO_START_EXTENSION;               
-            }
             else if ( strcmp( param, "CARGO_FLOOR_EXTENSION" ) == 0 )
             {
                 mechData.first = IMechanism::MECHANISM_PARAM_TYPE::CARGO_FLOOR_EXTENSION;               
-            }
-            else if ( strcmp( param, "CARGO_HP_EXTENSION" ) == 0 )
-            {
-                mechData.first = IMechanism::MECHANISM_PARAM_TYPE::CARGO_HP_EXTENSION;               
             }
             else if ( strcmp( param, "CARGO_SHIP_EXTENSION" ) == 0 )
             {
@@ -205,14 +189,6 @@ mechParamData  MechanismDataDefn::ParseXML
             else if ( strcmp( param, "SERVO_DROPPED_POSITION_PARAM" ) == 0 )
             {
                 mechData.first = IMechanism::MECHANISM_PARAM_TYPE::SERVO_DROPPED_POSITION_PARAM;               
-            }
-            else if ( strcmp( param, "EXTENDER_HOLD_POWER") == 0 )
-            {
-                mechData.first = IMechanism::MECHANISM_PARAM_TYPE::EXTENDER_HOLD_POWER;
-            }
-            else if ( strcmp( param, "EXTENDER_INCHES_PER_REVOLUTION" ) == 0 )
-            {
-                mechData.first = IMechanism::MECHANISM_PARAM_TYPE::EXTENDER_INCHES_PER_REVOLUTION;
             }
             else
             {

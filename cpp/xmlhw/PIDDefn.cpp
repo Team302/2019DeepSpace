@@ -55,6 +55,8 @@ PIDData* PIDDefn::ParseXML
 
     // initialize attributes to default values
     PIDData::CONTROL_MODE mode;
+    PIDData::PID_TARGET pidTarget = PIDData::PID_TARGET::GENERAL;
+
     double p = 0.0;
     double i = 0.0;
     double d = 0.0;
@@ -70,6 +72,26 @@ PIDData* PIDDefn::ParseXML
         if ( strcmp( attr.name(), "mode" ) == 0 )
         {
             mode = (PIDData::CONTROL_MODE)attr.as_int();
+        }
+        else if ( strcmp( attr.name(), "pidTarget" ) == 0 )
+        {
+            auto target = attr.value();
+            if ( strcmp( target, "ARM") == 0 )
+            {
+                pidTarget = PIDData::PID_TARGET::ARM;
+            }
+            else if ( strcmp( target, "EXTENDER") == 0 )
+            {
+                pidTarget = PIDData::PID_TARGET::EXTENDER;
+            }
+            else if ( strcmp( target, "GENERAL") == 0 )
+            {
+                pidTarget = PIDData::PID_TARGET::GENERAL;
+            }
+            else
+            {
+                printf( "PID Target is invalid %s \n", target );
+            }
         }
         else if ( strcmp( attr.name(), "proportional") == 0 )
         {
@@ -103,7 +125,7 @@ PIDData* PIDDefn::ParseXML
     }
     if ( !hasError )
     {
-        data = new PIDData( mode, p, i, d, f, maxAccel, cruiseVel );
+        data = new PIDData( mode, pidTarget, p, i, d, f, maxAccel, cruiseVel );
     }
     return data;
 }

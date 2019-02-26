@@ -84,6 +84,15 @@ void Robot::RobotInit() {
   // create the hardware (chassis + mechanisms along with their talons,
   // solenoids, digital inputs, analog inputs, etc.
   RobotDefn::ParseXML();
+
+  m_arm = MechanismFactory::GetMechanismFactory()->GetArm();
+  m_climber = MechanismFactory::GetMechanismFactory()->GetClimber();
+  m_intake = MechanismFactory::GetMechanismFactory()->GetIntake();
+  m_wrist = MechanismFactory::GetMechanismFactory()->GetWrist();
+
+  m_arm->SetLegalStartingPos();
+  m_wrist->SetLegalStartingPos();
+
   
   
   /*  
@@ -254,8 +263,9 @@ void Robot::AutonomousInit() {
  
 }
 
-void Robot::AutonomousPeriodic() {
-  
+void Robot::AutonomousPeriodic()
+{
+  Robot::MainPeriodic();
 }
 
 void Robot::TeleopInit() {
@@ -264,8 +274,14 @@ void Robot::TeleopInit() {
 
 void Robot::TeleopPeriodic() 
 {
+  Robot::MainPeriodic();
+}
+
+void Robot::MainPeriodic()
+{
   m_driverAssist->Update();
 
+  //TODO: put these prints in a debug mode or something... maybe
   // smartdashboard mechanisms
   frc::SmartDashboard::PutNumber("Arm Target Angle", m_arm->GetArmTargetAngle());
   frc::SmartDashboard::PutNumber("Arm Real Angle", m_arm->GetArmRealAngle());
@@ -280,12 +296,8 @@ void Robot::TeleopPeriodic()
 void Robot::TestInit()
 {
   // set offsets for test robot starting config
-  m_wristMotor->SetRotationOffset(49.420699 / 360.0); // 55.55
-  m_armMasterMotor->SetRotationOffset((-138.00) / 360.0); //-137
-  m_extenderMotor->SetRotationOffset(7.625 / INCHES_PER_REVOLUTION);
-
-  m_wrist->ResetTarget();
-  m_arm->ResetTarget();
+  m_arm->SetLegalStartingPos();
+  m_wrist->SetLegalStartingPos();
 }
 
 void Robot::TestPeriodic() {}
