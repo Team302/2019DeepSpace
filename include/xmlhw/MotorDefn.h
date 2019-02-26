@@ -3,15 +3,17 @@
  *
  */
 
-#ifndef SRC_TEST_MOTORDEFN_H_
-#define SRC_TEST_MOTORDEFN_H_
+#pragma once
+
 
 // C++ Includes
+#include <vector>
 
 // FRC includes
 
 // Team 302 includes
 #include <hw/IDragonMotorController.h>
+#include <hw/DragonSparkMax.h>
 
 // Third Party Includes
 #include <pugixml/pugixml.hpp>
@@ -37,7 +39,8 @@ class MotorDefn
         (
             pugi::xml_node      motorNode
         );
+
+    private:
 };
 
 
-#endif /* SRC_TEST_MOTORDEFN_H_ */

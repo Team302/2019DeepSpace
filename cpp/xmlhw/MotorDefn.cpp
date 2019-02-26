@@ -6,15 +6,17 @@
 
 // Team 302 includes
 #include <xmlhw/MotorDefn.h>
-//#include <hw/DragonTalon.h>
+#include <hw/DragonTalon.h>
+#include <hw/DragonSparkMax.h>
+#include <hw/DragonMotorControllerFactory.h>
 
 // Third Party Includes
 #include <pugixml/pugixml.hpp>
 
-//#include <ctre/phoenix/MotorControl/CAN/TalonSRX.h>
+#include <ctre/phoenix/MotorControl/CAN/TalonSRX.h>
+#include <ctre/phoenix/MotorControl/FeedbackDevice.h>
+#include <rev/CANSparkMax.h>
 
-//using namespace  ctre::phoenix::motorcontrol;
-//using namespace  ctre::phoenix::motorcontrol::can;
 
 //-----------------------------------------------------------------------
 // Method:      ParseXML
@@ -100,25 +102,27 @@ IDragonMotorController* MotorDefn::ParseXML
 )
 {
     // initialize the output
-    //DragonTalon* talon = nullptr;
+    IDragonMotorController* controller = nullptr;
 
     // initialize attributes to default values
     int canID = 0;
-    //DragonTalon::TALON_TYPE     motorType = DragonTalon::UNKNOWN_TALON_TYPE;
-    bool                        inverted = false;
-    bool                        sensorInverted = false;
-//    CANTalon::FeedbackDevice  feedbackDevice = CANTalon::QuadEncoder;
+	int pdpID = -1;
+    IDragonMotorController::TALON_TYPE     usage = IDragonMotorController::TALON_TYPE::UNKNOWN_TALON_TYPE;
+    bool inverted = false;
+    bool sensorInverted = false;
+    ctre::phoenix::motorcontrol::FeedbackDevice  feedbackDevice = ctre::phoenix::motorcontrol::FeedbackDevice::QuadEncoder;
     //TODO:: make sure enum matches defines in dtd
-    //FeedbackDevice              feedbackDevice = QuadEncoder;
-    int                         countsPerRev = 0;
-    float                       gearRatio = 1;
-    bool                        brakeMode = false;
-    int                         slaveTo = -1;
-//    int                       currentLimit = 0;
-    int                         peakCurrentDuration = 0;
-    int                         continuousCurrentLimit = 0;
-    int                         peakCurrentLimit = 0;
-    bool                        enableCurrentLimit = false;
+    int countsPerRev = 0;
+    float gearRatio = 1;
+    bool brakeMode = false;
+    int slaveTo = -1;
+    int currentLimit = 0;
+    int peakCurrentDuration = 0;
+    int continuousCurrentLimit = 0;
+    int peakCurrentLimit = 0;
+    bool enableCurrentLimit = false;
+
+    DragonMotorControllerFactory::MOTOR_TYPE mtype = DragonMotorControllerFactory::MOTOR_TYPE::TALONSRX; 
 
 
     bool hasError = false;
@@ -127,98 +131,60 @@ IDragonMotorController* MotorDefn::ParseXML
     {
         if ( strcmp( attr.name(), "usage" ) == 0 )
         {
-            int iVal = attr.as_int();
-            /*switch ( iVal )
+            auto usageStr = attr.value();
+            if ( strcmp( usageStr, "FRONT_LEFT_DRIVE") == 0 )
             {
-                case DragonTalon::MECANUM_FRONT_LEFT:
-                    motorType = DragonTalon::MECANUM_FRONT_LEFT;
-                    break;
-
-                case DragonTalon::MECANUM_FRONT_LEFT2:
-                    motorType = DragonTalon::MECANUM_FRONT_LEFT2;
-                    break;
-
-                case DragonTalon::MECANUM_FRONT_RIGHT:
-                    motorType = DragonTalon::MECANUM_FRONT_RIGHT;
-                    break;
-
-                case DragonTalon::MECANUM_FRONT_RIGHT2:
-                    motorType = DragonTalon::MECANUM_FRONT_RIGHT2;
-                    break;
-
-                case DragonTalon::MECANUM_BACK_LEFT:
-                    motorType = DragonTalon::MECANUM_BACK_LEFT;
-                    break;
-
-                case DragonTalon::MECANUM_BACK_LEFT2:
-                    motorType = DragonTalon::MECANUM_BACK_LEFT2;
-                    break;
-
-                case DragonTalon::MECANUM_BACK_RIGHT:
-                    motorType = DragonTalon::MECANUM_BACK_RIGHT;
-                    break;
-
-                case DragonTalon::MECANUM_BACK_RIGHT2:
-                    motorType = DragonTalon::MECANUM_BACK_RIGHT2;
-                    break;
-
-                case DragonTalon::TANK_LEFT_MASTER:
-                    motorType = DragonTalon::TANK_LEFT_MASTER;
-                    break;
-
-                case DragonTalon::TANK_LEFT_SLAVE1:
-                    motorType = DragonTalon::TANK_LEFT_SLAVE1;
-                    break;
-
-                case DragonTalon::TANK_LEFT_SLAVE2:
-                    motorType = DragonTalon::TANK_LEFT_SLAVE2;
-                    break;
-
-                case DragonTalon::TANK_RIGHT_MASTER:
-                    motorType = DragonTalon::TANK_RIGHT_MASTER;
-                    break;
-
-                case DragonTalon::TANK_RIGHT_SLAVE1:
-                    motorType = DragonTalon::TANK_RIGHT_SLAVE1;
-                    break;
-
-                case DragonTalon::TANK_RIGHT_SLAVE2:
-                    motorType = DragonTalon::TANK_RIGHT_SLAVE2;
-                    break;
-
-                case DragonTalon::CLIMBER_MASTER:
-                    motorType = DragonTalon::CLIMBER_MASTER;
-                    break;
-
-                case DragonTalon::ELEVATOR_MASTER:
-                    motorType = DragonTalon::ELEVATOR_MASTER;
-                    break;
-
-                case DragonTalon::ELEVATOR_SLAVE:
-                    motorType = DragonTalon::ELEVATOR_SLAVE;
-                    break;
-
-                case DragonTalon::SIDE_HANGER_MOTOR:
-                    motorType = DragonTalon::SIDE_HANGER_MOTOR;
-                    break;
-
-                case DragonTalon::ACTIVE_INTAKE_WHEELS:
-                    motorType = DragonTalon::ACTIVE_INTAKE_WHEELS;
-                    break;
-
-                case DragonTalon::FOURBAR_LIFT_MOTOR:
-                    motorType = DragonTalon::FOURBAR_LIFT_MOTOR;
-                    break;
-
-                case DragonTalon::ACTIVE_INTAKE_SLAVE:
-                	motorType = DragonTalon::ACTIVE_INTAKE_SLAVE;
-                	break;
-
-                default:
-                    printf( "==>>MotorDefn::ParseXML Invalid Motor Type %d \n", iVal );
-                    hasError = true;
-                    break;
-            }*/
+                usage = IDragonMotorController::TALON_TYPE::FRONT_LEFT_DRIVE;
+            }
+            else if ( strcmp( usageStr, "MIDDLE_LEFT_DRIVE") == 0 )
+            {
+                usage = IDragonMotorController::TALON_TYPE::MIDDLE_LEFT_DRIVE;
+            }
+            else if ( strcmp( usageStr, "BACK_LEFT_DRIVE") == 0 )
+            {
+                usage = IDragonMotorController::TALON_TYPE::BACK_LEFT_DRIVE;
+            }            
+            else if ( strcmp( usageStr, "FRONT_RIGHT_DRIVE") == 0 )
+            {
+                usage = IDragonMotorController::TALON_TYPE::FRONT_RIGHT_DRIVE;
+            }
+            else if ( strcmp( usageStr, "MIDDLE_RIGHT_DRIVE") == 0 )
+            {
+                usage = IDragonMotorController::TALON_TYPE::MIDDLE_RIGHT_DRIVE;
+            }
+            else if ( strcmp( usageStr, "BACK_RIGHT_DRIVE") == 0 )
+            {
+                usage = IDragonMotorController::TALON_TYPE::BACK_RIGHT_DRIVE;
+            }
+            else if ( strcmp( usageStr, "ARM_MASTER") == 0 )
+            {
+                usage = IDragonMotorController::TALON_TYPE::ARM_MASTER;
+            }            
+            else if ( strcmp( usageStr, "ARM_SLAVE") == 0 )
+            {
+                usage = IDragonMotorController::TALON_TYPE::ARM_SLAVE;
+            }
+            else if ( strcmp( usageStr, "ARM_EXTENSION") == 0 )
+            {
+                usage = IDragonMotorController::TALON_TYPE::ARM_EXTENSION;
+            }
+            else if ( strcmp( usageStr, "WRIST") == 0 )
+            {
+                usage = IDragonMotorController::TALON_TYPE::WRIST;
+            }
+            else if ( strcmp( usageStr, "ELEVATOR_WINCH") == 0 )
+            {
+                usage = IDragonMotorController::TALON_TYPE::ELEVATOR_WINCH;
+            }
+            else if ( strcmp( usageStr, "ELEVATOR_DRIVE") == 0 )
+            {
+                usage = IDragonMotorController::TALON_TYPE::ELEVATOR_DRIVE;
+            }
+            else
+            {
+                printf( "==>>MotorDefn::ParseXML Invalid Motor Type %s \n", usageStr );
+                hasError = true;
+            }
         }
         else if ( strcmp( attr.name(), "canId" ) == 0 )
         {
@@ -233,10 +199,36 @@ IDragonMotorController* MotorDefn::ParseXML
                 hasError = true;
             }
         }
+        else if ( strcmp( attr.name(), "pdpID" ) == 0 )
+        {
+            int iVal = attr.as_int();
+            if ( iVal > -1 && iVal < 16 )
+            {
+                pdpID = attr.as_int();
+            }
+            else
+            {
+                printf( "==>> MotorDefn::ParseXML invalid PDP ID %d \n", iVal );
+                hasError = true;
+            }
+        }
         else if ( strcmp( attr.name(), "type" ) == 0 )
         {
-            if ( strcmp( attr.value(), "cantalon" ) != 0 )
+            if ( strcmp( attr.value(), "cantalon") == 0 )
             {
+                mtype = DragonMotorControllerFactory::MOTOR_TYPE::TALONSRX;
+            }
+            else if ( strcmp( attr.value(), "sparkmax_brushless") == 0 )
+            {
+                mtype = DragonMotorControllerFactory::MOTOR_TYPE::BRUSHLESS_SPARK_MAX;
+            }
+            else if ( strcmp( attr.value(), "sparkmax_brushed") == 0 )
+            {
+                mtype = DragonMotorControllerFactory::MOTOR_TYPE::BRUSHED_SPARK_MAX;
+            }
+            else
+            {
+                printf( "Invalid motor type %s \n", attr.value() );
                 hasError = true;
             }
         }
@@ -253,62 +245,62 @@ IDragonMotorController* MotorDefn::ParseXML
             int iVal = attr.as_int();
             // Some options are duplicated enum values in the WPILib base, so
             // comment out one so that there isn't more than one case with the same value
-            /*switch ( iVal )
+            switch ( iVal )
             {
                  //commented out in ctre code with note to add back in
                 //case None:
-                    //feedbackDevice = None;
+                    //feedbackDevice = ctre::phoenix::motorcontrol::FeedbackDevice::None;
                     //break;
                 
               case QuadEncoder:
-                    feedbackDevice = QuadEncoder;
+                    feedbackDevice = ctre::phoenix::motorcontrol::FeedbackDevice::QuadEncoder;
                     break;
 
                 case Analog:
-                    feedbackDevice = Analog;
+                    feedbackDevice = ctre::phoenix::motorcontrol::FeedbackDevice::Analog;
                     break;
 
                 case Tachometer:
-                    feedbackDevice = Tachometer;
+                    feedbackDevice = ctre::phoenix::motorcontrol::FeedbackDevice::Tachometer;
                     break;
 
               case PulseWidthEncodedPosition:
-                    feedbackDevice = PulseWidthEncodedPosition;
+                    feedbackDevice = ctre::phoenix::motorcontrol::FeedbackDevice::PulseWidthEncodedPosition;
                     break;
 
                 case SensorSum:
-                    feedbackDevice = SensorSum;
+                    feedbackDevice = ctre::phoenix::motorcontrol::FeedbackDevice::SensorSum;
                     break;
 
                 case SensorDifference:
-                    feedbackDevice = SensorDifference;
+                    feedbackDevice = ctre::phoenix::motorcontrol::FeedbackDevice::SensorDifference;
                     break;
 
                 case RemoteSensor0:
-                    feedbackDevice = RemoteSensor0;
+                    feedbackDevice = ctre::phoenix::motorcontrol::FeedbackDevice::RemoteSensor0;
                     break;
 
                 case RemoteSensor1:
-                    feedbackDevice = RemoteSensor1;
+                    feedbackDevice = ctre::phoenix::motorcontrol::FeedbackDevice::RemoteSensor1;
                     break;
 
                 case SoftwareEmulatedSensor:
-                    feedbackDevice = SoftwareEmulatedSensor;
+                    feedbackDevice = ctre::phoenix::motorcontrol::FeedbackDevice::SoftwareEmulatedSensor;
                     break;
 
 //                case CTRE_MagEncoder_Absolute:
-//                    feedbackDevice = CTRE_MagEncoder_Absolute;
+//                    feedbackDevice = ctre::phoenix::motorcontrol::FeedbackDevice::CTRE_MagEncoder_Absolute;
 //                    break;
 
 //                case CTRE_MagEncoder_Relative:
-//                    feedbackDevice = CTRE_MagEncoder_Relative;
+//                    feedbackDevice = ctre::phoenix::motorcontrol::FeedbackDevice::CTRE_MagEncoder_Relative;
 //                    break;
 
                 default:
                     printf( "==>>MotorDefn::ParseXML invalid feedback devide %d \n", iVal );
                     hasError = true;
                     break;
-            }*/
+            }
         }
         else if ( strcmp( attr.name(), "countsPerRev" ) == 0 )
         {
@@ -353,30 +345,23 @@ IDragonMotorController* MotorDefn::ParseXML
 
     if ( !hasError )
     {
-        //talon = new DragonTalon( motorType, canID, countsPerRev, gearRatio );
-        //talon->SetInverted( inverted );
-        //talon->SetSensorPhase(sensorInverted );
-        //talon->ConfigSelectedFeedbackSensor( feedbackDevice, 0, 0 );  // TODO: 2 new parameters should get set from XML
-        if ( brakeMode )
-        {
-            //talon->SetNeutralMode( NeutralMode::Brake );
-        }
-        else
-        {
-            //talon->SetNeutralMode( NeutralMode::Coast );
-        }
-        if ( slaveTo > -1 )
-        {
-            //talon->SetAsSlave( slaveTo );
-        }
-
-        //talon->EnableCurrentLimit( enableCurrentLimit );
-        if ( enableCurrentLimit )
-        {
-            //talon->ConfigPeakCurrentDuration( peakCurrentDuration, 0 );
-            //talon->ConfigContinuousCurrentLimit( continuousCurrentLimit, 0 );
-            //talon->ConfigPeakCurrentLimit( peakCurrentLimit, 0 );
-        }
+		pdpID = ( pdpID < 0 ) ? pdpID = canID : pdpID;
+        controller = DragonMotorControllerFactory::GetInstance()->CreateMotorController( mtype,
+                                                                                         canID,
+                                                                                         pdpID,
+                                                                                         usage,
+                                                                                         inverted,
+                                                                                         sensorInverted,
+                                                                                         feedbackDevice,
+                                                                                         countsPerRev,
+                                                                                         gearRatio,
+                                                                                         brakeMode,
+                                                                                         slaveTo,
+                                                                                         currentLimit,
+                                                                                         peakCurrentLimit,
+                                                                                         peakCurrentDuration,
+                                                                                         peakCurrentLimit,
+                                                                                         enableCurrentLimit );
     }
-    //return talon;
+    return controller;
 }
