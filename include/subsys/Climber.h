@@ -38,6 +38,6 @@ private:
   DragonTalon* m_climbWheel;
   DragonServo* m_buddyServo;
 
-  double SERVO_LOCKED_POSITION = 0.0;
-  double SERVO_DROPPED_POSITION = 1.0;
+  double m_servoLockedPosition = 0.0;
+  double m_servoDroppedPosition = 1.0;
 };
