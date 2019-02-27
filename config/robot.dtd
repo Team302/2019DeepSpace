@@ -16,7 +16,7 @@
 >
 
 
-<!-- ====================================================
+<!-- ========================================s============
 	 PDP (power distribution panel) 
 	 ==================================================== -->
 <!ELEMENT pdp EMPTY>
@@ -119,8 +119,8 @@
 
 <!ELEMENT mechanismData EMPTY>
 <!ATTLIST mechanismData 
-          paramType         CDATA REQUIRED
-          value             CDATA REQUIRED
+          paramType         CDATA #REQUIRED
+          value             CDATA #REQUIRED
 >
 
 <!-- ====================================================
@@ -135,8 +135,8 @@
 	==================================================== -->
 <!ELEMENT PID EMPTY>
 <!ATTLIST PID
-          mode ( 0, 1, 2 ) "1"
-          pidtarget ( 0, 1, 2 ) "2"
+          mode ( 0 | 1 | 2 ) "1"
+          pidtarget ( 0 | 1 | 2 ) "2"
           proportional CDATA "0.0"
           integral CDATA "0.0"
           derivative CDATA "0.0"
@@ -230,7 +230,7 @@
 	==================================================== -->
 <!ELEMENT motor EMPTY>
 <!ATTLIST motor 
-          usage             		CDATA REQUIRED
+          usage             		CDATA #REQUIRED
           canId             		(  0 |  1 |  2 |  3 |  4 |  5 |  6 |  7 |  8 |  9 | 
                               		  10 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18 | 19 | 
                               		  20 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 
@@ -239,7 +239,7 @@
                               		  50 | 51 | 52 | 53 | 54 | 55 | 56 | 57 | 58 | 59 | 
                               		  60 | 61 | 62 ) "0"
 		  pdpID						CDATA #IMPLIED
-          type              		CDATA ( cantalon | sparkmax_brushless | sparkmax_brushed ) "cantalon"
+          type              		( cantalon | sparkmax_brushless | sparkmax_brushed ) "cantalon"
           inverted          		( true | false ) "false"
           sensorInverted    		( true | false ) "false"
           feedbackDevice    		( -1 | 0  |  2 |  3 |  4 |  5 |  6 |  7 |  8 ) "-1"
@@ -351,8 +351,8 @@
                               40 | 41 | 42 | 43 | 44 | 45 | 46 | 47 | 48 | 49 | 
                               50 | 51 | 52 | 53 | 54 | 55 | 56 | 57 | 58 | 59 | 
                               60 | 61 | 62 ) "0"
-          generalpin             (  0 |  1 |  2 |  3 |  4 |  5 |  6 |  7 |  8 |  9 | 
-                              10 | 11 )"0"
+          generalpin        (  0 |  1 |  2 |  3 |  4 |  5 |  6 |  7 |  8 |  9 | 
+                              10 | 11 ) "0"
 
           
 >
