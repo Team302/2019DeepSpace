@@ -26,31 +26,26 @@
 //        <!-- ====================================================
 //             motor usage options
 //             ====================================================
-//        enum TALON_TYPE
-//        {
-//            UNKNOWN_TALON_TYPE = -1,
-//            MECANUM_FRONT_LEFT,
-//            MECANUM_FRONT_LEFT2,
-//            MECANUM_FRONT_RIGHT,
-//            MECANUM_FRONT_RIGHT2,
-//            MECANUM_BACK_LEFT,
-//            MECANUM_BACK_LEFT2,
-//            MECANUM_BACK_RIGHT,
-//            MECANUM_BACK_RIGHT2,
-//            TANK_LEFT_MASTER,
-//            TANK_LEFT_SLAVE1,
-//            TANK_LEFT_SLAVE2,
-//            TANK_RIGHT_MASTER,
-//            TANK_RIGHT_SLAVE1,
-//            TANK_RIGHT_SLAVE2,
-//            CLIMBER_MASTER,
-//            ELEVATOR_MASTER,
-//            ELEVATOR_SLAVE,
-//            SIDE_HANGER_MOTOR,
-//            ACTIVE_INTAKE_WHEELS,
-//            FOURBAR_LIFT_MOTOR,
-//            MAX_TALON_TYPES
-//        };
+//
+//		enum TALON_TYPE
+//		{
+//			UNKNOWN_TALON_TYPE = -1,
+//			FRONT_LEFT_DRIVE,
+//			MIDDLE_LEFT_DRIVE,
+//			BACK_LEFT_DRIVE,
+//			FRONT_RIGHT_DRIVE,
+//			MIDDLE_RIGHT_DRIVE,
+//			BACK_RIGHT_DRIVE,
+//			ARM_MASTER,
+//			ARM_SLAVE,
+//			ARM_EXTENSION,
+//			WRIST,
+//			INTAKE,
+//			ELEVATOR_WINCH,
+//			ELEVATOR_DRIVE,
+//			MAX_TALON_TYPES
+//		};
+//
 //
 //
 //    ====================================================
@@ -129,6 +124,25 @@ IDragonMotorController* MotorDefn::ParseXML
 
     for (pugi::xml_attribute attr = motorNode.first_attribute(); attr; attr = attr.next_attribute())
     {
+		
+		//		enum TALON_TYPE
+		//		{
+		//			UNKNOWN_TALON_TYPE = -1,
+		//			FRONT_LEFT_DRIVE,
+		//			MIDDLE_LEFT_DRIVE,
+		//			BACK_LEFT_DRIVE,
+		//			FRONT_RIGHT_DRIVE,
+		//			MIDDLE_RIGHT_DRIVE,
+		//			BACK_RIGHT_DRIVE,
+		//			ARM_MASTER,
+		//			ARM_SLAVE,
+		//			ARM_EXTENSION,
+		//			WRIST,
+		//			INTAKE,
+		//			ELEVATOR_WINCH,
+		//			ELEVATOR_DRIVE,
+		//			MAX_TALON_TYPES
+		//		};		
         if ( strcmp( attr.name(), "usage" ) == 0 )
         {
             auto usageStr = attr.value();
@@ -171,6 +185,10 @@ IDragonMotorController* MotorDefn::ParseXML
             else if ( strcmp( usageStr, "WRIST") == 0 )
             {
                 usage = IDragonMotorController::TALON_TYPE::WRIST;
+            }            
+			else if ( strcmp( usageStr, "INTAKE") == 0 )
+            {
+                usage = IDragonMotorController::TALON_TYPE::INTAKE;
             }
             else if ( strcmp( usageStr, "ELEVATOR_WINCH") == 0 )
             {
@@ -186,6 +204,7 @@ IDragonMotorController* MotorDefn::ParseXML
                 hasError = true;
             }
         }
+		// CAN ID 0 thru 62 are valid
         else if ( strcmp( attr.name(), "canId" ) == 0 )
         {
             int iVal = attr.as_int();
@@ -199,6 +218,7 @@ IDragonMotorController* MotorDefn::ParseXML
                 hasError = true;
             }
         }
+		// PDP ID 0 thru 15 are valid
         else if ( strcmp( attr.name(), "pdpID" ) == 0 )
         {
             int iVal = attr.as_int();
@@ -212,6 +232,7 @@ IDragonMotorController* MotorDefn::ParseXML
                 hasError = true;
             }
         }
+		// type:  cantalon, sparkmax_brushless and sparkmax_brushed are valid
         else if ( strcmp( attr.name(), "type" ) == 0 )
         {
             if ( strcmp( attr.value(), "cantalon") == 0 )
@@ -232,15 +253,32 @@ IDragonMotorController* MotorDefn::ParseXML
                 hasError = true;
             }
         }
+		// inverted
         else if ( strcmp( attr.name(), "inverted" ) == 0 )
         {
             inverted = attr.as_bool();
         }
+		// sensor inverted
         else if ( strcmp( attr.name(), "sensorInverted" ) == 0 )
         {
             sensorInverted = attr.as_bool();
         }
-        else if ( strcmp( attr.name(), "feedbackDevice" ) == 0 )
+		// feedback device (only used by cantalon)
+		//        enum TALON_SENSOR_TYPE
+		//        {
+		//            NO_SENSOR = -1,
+		//            QUAD_ENCODER,
+		//            UNKNOWN_SENSOR,
+		//            ANALOG_POT,
+		//            ANALOG_ENCODER,
+		//            ENCODER_RISING,
+		//            ENCODER_FALLING,
+		//            CTRE_MAG_ENCODER_RELATIVE,
+		//            CTRE_MAG_ENCODER_ABSOLUTE,
+		//            PULSE_WIDTH,
+		//            MAX_SENSOR_TYPES
+		//        };        
+		else if ( strcmp( attr.name(), "feedbackDevice" ) == 0 )
         {
             int iVal = attr.as_int();
             // Some options are duplicated enum values in the WPILib base, so
@@ -302,36 +340,43 @@ IDragonMotorController* MotorDefn::ParseXML
                     break;
             }
         }
+		// counts per revolution
         else if ( strcmp( attr.name(), "countsPerRev" ) == 0 )
         {
             countsPerRev = attr.as_int();
         }
+		// gear ratio
         else if ( strcmp( attr.name(), "gearRatio" ) == 0 )
         {
             gearRatio = attr.as_float();
         }
 
+		// brake mode (or coast)
         else if ( strcmp( attr.name(), "brakeMode" ) == 0 )
         {
             brakeMode = attr.as_bool();
         }
-
+		// slaveto (existing CAN id of the master motor)
         else if ( strcmp( attr.name(), "slaveTo") == 0 )
         {
             slaveTo = attr.as_int();
         }
+		// peak current duration (cantalon)
         else if ( strcmp( attr.name(), "peakCurrentDuration") == 0 )
         {
             peakCurrentDuration = attr.as_int();
         }
+		// continuous current duration (cantalon)
         else if ( strcmp( attr.name(), "continuousCurrentLimit") == 0 )
         {
             continuousCurrentLimit = attr.as_int();
         }
+		// peak current limit (cantalon)
         else if ( strcmp( attr.name(), "peakCurrentLimit") == 0 )
         {
             peakCurrentLimit = attr.as_int();
         }
+		// enable current limiting
         else if ( strcmp( attr.name(), "currentLimiting") == 0 )
         {
             enableCurrentLimit = attr.as_bool();
