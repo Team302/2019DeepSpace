@@ -32,21 +32,18 @@
 <!-- ====================================================
 	 CANifiers
 ==================================================== -->
-	<!--CANifier 1-->
+	<!--CANifier 1
 	<canifier usage = "0"
-			  canId = 30/>
-	<!--CANifier 2-->
+			  canId = "30"/>
 	<canifier usage = "0"
-			  canId = 31/>
-	<!--CANifier 3-->
+			  canId = "31"/>
 	<canifier usage = "0"
-			  canId = 32/>
+			  canId = "32"/> -->
        
 <!-- ====================================================
 	 Chassis
 	 ====================================================  -->
-    <chassis type="0"
-    		 wheelDiameter="6.285"
+    <chassis wheelDiameter="6.285"
              wheelBase="25.0"  
              track="18.0">
              
@@ -65,7 +62,7 @@
         	   currentLimiting="true"  />
         <motor usage="FRONT_LEFT_DRIVE"
         	   canId="16"
-			   pdpId="0"
+			   pdpID="0"
 			   type="sparkmax_brushless"
          	   feedbackDevice="0"
          	   countsPerRev="1"
@@ -323,10 +320,10 @@
 			 cruisevelocity="200.0"/>
 		<PID mode="1"
 			 pidtarget="1"
-			 proportional="10.0"/>		
+			 proportional="10.0"/>
 	</mechanism>
 	<!-- Climber -->
-	<mechanism type=2>
+	<mechanism type="2">
 		<!--Climber Winch-->
 		<motor usage="ELEVATOR_WINCH"
 			   canId="6"
