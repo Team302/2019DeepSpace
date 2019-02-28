@@ -32,18 +32,21 @@
 <!-- ====================================================
 	 CANifiers
 ==================================================== -->
-	<!--CANifier 1
+	<!--CANifier 1-->
 	<canifier usage = "0"
-			  canId = "30"/>
+			  canId = 30/>
+	<!--CANifier 2-->
 	<canifier usage = "0"
-			  canId = "31"/>
+			  canId = 31/>
+	<!--CANifier 3-->
 	<canifier usage = "0"
-			  canId = "32"/> -->
+			  canId = 32/>
        
 <!-- ====================================================
 	 Chassis
 	 ====================================================  -->
-    <chassis wheelDiameter="6.285"
+    <chassis type="0"
+    		 wheelDiameter="6.285"
              wheelBase="25.0"  
              track="18.0">
              
@@ -62,7 +65,7 @@
         	   currentLimiting="true"  />
         <motor usage="FRONT_LEFT_DRIVE"
         	   canId="16"
-			   pdpID="0"
+			   pdpId="0"
 			   type="sparkmax_brushless"
          	   feedbackDevice="0"
          	   countsPerRev="1"
@@ -149,7 +152,10 @@
         	   peakCurrentLimit="40" 
         	   currentLimiting="true"/>
 
-	
+		<mechanismData paramType="WRIST_ANGLE_OFFSET"
+					   value="158.74 / 360.0"/>		
+		<mechanismData paramType="HATCH_START_ANGLE"
+					   value="0.0"/>
 		<mechanismData paramType="HATCH_FLOOR_ANGLE"
 					   value="51.38"/>
 		<mechanismData paramType="HATCH_HP_ANGLE"
@@ -160,6 +166,8 @@
 					   value="90.54"/>
 		<mechanismData paramType="HATCH_HIGH_ANGLE"
 					   value="27.54"/>
+		<mechanismData paramType="CARGO_START_ANGLE"
+					   value="0.0"/>
 		<mechanismData paramType="CARGO_FLOOR_ANGLE"
 					   value="-56.1"/>
 		<mechanismData paramType="CARGO_HP_ANGLE"
@@ -240,20 +248,15 @@
          	   feedbackDevice="0"
           	   countsPerRev="1024"
 		   	   brakeMode="true"
-        	   gearRatio="7.625 / 9.28515625" 
+        	   gearRatio="1.0" 
         	   peakCurrentDuration="50"
         	   continuousCurrentLimit="30"
         	   peakCurrentLimit="40" 
         	   currentLimiting="true"/>
-
-		<mechanismData paramType="LEGAL_STARTING_ANGLE"
-					   value="-167.00"/>
-		<mechanismData paramType="TEST_STARTING_ANGLE"
-					   value="-138.00"/>
-		<mechanismData paramType="EXTENDER_LEGAL_STARTING_INCHES"
-					   value="0.0"/>
-		<mechanismData paramType="EXTENDER_TEST_STARTING_INCHES"
-					   value="6.8"/>
+		<mechanismData paramType="ARM_ANGLE_OFFSET"
+					   value="(-167.00) / 360.0"/>		
+		<mechanismData paramType="ARM_EXTENSION_OFFSET"
+					   value="9.28515625"/>
 		<mechanismData paramType="HATCH_START_ANGLE"
 					   value="0.0"/>		
 		<mechanismData paramType="HATCH_FLOOR_ANGLE"
@@ -307,18 +310,18 @@
 		<mechanismData paramType="CARGO_HIGH_EXTENSION"
 					   value="6.8"/>					   
 		<mechanismData paramType="EXTENDER_HOLD_POWER"
-					   value="-0.1"/>					   					   
+					   value="-0.1"/>					   
+		<mechanismData paramType="EXTENDER_INCHES_PER_REVOLUTION"
+					   value="7.625 / 9.28515625"/>					   
 		<PID mode="2"
-			 pidtarget="0"
 			 proportional="15.0"
 			 maxacceleration="60.0"
 			 cruisevelocity="200.0"/>
-		<PID mode="1"
-			 pidtarget="1"
-			 proportional="10.0"/>
+		<PID mode="3"
+			 proportional="10.0"/>	
 	</mechanism>
 	<!-- Climber -->
-	<mechanism type="2">
+	<mechanism type=2>
 		<!--Climber Winch-->
 		<motor usage="ELEVATOR_WINCH"
 			   canId="6"
