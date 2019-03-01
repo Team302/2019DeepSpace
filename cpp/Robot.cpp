@@ -77,24 +77,36 @@ void Robot::Vision()
 }
 void Robot::RobotInit() {
  
-  std::thread v1(&Robot::Vision,this);
-  v1.detach();
+  // std::thread v1(&Robot::Vision,this);
+  // v1.detach();
 
   // Read the robot definition from the xml configuration files and
   // create the hardware (chassis + mechanisms along with their talons,
   // solenoids, digital inputs, analog inputs, etc.
   RobotDefn::ParseXML();
 
+
   m_arm = MechanismFactory::GetMechanismFactory()->GetArm();
   m_climber = MechanismFactory::GetMechanismFactory()->GetClimber();
   m_intake = MechanismFactory::GetMechanismFactory()->GetIntake();
   m_wrist = MechanismFactory::GetMechanismFactory()->GetWrist();
+  if (m_arm == nullptr)
+    printf("arm is NULLPTR!!!!!!!\n");
+  if (m_climber == nullptr)
+    printf("climber is NULLPTR!!!!!!!\n");
+  if (m_intake == nullptr)
+    printf("intake is NULLPTR!!!\n");
+  if (m_wrist == nullptr)
+    printf("wrist is NULLPTR!!!!!!!!!!\n");
+  printf("robot.cpp after gettin mechanisms\n");
 
   m_arm->SetLegalStartingPos();
   m_wrist->SetLegalStartingPos();
+  printf("robot.cpp after set legal starting pos\n");
 
-  
-  
+  printf("pointer to dragonchassis instance %p\n", DragonChassis::GetInstance());
+   m_driverAssist = new DriverAssist();
+   printf("done making driver assist\n");
   /*  
   
   printf("OMG WE DEPLOYED CODE 23\n");
@@ -296,8 +308,8 @@ void Robot::MainPeriodic()
 void Robot::TestInit()
 {
   // set offsets for test robot starting config
-  m_arm->SetLegalStartingPos();
-  m_wrist->SetLegalStartingPos();
+  m_arm->SetPracticeStartingPos();
+  m_wrist->SetPracticeStartingPos();
 }
 
 void Robot::TestPeriodic() {}

@@ -75,9 +75,12 @@ IMechanism* MechanismFactory::CreateMechanism
     IMechanism* subsys = nullptr;
     int index = type;
 
+    printf("MechanismFactory index: %d\n", index);
+
     switch ( index )
     {
         case IMechanism::CLIMBER:
+            printf("MechanismFactory beginning of CLIMBER case\n");
             subsys = new Climber( motorControllers, servos );
             m_climber = subsys;
             break;
@@ -107,12 +110,16 @@ IMechanism* MechanismFactory::CreateMechanism
         for ( auto inx=0; inx<parameters.size(); ++inx )
         {
             subsys->SetParam( parameters[inx].first, parameters[inx].second );
+            printf("after MechanismFactory SetParam\n");
         }
         for ( auto inx=0; inx<pid.size(); ++inx )
         {
             subsys->SetPID( pid[inx] );
+            printf("after MechanismFactory SetPID\n");
         }
     }
+
+    printf("In MechanismFactory after pid and parameter stuff\n");
 
     return subsys;
 }

@@ -52,31 +52,36 @@ void RobotDefn::ParseXML()
             {
                 if ( strcmp( child.name(), "chassis") == 0 )
                 {
+                    printf("chassis parse \n");
                     ChassisDefn::ParseXML( child );
                 }
                 else if ( strcmp( child.name(), "mechanism") == 0 )
                 {
+                    printf("mech parse \n");
                     MechanismDefn::ParseXML( child );
                 }
-                else if ( strcmp( child.name(), "pcm") == 0 )
-                {
-                    //PCMDefn::ParseXML( child );
-                }
+                // else if ( strcmp( child.name(), "pcm") == 0 )
+                // {
+                //     //PCMDefn::ParseXML( child );
+                // }
                 else if ( strcmp( child.name(), "pdp") == 0 )
                 {
-                    PDPDefn::ParseXML( child );
+                    printf("pdp parse \n");
+                    // PDPDefn::ParseXML( child );
                 }
                 else if ( strcmp( child.name(), "pigeon") == 0 )
                 {
-                    PigeonDefn::ParseXML( child );
+                    printf("pigeon parse \n");
+                    // PigeonDefn::ParseXML( child );
                 }
-                else if ( strcmp( child.name(), "lidar") == 0 )
-                {
-                    //LidarDefn::ParseXML( child );
-                }
+                // else if ( strcmp( child.name(), "lidar") == 0 )
+                // {
+                //     //LidarDefn::ParseXML( child );
+                // }
                 else if ( strcmp( child.name(), "camera") == 0 )
                 {
-                    CameraDefn::ParseXML( child );
+                    printf("camera parse \n");
+                    // CameraDefn::ParseXML( child );
                 }
                 else
                 {
@@ -91,4 +96,5 @@ void RobotDefn::ParseXML()
         std::cout << "Error description: " << result.description() << "\n";
         std::cout << "Error offset: " << result.offset << " (error at [..." << (filename + result.offset) << "]\n\n";
     }
+    
 }

@@ -123,6 +123,7 @@ void DragonSparkMax::EnableBrakeMode(bool enabled)
 
 void DragonSparkMax::SetPIDF(double p, double i, double d, double f, int slot)
 {
+    printf("im settin dragonsparkmax pids P is %f\n", p);
     m_spark->GetPIDController().SetP(p, slot);
     m_spark->GetPIDController().SetI(i, slot);
     m_spark->GetPIDController().SetD(d, slot);

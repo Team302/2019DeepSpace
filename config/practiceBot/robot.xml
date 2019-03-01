@@ -143,7 +143,7 @@
          	   feedbackDevice="0"
           	   countsPerRev="1024"
 		   	   brakeMode="true"
-        	   gearRatio="180/235.6" 
+        	   gearRatio="0.764006791" 
         	   peakCurrentDuration="50"
         	   continuousCurrentLimit="30"
         	   peakCurrentLimit="40" 
@@ -213,7 +213,7 @@
          	   feedbackDevice="0"
           	   countsPerRev="1024"
 		   	   brakeMode="true"
-        	   gearRatio="180/233.4375" 
+        	   gearRatio="0.771084337" 
         	   peakCurrentDuration="50"
         	   continuousCurrentLimit="30"
         	   peakCurrentLimit="40" 
@@ -227,7 +227,7 @@
           	   countsPerRev="1024"
 		   	   brakeMode="true"
 			   slaveTo="2"
-        	   gearRatio="180/233.4375" 
+        	   gearRatio="0.771084337" 
         	   peakCurrentDuration="50"
         	   continuousCurrentLimit="30"
         	   peakCurrentLimit="40" 
@@ -240,7 +240,7 @@
          	   feedbackDevice="0"
           	   countsPerRev="1024"
 		   	   brakeMode="true"
-        	   gearRatio="7.625 / 9.28515625" 
+        	   gearRatio="0.821203197" 
         	   peakCurrentDuration="50"
         	   continuousCurrentLimit="30"
         	   peakCurrentLimit="40" 
@@ -308,7 +308,7 @@
 			 proportional="10.0"/>
 	</mechanism>
 	<!-- Climber -->
-	<mechanism type="2">
+	<mechanism type="3">
 		<!--Climber Winch-->
 		<motor usage="ELEVATOR_WINCH"
 			   canId="6"
@@ -335,10 +335,10 @@
         	   continuousCurrentLimit="30"
         	   peakCurrentLimit="40" 
         	   currentLimiting="true"/>
-		<mechanismData paramType="SERVO_LOCKED_POSITION_PARAM"
+		<!-- <mechanismData paramType="SERVO_LOCKED_POSITION_PARAM"
 					   value="0.0"/>
 		<mechanismData paramType="SERVO_DROPPED_POSITION_PARAM"
-					   value="1.0"/>					   
+					   value="1.0"/>					    -->
 	</mechanism>
 <!-- ====================================================
 	 Talon Tachs

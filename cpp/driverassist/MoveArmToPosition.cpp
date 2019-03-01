@@ -3,8 +3,8 @@
 #include "frc/SmartDashboard/SmartDashboard.h"
 
 MoveArmToPosition::MoveArmToPosition()  :
-m_arm( dynamic_cast<Arm*>(MechanismFactory::GetMechanismFactory()->GetIMechanism(IMechanism::MECHANISM_TYPE::ARM)) ),
-m_wrist( dynamic_cast<Wrist*>(MechanismFactory::GetMechanismFactory()->GetIMechanism(IMechanism::MECHANISM_TYPE::WRIST)) )
+m_arm( MechanismFactory::GetMechanismFactory()->GetArm() ),
+m_wrist( MechanismFactory::GetMechanismFactory()->GetWrist() )
 {
     m_currentState = MOVE_STATE::DONE;
 }

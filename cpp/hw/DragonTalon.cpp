@@ -13,6 +13,7 @@ DragonTalon::DragonTalon(IDragonMotorController::TALON_TYPE deviceType, int devi
 	// m_talon->GetSelectedSensorPo
 	m_tickOffset = m_talon->GetSelectedSensorPosition();
 	printf("Im constructing a dragon talon id: %d, type: %d \n", deviceID, deviceType);
+	printf("Gear ratio: %f \n", gearRatio);
 }
 
 double DragonTalon::GetRotations() const

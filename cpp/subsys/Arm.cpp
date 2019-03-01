@@ -30,11 +30,11 @@ Arm::Arm(IDragonMotorControllerVector motorControllers) : m_armTargetAngle(0.0),
         switch (motorControllers[i]->GetType())
         {
             case IDragonMotorController::TALON_TYPE::ARM_MASTER:
-                m_armMaster = static_cast<DragonTalon*>(motorControllers[i]);
+                m_armMaster = dynamic_cast<DragonTalon*>(motorControllers[i]);
             break;
 
             case IDragonMotorController::TALON_TYPE::ARM_EXTENSION:
-                m_extender = static_cast<DragonTalon*>(motorControllers[i]);
+                m_extender = dynamic_cast<DragonTalon*>(motorControllers[i]);
             break;
 
             default:
@@ -266,28 +266,23 @@ void Arm::CorrectExtenderPower(double &power)
     double predictedRads = OurDegreesToRads(correctedAngle);
 
     //practice bot
-    // double realMaxLegalExtender = Map(std::abs(cos(realRads)), 1, 0.76, 1.175, 6.8); //BIG TODO: make MAX_EXTENDER_DISTANCE constant
-    // double predictedMaxLegalExtender = Map(std::abs(cos(predictedRads)), 1, 0.76, 1.175, 6.8);
+    double realMaxLegalExtender = Map(std::abs(cos(realRads)), 1, 0.76, 1.175, m_extenderMaxDistance); //BIG TODO: make MAX_EXTENDER_DISTANCE constant
+    double predictedMaxLegalExtender = Map(std::abs(cos(predictedRads)), 1, 0.76, 1.175, m_extenderMaxDistance);
 
     // comp bot
-    double realMaxLegalExtender = Map(std::abs(cos(realRads)), 1, 0.76, 2.0, 7.625); //BIG TODO: make MAX_EXTENDER_DISTANCE constant
-    double predictedMaxLegalExtender = Map(std::abs(cos(predictedRads)), 1, 0.76, 2.0, 7.625);
+    // double realMaxLegalExtender = Map(std::abs(cos(realRads)), 1, 0.76, 2.0, 7.625); //BIG TODO: make MAX_EXTENDER_DISTANCE constant
+    // double predictedMaxLegalExtender = Map(std::abs(cos(predictedRads)), 1, 0.76, 2.0, 7.625);
 
     // frc::SmartDashboard::PutNumber("Max Legal Inches", maxLegalExtender);
 
     // frc::SmartDashboard::PutNumber("")
     if (GetExtenderRealInches() > realMaxLegalExtender || GetExtenderRealInches() > predictedMaxLegalExtender)
-    {
         power = -1;
-    }
-    else if (GetExtenderRealInches() > m_extenderMaxDistance)
-    {
-        power -= 1;
-    }
     else if (GetExtenderRealInches() < 0.0)
-    {
-        power = EXTENDER_HOLD_POWER;
-    }
+        power = power > 0 ? power : 0;
+
+    if (GetExtenderRealInches() > m_extenderMaxDistance)
+        power = power > 0 ? 0 : power;
 
     m_previousArmRealAngle = GetArmRealAngle();
 }

@@ -58,6 +58,7 @@ IDragonMotorController* DragonMotorControllerFactory::CreateMotorController
     bool 											enableCurrentLimit
 )
 {
+	printf("In DragonMotorControllerFactory beginning of constructor\n");
     IDragonMotorController* controller = nullptr;
 	
 	switch ( mtype )
@@ -147,6 +148,7 @@ IDragonMotorController* DragonMotorControllerFactory::CreateMotorController
 			break;
 	}
 	m_controllers[ canID ] = controller;
+	printf("In DragonMotorControllerFactory end of constructor\n");
 	return controller;
 }
 

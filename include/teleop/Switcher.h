@@ -35,13 +35,6 @@ private:
 
   DragonLimelight* m_limelight;
 
-  const bool FRONT_LEFT_SPARK_INVERTED = false;
-  const bool MIDDLE_LEFT_SPARK_INVERTED = false;
-  const bool BACK_LEFT_SPARK_INVERTED = false;
-  const bool FRONT_RIGHT_SPARK_INVERTED = true;
-  const bool MIDDLE_RIGHT_SPARK_INVERTED = true;
-  const bool BACK_RIGHT_SPARK_INVERTED = true;
-
   // CLIMBER THINGS
   double m_climbDriveSpeed;
   double m_climbElevSpeed;

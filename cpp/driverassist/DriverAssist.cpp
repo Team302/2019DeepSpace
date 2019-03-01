@@ -6,7 +6,7 @@
  */
 
 #include "driverassist/DriverAssist.h"
-#include "frc/SmartDashboard/SmartDashboard.h"
+#include "SmartDashboard/SmartDashboard.h"
 
 using namespace frc;
 
@@ -104,25 +104,35 @@ void DriverAssist::UpdateSecondaryControls()
     if (m_switcher->m_secondaryController->GetXButtonPressed())
     {
         m_height = PlacementHeights::PLACEMENT_HEIGHT::HUMAN_PLAYER;
+        m_MoveArmToPos->SetTargetPosition(m_height, m_cargo, m_flip);
     }
-    else if (m_switcher->m_secondaryController->GetPOV() == 180)
+    if (m_switcher->m_secondaryController->GetPOV() == 180)
     {
         m_height = PlacementHeights::PLACEMENT_HEIGHT::CARGOSHIP;
+        m_MoveArmToPos->SetTargetPosition(m_height, m_cargo, m_flip);
     }
-    else if (m_switcher->m_secondaryController->GetPOV() == 270)
+    if (m_switcher->m_secondaryController->GetPOV() == 270)
     {
         m_height = PlacementHeights::PLACEMENT_HEIGHT::ROCKET_LOW;
+        m_MoveArmToPos->SetTargetPosition(m_height, m_cargo, m_flip);
     }
-    else if (m_switcher->m_secondaryController->GetPOV() == 0)
+    if (m_switcher->m_secondaryController->GetPOV() == 0)
     {
         m_height = PlacementHeights::PLACEMENT_HEIGHT::ROCKET_MID;
+        m_MoveArmToPos->SetTargetPosition(m_height, m_cargo, m_flip);
     }
-    else if (m_switcher->m_secondaryController->GetPOV() == 90)
+    if (m_switcher->m_secondaryController->GetPOV() == 90)
     {
         m_height = PlacementHeights::PLACEMENT_HEIGHT::ROCKET_HIGH;
+        m_MoveArmToPos->SetTargetPosition(m_height, m_cargo, m_flip);
     }
-    m_MoveArmToPos->SetTargetPosition(m_height, m_cargo, m_flip);
+    // if (m_switcher->m_secondaryController->GetBumperPressed(GenericHID::JoystickHand::kRightHand))
+    // {
+    //     m_height = PlacementHeights::PLACEMENT_HEIGHT::HUMAN_PLAYER_HOLE;
+    //     m_MoveArmToPos->SetTargetPosition(m_height, m_cargo, m_flip);
+    // }
 }
+
 void DriverAssist::UpdateDriverControls()
 {
     if (m_switcher->m_mainController->GetBumperPressed(frc::GenericHID::JoystickHand::kLeftHand))
@@ -179,6 +189,7 @@ void DriverAssist::UpdateDriverControls()
         m_switcher->DriveUpdate();
     }
 }
+
 void DriverAssist::AttemptingGamePieceCancel()
 {
     if (std::abs(m_switcher->m_secondaryController->GetRawAxis(0)) > 0.50)

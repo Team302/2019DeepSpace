@@ -49,7 +49,7 @@ DragonChassis* ChassisDefn::ParseXML
 	pugi::xml_node      chassisNode
 )
 {
-    DragonChassis* chassis = nullptr;
+    printf("top of ChassisDefn ParseXML\n");
     float wheelDiameter	= 0.0;
     float wheelBase 	= 0.0;
     float track 		= 0.0;
@@ -101,8 +101,9 @@ DragonChassis* ChassisDefn::ParseXML
     //--------------------------------------------------------------------------------------------
     if ( !hasError )
     {
-        chassis = new DragonChassis( motors, wheelDiameter, wheelBase, track );
+        // chassis = new DragonChassis( motors, wheelDiameter, wheelBase, track );
+        DragonChassis::CreateDragonChassis( motors, wheelDiameter, wheelBase, track );
     }
-    //return chassis;
+    return DragonChassis::GetInstance(); //DUMMY
 }
 

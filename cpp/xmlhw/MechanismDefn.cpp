@@ -78,7 +78,9 @@ void MechanismDefn::ParseXML
     {
         if ( strcmp( attr.name(), "type" ) == 0 )
         {
+            
             int iVal = attr.as_int();
+            printf("mech: %d \n", iVal);
             switch ( iVal )
             {
                 case IMechanism::WRIST:

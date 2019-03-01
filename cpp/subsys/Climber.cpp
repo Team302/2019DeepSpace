@@ -14,33 +14,34 @@ m_climbElevator(nullptr),
 m_climbWheel(nullptr),
 m_buddyServo(nullptr)
 {
+    printf("In Climber beginning of constructor\n");
     for (int i = 0; i < motorControllers.size(); i++)
     {
         switch (motorControllers[i]->GetType())
         {
             case IDragonMotorController::TALON_TYPE::ELEVATOR_WINCH:
-                m_climbElevator = static_cast<DragonTalon*>(motorControllers[i]);
+                m_climbElevator = dynamic_cast<DragonTalon*>(motorControllers[i]);
                 break;
             case IDragonMotorController::TALON_TYPE::ELEVATOR_DRIVE:
-                m_climbWheel = static_cast<DragonTalon*>(motorControllers[i]);
+                m_climbWheel = dynamic_cast<DragonTalon*>(motorControllers[i]);
                 break;
             default: 
                 break;
         }
     }
 
-    for (int i = 0; i < servos.size(); i++)
-    {
-        switch (servos[i]->GetUsage())
-        {
-            case DragonServo::SERVO_USAGE::DROP_BUDDY_CLIMB:
-                m_buddyServo = servos[i];
-                break;
-            default:
-                break;
-        }
-    }
-
+    // for (int i = 0; i < servos.size(); i++)
+    // {
+    //     switch (servos[i]->GetUsage())
+    //     {
+    //         case DragonServo::SERVO_USAGE::DROP_BUDDY_CLIMB:
+    //             m_buddyServo = servos[i];
+    //             break;
+    //         default:
+    //             break;
+    //     }
+    // }
+    printf("In Climber end of constructor\n");
 
 }
 
