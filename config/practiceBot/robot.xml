@@ -324,7 +324,7 @@
 		<motor usage="ELEVATOR_WINCH"
 			   canId="6"
 			   type="cantalon"
-               inverted="false"
+               inverted="true"
          	   feedbackDevice="0"
           	   countsPerRev="1024"
 		   	   brakeMode="true"
