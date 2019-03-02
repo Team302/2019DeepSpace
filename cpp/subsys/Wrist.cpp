@@ -51,24 +51,35 @@ void Wrist::MoveWristPresets(PlacementHeights::PLACEMENT_HEIGHT height, bool car
             case PlacementHeights::PLACEMENT_HEIGHT::START_POSITION:
                 m_targetAngle = cargoAngle[Wrist::CARGO_WRIST_PRESETS::CARGO_START_POSITION];
                 break;
+                
             case PlacementHeights::PLACEMENT_HEIGHT::FLOOR:
                 m_targetAngle = cargoAngle[Wrist::CARGO_WRIST_PRESETS::CARGO_FLOOR];
                 break;
+
             case PlacementHeights::PLACEMENT_HEIGHT::CARGOSHIP:
                 m_targetAngle = cargoAngle[Wrist::CARGO_WRIST_PRESETS::CARGO_SHIP];
                 break;
+
             case PlacementHeights::PLACEMENT_HEIGHT::HUMAN_PLAYER:
                 m_targetAngle = cargoAngle[Wrist::CARGO_WRIST_PRESETS::CARGO_HP];
                 break;
+
+            case PlacementHeights::PLACEMENT_HEIGHT::HUMAN_PLAYER_HOLE:
+                m_targetAngle = cargoAngle[Wrist::CARGO_WRIST_PRESETS::CARGO_HP];
+                break;
+
             case PlacementHeights::PLACEMENT_HEIGHT::ROCKET_LOW:
                 m_targetAngle = cargoAngle[Wrist::CARGO_WRIST_PRESETS::CARGO_LOW];
                 break;
+
             case PlacementHeights::PLACEMENT_HEIGHT::ROCKET_MID:
                 m_targetAngle = cargoAngle[Wrist::CARGO_WRIST_PRESETS::CARGO_MID];
                 break;
+
             case PlacementHeights::PLACEMENT_HEIGHT::ROCKET_HIGH:
                 m_targetAngle = cargoAngle[Wrist::CARGO_WRIST_PRESETS::CARGO_HIGH];
                 break;
+
             default:
                 break;
         }
@@ -80,15 +91,23 @@ void Wrist::MoveWristPresets(PlacementHeights::PLACEMENT_HEIGHT height, bool car
             case PlacementHeights::PLACEMENT_HEIGHT::START_POSITION:
                 m_targetAngle = hatchAngle[Wrist::HATCH_WRIST_PRESETS::HATCH_START_POSITION];
                 break;
+
             case PlacementHeights::PLACEMENT_HEIGHT::FLOOR:
                 m_targetAngle = hatchAngle[Wrist::HATCH_WRIST_PRESETS::HATCH_FLOOR];
                 break;
+
             case PlacementHeights::PLACEMENT_HEIGHT::CARGOSHIP:
                 m_targetAngle = hatchAngle[Wrist::HATCH_WRIST_PRESETS::HATCH_LOW];
                 break;
+
             case PlacementHeights::PLACEMENT_HEIGHT::HUMAN_PLAYER:
                 m_targetAngle = hatchAngle[Wrist::HATCH_WRIST_PRESETS::HATCH_HP];
                 break;
+
+            case PlacementHeights::PLACEMENT_HEIGHT::HUMAN_PLAYER_HOLE:
+                m_targetAngle = hatchAngle[Wrist::HATCH_WRIST_PRESETS::HATCH_HP_HOLE];
+                break;
+
             case PlacementHeights::PLACEMENT_HEIGHT::ROCKET_LOW:
                 m_targetAngle = hatchAngle[Wrist::HATCH_WRIST_PRESETS::HATCH_LOW];
                 break;
@@ -160,6 +179,10 @@ void Wrist::SetParam(
 
         case HATCH_HP_ANGLE:
             hatchAngle[HATCH_HP] = value;
+            break;
+
+        case HATCH_HP_HOLE_ANGLE:
+            hatchAngle[HATCH_HP_HOLE] = value;
             break;
 
         case HATCH_LOW_ANGLE:

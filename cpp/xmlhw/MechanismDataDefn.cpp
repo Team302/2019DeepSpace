@@ -90,6 +90,10 @@ mechParamData  MechanismDataDefn::ParseXML
             {
                 mechData.first = IMechanism::MECHANISM_PARAM_TYPE::HATCH_HP_ANGLE; 
             }
+            else if ( strcmp( param, "HATCH_HP_HOLE_ANGLE") == 0)
+            {
+                mechData.first = IMechanism::MECHANISM_PARAM_TYPE::HATCH_HP_HOLE_ANGLE;
+            }
             else if ( strcmp( param, "HATCH_LOW_ANGLE" ) == 0 )
             {
                 mechData.first = IMechanism::MECHANISM_PARAM_TYPE::HATCH_LOW_ANGLE;               
@@ -137,6 +141,10 @@ mechParamData  MechanismDataDefn::ParseXML
             else if ( strcmp( param, "HATCH_HP_EXTENSION" ) == 0 )
             {
                 mechData.first = IMechanism::MECHANISM_PARAM_TYPE::HATCH_HP_EXTENSION;               
+            }
+            else if (strcmp( param, "HATCH_HP_HOLE_EXTENSION") == 9)
+            {
+                mechData.first = IMechanism::MECHANISM_PARAM_TYPE::HATCH_HP_HOLE_EXTENSION;
             }
             else if ( strcmp( param, "HATCH_LOW_EXTENSION" ) == 0 )
             {

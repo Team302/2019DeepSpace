@@ -54,24 +54,35 @@ void Arm::MoveArmPreset(PlacementHeights::PLACEMENT_HEIGHT height, bool cargo, b
             case PlacementHeights::PLACEMENT_HEIGHT::START_POSITION:
                 m_armTargetAngle = cargoAngle[Arm::CARGO_WRIST_PRESETS::CARGO_START_POSITION];
                 break;
+
             case PlacementHeights::PLACEMENT_HEIGHT::FLOOR:
                 m_armTargetAngle = cargoAngle[Arm::CARGO_WRIST_PRESETS::CARGO_FLOOR];
                 break;
+
             case PlacementHeights::PLACEMENT_HEIGHT::CARGOSHIP:
                 m_armTargetAngle = cargoAngle[Arm::CARGO_WRIST_PRESETS::CARGO_SHIP];
                 break;
+
             case PlacementHeights::PLACEMENT_HEIGHT::HUMAN_PLAYER:
                 m_armTargetAngle = cargoAngle[Arm::CARGO_WRIST_PRESETS::CARGO_HP];
                 break;
+
+            case PlacementHeights::PLACEMENT_HEIGHT::HUMAN_PLAYER_HOLE:
+                m_armTargetAngle = cargoAngle[Arm::CARGO_WRIST_PRESETS::CARGO_HP];
+                break;
+
             case PlacementHeights::PLACEMENT_HEIGHT::ROCKET_LOW:
                 m_armTargetAngle = cargoAngle[Arm::CARGO_WRIST_PRESETS::CARGO_LOW];
                 break;
+
             case PlacementHeights::PLACEMENT_HEIGHT::ROCKET_MID:
                 m_armTargetAngle = cargoAngle[Arm::CARGO_WRIST_PRESETS::CARGO_MID];
                 break;
+
             case PlacementHeights::PLACEMENT_HEIGHT::ROCKET_HIGH:
                 m_armTargetAngle = cargoAngle[Arm::CARGO_WRIST_PRESETS::CARGO_HIGH];
                 break;
+
             default:
                 // bad
                 printf("Arm.cpp MoveArmPresets cargo switch default");
@@ -84,25 +95,36 @@ void Arm::MoveArmPreset(PlacementHeights::PLACEMENT_HEIGHT height, bool cargo, b
         {
             case PlacementHeights::PLACEMENT_HEIGHT::START_POSITION:
                 m_armTargetAngle = hatchAngle[Arm::HATCH_WRIST_PRESETS::HATCH_START_POSITION];
-                break;            
+                break;      
+
             case PlacementHeights::PLACEMENT_HEIGHT::FLOOR:
                 m_armTargetAngle = hatchAngle[Arm::HATCH_WRIST_PRESETS::HATCH_FLOOR];
                 break;
+
             case PlacementHeights::PLACEMENT_HEIGHT::CARGOSHIP:
                 m_armTargetAngle = hatchAngle[Arm::HATCH_WRIST_PRESETS::HATCH_LOW];
                 break;
+
             case PlacementHeights::PLACEMENT_HEIGHT::HUMAN_PLAYER:
                 m_armTargetAngle = hatchAngle[Arm::HATCH_WRIST_PRESETS::HATCH_HP];
                 break;
+
+            case PlacementHeights::PLACEMENT_HEIGHT::HUMAN_PLAYER_HOLE:
+                m_armTargetAngle = hatchAngle[Arm::HATCH_WRIST_PRESETS::HATCH_HP_HOLE];
+                break;
+
             case PlacementHeights::PLACEMENT_HEIGHT::ROCKET_LOW:
                 m_armTargetAngle = hatchAngle[Arm::HATCH_WRIST_PRESETS::HATCH_LOW];
                 break;
+
             case PlacementHeights::PLACEMENT_HEIGHT::ROCKET_MID:
                 m_armTargetAngle = hatchAngle[Arm::HATCH_WRIST_PRESETS::HATCH_MID];
                 break;
+
             case PlacementHeights::PLACEMENT_HEIGHT::ROCKET_HIGH:
                 m_armTargetAngle = hatchAngle[Arm::HATCH_WRIST_PRESETS::HATCH_HIGH];
                 break;
+                
             default:
                 // bad
                 printf("Arm.cpp MoveArmPresets hatch switch default");
@@ -151,24 +173,35 @@ void Arm::MoveExtentionPreset(PlacementHeights::PLACEMENT_HEIGHT height, bool ca
             case PlacementHeights::PLACEMENT_HEIGHT::START_POSITION:
                 m_extenderTargetRotations = extenderCargoInches[Arm::CARGO_WRIST_PRESETS::CARGO_START_POSITION];
                 break;
+
             case PlacementHeights::PLACEMENT_HEIGHT::FLOOR:
                 m_extenderTargetRotations = extenderCargoInches[Arm::CARGO_WRIST_PRESETS::CARGO_FLOOR];
                 break;
+
             case PlacementHeights::PLACEMENT_HEIGHT::CARGOSHIP:
                 m_extenderTargetRotations = extenderCargoInches[Arm::CARGO_WRIST_PRESETS::CARGO_SHIP];
                 break;
+
             case PlacementHeights::PLACEMENT_HEIGHT::HUMAN_PLAYER:
                 m_extenderTargetRotations = extenderCargoInches[Arm::CARGO_WRIST_PRESETS::CARGO_HP];
                 break;
+
+            case PlacementHeights::PLACEMENT_HEIGHT::HUMAN_PLAYER_HOLE:
+                m_extenderTargetRotations = extenderCargoInches[ARM::CARGO_WRIST_PRESETS:CARGO_HP];
+                break;
+
             case PlacementHeights::PLACEMENT_HEIGHT::ROCKET_LOW:
                 m_extenderTargetRotations = extenderCargoInches[Arm::CARGO_WRIST_PRESETS::CARGO_LOW];
                 break;
+
             case PlacementHeights::PLACEMENT_HEIGHT::ROCKET_MID:
                 m_extenderTargetRotations = extenderCargoInches[Arm::CARGO_WRIST_PRESETS::CARGO_MID];
                 break;
+
             case PlacementHeights::PLACEMENT_HEIGHT::ROCKET_HIGH:
                 m_extenderTargetRotations = extenderCargoInches[Arm::CARGO_WRIST_PRESETS::CARGO_HIGH];
                 break;
+
             default:
                 // bad
                 printf("Arm.cpp MoveExtentionPresets cargo switch default");
@@ -181,24 +214,36 @@ void Arm::MoveExtentionPreset(PlacementHeights::PLACEMENT_HEIGHT height, bool ca
         {
             case PlacementHeights::PLACEMENT_HEIGHT::START_POSITION:
                 m_extenderTargetRotations = extenderHatchInches[Arm::HATCH_WRIST_PRESETS::HATCH_START_POSITION];
+                break;
+
             case PlacementHeights::PLACEMENT_HEIGHT::FLOOR:
                 m_extenderTargetRotations = extenderHatchInches[Arm::HATCH_WRIST_PRESETS::HATCH_FLOOR];
                 break;
+
             case PlacementHeights::PLACEMENT_HEIGHT::CARGOSHIP:
                 m_extenderTargetRotations = extenderHatchInches[Arm::HATCH_WRIST_PRESETS::HATCH_LOW];
                 break;
+
             case PlacementHeights::PLACEMENT_HEIGHT::HUMAN_PLAYER:
                 m_extenderTargetRotations = extenderHatchInches[Arm::HATCH_WRIST_PRESETS::HATCH_HP];
                 break;
+
+            case PlacementHeights::PLACEMENT_HEIGHT::HUMAN_PLAYER_HOLE:
+                m_extenderTargetRotations = extenderHatchInches[Arm::HATCH_WRIST_PRESETS::HATCH_HP_HOLE];
+                break;
+
             case PlacementHeights::PLACEMENT_HEIGHT::ROCKET_LOW:
                 m_extenderTargetRotations = extenderHatchInches[Arm::HATCH_WRIST_PRESETS::HATCH_LOW];
                 break;
+
             case PlacementHeights::PLACEMENT_HEIGHT::ROCKET_MID:
                 m_extenderTargetRotations = extenderHatchInches[Arm::HATCH_WRIST_PRESETS::HATCH_MID];
                 break;
+
             case PlacementHeights::PLACEMENT_HEIGHT::ROCKET_HIGH:
                 m_extenderTargetRotations = extenderHatchInches[Arm::HATCH_WRIST_PRESETS::HATCH_HIGH];
                 break;
+
             default:
                 // bad
                 printf("Arm.cpp MoveExtentionPresets hatch switch default \n");
@@ -324,6 +369,10 @@ void Arm::SetParam(
             hatchAngle[HATCH_HP] = value;
             break;
 
+        case HATCH_HP_HOLE_ANGLE:
+            hatchAngle[HATCH_HP_HOLE] = value;
+            break;
+
         case HATCH_LOW_ANGLE:
             hatchAngle[HATCH_LOW] = value;
             break;
@@ -366,6 +415,10 @@ void Arm::SetParam(
 
         case HATCH_HP_EXTENSION:
             extenderHatchInches[HATCH_HP] = value;
+            break;
+
+        case HATCH_HP_HOLE_EXTENSION:
+            extenderHatchInches[HATCH_HP_HOLE_EXTENSION] = value;
             break;
 
         case HATCH_LOW_EXTENSION:

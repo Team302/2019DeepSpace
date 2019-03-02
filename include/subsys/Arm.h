@@ -58,6 +58,7 @@ private:
     HATCH_LOW,
     HATCH_MID,
     HATCH_HIGH,
+    HATCH_HP_HOLE,
     MAX_HATCH_POS
   };
 
@@ -78,7 +79,7 @@ private:
   void CorrectExtenderPower(double &power);
   double Map(double x, double in_min, double in_max, double out_min, double out_max);
 
-  double hatchAngle[MAX_HATCH_POS] =        { 0, -140, -85.77, -148.1, -83.33, -23.76 };
+  double hatchAngle[MAX_HATCH_POS] =        { 0, -140, -85.77, -148.1, -83.33, -23.76, -120.30 };
   double cargoAngle[MAX_CARGO_POS] =        { 0, -110.6, -94.13, -64.7, -99.5, -50.73 -13.75 };
 
   //practice bot
