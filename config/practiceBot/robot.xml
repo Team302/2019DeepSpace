@@ -32,9 +32,10 @@
 <!-- ====================================================
 	 CANifiers
 ==================================================== -->
-	<!--CANifier 1
+	<!--CANifier 1 -->
 	<canifier usage = "0"
-			  canId = "30"/>
+			  canId = "31"/>
+	<!-- CANifier
 	<canifier usage = "0"
 			  canId = "31"/>
 	<canifier usage = "0"
