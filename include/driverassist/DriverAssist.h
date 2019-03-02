@@ -55,6 +55,6 @@ private:
     PlacementHeights::PLACEMENT_HEIGHT m_height;
 
     // Driver things
-    const double HOLD_MODE_MAX_INCHES_PER_SECOND_TURNING = 4.0;
-    const double HOLD_MODE_MAX_INCHES_PER_SECOND_FORWARD = 6.0;
+    const double HOLD_MODE_MAX_INCHES_PER_SECOND_TURNING = 5.0;
+    const double HOLD_MODE_MAX_INCHES_PER_SECOND_FORWARD = 24.0;
 };

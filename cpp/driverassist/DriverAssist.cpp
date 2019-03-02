@@ -174,8 +174,11 @@ void DriverAssist::UpdateDriverControls()
         if (std::abs(turnSpeed) < 0.11)
                 turnSpeed = 0.0;
 
-        forwardSpeed *= HOLD_MODE_MAX_INCHES_PER_SECOND_TURNING;
-        turnSpeed *= HOLD_MODE_MAX_INCHES_PER_SECOND_FORWARD;
+        forwardSpeed = std::pow(forwardSpeed, 3);
+        turnSpeed = std::pow(turnSpeed, 3);
+
+        forwardSpeed *= HOLD_MODE_MAX_INCHES_PER_SECOND_FORWARD;
+        turnSpeed *= HOLD_MODE_MAX_INCHES_PER_SECOND_TURNING;
         double leftOffset = forwardSpeed + turnSpeed;
         double rightOffset = forwardSpeed - turnSpeed;
         leftOffset *= 0.02;
