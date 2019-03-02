@@ -39,7 +39,7 @@ bool DragonDigitalInput::Get() const
 	}
 	else
 	{
-//		printf( "==>> Digital Input not created \n" );
+		printf( "==>> Digital Input not created \n" );
 	}
 	return isSet;
 }

@@ -48,3 +48,14 @@ bool ToggleButton::IsButtonPressed() const
     m_isPressed = isPressed; // remember what the state of the button pressing
     return m_isToggledOn;
 }
+
+
+bool ToggleButton::WasButtonReleased() const 
+{
+    return !IsButtonPressed();
+}
+
+bool ToggleButton::WasButtonPressed() const 
+{
+    return IsButtonPressed();
+}

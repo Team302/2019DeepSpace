@@ -43,3 +43,22 @@ bool ButtonDecorator::IsButtonPressed() const
     return isPressed;
 }
 
+bool ButtonDecorator::WasButtonReleased() const 
+{
+    bool isPressed = false;
+    if ( m_button != nullptr )
+    {
+        isPressed = m_button->WasButtonReleased();
+    }
+    return isPressed;
+}
+
+bool ButtonDecorator::WasButtonPressed() const 
+{
+    bool isPressed = false;
+    if ( m_button != nullptr )
+    {
+        isPressed = m_button->WasButtonPressed();
+    }
+    return isPressed;
+}

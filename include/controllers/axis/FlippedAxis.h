@@ -48,10 +48,10 @@ class FlippedAxis : public ScaledAxis
         /// Description:    Set a scalefactor
         /// </summary>
         //==================================================================================
-        void SetScaleFactor
+       /* void SetScaleFactor
         (
             double      scaleFactor            // <I> - scale factor must be > 0.0 and <= 1.0
-        ) override;
+        ) override;*/
 
 };
 
