@@ -52,7 +52,7 @@
     Wheel Base is front-back distance between wheel centers 
     Track is the distance between wheels on an "axle"       
 	==================================================== -->
-<!ELEMENT chassis (motor*) >
+<!ELEMENT chassis (motor*, PID*) >
 <!ATTLIST chassis 
           wheelDiameter     CDATA #REQUIRED
           wheelBase         CDATA #REQUIRED
@@ -116,6 +116,8 @@
 <!ATTLIST mechanism
           type              ( 0 | 1 | 2 | 3 ) "0"
 >
+
+
 
 <!ELEMENT mechanismData EMPTY>
 <!ATTLIST mechanismData 

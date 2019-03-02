@@ -31,6 +31,7 @@
 //#include <hw/DragonTalon.h>
 #include <xmlhw/ChassisDefn.h>
 #include <xmlhw/MotorDefn.h>
+#include <xmlhw/PIDDefn.h>
 
 // Third Party includes
 #include <pugixml/pugixml.hpp>
@@ -83,12 +84,17 @@ DragonChassis* ChassisDefn::ParseXML
     // Process child element nodes
     //--------------------------------------------------------------------------------------------
     IDragonMotorControllerVector motors;
+    std::vector<PIDData*> pidControlVector;
     for (pugi::xml_node child = chassisNode.first_child(); child; child = child.next_sibling())
     {
     	if ( strcmp( child.name(), "motor") == 0 )
     	{
     		motors.emplace_back( MotorDefn::ParseXML( child ) );
     	}
+        else if ( strcmp( child.name(), "PID") == 0 )
+        {
+            pidControlVector.emplace_back( PIDDefn::ParseXML( child ) );
+        }
     	else
     	{
     		printf( "==>> chassis unknown child %s \n", child.name() );
@@ -103,6 +109,10 @@ DragonChassis* ChassisDefn::ParseXML
     {
         // chassis = new DragonChassis( motors, wheelDiameter, wheelBase, track );
         DragonChassis::CreateDragonChassis( motors, wheelDiameter, wheelBase, track );
+        for (PIDData* pidData : pidControlVector)
+        {
+            DragonChassis::GetInstance()->SetPID(pidData);
+        }
     }
     return DragonChassis::GetInstance(); //DUMMY
 }

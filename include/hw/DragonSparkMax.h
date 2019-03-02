@@ -37,7 +37,7 @@ public:
     void SetVoltageRamping(double ramping, double rampingClosedLoop = -1) override; // seconds 0 to full, set to 0 to disable
     void EnableCurrentLimiting(bool enabled) override;
     void EnableBrakeMode(bool enabled) override;
-    void SetPIDF(double p, double i, double d, double f, int slot = 0) override;
+    void SetPIDF(double p, double i, double d, double f, int slot = 0) override; // 0 is pos, 1 is vel
     void Invert(bool inverted) override;
 
     void InvertEncoder(bool inverted);

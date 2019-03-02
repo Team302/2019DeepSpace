@@ -43,7 +43,7 @@
 <!-- ====================================================
 	 Chassis
 	 ====================================================  -->
-    <chassis wheelDiameter="6.285"
+    <chassis wheelDiameter="6.0"
              wheelBase="25.0"  
              track="18.0">
              
@@ -55,7 +55,7 @@
         	   feedbackDevice="0"
           	   countsPerRev="1"
 		   	   brakeMode="false"
-        	   gearRatio="6.0" 
+        	   gearRatio="0.16666666" 
         	   peakCurrentDuration="50"
         	   continuousCurrentLimit="30"
         	   peakCurrentLimit="40" 
@@ -68,7 +68,7 @@
          	   countsPerRev="1"
 		   	   brakeMode="false"
 			   slaveTo="1"
-        	   gearRatio="6.0" 
+        	   gearRatio="0.16666666" 
         	   peakCurrentDuration="50"
         	   continuousCurrentLimit="30"
         	   peakCurrentLimit="40" 
@@ -82,7 +82,7 @@
           	   countsPerRev="1"
 		   	   brakeMode="false"
 			   slaveTo="1"
-        	   gearRatio="6.0" 
+        	   gearRatio="0.16666666" 
         	   peakCurrentDuration="50"
         	   continuousCurrentLimit="30"
         	   peakCurrentLimit="40" 
@@ -95,7 +95,7 @@
         	   feedbackDevice="0"
          	   countsPerRev="1"
 		   	   brakeMode="false"
-        	   gearRatio="6.0"
+        	   gearRatio="0.16666666"
         	   peakCurrentDuration="50"
         	   continuousCurrentLimit="30"
         	   peakCurrentLimit="40" 
@@ -108,7 +108,7 @@
           	   countsPerRev="1"
 		   	   brakeMode="false"
 			   slaveTo="14"
-        	   gearRatio="6.0" 
+        	   gearRatio="0.16666666" 
         	   peakCurrentDuration="50"
         	   continuousCurrentLimit="30"
         	   peakCurrentLimit="40" 
@@ -121,11 +121,16 @@
           	   countsPerRev="1"
 		   	   brakeMode="false"
 			   slaveTo="14"
-        	   gearRatio="6.0" 
+        	   gearRatio="0.16666666" 
         	   peakCurrentDuration="50"
         	   continuousCurrentLimit="30"
         	   peakCurrentLimit="40" 
         	   currentLimiting="true"  />
+		<PID mode="1"
+			 proportional="1.0"/>
+		<PID mode="0"
+			 proportional="0.0001"
+			 integral="0.00001"/>
 
                
     </chassis>  

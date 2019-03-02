@@ -281,3 +281,28 @@ void DragonChassis::SetVoltageRamping(double secondsToMax, double secondsToMaxCl
     m_middleRight->SetVoltageRamping(secondsToMax, secondsToMaxClosedLoop);
     m_backRight->SetVoltageRamping(secondsToMax, secondsToMaxClosedLoop);
 }
+
+void DragonChassis::SetPID(PIDData* pidData)
+{
+    
+    if (pidData->GetMode() == PIDData::CONTROL_MODE::POSITION)
+    {
+        m_frontLeft->SetPIDF(pidData->GetP(), pidData->GetI(), pidData->GetD(), pidData->GetF(), 0);
+        m_middleLeft->SetPIDF(pidData->GetP(), pidData->GetI(), pidData->GetD(), pidData->GetF(), 0);
+        m_backLeft->SetPIDF(pidData->GetP(), pidData->GetI(), pidData->GetD(), pidData->GetF(), 0);
+        m_frontRight->SetPIDF(pidData->GetP(), pidData->GetI(), pidData->GetD(), pidData->GetF(), 0);
+        m_middleRight->SetPIDF(pidData->GetP(), pidData->GetI(), pidData->GetD(), pidData->GetF(), 0);
+        m_backRight->SetPIDF(pidData->GetP(), pidData->GetI(), pidData->GetD(), pidData->GetF(), 0);
+        printf("setting sparkmax position pid P: %f\n", pidData->GetP());
+    }
+    else if (pidData->GetMode() == PIDData::CONTROL_MODE::VELOCITY)
+    {
+        m_frontLeft->SetPIDF(pidData->GetP(), pidData->GetI(), pidData->GetD(), pidData->GetF(), 1);
+        m_middleLeft->SetPIDF(pidData->GetP(), pidData->GetI(), pidData->GetD(), pidData->GetF(), 1);
+        m_backLeft->SetPIDF(pidData->GetP(), pidData->GetI(), pidData->GetD(), pidData->GetF(), 1);
+        m_frontRight->SetPIDF(pidData->GetP(), pidData->GetI(), pidData->GetD(), pidData->GetF(), 1);
+        m_middleRight->SetPIDF(pidData->GetP(), pidData->GetI(), pidData->GetD(), pidData->GetF(), 1);
+        m_backRight->SetPIDF(pidData->GetP(), pidData->GetI(), pidData->GetD(), pidData->GetF(), 1);
+        printf("setting sparkmax velocity pid P: %f\n", pidData->GetP());
+    }
+}

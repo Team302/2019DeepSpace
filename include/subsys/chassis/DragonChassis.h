@@ -10,6 +10,7 @@
 // Includes
 #include <vector>
 #include "hw/IDragonMotorController.h"
+#include "xmlhw/PIDData.h"
 
 class DragonChassis {
 public:
@@ -53,6 +54,7 @@ public:
     void UpdateChassis(); // Run this once per cycle
     void EnableCurrentLimiting(bool enabled);
     void SetVoltageRamping(double secondsToMax, double secondsToMaxClosedLoop = -1);
+    void SetPID(PIDData* pidData);
 
     void ResetChassis(); // Reset chassis will zero out the GetDistance method
 

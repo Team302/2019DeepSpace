@@ -51,7 +51,7 @@ public:
     virtual void SetVoltageRamping(double ramping, double closedLoopRamping = -1) = 0;
     virtual void EnableCurrentLimiting(bool enabled) = 0;
     virtual void EnableBrakeMode(bool enabled) = 0;
-    virtual void SetPIDF(double p, double i, double d, double f, int slot = 0) = 0;
+    virtual void SetPIDF(double p, double i, double d, double f, int slot = 0) = 0; // 0 is pos, 1 is vel
     virtual void Invert(bool inverted) = 0;
 
 protected:
