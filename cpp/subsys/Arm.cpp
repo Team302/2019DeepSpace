@@ -187,7 +187,7 @@ void Arm::MoveExtentionPreset(PlacementHeights::PLACEMENT_HEIGHT height, bool ca
                 break;
 
             case PlacementHeights::PLACEMENT_HEIGHT::HUMAN_PLAYER_HOLE:
-                m_extenderTargetRotations = extenderCargoInches[ARM::CARGO_WRIST_PRESETS:CARGO_HP];
+                m_extenderTargetRotations = extenderCargoInches[Arm::CARGO_WRIST_PRESETS::CARGO_HP];
                 break;
 
             case PlacementHeights::PLACEMENT_HEIGHT::ROCKET_LOW:
