@@ -126,11 +126,11 @@ void DriverAssist::UpdateSecondaryControls()
         m_height = PlacementHeights::PLACEMENT_HEIGHT::ROCKET_HIGH;
         m_MoveArmToPos->SetTargetPosition(m_height, m_cargo, m_flip);
     }
-    // if (m_switcher->m_secondaryController->GetBumperPressed(GenericHID::JoystickHand::kRightHand))
-    // {
-    //     m_height = PlacementHeights::PLACEMENT_HEIGHT::HUMAN_PLAYER_HOLE;
-    //     m_MoveArmToPos->SetTargetPosition(m_height, m_cargo, m_flip);
-    // }
+    if (m_switcher->m_secondaryController->GetBumperPressed(GenericHID::JoystickHand::kRightHand))
+    {
+        m_height = PlacementHeights::PLACEMENT_HEIGHT::HUMAN_PLAYER_HOLE;
+        m_MoveArmToPos->SetTargetPosition(m_height, m_cargo, m_flip);
+    }
 }
 
 void DriverAssist::UpdateDriverControls()

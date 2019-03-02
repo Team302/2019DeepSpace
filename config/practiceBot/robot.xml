@@ -149,9 +149,9 @@
           	   countsPerRev="1024"
 		   	   brakeMode="true"
         	   gearRatio="0.764006791" 
-        	   peakCurrentDuration="50"
-        	   continuousCurrentLimit="30"
-        	   peakCurrentLimit="40" 
+        	   peakCurrentDuration="0"
+        	   continuousCurrentLimit="8"
+        	   peakCurrentLimit="10" 
         	   currentLimiting="true"/>
 
 	
@@ -159,6 +159,8 @@
 					   value="51.38"/>
 		<mechanismData paramType="HATCH_HP_ANGLE"
 					   value="-66.88"/>
+		<mechanismData paramType="HATCH_HP_HOLE_ANGLE"
+					   value="83.00"/>
 		<mechanismData paramType="HATCH_LOW_ANGLE"
 					   value="150.40"/>
 		<mechanismData paramType="HATCH_MID_ANGLE"
@@ -263,6 +265,8 @@
 					   value="-140.0"/>
 		<mechanismData paramType="HATCH_HP_ANGLE"
 					   value="-85.77"/>
+		<mechanismData paramType="HATCH_HP_HOLE_ANGLE"
+					   value="-120.30"/>
 		<mechanismData paramType="HATCH_LOW_ANGLE"
 					   value="-148.1"/>
 		<mechanismData paramType="HATCH_MID_ANGLE"
@@ -284,6 +288,8 @@
 		<mechanismData paramType="HATCH_FLOOR_EXTENSION"
 					   value="6.8"/>
 		<mechanismData paramType="HATCH_HP_EXTENSION"
+					   value="0.0"/>
+		<mechanismData paramType="HATCH_HP_HOLE_EXTENSION"
 					   value="0.0"/>
 		<mechanismData paramType="HATCH_LOW_EXTENSION"
 					   value="0.925"/>
