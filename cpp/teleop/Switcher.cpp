@@ -167,7 +167,7 @@ void Switcher::ClimberUpdate()
 
     m_wrist->MoveWristManualSpeed(wristSpeed);
     m_arm->MoveArmAngle(m_arm->GetArmTargetAngle() + armSpeed);
-    m_arm->MoveExtensionSpeed(extendSpeed - 0.085);
+    m_arm->MoveExtensionSpeed(extendSpeed + 0.1); //TODO: move 0.1 into a constant
 
     // m_climbElevSpeed = m_secondaryController->GetBumper(frc::GenericHID::JoystickHand::kLeftHand) - m_secondaryController->GetBumper(frc::GenericHID::JoystickHand::kRightHand);
     // m_dropBuddyClimb = TeleopControl::GetInstance()->IsButtonPressed(TeleopControl::FUNCTION_IDENTIFIER::DROP_BUDDY_CLIMB);

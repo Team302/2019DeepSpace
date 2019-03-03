@@ -33,4 +33,8 @@ private:
 
     double m_speed;
 
+    const double ARM_SPEED_MULTIPLIER = 15;
+    const double BOTH_UP_THRESHOLD = 1.5;
+    const double ANGLE_OFFSET = 1.5;
+
 };
