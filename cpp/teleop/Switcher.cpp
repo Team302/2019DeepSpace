@@ -157,8 +157,9 @@ void Switcher::ClimberUpdate()
         armSpeed = 0;
 
     double wristSpeed = -m_secondaryController->GetRawAxis(5);
-    if (std::abs(wristSpeed) < 0.1)
+    if (std::abs(wristSpeed) < 0.12)
         wristSpeed = 0;
+    wristSpeed -= 0.1; //This is nessesary because our wrist keeps flipping when we try to climb
 
     double extendSpeed = m_secondaryController->GetRawAxis(0);
     if (std::abs(extendSpeed) < 0.1)
@@ -168,9 +169,29 @@ void Switcher::ClimberUpdate()
     m_arm->MoveArmAngle(m_arm->GetArmTargetAngle() + armSpeed);
     m_arm->MoveExtensionSpeed(extendSpeed - 0.085);
 
-    m_climbElevSpeed = m_secondaryController->GetBumper(frc::GenericHID::JoystickHand::kLeftHand) - m_secondaryController->GetBumper(frc::GenericHID::JoystickHand::kRightHand);
+    // m_climbElevSpeed = m_secondaryController->GetBumper(frc::GenericHID::JoystickHand::kLeftHand) - m_secondaryController->GetBumper(frc::GenericHID::JoystickHand::kRightHand);
     // m_dropBuddyClimb = TeleopControl::GetInstance()->IsButtonPressed(TeleopControl::FUNCTION_IDENTIFIER::DROP_BUDDY_CLIMB);
 
-    m_climber->MoveClimbElevator(m_climbElevSpeed);
+    if (m_secondaryController->GetBumper(frc::GenericHID::JoystickHand::kLeftHand))
+    {
+        m_climber->MoveClimbElevator(1);
+    }
+    else if (m_secondaryController->GetBumperReleased(frc::GenericHID::JoystickHand::kRightHand))
+    {
+        m_climber->MoveClimbElevator(-1);
+    }
+    else
+    {
+        m_climber->MoveClimbElevator(0);
+    }
+    
+
+    // if (m_secondaryController->GetBumperReleased(frc::GenericHID::JoystickHand::kLeftHand) || m_secondaryController->GetBumperReleased(frc::GenericHID::JoystickHand::kLeftHand))
+    //     m_climber->MoveClimbElevator(-0.1);
     // m_climber->DropBuddyClimb(m_dropBuddyClimb);
+}
+
+void Switcher::ExitClimbMode()
+{
+    m_wrist->MoveWristManualAngle(m_wrist->GetWristRealAngle()); // zero out wrist
 }

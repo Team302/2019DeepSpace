@@ -6,7 +6,7 @@
 <!-- ====================================================
 	 Pigeon
 	 ==================================================== -->    
-    <pigeon canId="30" />
+    <pigeon canId="50" />
        
 
 <!-- ====================================================
@@ -150,8 +150,8 @@
 		   	   brakeMode="true"
         	   gearRatio="0.764006791" 
         	   peakCurrentDuration="0"
-        	   continuousCurrentLimit="8"
-        	   peakCurrentLimit="10" 
+        	   continuousCurrentLimit="15"
+        	   peakCurrentLimit="20" 
         	   currentLimiting="true"/>
 
 	

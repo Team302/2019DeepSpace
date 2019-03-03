@@ -22,6 +22,7 @@ class Switcher {
   void DriveUpdate();       // updates chassis
   void GamepieceUpdate(bool cargo);   // updates arm, wrist, intake
   void ClimberUpdate();     // updates climber
+  void ExitClimbMode();
 
   frc::XboxController* m_mainController;
   frc::XboxController* m_secondaryController;
@@ -37,7 +38,6 @@ private:
 
   // CLIMBER THINGS
   double m_climbDriveSpeed;
-  double m_climbElevSpeed;
   bool m_allowClimbDrive; 
   bool m_dropBuddyClimb;
   // DRIVER THINGS
@@ -46,9 +46,6 @@ private:
   bool m_holdMode;
   double m_leftTargetInches;
   double m_rightTargetInches;
-  
-  const double HOLD_MODE_MAX_INCHES_PER_SECOND_TURNING = 4.0;
-  const double HOLD_MODE_MAX_INCHES_PER_SECOND_FORWARD = 6.0;
 
   const double ELEV_SPEED = 1.0;
 

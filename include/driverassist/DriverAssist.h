@@ -19,6 +19,7 @@ Driver assist contains all sub driver assist thingys and allocates teleop contro
 #include "driverassist/DeployGamePiece.h"
 #include "driverassist/HoldDrivePosition.h"
 #include "driverassist/TargetAllign.h"
+#include "driverassist/Climb.h"
 
 class DriverAssist
 {
@@ -42,6 +43,7 @@ private:
     DeployGamePiece* m_deployGamePiece;
     HoldDrivePosition* m_holdDrivePositon;
     TargetAllign* m_targetAllign;
+    Climb* m_climb;
 
     // some bools
     bool m_deploy;
