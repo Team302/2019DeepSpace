@@ -72,7 +72,7 @@ void RobotDefn::ParseXML()
                 else if ( strcmp( child.name(), "pigeon") == 0 )
                 {
                     printf("pigeon parse \n");
-                    // PigeonDefn::ParseXML( child );
+                    PigeonDefn::ParseXML( child );
                 }
                 // else if ( strcmp( child.name(), "lidar") == 0 )
                 // {

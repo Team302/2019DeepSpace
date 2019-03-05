@@ -14,7 +14,7 @@
 
 // Team 302 includes
 #include <xmlhw/PigeonDefn.h>
-//#include <hw/DragonPigeon.h>
+#include <hw/DragonPigeon.h>
 
 // Third Party Includes
 #include <pugixml/pugixml.hpp>
@@ -69,12 +69,5 @@ void PigeonDefn::ParseXML
             hasError = true;
         }
     }
-
-    // create object
-    /**if ( !hasError )
-    {
-        pigeon = new DragonPigeon( canID );
-    }
-    return pigeon;
-    */
+    DragonPigeon::CreatePigeon(canID);
 }

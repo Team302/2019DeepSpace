@@ -16,6 +16,7 @@ DriverAssist::DriverAssist() : m_chassis(DragonChassis::GetInstance()),
                                m_deployGamePiece(new DeployGamePiece()),
                                m_holdDrivePositon(new HoldDrivePosition()),
                                m_targetAllign(new TargetAllign()),
+                               m_climb(new Climb()),
                                m_deploy(false),
                                m_climbMode(false),
                                m_holdMode(false),
@@ -33,7 +34,14 @@ void DriverAssist::Update()
     UpdateDriverControls();
 
     if(m_switcher->m_secondaryController->GetStartButtonPressed())
+    {
         m_climbMode = !m_climbMode;
+        if (!m_climbMode)
+        {
+            m_switcher->ExitClimbMode();
+        }
+    }
+        
 
     DriverAssist::AttemptingDriveCancel();
     DriverAssist::AttemptingGamePieceCancel();
@@ -47,7 +55,18 @@ void DriverAssist::Update()
     SmartDashboard::PutBoolean("Climb Mode", m_climbMode);
     if(m_climbMode)
     {
-        m_switcher->ClimberUpdate();
+        double driverAssistClimbSpeed = -m_switcher->m_secondaryController->GetTriggerAxis(frc::GenericHID::JoystickHand::kLeftHand) + m_switcher->m_secondaryController->GetTriggerAxis(frc::GenericHID::JoystickHand::kRightHand);
+        if (std::abs(driverAssistClimbSpeed) > 0.1)
+        {
+            m_climb->SetClimb(driverAssistClimbSpeed);
+        }
+        else
+        {
+            m_climb->Cancel();
+            m_switcher->ClimberUpdate();
+        }
+        
+        
     }
     else
     {
@@ -65,13 +84,13 @@ void DriverAssist::Update()
             {
                 // printf("deploy game piece is done (run gamepiece update)\n");
                 m_switcher->GamepieceUpdate(m_cargo);
-                // m_switcher->ClimberUpdate();
             }
         }
     }
     
     m_MoveArmToPos->Update();
     m_deployGamePiece->Update();
+    m_climb->Update();
     m_chassis->UpdateChassis();
 
     frc::SmartDashboard::PutBoolean("Robot Fipped", m_flip);

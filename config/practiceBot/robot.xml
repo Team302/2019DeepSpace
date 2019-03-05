@@ -6,7 +6,7 @@
 <!-- ====================================================
 	 Pigeon
 	 ==================================================== -->    
-    <pigeon canId="30" />
+    <pigeon canId="50" />
        
 
 <!-- ====================================================
@@ -151,8 +151,8 @@
 		   	   brakeMode="true"
         	   gearRatio="0.764006791" 
         	   peakCurrentDuration="0"
-        	   continuousCurrentLimit="8"
-        	   peakCurrentLimit="10" 
+        	   continuousCurrentLimit="15"
+        	   peakCurrentLimit="20" 
         	   currentLimiting="true"/>
 
 	
@@ -338,7 +338,7 @@
 		<motor usage="ELEVATOR_DRIVE"
 			   canId="10"
 			   type="cantalon"
-               inverted="false"
+               inverted="true"
          	   feedbackDevice="0"
           	   countsPerRev="1024"
 		   	   brakeMode="true"
