@@ -45,11 +45,12 @@ class Wrist : public IMechanism {
     HATCH_KEEP_SAME = -1,
     HATCH_START_POSITION,
     HATCH_FLOOR,
-    HATCH_HP,
+    HATCH_HP_BELOW,
     HATCH_LOW,
     HATCH_MID,
     HATCH_HIGH,
     HATCH_HP_HOLE,
+    HATCH_HP_ABOVE,
     MAX_HATCH_POS
   };
 
@@ -66,7 +67,7 @@ class Wrist : public IMechanism {
     MAX_CARGO_POS
   };//                                                       
 //                                 start  floor    hp     low     mid   high
-  double hatchAngle[MAX_HATCH_POS] = { 0, 51.38, -66.88, 150.40, 90.54, 27.54, 83.00 };
+  double hatchAngle[MAX_HATCH_POS] = { 0, 51.38, -66.88, 150.40, 90.54, 27.54, 83.00, 00.00 };
   //                               
   double cargoAngle[MAX_CARGO_POS] = { 0, -56.1, 64.03, -41.5, 17.86, -32.0, -48.30 };
 
