@@ -26,7 +26,7 @@ void Climb::Update()
     {
         case CLIMBING:
             // move extender out slowly
-            m_arm->MoveExtensionSpeed(0.1);
+            m_arm->MoveExtensionSpeed(0.5);
             //negative on climber motor is down is down
             //right side of controller make it climb 
             if (std::abs(angle) < 1)

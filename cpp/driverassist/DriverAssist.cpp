@@ -76,7 +76,7 @@ void DriverAssist::Update()
             // printf("movearmtopos is done\n");
             if (m_deploy)
             {
-                m_deployGamePiece->Deploy(m_cargo, m_flip, true);
+                m_deployGamePiece->Deploy(m_cargo, false, true);
                 m_deploy = false;
             }
 

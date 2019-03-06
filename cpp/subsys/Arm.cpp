@@ -106,7 +106,7 @@ void Arm::MoveArmPreset(PlacementHeights::PLACEMENT_HEIGHT height, bool cargo, b
                 break;
 
             case PlacementHeights::PLACEMENT_HEIGHT::HUMAN_PLAYER:
-                m_armTargetAngle = hatchAngle[Arm::HATCH_WRIST_PRESETS::HATCH_HP];
+                m_armTargetAngle = !flip ? hatchAngle[Arm::HATCH_WRIST_PRESETS::HATCH_HP_BELOW] : hatchAngle[Arm::HATCH_WRIST_PRESETS::HATCH_HP_ABOVE];
                 break;
 
             case PlacementHeights::PLACEMENT_HEIGHT::HUMAN_PLAYER_HOLE:
@@ -131,9 +131,6 @@ void Arm::MoveArmPreset(PlacementHeights::PLACEMENT_HEIGHT height, bool cargo, b
                 break;
         }
     }
-
-    if (flip)
-        m_armTargetAngle = -m_armTargetAngle;
 
     m_armMaster->SetControlMode(DragonTalon::TALON_CONTROL_MODE::MOTION_MAGIC);
     m_armMaster->Set(m_armTargetAngle / 360.0); // Sets in rotations from degrees
@@ -164,7 +161,7 @@ void Arm::ResetTarget()
     m_armTargetAngle = GetArmRealAngle();
 }
 
-void Arm::MoveExtentionPreset(PlacementHeights::PLACEMENT_HEIGHT height, bool cargo)
+void Arm::MoveExtentionPreset(PlacementHeights::PLACEMENT_HEIGHT height, bool cargo, bool flip)
 {
     if (cargo)
     {
@@ -225,7 +222,7 @@ void Arm::MoveExtentionPreset(PlacementHeights::PLACEMENT_HEIGHT height, bool ca
                 break;
 
             case PlacementHeights::PLACEMENT_HEIGHT::HUMAN_PLAYER:
-                m_extenderTargetRotations = extenderHatchInches[Arm::HATCH_WRIST_PRESETS::HATCH_HP];
+                m_extenderTargetRotations = !flip ? extenderHatchInches[Arm::HATCH_WRIST_PRESETS::HATCH_HP_BELOW] : extenderHatchInches[Arm::HATCH_WRIST_PRESETS::HATCH_HP_ABOVE];
                 break;
 
             case PlacementHeights::PLACEMENT_HEIGHT::HUMAN_PLAYER_HOLE:
@@ -365,8 +362,12 @@ void Arm::SetParam(
             hatchAngle[HATCH_FLOOR] = value;
             break;
 
-        case HATCH_HP_ANGLE:
-            hatchAngle[HATCH_HP] = value;
+        case HATCH_HP_ABOVE_ANGLE:
+            hatchAngle[HATCH_HP_ABOVE] = value;
+            break;
+
+        case HATCH_HP_BELOW_ANGLE:
+            hatchAngle[HATCH_HP_BELOW] = value;
             break;
 
         case HATCH_HP_HOLE_ANGLE:
@@ -413,8 +414,12 @@ void Arm::SetParam(
             extenderHatchInches[HATCH_FLOOR] = value;
             break;
 
-        case HATCH_HP_EXTENSION:
-            extenderHatchInches[HATCH_HP] = value;
+        case HATCH_HP_ABOVE_EXTENSION:
+            extenderHatchInches[HATCH_HP_ABOVE_ANGLE] = value;
+            break;
+
+        case HATCH_HP_BELOW_EXTENSION:
+            extenderHatchInches[HATCH_HP_BELOW_ANGLE] = value;
             break;
 
         case HATCH_HP_HOLE_EXTENSION:
@@ -458,7 +463,7 @@ void Arm::SetParam(
             break;
 
         default:
-            printf("Arm.cpp error: recieving unexpected arm parameter.\n");
+            printf("Arm.cpp error: recieving unexpected arm parameter. %d \n", param);
             break;
     }
 }

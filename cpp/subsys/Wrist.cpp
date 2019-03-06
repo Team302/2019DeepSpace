@@ -101,7 +101,9 @@ void Wrist::MoveWristPresets(PlacementHeights::PLACEMENT_HEIGHT height, bool car
                 break;
 
             case PlacementHeights::PLACEMENT_HEIGHT::HUMAN_PLAYER:
-                m_targetAngle = hatchAngle[Wrist::HATCH_WRIST_PRESETS::HATCH_HP];
+                // if flipped is true, go from back of robot on top of hatch, else do front of robot below hatch
+                // only flip value and does not effect cargp
+                m_targetAngle = !flip ? hatchAngle[Wrist::HATCH_WRIST_PRESETS::HATCH_HP_BELOW] : hatchAngle[Wrist::HATCH_WRIST_PRESETS::HATCH_HP_ABOVE];
                 break;
 
             case PlacementHeights::PLACEMENT_HEIGHT::HUMAN_PLAYER_HOLE:
@@ -122,8 +124,7 @@ void Wrist::MoveWristPresets(PlacementHeights::PLACEMENT_HEIGHT height, bool car
         }
     }
 
-    if (flip)
-        m_targetAngle = -m_targetAngle;
+    // Deleted flip as human player handles it
 
     m_wristMotor->SetControlMode(DragonTalon::TALON_CONTROL_MODE::MOTION_MAGIC);
     m_wristMotor->Set(m_targetAngle / 360.0); // Sets in rotations from degrees
@@ -177,8 +178,12 @@ void Wrist::SetParam(
             hatchAngle[HATCH_FLOOR] = value;
             break;
 
-        case HATCH_HP_ANGLE:
-            hatchAngle[HATCH_HP] = value;
+        case HATCH_HP_ABOVE_ANGLE:
+            hatchAngle[HATCH_HP_ABOVE] = value;
+            break;
+
+        case HATCH_HP_BELOW_ANGLE:
+            hatchAngle[HATCH_HP_BELOW] = value;
             break;
 
         case HATCH_HP_HOLE_ANGLE:

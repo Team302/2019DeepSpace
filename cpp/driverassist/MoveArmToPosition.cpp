@@ -39,7 +39,7 @@ void MoveArmToPosition::Update()
 
         case MOVE_STATE::PUSH_OUT:
         {
-            m_arm->MoveExtentionPreset(m_targetPos, m_cargo);
+            m_arm->MoveExtentionPreset(m_targetPos, m_cargo, m_flip);
             bool armDone = (std::abs(m_arm->GetArmRealAngle() - m_arm->GetArmTargetAngle()) < DONE_ARM_THRESH);
             bool wristDone = (std::abs(m_wrist->GetWristRealAngle() - m_wrist->GetWristTargetAngle()) < DONE_WRIST_THRESH);
             bool extendDone = std::abs(m_arm->GetExtenderRealInches() - m_arm->GetExtenderTargetInches()) < DONE_EXTEND_THRESH;

@@ -22,7 +22,7 @@ public:
   void MoveArmAngle(double angle);
   void ResetTarget();
 
-  void MoveExtentionPreset(PlacementHeights::PLACEMENT_HEIGHT height, bool cargo);
+  void MoveExtentionPreset(PlacementHeights::PLACEMENT_HEIGHT height, bool cargo, bool flip);
   void MoveExtensionSpeed(double speed);
   void MoveExtensionInches(double inches);
 
@@ -54,11 +54,12 @@ private:
     HATCH_KEEP_SAME = -1,
     HATCH_START_POSITION,
     HATCH_FLOOR,
-    HATCH_HP,
+    HATCH_HP_BELOW,
     HATCH_LOW,
     HATCH_MID,
     HATCH_HIGH,
     HATCH_HP_HOLE,
+    HATCH_HP_ABOVE,
     MAX_HATCH_POS
   };
 
@@ -79,7 +80,7 @@ private:
   void CorrectExtenderPower(double &power);
   double Map(double x, double in_min, double in_max, double out_min, double out_max);
 
-  double hatchAngle[MAX_HATCH_POS] =        { 0, -140, -85.77, -148.1, -83.33, -23.76, -120.30 };
+  double hatchAngle[MAX_HATCH_POS] =        { 0, -140, -85.77, -148.1, -83.33, -23.76, -120.30, 00.00 };
   double cargoAngle[MAX_CARGO_POS] =        { 0, -110.6, -94.13, -64.7, -99.5, -50.73 -13.75 };
 
   //practice bot
@@ -87,7 +88,7 @@ private:
   // double extenderCargoInches[MAX_CARGO_POS] = { 0, 0.0, 0, 0, 0, 0, 6.8 };
 
   // comp bot
-  double extenderHatchInches[MAX_HATCH_POS] = { 0, 7.625, 0, 1.75, 0, 0 };
+  double extenderHatchInches[MAX_HATCH_POS] = { 0, 7.625, 6.55, 1.75, 0, 0, 0.0 };
   double extenderCargoInches[MAX_CARGO_POS] = { 0, 0.0, 0, 0, 0, 0, 7.625 };
 
   double m_armTargetAngle;
