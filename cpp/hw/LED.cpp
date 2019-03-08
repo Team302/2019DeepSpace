@@ -8,10 +8,10 @@ using namespace ctre::phoenix;
 
 //#include <ctre/phoenix/>
 
-LED::LED()
+LED::LED(int CANId)
 {
 
-m_CAN = CanifierFactory::GetInstance()->GetCanifier(48);
+m_CAN = CanifierFactory::GetInstance()->GetCanifier(CANId);
 
 }
 void LED::SetColor( Colors color )

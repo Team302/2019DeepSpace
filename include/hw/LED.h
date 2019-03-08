@@ -24,7 +24,8 @@ class LED
 
     };
 
-    LED();
+    LED(int CANId);
+    LED() = delete;
    void SetColor( Colors color );
 
 
