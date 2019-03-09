@@ -50,6 +50,7 @@ private:
     bool m_climbMode;
     bool m_holdMode;
     bool m_visionMode;
+    bool m_wristForcePercentOutput;
 
     // helper Bools
     bool m_cargo;

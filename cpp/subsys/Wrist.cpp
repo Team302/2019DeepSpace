@@ -168,10 +168,12 @@ void Wrist::SetParam(
     {	
         case LEGAL_STARTING_ANGLE:
             m_wristLegalStartingAngle = value;
+            printf("m_wristLegalStartingAngle =  %f \n", value);
             break;
 
         case TEST_STARTING_ANGLE:
             m_wristTestStartingAngle = value;
+
             break;
 
         case HATCH_FLOOR_ANGLE:

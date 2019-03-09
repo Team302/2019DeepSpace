@@ -23,7 +23,7 @@ public:
   void ResetTarget();
 
   void MoveExtentionPreset(PlacementHeights::PLACEMENT_HEIGHT height, bool cargo, bool flip);
-  void MoveExtensionSpeed(double speed);
+  void MoveExtensionSpeed(double speed, bool climbMode);
   void MoveExtensionInches(double inches);
 
   double GetArmRealAngle();
@@ -77,7 +77,7 @@ private:
   };
 
   double OurDegreesToRads(double degrees);
-  void CorrectExtenderPower(double &power);
+  void CorrectExtenderPower(double &power, bool climbMode);
   double Map(double x, double in_min, double in_max, double out_min, double out_max);
 
   double hatchAngle[MAX_HATCH_POS] =        { 0, -140, -85.77, -148.1, -83.33, -23.76, -120.30, 00.00 };
@@ -88,8 +88,8 @@ private:
   // double extenderCargoInches[MAX_CARGO_POS] = { 0, 0.0, 0, 0, 0, 0, 6.8 };
 
   // comp bot
-  double extenderHatchInches[MAX_HATCH_POS] = { 0, 7.625, 6.55, 1.75, 0, 0, 0.0 };
-  double extenderCargoInches[MAX_CARGO_POS] = { 0, 0.0, 0, 0, 0, 0, 7.625 };
+  double extenderHatchInches[MAX_HATCH_POS] = { 0, 7.625, 6.55, 1.75, 0, 0, 0 };
+  double extenderCargoInches[MAX_CARGO_POS] = { 0, 0, 0, 0, 0, 0, 7.625 };
 
   double m_armTargetAngle;
   double m_previousArmRealAngle;

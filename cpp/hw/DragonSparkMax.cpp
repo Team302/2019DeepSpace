@@ -114,6 +114,7 @@ void DragonSparkMax::SetVoltageRamping(double ramping, double rampingClosedLoop)
 void DragonSparkMax::EnableCurrentLimiting(bool enabled)
 {
     // TODO:
+    // m_spark->SetSmart
 }
 
 void DragonSparkMax::EnableBrakeMode(bool enabled)
@@ -154,4 +155,9 @@ void DragonSparkMax::InvertEncoder(bool inverted)
 CANSparkMax* DragonSparkMax::GetSparkMax()
 {
     return m_spark;
+}
+
+void DragonSparkMax::SetSmartCurrentLimiting(int limit)
+{
+    m_spark->SetSmartCurrentLimit(limit);
 }

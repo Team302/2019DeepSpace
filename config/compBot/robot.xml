@@ -6,13 +6,13 @@
 <!-- ====================================================
 	 Pigeon
 	 ==================================================== -->    
-    <pigeon canId="30" />
+    <pigeon canId="50" />
        
 
 <!-- ====================================================
 	 PDP
 	 ==================================================== -->    
-	<pdp canId="31" />
+	<pdp canId="51" />
     
 <!-- ====================================================
 	 Lidars
@@ -56,8 +56,8 @@
           	   countsPerRev="1"
 		   	   brakeMode="false"
         	   gearRatio="0.16666666" 
-        	   peakCurrentDuration="50"
-        	   continuousCurrentLimit="30"
+        	   peakCurrentDuration="24"
+        	   continuousCurrentLimit="25"
         	   peakCurrentLimit="40" 
         	   currentLimiting="true"  />
         <motor usage="FRONT_LEFT_DRIVE"
@@ -69,8 +69,8 @@
 		   	   brakeMode="false"
 			   slaveTo="1"
         	   gearRatio="0.16666666" 
-        	   peakCurrentDuration="50"
-        	   continuousCurrentLimit="30"
+        	   peakCurrentDuration="24"
+        	   continuousCurrentLimit="25"
         	   peakCurrentLimit="40" 
         	   currentLimiting="true"  />
 
@@ -83,8 +83,8 @@
 		   	   brakeMode="false"
 			   slaveTo="1"
         	   gearRatio="0.16666666" 
-        	   peakCurrentDuration="50"
-        	   continuousCurrentLimit="30"
+        	   peakCurrentDuration="24"
+        	   continuousCurrentLimit="25"
         	   peakCurrentLimit="40" 
         	   currentLimiting="true"  />		
 			   
@@ -96,8 +96,8 @@
          	   countsPerRev="1"
 		   	   brakeMode="false"
         	   gearRatio="0.16666666"
-        	   peakCurrentDuration="50"
-        	   continuousCurrentLimit="30"
+        	   peakCurrentDuration="24"
+        	   continuousCurrentLimit="25"
         	   peakCurrentLimit="40" 
         	   currentLimiting="true"  />
         <motor usage="FRONT_RIGHT_DRIVE"
@@ -109,8 +109,8 @@
 		   	   brakeMode="false"
 			   slaveTo="14"
         	   gearRatio="0.16666666" 
-        	   peakCurrentDuration="50"
-        	   continuousCurrentLimit="30"
+        	   peakCurrentDuration="24"
+        	   continuousCurrentLimit="25"
         	   peakCurrentLimit="40" 
         	   currentLimiting="true"  />
         <motor usage="BACK_RIGHT_DRIVE"
@@ -122,8 +122,8 @@
 		   	   brakeMode="false"
 			   slaveTo="14"
         	   gearRatio="0.16666666" 
-        	   peakCurrentDuration="50"
-        	   continuousCurrentLimit="30"
+        	   peakCurrentDuration="24"
+        	   continuousCurrentLimit="25"
         	   peakCurrentLimit="40" 
         	   currentLimiting="true"  />
 		<PID mode="1"
@@ -149,26 +149,28 @@
           	   countsPerRev="1024"
 		   	   brakeMode="true"
         	   gearRatio="0.764006791" 
-        	   peakCurrentDuration="50"
+        	   peakCurrentDuration="0"
         	   continuousCurrentLimit="30"
-        	   peakCurrentLimit="40" 
+        	   peakCurrentLimit="30" 
         	   currentLimiting="true"/>
-		<mechanismData paramType="WRIST_ANGLE_OFFSET"
-					   value="158.74 / 360.0"/>		
-		<mechanismData paramType="HATCH_START_ANGLE"
-					   value="0.0"/>
+		<mechanismData paramType="LEGAL_STARTING_ANGLE"
+					   value="170.74"/>
+		<mechanismData paramType="TEST_STARTING_ANGLE"
+					   value="49.42"/>
 		<mechanismData paramType="HATCH_FLOOR_ANGLE"
 					   value="51.38"/>
-		<mechanismData paramType="HATCH_HP_ANGLE"
-					   value="-66.88"/>
+		<mechanismData paramType="HATCH_HP_ABOVE_ANGLE"
+					   value="66.88"/>
+		<mechanismData paramType="HATCH_HP_BELOW_ANGLE"
+					   value="97.68"/>
+		<mechanismData paramType="HATCH_HP_HOLE_ANGLE"
+					   value="83.00"/>
 		<mechanismData paramType="HATCH_LOW_ANGLE"
 					   value="150.40"/>
 		<mechanismData paramType="HATCH_MID_ANGLE"
 					   value="90.54"/>
 		<mechanismData paramType="HATCH_HIGH_ANGLE"
 					   value="27.54"/>
-		<mechanismData paramType="CARGO_START_ANGLE"
-					   value="0.0"/>
 		<mechanismData paramType="CARGO_FLOOR_ANGLE"
 					   value="-56.1"/>
 		<mechanismData paramType="CARGO_HP_ANGLE"
@@ -256,27 +258,27 @@
         	   currentLimiting="true"/>
 	
 		<mechanismData paramType="LEGAL_STARTING_ANGLE"
-					   value="-167.00"/>
+					   value="-171.80"/>
 		<mechanismData paramType="TEST_STARTING_ANGLE"
 					   value="-138.00"/>
 		<mechanismData paramType="EXTENDER_LEGAL_STARTING_INCHES"
 					   value="0.0"/>
 		<mechanismData paramType="EXTENDER_TEST_STARTING_INCHES"
-					   value="7.625"/>
-		<mechanismData paramType="HATCH_START_ANGLE"
-					   value="0.0"/>		
+					   value="7.625"/>	
 		<mechanismData paramType="HATCH_FLOOR_ANGLE"
 					   value="-140.0"/>
-		<mechanismData paramType="HATCH_HP_ANGLE"
-					   value="-85.77"/>
+		<mechanismData paramType="HATCH_HP_BELOW_ANGLE"
+					   value="-135.88"/>
+		<mechanismData paramType="HATCH_HP_ABOVE_ANGLE"
+					   value="85.77"/>
+		<mechanismData paramType="HATCH_HP_HOLE_ANGLE"
+					   value="-120.30"/>
 		<mechanismData paramType="HATCH_LOW_ANGLE"
-					   value="-148.1"/>
+					   value="-146.1"/>
 		<mechanismData paramType="HATCH_MID_ANGLE"
 					   value="-83.33"/>
 		<mechanismData paramType="HATCH_HIGH_ANGLE"
 					   value="-23.76"/>
-		<mechanismData paramType="CARGO_START_ANGLE"
-					   value="0.0"/>
 		<mechanismData paramType="CARGO_FLOOR_ANGLE"
 					   value="-110.6"/>
 		<mechanismData paramType="CARGO_HP_ANGLE"
@@ -289,11 +291,13 @@
 					   value="-50.73"/>
 		<mechanismData paramType="CARGO_HIGH_ANGLE"
 					   value="-13.75"/>
-		<mechanismData paramType="HATCH_START_EXTENSION"
-					   value="0.0"/>
 		<mechanismData paramType="HATCH_FLOOR_EXTENSION"
 					   value="7.625"/>
-		<mechanismData paramType="HATCH_HP_EXTENSION"
+		<mechanismData paramType="HATCH_HP_ABOVE_EXTENSION"
+					   value="0.0"/>
+		<mechanismData paramType="HATCH_HP_BELOW_EXTENSION"
+					   value="7.375"/>
+		<mechanismData paramType="HATCH_HP_HOLE_EXTENSION"
 					   value="0.0"/>
 		<mechanismData paramType="HATCH_LOW_EXTENSION"
 					   value="1.75"/>
@@ -314,25 +318,23 @@
 		<mechanismData paramType="CARGO_MID_EXTENSION"
 					   value="0.0"/>
 		<mechanismData paramType="CARGO_HIGH_EXTENSION"
-					   value="7.625"/>					   
-		<mechanismData paramType="EXTENDER_HOLD_POWER"
-					   value="-0.1"/>					      
+					   value="7.625"/>					   					      
 		<PID mode="2"
-			 pidtarget="0"
+			 pidtarget="ARM"
 			 proportional="15.0"
 			 maxacceleration="60.0"
 			 cruisevelocity="200.0"/>
 		<PID mode="1"
-			 pidtarget="1"
+			 pidtarget="EXTENDER"
 			 proportional="10.0"/>	
 	</mechanism>
 	<!-- Climber -->
-	<mechanism type="2">
+	<mechanism type="3">
 		<!--Climber Winch-->
 		<motor usage="ELEVATOR_WINCH"
 			   canId="11"
 			   type="cantalon"
-               inverted="false"
+               inverted="true"
          	   feedbackDevice="0"
           	   countsPerRev="1024"
 		   	   brakeMode="true"
@@ -345,7 +347,7 @@
 		<motor usage="ELEVATOR_DRIVE"
 			   canId="10"
 			   type="cantalon"
-               inverted="false"
+               inverted="true"
          	   feedbackDevice="0"
           	   countsPerRev="1024"
 		   	   brakeMode="true"
@@ -354,10 +356,10 @@
         	   continuousCurrentLimit="30"
         	   peakCurrentLimit="40" 
         	   currentLimiting="true"/>
-		<mechanismData paramType="SERVO_LOCKED_POSITION_PARAM"
+		<!-- <mechanismData paramType="SERVO_LOCKED_POSITION_PARAM"
 					   value="0.0"/>
 		<mechanismData paramType="SERVO_DROPPED_POSITION_PARAM"
-					   value="1.0"/>					   
+					   value="1.0"/>					    -->
 	</mechanism>
 <!-- ====================================================
 	 Talon Tachs

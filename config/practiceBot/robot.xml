@@ -12,7 +12,7 @@
 <!-- ====================================================
 	 PDP
 	 ==================================================== -->    
-	<pdp canId="31" />
+	<pdp canId="51" />
     
 <!-- ====================================================
 	 Lidars
@@ -151,11 +151,9 @@
 		   	   brakeMode="true"
         	   gearRatio="0.764006791" 
         	   peakCurrentDuration="0"
-        	   continuousCurrentLimit="15"
-        	   peakCurrentLimit="20" 
+        	   continuousCurrentLimit="30"
+        	   peakCurrentLimit="30" 
         	   currentLimiting="true"/>
-
-	
 		<mechanismData paramType="HATCH_FLOOR_ANGLE"
 					   value="51.38"/>
 		<mechanismData paramType="HATCH_HP_ABOVE_ANGLE"

@@ -42,7 +42,7 @@ void DragonPigeon::CreatePigeon(int id)
 
 double DragonPigeon::GetPitch()
 {
-    return GetRawPitch() - m_initialPitch;
+    return -(GetRawPitch() - m_initialPitch); //TODO: add inversions into code
 }
 
 double DragonPigeon::GetRoll()

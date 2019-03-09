@@ -38,6 +38,15 @@ void Switcher::DriveUpdate()
     if (m_mainController->GetAButtonReleased())
         m_allowClimbDrive = false;
 
+    if (m_mainController->GetPOV() == 0)
+    {
+        m_chassis->EnableBrakeMode(true);
+    }
+    else if (m_mainController->GetPOV() == 180)
+    {
+        m_chassis->EnableBrakeMode(false);
+    }
+
     
     if(m_mainController->GetBButtonPressed())
         m_visionMode = !m_visionMode;
@@ -138,7 +147,7 @@ void Switcher::GamepieceUpdate(bool cargo)
     // Send angles and speeds to mechanisms
     m_intake->IntakeManual(intakeSpeed);
     m_wrist->MoveWristManualAngle(m_wrist->GetWristTargetAngle() + wristSpeed); // offset target angle by speed
-    m_arm->MoveExtensionSpeed(extendSpeed);                             // -0.171
+    m_arm->MoveExtensionSpeed(extendSpeed, false);                             // -0.171
     // m_arm->MoveExtensionInches(m_arm->GetExtenderTargetInches() + m_extendSpeed * 0.02);
     m_arm->MoveArmAngle(m_arm->GetArmTargetAngle() + armSpeed); // offset target angle by speed
 }
@@ -167,7 +176,7 @@ void Switcher::ClimberUpdate()
 
     m_wrist->MoveWristManualSpeed(wristSpeed);
     m_arm->MoveArmAngle(m_arm->GetArmTargetAngle() + armSpeed);
-    m_arm->MoveExtensionSpeed(extendSpeed + 0.5); //TODO: move 0.25 into a constant
+    m_arm->MoveExtensionSpeed(extendSpeed + 0.5, true); //TODO: move 0.25 into a constant
 
     // m_climbElevSpeed = m_secondaryController->GetBumper(frc::GenericHID::JoystickHand::kLeftHand) - m_secondaryController->GetBumper(frc::GenericHID::JoystickHand::kRightHand);
     // m_dropBuddyClimb = TeleopControl::GetInstance()->IsButtonPressed(TeleopControl::FUNCTION_IDENTIFIER::DROP_BUDDY_CLIMB);

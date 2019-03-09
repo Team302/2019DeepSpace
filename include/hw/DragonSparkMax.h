@@ -41,6 +41,7 @@ public:
     void Invert(bool inverted) override;
 
     void InvertEncoder(bool inverted);
+    void SetSmartCurrentLimiting(int limit);
     CANError Follow(DragonSparkMax* leader, bool invert = false);
 
 private:

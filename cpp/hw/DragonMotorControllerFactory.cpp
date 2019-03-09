@@ -94,6 +94,8 @@ IDragonMotorController* DragonMotorControllerFactory::CreateMotorController
 			smax->EnableBrakeMode( brakeMode );
 			smax->InvertEncoder( sensorInverted );
 			smax->EnableCurrentLimiting( enableCurrentLimit );
+			smax->SetSmartCurrentLimiting( continuousCurrentLimit );
+			printf("Setting SparkMax current limit to %d\n", continuousCurrentLimit);
 
 			if ( slaveTo > -1 )
 			{

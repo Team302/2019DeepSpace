@@ -252,11 +252,11 @@ void Arm::MoveExtentionPreset(PlacementHeights::PLACEMENT_HEIGHT height, bool ca
     m_extender->Set(m_extenderTargetRotations);
 }
 
-void Arm::MoveExtensionSpeed(double speed)
+void Arm::MoveExtensionSpeed(double speed, bool climbMode)
 {
     speed += EXTENDER_HOLD_POWER;
     m_extender->SetControlMode(IDragonMotorController::DRAGON_CONTROL_MODE::PERCENT_OUTPUT);
-    CorrectExtenderPower(speed); //if we are gonna be out of bounds, pull in
+    CorrectExtenderPower(speed, climbMode); //if we are gonna be out of bounds, pull in
     m_extender->Set(speed);
 }
 
@@ -297,7 +297,7 @@ double Arm::OurDegreesToRads(double ourDegrees)
     return -((ourDegrees / 360.0) - (1 / 4.0)) * 2 * M_PI;
 }
 
-void Arm::CorrectExtenderPower(double &power)
+void Arm::CorrectExtenderPower(double &power, bool climbMode)
 {
     double degreesPerSecond = GetArmRealAngle() - m_previousArmRealAngle;
     degreesPerSecond / 0.02;
@@ -308,18 +308,21 @@ void Arm::CorrectExtenderPower(double &power)
     double predictedRads = OurDegreesToRads(correctedAngle);
 
     //practice bot
-    double realMaxLegalExtender = Map(std::abs(cos(realRads)), 1, 0.76, 1.175, m_extenderMaxDistance); //BIG TODO: make MAX_EXTENDER_DISTANCE constant
-    double predictedMaxLegalExtender = Map(std::abs(cos(predictedRads)), 1, 0.76, 1.175, m_extenderMaxDistance);
+    // double realMaxLegalExtender = Map(std::abs(cos(realRads)), 1, 0.76, 1.175, m_extenderMaxDistance); //BIG TODO: make MAX_EXTENDER_DISTANCE constant
+    // double predictedMaxLegalExtender = Map(std::abs(cos(predictedRads)), 1, 0.76, 1.175, m_extenderMaxDistance);
 
     // comp bot
-    // double realMaxLegalExtender = Map(std::abs(cos(realRads)), 1, 0.76, 2.0, 7.625); //BIG TODO: make MAX_EXTENDER_DISTANCE constant
-    // double predictedMaxLegalExtender = Map(std::abs(cos(predictedRads)), 1, 0.76, 2.0, 7.625);
+    double realMaxLegalExtender = Map(std::abs(cos(realRads)), 1, 0.76, 1.25, m_extenderMaxDistance); //BIG TODO: make MAX_EXTENDER_DISTANCE constant
+    double predictedMaxLegalExtender = Map(std::abs(cos(predictedRads)), 1, 0.76, 1.25, m_extenderMaxDistance);
 
     // frc::SmartDashboard::PutNumber("Max Legal Inches", maxLegalExtender);
 
     // frc::SmartDashboard::PutNumber("")
     if (GetExtenderRealInches() > realMaxLegalExtender || GetExtenderRealInches() > predictedMaxLegalExtender)
-        power = -1;
+    {
+        if (power >= EXTENDER_HOLD_POWER)
+            power = climbMode ? EXTENDER_HOLD_POWER : -1;
+    } 
     else if (GetExtenderRealInches() < 0.0)
         power = power > 0 ? power : 0;
 

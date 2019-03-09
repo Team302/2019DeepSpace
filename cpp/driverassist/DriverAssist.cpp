@@ -21,6 +21,7 @@ DriverAssist::DriverAssist() : m_chassis(DragonChassis::GetInstance()),
                                m_climbMode(false),
                                m_holdMode(false),
                                m_visionMode(false),
+                               m_wristForcePercentOutput(false),
                                m_cargo(false),
                                m_flip(false),
                                m_height(PlacementHeights::PLACEMENT_HEIGHT::FLOOR)
@@ -33,14 +34,25 @@ void DriverAssist::Update()
     // Checks for vision, hold, and allows for switcher driving
     UpdateDriverControls();
 
+    // check climb mode button
     if(m_switcher->m_secondaryController->GetStartButtonPressed())
     {
         m_climbMode = !m_climbMode;
         if (!m_climbMode)
         {
             m_switcher->ExitClimbMode();
+            // disable brake mode
+            m_chassis->EnableBrakeMode(false);
         }
+        else
+        {
+            // enable brake mode
+            m_chassis->EnableBrakeMode(true);
+        }
+        
     }
+
+    // check wrist force percent output mode button
         
 
     DriverAssist::AttemptingDriveCancel();
@@ -65,8 +77,7 @@ void DriverAssist::Update()
             m_climb->Cancel();
             m_switcher->ClimberUpdate();
         }
-        
-        
+    
     }
     else
     {

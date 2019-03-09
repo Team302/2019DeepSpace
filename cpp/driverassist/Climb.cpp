@@ -15,7 +15,7 @@ m_speed(0)
 void Climb::Update()
 {
     // frc::SmartDashboard::PutNumber("Pigeon Roll", m_pigeon->GetRoll());
-    // frc::SmartDashboard::PutNumber("Pigeon Pitch", m_pigeon->GetPitch());
+    frc::SmartDashboard::PutNumber("Pigeon Pitch", m_pigeon->GetPitch());
     // frc::SmartDashboard::PutNumber("Pigeon Yaw", m_pigeon->GetYaw());
 
     //if pitch is positive, move arm down
@@ -26,7 +26,7 @@ void Climb::Update()
     {
         case CLIMBING:
             // move extender out slowly
-            m_arm->MoveExtensionSpeed(0.5);
+            m_arm->MoveExtensionSpeed(0.5, true);
             //negative on climber motor is down is down
             //right side of controller make it climb 
             if (std::abs(angle) < 1)
