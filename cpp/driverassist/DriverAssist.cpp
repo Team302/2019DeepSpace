@@ -42,12 +42,12 @@ void DriverAssist::Update()
         {
             m_switcher->ExitClimbMode();
             // disable brake mode
-            m_chassis->EnableBrakeMode(false);
+            // m_chassis->EnableBrakeMode(false);
         }
         else
         {
             // enable brake mode
-            m_chassis->EnableBrakeMode(true);
+            // m_chassis->EnableBrakeMode(true);
         }
         
     }

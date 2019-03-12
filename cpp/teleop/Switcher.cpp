@@ -38,14 +38,14 @@ void Switcher::DriveUpdate()
     if (m_mainController->GetAButtonReleased())
         m_allowClimbDrive = false;
 
-    if (m_mainController->GetPOV() == 0)
-    {
-        m_chassis->EnableBrakeMode(true);
-    }
-    else if (m_mainController->GetPOV() == 180)
-    {
-        m_chassis->EnableBrakeMode(false);
-    }
+    // if (m_mainController->GetPOV() == 0)
+    // {
+    //     m_chassis->EnableBrakeMode(true);
+    // }
+    // else if (m_mainController->GetPOV() == 180)
+    // {
+    //     m_chassis->EnableBrakeMode(false);
+    // }
 
     
     if(m_mainController->GetBButtonPressed())
@@ -99,6 +99,10 @@ void Switcher::DriveUpdate()
 
     forwardSpeed = std::pow(forwardSpeed, 3);
     turnSpeed = std::pow(turnSpeed, 3);
+
+    // temp
+    // apply scaling
+    turnSpeed *= 0.7;
 
     double leftSpeed = forwardSpeed + turnSpeed;
     double rightSpeed = forwardSpeed - turnSpeed;
