@@ -34,6 +34,7 @@ public:
         INTAKE,
         ELEVATOR_WINCH,
         ELEVATOR_DRIVE,
+        HATCH_MECH_MOTOR,
         MAX_TALON_TYPES
     };
 
