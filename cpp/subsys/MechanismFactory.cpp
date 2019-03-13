@@ -11,6 +11,7 @@
 #include <subsys/Arm.h>
 #include <subsys/Wrist.h>
 #include <subsys/Climber.h>
+#include <subsys/HatchMechanism.h>
 #include <xmlhw/PIDData.h>
 
 MechanismFactory* MechanismFactory::m_mechanismFactory = nullptr;
@@ -32,20 +33,24 @@ IMechanism* MechanismFactory::GetIMechanism
 	IMechanism* subsys = nullptr;
     switch ( type )
     {
-        case IMechanism::CLIMBER:
+        case IMechanism::MECHANISM_TYPE::CLIMBER:
             subsys = m_climber;
             break;
 
-        case IMechanism::INTAKE:
+        case IMechanism::MECHANISM_TYPE::INTAKE:
             subsys = m_intake;
             break;
 
-        case IMechanism::ARM:
+        case IMechanism::MECHANISM_TYPE::ARM:
             subsys = m_arm;
             break;
 
-        case IMechanism::WRIST:
+        case IMechanism::MECHANISM_TYPE::WRIST:
             subsys = m_wrist;
+            break;
+
+        case IMechanism::MECHANISM_TYPE::HATCH_MANIPULATOR:
+            subsys = m_hatch;
             break;
 
         default:
@@ -79,25 +84,30 @@ IMechanism* MechanismFactory::CreateMechanism
 
     switch ( index )
     {
-        case IMechanism::CLIMBER:
+        case IMechanism::MECHANISM_TYPE::CLIMBER:
             printf("MechanismFactory beginning of CLIMBER case\n");
             subsys = new Climber( motorControllers, servos );
             m_climber = subsys;
             break;
 
-        case IMechanism::INTAKE:
+        case IMechanism::MECHANISM_TYPE::INTAKE:
             subsys = new Intake( motorControllers );
             m_intake = subsys;
             break;
 
-        case IMechanism::WRIST:
+        case IMechanism::MECHANISM_TYPE::WRIST:
            subsys = new Wrist( motorControllers );
             m_wrist = subsys;
             break;
 
-        case IMechanism::ARM:
+        case IMechanism::MECHANISM_TYPE::ARM:
             subsys = new Arm( motorControllers );
             m_arm = subsys;
+            break;
+
+        case IMechanism::MECHANISM_TYPE::HATCH_MANIPULATOR:
+            subsys = new HatchMechanism( motorControllers );
+            m_hatch = subsys;
             break;
 
         default:
@@ -137,5 +147,6 @@ MechanismFactory::~MechanismFactory()
     delete m_intake;
     delete m_arm;
     delete m_wrist;
+    delete m_hatch;
 }
 
