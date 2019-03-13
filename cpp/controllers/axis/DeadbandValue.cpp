@@ -46,7 +46,22 @@ double DeadbandValue::ApplyDeadband
     double inputVal // <I> - value to apply profile to
 ) const
 {
-    return (std::abs(inputVal) < IDeadband::M_DEADBAND_VALUE ) ? 0.0 : inputVal;
+    auto val = inputVal;
+    if ( std::abs(val) < IDeadband::M_DEADBAND_VALUE )
+    {
+        val = 0.0;
+    }
+    else if ( val > 0.0 )
+    {
+        val -= IDeadband::M_DEADBAND_VALUE;         // shift deadband to 0.0
+        val /= (1.0 - IDeadband::M_DEADBAND_VALUE); // scale value to the range
+    }
+    else if ( val < 0.0 )
+    {
+        val += IDeadband::M_DEADBAND_VALUE;         // shift deadband to 0.0
+        val /= (1.0 - IDeadband::M_DEADBAND_VALUE); // scale value to range
+    }
+    return val;
 }
 
 
