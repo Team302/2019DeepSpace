@@ -356,6 +356,31 @@
 		<mechanismData paramType="SERVO_DROPPED_POSITION_PARAM"
 					   value="1.0"/>					    -->
 	</mechanism>
+
+	
+	<!-- Hatch Mech --> 
+	<mechanism type="4"> 
+		<motor usage="HATCH_MECH_MOTOR"
+			   canId="8"
+			   type="cantalon"
+               inverted="true"
+         	   feedbackDevice="0"
+          	   countsPerRev="1024"
+		   	   brakeMode="true"
+        	   gearRatio="1.0" 
+        	   peakCurrentDuration="50"
+        	   continuousCurrentLimit="30"
+        	   peakCurrentLimit="40" 
+        	   currentLimiting="true"/>
+		<mechanismData paramType="HATCH_MECH_OPEN_ROTATIONS"
+					   value="0.0"/>	
+		<mechanismData paramType="HATCH_MECH_CLOSED_ROTATIONS"
+					   value="1.0"/>	
+
+		<PID mode="1"
+			 proportional="0.05"/>
+	</mechanism>
+
 <!-- ====================================================
 	 Talon Tachs
 	 ==================================================== -->    
