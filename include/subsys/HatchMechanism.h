@@ -49,14 +49,10 @@ class HatchMechanism : public IMechanism
             PIDData*        pid                 // <I> - PID control information
         ) override;
 
-
-
-  
     private:
         DragonTalon* m_motor;
 
         // opening/closing rotations
-        double m_initialRotations= 0.0;
         double m_open = 0.0;
         double m_closed = 180.0;
 };

@@ -10,6 +10,7 @@
 #include <iostream>
 #include <frc/SmartDashboard/SmartDashboard.h>
 #include <cmath>
+#include "DefnRobot.h"
 
 using namespace frc;
 
@@ -42,7 +43,12 @@ void DragonPigeon::CreatePigeon(int id)
 
 double DragonPigeon::GetPitch()
 {
-    return -(GetRawPitch() - m_initialPitch); //TODO: add inversions into code
+    #if ROBOT == COMP_BOT
+        return -(GetRawPitch() - m_initialPitch); //TODO: add inversions into code
+    #endif
+    #if ROBOT == PRAC_BOT
+        return (GetRawPitch() - m_initialPitch); //TODO: add inversions into code
+    #endif
 }
 
 double DragonPigeon::GetRoll()

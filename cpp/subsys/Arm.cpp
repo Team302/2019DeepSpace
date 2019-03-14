@@ -12,6 +12,7 @@
 #include <hw/IDragonMotorController.h>
 #include <cmath>
 #include "frc/smartdashboard/SmartDashboard.h"
+#include "DefnRobot.h"
 
 Arm::Arm(IDragonMotorControllerVector motorControllers) : m_armTargetAngle(0.0),
                                                           m_previousArmRealAngle(0.0),
@@ -307,13 +308,14 @@ void Arm::CorrectExtenderPower(double &power, bool climbMode)
     double realRads = OurDegreesToRads(GetArmRealAngle());
     double predictedRads = OurDegreesToRads(correctedAngle);
 
-    //practice bot
-    // double realMaxLegalExtender = Map(std::abs(cos(realRads)), 1, 0.76, 1.175, m_extenderMaxDistance); //BIG TODO: make MAX_EXTENDER_DISTANCE constant
-    // double predictedMaxLegalExtender = Map(std::abs(cos(predictedRads)), 1, 0.76, 1.175, m_extenderMaxDistance);
-
-    // comp bot
+    #if ROBOT == PRAC_BOT
+    double realMaxLegalExtender = Map(std::abs(cos(realRads)), 1, 0.76, 1.175, m_extenderMaxDistance); //BIG TODO: make MAX_EXTENDER_DISTANCE constant
+    double predictedMaxLegalExtender = Map(std::abs(cos(predictedRads)), 1, 0.76, 1.175, m_extenderMaxDistance);
+    #endif
+    #if ROBOT == COMP_BOT
     double realMaxLegalExtender = Map(std::abs(cos(realRads)), 1, 0.76, 1.25, m_extenderMaxDistance); //BIG TODO: make MAX_EXTENDER_DISTANCE constant
     double predictedMaxLegalExtender = Map(std::abs(cos(predictedRads)), 1, 0.76, 1.25, m_extenderMaxDistance);
+    #endif
 
     // frc::SmartDashboard::PutNumber("Max Legal Inches", maxLegalExtender);
 

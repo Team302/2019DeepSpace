@@ -6,6 +6,7 @@
 #include <subsys/Wrist.h>
 #include <subsys/Climber.h>
 #include <subsys/chassis/DragonChassis.h>
+#include <subsys/HatchMechanism.h>
 #include <teleop/TeleopControl.h>
 #include <controllers/DragonXBox.h>
 #include "hw/DragonSparkMax.h"
@@ -33,6 +34,7 @@ private:
   Wrist* m_wrist;
   DragonChassis* m_chassis;
   Climber* m_climber;
+  HatchMechanism* m_hatchMechanism;
 
   DragonLimelight* m_limelight;
 

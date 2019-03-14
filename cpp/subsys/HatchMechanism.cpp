@@ -17,12 +17,12 @@
 
 #include <subsys/IMechanism.h>
 #include <xmlhw/PIDData.h>
+#include <frc/smartdashboard/SmartDashboard.h>
 
 HatchMechanism::HatchMechanism
 (
     IDragonMotorControllerVector motorControllers
-) : m_motor(nullptr),
-    m_initialRotations()
+) : m_motor(nullptr)
 {
     for( int inx=0; inx<motorControllers.size(); ++inx )
     {
@@ -42,7 +42,6 @@ HatchMechanism::HatchMechanism
     {
         m_motor->SetControlMode(IDragonMotorController::DRAGON_CONTROL_MODE::PERCENT_OUTPUT);
         m_motor->Set(0.0);
-        m_initialRotations = m_motor->GetRotations();
     }
     else
     {
@@ -56,7 +55,6 @@ void HatchMechanism::SetState
 )                     //       false = close to hold hatch
 {
     auto rotations = open ? m_open : m_closed;
-    rotations += m_initialRotations;
     
     m_motor->SetControlMode(IDragonMotorController::DRAGON_CONTROL_MODE::ROTATIONS);
     m_motor->Set(rotations);
@@ -69,6 +67,8 @@ void HatchMechanism::SetSpeed
 {
     m_motor->SetControlMode( IDragonMotorController::DRAGON_CONTROL_MODE::PERCENT_OUTPUT );
     m_motor->Set( speed );
+    frc::SmartDashboard::PutNumber("hatch mech rots", m_motor->GetRotations());
+    frc::SmartDashboard::PutNumber("hatch mech angles", m_motor->GetRotations() * 360.0);
 }
 
 
@@ -111,7 +111,6 @@ void HatchMechanism::SetPID
         m_motor->ConfigMotionAcceleration(pid->GetMaxAcceleration());
         m_motor->ConfigMotionCruiseVelocity(pid->GetCruiseVelocity());
     }
-    m_motor->SetControlMode(IDragonMotorController::DRAGON_CONTROL_MODE::ROTATIONS);
 
 }
 

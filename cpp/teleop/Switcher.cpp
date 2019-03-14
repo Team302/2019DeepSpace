@@ -18,6 +18,7 @@ Switcher::Switcher() :
 			m_wrist( MechanismFactory::GetMechanismFactory()->GetWrist() ),
 			m_chassis( DragonChassis::GetInstance() ),                     
             m_climber( MechanismFactory::GetMechanismFactory()->GetClimber() ),
+            m_hatchMechanism( MechanismFactory::GetMechanismFactory()->GetHatchMech() ),
             m_limelight(DragonLimelight::GetInstance()),
             m_allowClimbDrive(false),
 			m_mainController( new frc::XboxController(0) ),
@@ -154,6 +155,11 @@ void Switcher::GamepieceUpdate(bool cargo)
     m_arm->MoveExtensionSpeed(extendSpeed, false);                             // -0.171
     // m_arm->MoveExtensionInches(m_arm->GetExtenderTargetInches() + m_extendSpeed * 0.02);
     m_arm->MoveArmAngle(m_arm->GetArmTargetAngle() + armSpeed); // offset target angle by speed
+
+
+    // temp lol :d
+    m_hatchMechanism->SetSpeed(intakeSpeed);
+    
 }
 
 void Switcher::ClimberUpdate()
