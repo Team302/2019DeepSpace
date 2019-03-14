@@ -198,6 +198,10 @@ IDragonMotorController* MotorDefn::ParseXML
             {
                 usage = IDragonMotorController::TALON_TYPE::ELEVATOR_DRIVE;
             }
+            else if ( strcmp( usageStr, "HATCH_MECH_MOTOR" ) == 0 ) 
+            {
+                usage = IDragonMotorController::TALON_TYPE::HATCH_MECH_MOTOR;
+            }
             else
             {
                 printf( "==>>MotorDefn::ParseXML Invalid Motor Type %s \n", usageStr );

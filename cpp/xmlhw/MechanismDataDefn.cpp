@@ -210,6 +210,14 @@ mechParamData  MechanismDataDefn::ParseXML
             {
                 mechData.first = IMechanism::MECHANISM_PARAM_TYPE::SERVO_DROPPED_POSITION_PARAM;               
             }
+            else if ( strcmp( param, "HATCH_MECH_OPEN_ROTATIONS") == 0 )
+            {
+                mechData.first = IMechanism::MECHANISM_PARAM_TYPE::HATCH_MECH_OPEN_ROTATIONS;               
+            }
+            else if ( strcmp( param, "HATCH_MECH_CLOSED_ROTATIONS") == 0 )
+            {
+                mechData.first = IMechanism::MECHANISM_PARAM_TYPE::HATCH_MECH_CLOSED_ROTATIONS;               
+            }
             else
             {
                 printf( "==>> MechanismDataDefn::ParseXML invalid dataType %s \n", param );

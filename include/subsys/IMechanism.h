@@ -19,6 +19,7 @@ class IMechanism
             INTAKE,
             ARM,
             CLIMBER,
+            HATCH_MANIPULATOR,
             MAX_MECHANISM_TYPES
         };
 
@@ -62,6 +63,8 @@ class IMechanism
             HATCH_OUTTAKE_SPEED_PARAM,
             SERVO_LOCKED_POSITION_PARAM,
             SERVO_DROPPED_POSITION_PARAM,
+            HATCH_MECH_OPEN_ROTATIONS,
+            HATCH_MECH_CLOSED_ROTATIONS,
             MAX_MECHANISM_PARAM_TYPES
         };
 
