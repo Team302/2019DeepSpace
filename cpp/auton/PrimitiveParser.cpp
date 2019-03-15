@@ -55,43 +55,39 @@ PrimitiveParamsVector PrimitiveParser::ParseXML
                     {
                         if ( strcmp( attr.name(), "id" ) == 0 )
                         {
-                            int iVal = attr.as_int();
-                            switch ( iVal )
+                            auto prim = attr.value();
+                            if ( strcmp( prim, "DO_NOTHING" ) == 0 )  
                             {
-                                case DO_NOTHING:
-                                    primitiveType = DO_NOTHING;
-                                    break;
-
-                                case HOLD_POSITION:
-                                    primitiveType = HOLD_POSITION;
-                                    break;
-
-                                case DRIVE_DISTANCE:
-                                    primitiveType = DRIVE_DISTANCE;
-                                    break;
-
-                                case DRIVE_TIME:
-                                    primitiveType = DRIVE_TIME;
-                                    break;
-
-                                case TURN_ANGLE_ABS:
-                                    primitiveType = TURN_ANGLE_ABS;
-                                    break;
-
-                                case TURN_ANGLE_REL:
-                                    primitiveType = TURN_ANGLE_REL;
-                                    break;
-
-                                case DRIVE_TO_WALL:
-                                    primitiveType = DRIVE_TO_WALL;
-                                    break;
-
-                                default:
-                                    printf( "==>> PrimitiveParser::ParseXML:  Invalid Primitive Type %d \n", iVal );
-                                    hasError = true;
-                                    break;
+                                primitiveType = DO_NOTHING;
                             }
-
+                            else if ( strcmp( prim, "HOLD_POSITION" ) == 0 )
+                            {
+                                primitiveType = HOLD_POSITION;
+                            }
+                            else if ( strcmp( prim, "DRIVE_DISTANCE" ) == 0 )
+                            {
+                                primitiveType = DRIVE_DISTANCE;
+                            }
+                            else if ( strcmp( prim, "DRIVE_TIME" ) == 0 )
+                            {
+                                primitiveType = DRIVE_TIME;
+                            }
+                            else if ( strcmp( prim, "TURN_ANGLE_ABS" ) == 0 )
+                            {
+                                primitiveType = TURN_ANGLE_ABS;
+                            }
+                            else if ( strcmp( prim, "TURN_ANGLE_REL" ) == 0 )
+                            {
+                                primitiveType = TURN_ANGLE_REL;
+                            }
+                            else if ( strcmp( prim, "DRIVE_TO_WALL" ) == 0 )
+                            {
+                                primitiveType = DRIVE_TO_WALL;
+                            }
+                            else 
+                            {
+                                printf( "==>> PrimitiveParser::ParseXML:  Invalid Primitive Type %s \n", prim );
+                            }
                         }
                         else if ( strcmp( attr.name(), "time" ) == 0 )
                         {
