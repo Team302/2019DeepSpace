@@ -34,8 +34,6 @@ PrimitiveParamsVector PrimitiveParser::ParseXML
     float                       endDriveSpeed = 0.0;
     float                       xloc = 0.0;
     float                       yloc = 0.0;
-    bool                        openGrabber = false;
-    float                       cubeSpeed = 0.0;
 
     bool hasError = false;
 
@@ -86,10 +84,6 @@ PrimitiveParamsVector PrimitiveParser::ParseXML
 
                                 case DRIVE_TO_WALL:
                                     primitiveType = DRIVE_TO_WALL;
-                                    break;
-
-                                case DRIVE_LIDAR_DISTANCE:
-                                    primitiveType = DRIVE_LIDAR_DISTANCE;
                                     break;
 
                                 default:
@@ -155,3 +149,5 @@ PrimitiveParamsVector PrimitiveParser::ParseXML
 
     return paramVector;
 }
+
+
