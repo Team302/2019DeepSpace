@@ -54,7 +54,7 @@ void HatchMechanism::SetState
     bool  open        // <I> - true  = open to allow grabbing or deploying hatch
 )                     //       false = close to hold hatch
 {
-    auto rotations = open ? m_open : m_closed;
+    auto rotations = open ? 0 : ROT;
     
     m_motor->SetControlMode(IDragonMotorController::DRAGON_CONTROL_MODE::ROTATIONS);
     m_motor->Set(rotations);
@@ -68,7 +68,6 @@ void HatchMechanism::SetSpeed
     m_motor->SetControlMode( IDragonMotorController::DRAGON_CONTROL_MODE::PERCENT_OUTPUT );
     m_motor->Set( speed );
     frc::SmartDashboard::PutNumber("hatch mech rots", m_motor->GetRotations());
-    frc::SmartDashboard::PutNumber("hatch mech angles", m_motor->GetRotations() * 360.0);
 }
 
 
@@ -83,22 +82,22 @@ void HatchMechanism::SetParam
     double                              value           // <I> - parameter value
 ) 
 {
-    switch(param)
-    {
-        case IMechanism::MECHANISM_PARAM_TYPE::HATCH_MECH_OPEN_ROTATIONS:
-            m_open = value;
-            break;
+    // switch(param)
+    // {
+    //     case IMechanism::MECHANISM_PARAM_TYPE::HATCH_MECH_OPEN_ROTATIONS:
+    //         m_open = value;
+    //         break;
 
-        case IMechanism::MECHANISM_PARAM_TYPE::HATCH_MECH_CLOSED_ROTATIONS:
-            m_closed = value;
-            break;
+    //     case IMechanism::MECHANISM_PARAM_TYPE::HATCH_MECH_CLOSED_ROTATIONS:
+    //         m_closed = value;
+    //         break;
 
-        default:
-            printf("HatchMechanism.cpp is getting an invalid parameter");
-            break;
+    //     default:
+    //         printf("HatchMechanism.cpp is getting an invalid parameter");
+    //         break;
 
 
-    }
+    // }
 }
 void HatchMechanism::SetPID
 (

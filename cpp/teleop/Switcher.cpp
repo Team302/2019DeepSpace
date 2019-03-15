@@ -149,6 +149,8 @@ void Switcher::GamepieceUpdate(bool cargo)
     if(cargo)
         intakeSpeed = -intakeSpeed;
 
+    double hatchMechSpeed = m_mainController->GetTriggerAxis(frc::GenericHID::JoystickHand::kLeftHand) - m_mainController->GetTriggerAxis(frc::GenericHID::JoystickHand::kRightHand);
+
     // Send angles and speeds to mechanisms
     m_intake->IntakeManual(intakeSpeed);
     m_wrist->MoveWristManualAngle(m_wrist->GetWristTargetAngle() + wristSpeed); // offset target angle by speed
@@ -156,9 +158,14 @@ void Switcher::GamepieceUpdate(bool cargo)
     // m_arm->MoveExtensionInches(m_arm->GetExtenderTargetInches() + m_extendSpeed * 0.02);
     m_arm->MoveArmAngle(m_arm->GetArmTargetAngle() + armSpeed); // offset target angle by speed
 
-
-    // temp lol :d
-    m_hatchMechanism->SetSpeed(intakeSpeed);
+    if (m_mainController->GetPOV() == 90)
+    {
+        m_hatchMechanism->SetState(true);
+    }
+    else if (m_mainController->GetPOV() == 270)
+    {
+        m_hatchMechanism->SetState(false);
+    }
     
 }
 

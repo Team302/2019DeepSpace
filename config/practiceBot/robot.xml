@@ -366,7 +366,8 @@
 		<motor usage="HATCH_MECH_MOTOR"
 			   canId="8"	
 			   type="cantalon"
-               inverted="true"
+               inverted="false"
+			   sensorInverted="true"
          	   feedbackDevice="0"
           	   countsPerRev="1120"
 		   	   brakeMode="true"
@@ -381,7 +382,7 @@
 					   value="1.0"/>	
 
 		<PID mode="1"
-			 proportional="0.05"/>
+			 proportional="5.0"/>
 	</mechanism>
 <!-- ====================================================
 	 Talon Tachs

@@ -99,6 +99,10 @@ void MechanismDefn::ParseXML
                     type = IMechanism::CLIMBER;
                     break;
 
+                case IMechanism::HATCH_MANIPULATOR:
+                    type = IMechanism::HATCH_MANIPULATOR;
+                    break;
+
                 default:
                     printf( "==>> MechanismDefn::ParseXML unknown Mechanism type %s \n ", attr.value() );
                     hasError = true;

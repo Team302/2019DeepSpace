@@ -53,7 +53,12 @@ class MechanismFactory
 		inline Intake* GetIntake() { return m_intake != nullptr ? dynamic_cast<Intake*>( m_intake ) : nullptr; };
 		inline Arm* GetArm() { return m_arm != nullptr ? dynamic_cast<Arm*>( m_arm ) : nullptr; };
 		inline Climber* GetClimber() { return m_climber != nullptr ? dynamic_cast<Climber*>( m_climber ) : nullptr; };
-		inline HatchMechanism* GetHatchMech() { return m_hatch != nullptr ? dynamic_cast<HatchMechanism*>( m_hatch ) : nullptr; };
+		inline HatchMechanism* GetHatchMech()
+		{ 
+			if (m_hatch == nullptr)
+				printf("m_hactch is nullptr\n");
+			return m_hatch != nullptr ? dynamic_cast<HatchMechanism*>( m_hatch ) : nullptr; 
+		};
 
 	private:
 		MechanismFactory();
