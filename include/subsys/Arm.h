@@ -16,13 +16,13 @@ class Arm : public IMechanism
 public:
   Arm(std::vector<IDragonMotorController*> motorControllers);
   
-  void MoveArmPreset(PlacementHeights::PLACEMENT_HEIGHT height, bool cargo, bool flip);
+  void MoveArmPreset(PlacementHeights::PLACEMENT_HEIGHT height, bool cargo, bool flip, bool second);
   void MoveArmMotionMagic(double angle);
   void MoveArmSpeed(double speed);
   void MoveArmAngle(double angle);
   void ResetTarget();
 
-  void MoveExtentionPreset(PlacementHeights::PLACEMENT_HEIGHT height, bool cargo, bool flip);
+  void MoveExtentionPreset(PlacementHeights::PLACEMENT_HEIGHT height, bool cargo, bool flip, bool second);
   void MoveExtensionSpeed(double speed, bool climbMode);
   void MoveExtensionInches(double inches);
 
@@ -49,21 +49,22 @@ public:
 
 private: 
   //TODO: rename these to HATCH_ARM_PRESETS and CARGO_ARM_PRESETS... not wrist
-  enum HATCH_WRIST_PRESETS
+  enum HATCH_ARM_PRESETS
   {
     HATCH_KEEP_SAME = -1,
     HATCH_START_POSITION,
     HATCH_FLOOR,
-    HATCH_HP_BELOW,
+    HATCH_HP_SECOND,
     HATCH_LOW,
     HATCH_MID,
     HATCH_HIGH,
-    HATCH_HP_HOLE,
-    HATCH_HP_ABOVE,
+    HATCH_LOW_SECOND,
+    HATCH_MID_SECOND,
+    HATCH_HIGH_SECOND,
     MAX_HATCH_POS
   };
 
-  enum CARGO_WRIST_PRESETS
+  enum CARGO_ARM_PRESETS
   {
     CARGO_KEEP_SAME = -1,
     CARGO_START_POSITION,
@@ -79,16 +80,16 @@ private:
   double OurDegreesToRads(double degrees);
   void CorrectExtenderPower(double &power, bool climbMode);
   double Map(double x, double in_min, double in_max, double out_min, double out_max);
-
-  double hatchAngle[MAX_HATCH_POS] =        { 0, -140, -85.77, -148.1, -83.33, -23.76, -120.30, 00.00 };
+                                            //0,  1,    2,      3,     4,      5,      6,       7, 8
+  double hatchAngle[MAX_HATCH_POS] =        { 0, -140, -85.77, -148.1, -83.33, -23.76, -120.30, 0, 0 };
   double cargoAngle[MAX_CARGO_POS] =        { 0, -110.6, -94.13, -64.7, -99.5, -50.73 -13.75 };
 
   //practice bot
   // double extenderHatchInches[MAX_HATCH_POS] = { 0, 6.8, 0, 0.925, 0, 0 };
   // double extenderCargoInches[MAX_CARGO_POS] = { 0, 0.0, 0, 0, 0, 0, 6.8 };
 
-  // comp bot
-  double extenderHatchInches[MAX_HATCH_POS] = { 0, 7.625, 6.55, 1.75, 0, 0, 0 };
+  // comp bot                                   0, 1,     2,    3,    4, 5, 6, 7, 8
+  double extenderHatchInches[MAX_HATCH_POS] = { 0, 7.625, 6.55, 1.75, 0, 0, 0, 0, 0 };
   double extenderCargoInches[MAX_CARGO_POS] = { 0, 0, 0, 0, 0, 0, 7.625 };
 
   double m_armTargetAngle;

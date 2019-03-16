@@ -41,7 +41,7 @@ void Wrist::MoveWristManualAngle(double angle)
     m_targetAngle = angle;
 }
 
-void Wrist::MoveWristPresets(PlacementHeights::PLACEMENT_HEIGHT height, bool cargo, bool flip)
+void Wrist::MoveWristPresets(PlacementHeights::PLACEMENT_HEIGHT height, bool cargo, bool flip, bool second)
 {
     m_wristMotor->SetControlMode(DragonTalon::TALON_CONTROL_MODE::POSITION);
     if (cargo)
@@ -61,10 +61,6 @@ void Wrist::MoveWristPresets(PlacementHeights::PLACEMENT_HEIGHT height, bool car
                 break;
 
             case PlacementHeights::PLACEMENT_HEIGHT::HUMAN_PLAYER:
-                m_targetAngle = cargoAngle[Wrist::CARGO_WRIST_PRESETS::CARGO_HP];
-                break;
-
-            case PlacementHeights::PLACEMENT_HEIGHT::HUMAN_PLAYER_HOLE:
                 m_targetAngle = cargoAngle[Wrist::CARGO_WRIST_PRESETS::CARGO_HP];
                 break;
 
@@ -101,30 +97,25 @@ void Wrist::MoveWristPresets(PlacementHeights::PLACEMENT_HEIGHT height, bool car
                 break;
 
             case PlacementHeights::PLACEMENT_HEIGHT::HUMAN_PLAYER:
-                // if flipped is true, go from back of robot on top of hatch, else do front of robot below hatch
-                // only flip value and does not effect cargp
-                m_targetAngle = !flip ? hatchAngle[Wrist::HATCH_WRIST_PRESETS::HATCH_HP_BELOW] : hatchAngle[Wrist::HATCH_WRIST_PRESETS::HATCH_HP_ABOVE];
-                break;
-
-            case PlacementHeights::PLACEMENT_HEIGHT::HUMAN_PLAYER_HOLE:
-                m_targetAngle = hatchAngle[Wrist::HATCH_WRIST_PRESETS::HATCH_HP_HOLE];
+                m_targetAngle = !flip ? hatchAngle[Wrist::HATCH_WRIST_PRESETS::HATCH_SECOND_HP] : -hatchAngle[Wrist::HATCH_WRIST_PRESETS::HATCH_SECOND_HP];
                 break;
 
             case PlacementHeights::PLACEMENT_HEIGHT::ROCKET_LOW:
-                m_targetAngle = hatchAngle[Wrist::HATCH_WRIST_PRESETS::HATCH_LOW];
+                m_targetAngle = second ? hatchAngle[Wrist::HATCH_WRIST_PRESETS::HATCH_LOW_SECOND] : hatchAngle[Wrist::HATCH_WRIST_PRESETS::HATCH_LOW];
                 break;
+
             case PlacementHeights::PLACEMENT_HEIGHT::ROCKET_MID:
-                m_targetAngle = hatchAngle[Wrist::HATCH_WRIST_PRESETS::HATCH_MID];
+                m_targetAngle = second ? hatchAngle[Wrist::HATCH_WRIST_PRESETS::HATCH_MID_SECOND] : hatchAngle[Wrist::HATCH_WRIST_PRESETS::HATCH_MID];
                 break;
+
             case PlacementHeights::PLACEMENT_HEIGHT::ROCKET_HIGH:
-                m_targetAngle = hatchAngle[Wrist::HATCH_WRIST_PRESETS::HATCH_HIGH];
+                m_targetAngle = second ? hatchAngle[Wrist::HATCH_WRIST_PRESETS::HATCH_HIGH_SECOND] : hatchAngle[Wrist::HATCH_WRIST_PRESETS::HATCH_HIGH];
                 break;
+
             default:
                 break;
         }
     }
-
-    // Deleted flip as human player handles it
 
     m_wristMotor->SetControlMode(DragonTalon::TALON_CONTROL_MODE::MOTION_MAGIC);
     m_wristMotor->Set(m_targetAngle / 360.0); // Sets in rotations from degrees
@@ -180,16 +171,8 @@ void Wrist::SetParam(
             hatchAngle[HATCH_FLOOR] = value;
             break;
 
-        case HATCH_HP_ABOVE_ANGLE:
-            hatchAngle[HATCH_HP_ABOVE] = value;
-            break;
-
-        case HATCH_HP_BELOW_ANGLE:
-            hatchAngle[HATCH_HP_BELOW] = value;
-            break;
-
-        case HATCH_HP_HOLE_ANGLE:
-            hatchAngle[HATCH_HP_HOLE] = value;
+        case HATCH_HP_SECOND_ANGLE:
+            hatchAngle[HATCH_SECOND_HP] = value;
             break;
 
         case HATCH_LOW_ANGLE:
@@ -204,6 +187,19 @@ void Wrist::SetParam(
             hatchAngle[HATCH_HIGH] = value;
             break;
 
+        case HATCH_LOW_SECOND_ANGLE:
+            hatchAngle[HATCH_LOW_SECOND] = value;
+            break;
+        
+        case HATCH_MID_SECOND_ANGLE:
+            hatchAngle[HATCH_MID_SECOND] = value;
+            break;
+
+        case HATCH_HIGH_SECOND_ANGLE:
+            hatchAngle[HATCH_HIGH_SECOND] = value;
+            break;
+
+        // CARGO WRSIT ANgLES
         case CARGO_FLOOR_ANGLE:
             cargoAngle[CARGO_FLOOR] = value;
             break;

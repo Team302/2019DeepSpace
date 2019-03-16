@@ -86,17 +86,9 @@ mechParamData  MechanismDataDefn::ParseXML
             {
                 mechData.first = IMechanism::MECHANISM_PARAM_TYPE::HATCH_FLOOR_ANGLE;               
             }
-            else if ( strcmp( param, "HATCH_HP_BELOW_ANGLE" ) == 0 )
+            else if ( strcmp( param, "HATCH_HP_SECOND_ANGLE" ) == 0 )
             {
-                mechData.first = IMechanism::MECHANISM_PARAM_TYPE::HATCH_HP_BELOW_ANGLE; 
-            }
-            else if( strcmp( param, "HATCH_HP_ABOVE_ANGLE" ) == 0 )
-            {
-                mechData.first = IMechanism::MECHANISM_PARAM_TYPE::HATCH_HP_ABOVE_ANGLE;
-            }
-            else if ( strcmp( param, "HATCH_HP_HOLE_ANGLE") == 0)
-            {
-                mechData.first = IMechanism::MECHANISM_PARAM_TYPE::HATCH_HP_HOLE_ANGLE;
+                mechData.first = IMechanism::MECHANISM_PARAM_TYPE::HATCH_HP_SECOND_ANGLE;               
             }
             else if ( strcmp( param, "HATCH_LOW_ANGLE" ) == 0 )
             {
@@ -109,6 +101,18 @@ mechParamData  MechanismDataDefn::ParseXML
             else if ( strcmp( param, "HATCH_HIGH_ANGLE" ) == 0 )
             {
                 mechData.first = IMechanism::MECHANISM_PARAM_TYPE::HATCH_HIGH_ANGLE;               
+            }
+            else if ( strcmp( param, "HATCH_LOW_SECOND_ANGLE" ) == 0 )
+            {
+                mechData.first = IMechanism::MECHANISM_PARAM_TYPE::HATCH_LOW_SECOND_ANGLE;               
+            }
+            else if ( strcmp( param, "HATCH_MID_SECOND_ANGLE" ) == 0 )
+            {
+                mechData.first = IMechanism::MECHANISM_PARAM_TYPE::HATCH_MID_SECOND_ANGLE;               
+            }
+            else if ( strcmp( param, "HATCH_HIGH_SECOND_ANGLE" ) == 0 )
+            {
+                mechData.first = IMechanism::MECHANISM_PARAM_TYPE::HATCH_HIGH_SECOND_ANGLE;               
             }
             else if ( strcmp( param, "CARGO_FLOOR_ANGLE" ) == 0 )
             {
@@ -142,17 +146,9 @@ mechParamData  MechanismDataDefn::ParseXML
             {
                 mechData.first = IMechanism::MECHANISM_PARAM_TYPE::HATCH_FLOOR_EXTENSION;               
             }
-            else if ( strcmp( param, "HATCH_HP_ABOVE_EXTENSION" ) == 0 )
+            else if ( strcmp( param, "HATCH_HP_SECOND_EXTENSION" ) == 0 )
             {
-                mechData.first = IMechanism::MECHANISM_PARAM_TYPE::HATCH_HP_ABOVE_EXTENSION;               
-            }
-            else if ( strcmp( param, "HATCH_HP_BELOW_EXTENSION" ) == 0 )
-            {
-                mechData.first = IMechanism::MECHANISM_PARAM_TYPE::HATCH_HP_BELOW_EXTENSION;
-            }
-            else if (strcmp( param, "HATCH_HP_HOLE_EXTENSION") == 9)
-            {
-                mechData.first = IMechanism::MECHANISM_PARAM_TYPE::HATCH_HP_HOLE_EXTENSION;
+                mechData.first = IMechanism::MECHANISM_PARAM_TYPE::HATCH_HP_SECOND_EXTENSION;               
             }
             else if ( strcmp( param, "HATCH_LOW_EXTENSION" ) == 0 )
             {
@@ -165,6 +161,18 @@ mechParamData  MechanismDataDefn::ParseXML
             else if ( strcmp( param, "HATCH_HIGH_EXTENSION" ) == 0 )
             {
                 mechData.first = IMechanism::MECHANISM_PARAM_TYPE::HATCH_HIGH_EXTENSION;               
+            }
+            else if ( strcmp( param, "HATCH_LOW_SECOND_EXTENSION" ) == 0 )
+            {
+                mechData.first = IMechanism::MECHANISM_PARAM_TYPE::HATCH_LOW_SECOND_EXTENSION;               
+            }
+            else if ( strcmp( param, "HATCH_MID_SECOND_EXTENSION" ) == 0 )
+            {
+                mechData.first = IMechanism::MECHANISM_PARAM_TYPE::HATCH_MID_SECOND_EXTENSION;               
+            }
+            else if ( strcmp( param, "HATCH_HIGH_SECOND_EXTENSION" ) == 0 )
+            {
+                mechData.first = IMechanism::MECHANISM_PARAM_TYPE::HATCH_HIGH_SECOND_EXTENSION;               
             }
             else if ( strcmp( param, "CARGO_FLOOR_EXTENSION" ) == 0 )
             {
@@ -213,10 +221,6 @@ mechParamData  MechanismDataDefn::ParseXML
             else if ( strcmp( param, "HATCH_MECH_OPEN_ROTATIONS") == 0 )
             {
                 mechData.first = IMechanism::MECHANISM_PARAM_TYPE::HATCH_MECH_OPEN_ROTATIONS;               
-            }
-            else if ( strcmp( param, "HATCH_MECH_CLOSED_ROTATIONS") == 0 )
-            {
-                mechData.first = IMechanism::MECHANISM_PARAM_TYPE::HATCH_MECH_CLOSED_ROTATIONS;               
             }
             else
             {

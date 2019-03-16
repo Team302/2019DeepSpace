@@ -24,7 +24,8 @@ DriverAssist::DriverAssist() : m_chassis(DragonChassis::GetInstance()),
                                m_wristForcePercentOutput(false),
                                m_cargo(false),
                                m_flip(false),
-                               m_height(PlacementHeights::PLACEMENT_HEIGHT::FLOOR)
+                               m_height(PlacementHeights::PLACEMENT_HEIGHT::FLOOR),
+                               m_second(false)
 {
 }
 
@@ -106,6 +107,7 @@ void DriverAssist::Update()
 
     frc::SmartDashboard::PutBoolean("Robot Fipped", m_flip);
     frc::SmartDashboard::PutBoolean("Cargo mode", m_cargo);
+    frc::SmartDashboard::PutBoolean("Second intake mode", m_second);
     frc::SmartDashboard::PutNumber("Target position enum", m_height);
 }
 
@@ -120,46 +122,37 @@ void DriverAssist::UpdateSecondaryControls()
     if (m_switcher->m_secondaryController->GetYButtonPressed())
         m_cargo = !m_cargo;
 
-    // if(m_switcher->m_mainController->GetPOV(180))
-    // {
-    //     m_height = PlacementHeights::PLACEMENT_HEIGHT::START_POSITION;
-    //     m_MoveArmToPos->SetTargetPosition(m_height, m_cargo, m_flip);
-    // }
-
     if (m_switcher->m_secondaryController->GetAButtonPressed())
     {
         m_height = PlacementHeights::PLACEMENT_HEIGHT::FLOOR;
-        m_MoveArmToPos->SetTargetPosition(m_height, m_cargo, m_flip);
+        m_second = false;
+        m_MoveArmToPos->SetTargetPosition(m_height, m_cargo, m_flip, m_second);
     }
     if (m_switcher->m_secondaryController->GetXButtonPressed())
     {
         m_height = PlacementHeights::PLACEMENT_HEIGHT::HUMAN_PLAYER;
-        m_MoveArmToPos->SetTargetPosition(m_height, m_cargo, m_flip);
+        m_second = true;
+        m_MoveArmToPos->SetTargetPosition(m_height, m_cargo, m_flip, m_second);
     }
     if (m_switcher->m_secondaryController->GetPOV() == 180)
     {
         m_height = PlacementHeights::PLACEMENT_HEIGHT::CARGOSHIP;
-        m_MoveArmToPos->SetTargetPosition(m_height, m_cargo, m_flip);
+        m_MoveArmToPos->SetTargetPosition(m_height, m_cargo, m_flip, m_second);
     }
     if (m_switcher->m_secondaryController->GetPOV() == 270)
     {
         m_height = PlacementHeights::PLACEMENT_HEIGHT::ROCKET_LOW;
-        m_MoveArmToPos->SetTargetPosition(m_height, m_cargo, m_flip);
+        m_MoveArmToPos->SetTargetPosition(m_height, m_cargo, m_flip, m_second);
     }
     if (m_switcher->m_secondaryController->GetPOV() == 0)
     {
         m_height = PlacementHeights::PLACEMENT_HEIGHT::ROCKET_MID;
-        m_MoveArmToPos->SetTargetPosition(m_height, m_cargo, m_flip);
+        m_MoveArmToPos->SetTargetPosition(m_height, m_cargo, m_flip, m_second);
     }
     if (m_switcher->m_secondaryController->GetPOV() == 90)
     {
         m_height = PlacementHeights::PLACEMENT_HEIGHT::ROCKET_HIGH;
-        m_MoveArmToPos->SetTargetPosition(m_height, m_cargo, m_flip);
-    }
-    if (m_switcher->m_secondaryController->GetBumperPressed(GenericHID::JoystickHand::kRightHand))
-    {
-        m_height = PlacementHeights::PLACEMENT_HEIGHT::HUMAN_PLAYER_HOLE;
-        m_MoveArmToPos->SetTargetPosition(m_height, m_cargo, m_flip);
+        m_MoveArmToPos->SetTargetPosition(m_height, m_cargo, m_flip, m_second);
     }
 }
 

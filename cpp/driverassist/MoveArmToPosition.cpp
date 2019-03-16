@@ -9,12 +9,13 @@ m_wrist( MechanismFactory::GetMechanismFactory()->GetWrist() )
     m_currentState = MOVE_STATE::DONE;
 }
 
-void MoveArmToPosition::SetTargetPosition(PlacementHeights::PLACEMENT_HEIGHT height, bool cargo, bool flip)
+void MoveArmToPosition::SetTargetPosition(PlacementHeights::PLACEMENT_HEIGHT height, bool cargo, bool flip, bool second)
 {
     m_currentState = MOVE_STATE::PULL_IN;
     m_targetPos = height;
     m_cargo = cargo;
     m_flip = flip;
+    m_second = second;
 }
 
 void MoveArmToPosition::Update()
@@ -31,15 +32,15 @@ void MoveArmToPosition::Update()
             break;
 
         case MOVE_STATE::MOVE_WIRST_ARM_TO_POS:
-            m_arm->MoveArmPreset(m_targetPos, m_cargo, m_flip);
-            m_wrist->MoveWristPresets(m_targetPos, m_cargo, m_flip);
+            m_arm->MoveArmPreset(m_targetPos, m_cargo, m_flip, m_second);
+            m_wrist->MoveWristPresets(m_targetPos, m_cargo, m_flip, m_second);
             if( std::abs(m_arm->GetArmRealAngle() - m_arm->GetArmTargetAngle()) < ARM_THRESH)
                 m_currentState = MOVE_STATE::PUSH_OUT;
             break;
 
         case MOVE_STATE::PUSH_OUT:
         {
-            m_arm->MoveExtentionPreset(m_targetPos, m_cargo, m_flip);
+            m_arm->MoveExtentionPreset(m_targetPos, m_cargo, m_flip, m_second);
             bool armDone = (std::abs(m_arm->GetArmRealAngle() - m_arm->GetArmTargetAngle()) < DONE_ARM_THRESH);
             bool wristDone = (std::abs(m_wrist->GetWristRealAngle() - m_wrist->GetWristTargetAngle()) < DONE_WRIST_THRESH);
             bool extendDone = std::abs(m_arm->GetExtenderRealInches() - m_arm->GetExtenderTargetInches()) < DONE_EXTEND_THRESH;

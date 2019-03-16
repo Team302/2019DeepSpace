@@ -53,5 +53,5 @@ class HatchMechanism : public IMechanism
         DragonTalon* m_motor;
 
         // opening/closing rotations
-        const double ROT = 0.8;
+        double m_openRots = 0.8;
 };

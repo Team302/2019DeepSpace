@@ -14,7 +14,6 @@ class PlacementHeights {
     START_POSITION,
     FLOOR,
     HUMAN_PLAYER,
-    HUMAN_PLAYER_HOLE,
     CARGOSHIP,
     ROCKET_LOW,
     ROCKET_MID,

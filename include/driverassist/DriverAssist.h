@@ -56,6 +56,7 @@ private:
     bool m_cargo;
     bool m_flip;
     PlacementHeights::PLACEMENT_HEIGHT m_height;
+    bool m_second;
 
     // Driver things
     const double HOLD_MODE_MAX_INCHES_PER_SECOND_TURNING = 5.0;

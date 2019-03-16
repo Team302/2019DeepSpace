@@ -15,7 +15,7 @@ class Wrist : public IMechanism {
  public:
   Wrist(std::vector<IDragonMotorController*> motorControllers);
 
-  void MoveWristPresets(PlacementHeights::PLACEMENT_HEIGHT height, bool cargo, bool flip);
+  void MoveWristPresets(PlacementHeights::PLACEMENT_HEIGHT height, bool cargo, bool flip, bool second);
   void MoveWristMotionMagic(double angle);
   void MoveWristManualSpeed(double speed);
   void MoveWristManualAngle(double angle);
@@ -45,12 +45,13 @@ class Wrist : public IMechanism {
     HATCH_KEEP_SAME = -1,
     HATCH_START_POSITION,
     HATCH_FLOOR,
-    HATCH_HP_BELOW,
+    HATCH_SECOND_HP,
     HATCH_LOW,
     HATCH_MID,
     HATCH_HIGH,
-    HATCH_HP_HOLE,
-    HATCH_HP_ABOVE,
+    HATCH_LOW_SECOND,
+    HATCH_MID_SECOND,
+    HATCH_HIGH_SECOND,
     MAX_HATCH_POS
   };
 
@@ -66,9 +67,8 @@ class Wrist : public IMechanism {
     CARGO_HIGH,
     MAX_CARGO_POS
   };//                                                       
-//                                 start  floor    hp     low     mid   high
-  double hatchAngle[MAX_HATCH_POS] = { 0, 51.38, -66.88, 150.40, 90.54, 27.54, 83.00, 00.00 };
-  //                               
+  //                                   0, 1,     2,      3,      4,     5,     6,     7, 8
+  double hatchAngle[MAX_HATCH_POS] = { 0, 51.38, -66.88, 150.40, 90.54, 27.54, 83.00, 0, 0 };                            
   double cargoAngle[MAX_CARGO_POS] = { 0, -56.1, 64.03, -41.5, 17.86, -32.0, -48.30 };
 
   // Talons

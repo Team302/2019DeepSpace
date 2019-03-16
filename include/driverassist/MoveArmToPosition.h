@@ -10,7 +10,7 @@ public:
     MoveArmToPosition();
     ~MoveArmToPosition() {};
 
-    void SetTargetPosition(PlacementHeights::PLACEMENT_HEIGHT height, bool cargo, bool flip);
+    void SetTargetPosition(PlacementHeights::PLACEMENT_HEIGHT height, bool cargo, bool flip, bool second);
     void Update();
     void Cancel();
     bool IsDone();
@@ -31,6 +31,7 @@ private:
     PlacementHeights::PLACEMENT_HEIGHT m_targetPos;
     bool m_cargo;
     bool m_flip;
+    bool m_second;
 
     // Mechanism
     Arm* m_arm;
