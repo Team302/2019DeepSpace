@@ -4,6 +4,7 @@ DeployGamePiece::DeployGamePiece() :
     m_arm(MechanismFactory::GetMechanismFactory()->GetArm()),
     m_wrist(MechanismFactory::GetMechanismFactory()->GetWrist()),
     m_intake(MechanismFactory::GetMechanismFactory()->GetIntake()),
+    m_hatchMech(MechanismFactory::GetMechanismFactory()->GetHatchMech()),
     m_elapsedTime(0.0),
     m_wristInitialAngle(0.0),
     m_angleOffset(0.0),
@@ -15,6 +16,12 @@ void DeployGamePiece::Update()
 {
     switch (m_state)
     {
+        case SECOND_MECH_DEPLOY:
+            m_hatchMech->SetState(false);
+            m_elapsedTime += 0.02;
+            if (m_elapsedTime > SECOND_MECH_DEPLOY_TIME)
+                m_state = DONE;
+        break;
         case MOVING_WRIST:
         {
             m_wrist->MoveWristMotionMagic(m_wristInitialAngle + m_angleOffset);
@@ -54,11 +61,18 @@ bool DeployGamePiece::IsDone()
     return m_state == DONE;
 }
 
-void DeployGamePiece::Deploy(bool cargo, bool flip, bool hatchPointingUp)
+void DeployGamePiece::Deploy(bool cargo, bool flip, bool hatchPointingUp, bool secondMech)
 {
-    m_state = cargo ? SHOOTING_CARGO : MOVING_WRIST;
-    m_wristInitialAngle = m_wrist->GetWristTargetAngle();
-    m_angleOffset = (flip != hatchPointingUp) ? WRIST_ANGLE_DELTA : -WRIST_ANGLE_DELTA;
+    if (secondMech)
+    {
+        m_state = SECOND_MECH_DEPLOY;
+    }
+    else
+    {
+        m_state = cargo ? SHOOTING_CARGO : MOVING_WRIST;
+        m_wristInitialAngle = m_wrist->GetWristTargetAngle();
+        m_angleOffset = (flip != hatchPointingUp) ? WRIST_ANGLE_DELTA : -WRIST_ANGLE_DELTA;
+    }
 }
 
 void DeployGamePiece::Cancel()

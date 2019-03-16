@@ -54,7 +54,7 @@ void HatchMechanism::SetState
     bool  open        // <I> - true  = open to allow grabbing or deploying hatch
 )                     //       false = close to hold hatch
 {
-    auto rotations = open ? 0 : m_openRots;
+    auto rotations = open ? m_openRots : 0;
     
     m_motor->SetControlMode(IDragonMotorController::DRAGON_CONTROL_MODE::ROTATIONS);
     m_motor->Set(rotations);

@@ -158,14 +158,14 @@ void Switcher::GamepieceUpdate(bool cargo)
     // m_arm->MoveExtensionInches(m_arm->GetExtenderTargetInches() + m_extendSpeed * 0.02);
     m_arm->MoveArmAngle(m_arm->GetArmTargetAngle() + armSpeed); // offset target angle by speed
 
-    if (m_mainController->GetPOV() == 90)
-    {
-        m_hatchMechanism->SetState(true);
-    }
-    else if (m_mainController->GetPOV() == 270)
-    {
-        m_hatchMechanism->SetState(false);
-    }
+    // if (m_mainController->GetPOV() == 90)
+    // {
+    //     m_hatchMechanism->SetState(true);
+    // }
+    // else if (m_mainController->GetPOV() == 270)
+    // {
+    //     m_hatchMechanism->SetState(false);
+    // }
     
 }
 

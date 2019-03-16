@@ -17,6 +17,7 @@ Driver assist contains all sub driver assist thingys and allocates teleop contro
 #include "teleop/Switcher.h"
 #include "driverassist/MoveArmToPosition.h"
 #include "driverassist/DeployGamePiece.h"
+#include "driverassist/IntakeGamePiece.h"
 #include "driverassist/HoldDrivePosition.h"
 #include "driverassist/TargetAllign.h"
 #include "driverassist/Climb.h"
@@ -41,16 +42,20 @@ private:
     Switcher* m_switcher;
     MoveArmToPosition* m_MoveArmToPos;
     DeployGamePiece* m_deployGamePiece;
+    IntakeGamePiece* m_intakeGamePiece;
     HoldDrivePosition* m_holdDrivePositon;
     TargetAllign* m_targetAllign;
     Climb* m_climb;
 
     // some bools
     bool m_deploy;
+    bool m_intake;
     bool m_climbMode;
     bool m_holdMode;
     bool m_visionMode;
     bool m_wristForcePercentOutput;
+    bool m_pMainControllerTriggerLeftHand; // previous bool values for triggers
+    bool m_pMainControllerTriggerRightHand;
 
     // helper Bools
     bool m_cargo;
@@ -61,4 +66,6 @@ private:
     // Driver things
     const double HOLD_MODE_MAX_INCHES_PER_SECOND_TURNING = 5.0;
     const double HOLD_MODE_MAX_INCHES_PER_SECOND_FORWARD = 24.0;
+
+    bool TriggerPressed(double value);
 };

@@ -384,7 +384,7 @@
         	   peakCurrentLimit="40" 
         	   currentLimiting="true"/>
 		<mechanismData paramType="HATCH_MECH_OPEN_ROTATIONS"
-					   value="0.8"/>		
+					   value="0.78"/>		
 
 		<PID mode="1"
 			 proportional="5.0"/>

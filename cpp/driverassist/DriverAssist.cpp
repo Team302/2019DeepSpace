@@ -14,14 +14,18 @@ DriverAssist::DriverAssist() : m_chassis(DragonChassis::GetInstance()),
                                m_switcher(new Switcher()),
                                m_MoveArmToPos(new MoveArmToPosition()),
                                m_deployGamePiece(new DeployGamePiece()),
+                               m_intakeGamePiece(new IntakeGamePiece()),
                                m_holdDrivePositon(new HoldDrivePosition()),
                                m_targetAllign(new TargetAllign()),
                                m_climb(new Climb()),
                                m_deploy(false),
+                               m_intake(false),
                                m_climbMode(false),
                                m_holdMode(false),
                                m_visionMode(false),
                                m_wristForcePercentOutput(false),
+                               m_pMainControllerTriggerLeftHand(false),
+                               m_pMainControllerTriggerRightHand(false),
                                m_cargo(false),
                                m_flip(false),
                                m_height(PlacementHeights::PLACEMENT_HEIGHT::FLOOR),
@@ -88,11 +92,16 @@ void DriverAssist::Update()
             // printf("movearmtopos is done\n");
             if (m_deploy)
             {
-                m_deployGamePiece->Deploy(m_cargo, false, true);
+                m_deployGamePiece->Deploy(m_cargo, m_flip, true, m_second);
                 m_deploy = false;
             }
+            else if (m_intake)
+            {
+                m_intakeGamePiece->IntakeGameObject(m_cargo, m_flip, m_second);
+                m_intake = false;
+            }
 
-            if (m_deployGamePiece->IsDone())
+            if (m_deployGamePiece->IsDone() && m_intakeGamePiece->IsDone())
             {
                 // printf("deploy game piece is done (run gamepiece update)\n");
                 m_switcher->GamepieceUpdate(m_cargo);
@@ -102,6 +111,7 @@ void DriverAssist::Update()
     
     m_MoveArmToPos->Update();
     m_deployGamePiece->Update();
+    m_intakeGamePiece->Update();
     m_climb->Update();
     m_chassis->UpdateChassis();
 
@@ -117,6 +127,8 @@ void DriverAssist::UpdateSecondaryControls()
 {
     if (m_switcher->m_secondaryController->GetBumperPressed(frc::GenericHID::JoystickHand::kLeftHand))
         m_deploy = true;
+    if (m_switcher->m_secondaryController->GetBumperPressed(frc::GenericHID::JoystickHand::kRightHand))
+        m_intake = true;
     if (m_switcher->m_secondaryController->GetBButtonPressed())
         m_flip = !m_flip;
     if (m_switcher->m_secondaryController->GetYButtonPressed())
@@ -158,24 +170,34 @@ void DriverAssist::UpdateSecondaryControls()
 
 void DriverAssist::UpdateDriverControls()
 {
-    if (m_switcher->m_mainController->GetBumperPressed(frc::GenericHID::JoystickHand::kLeftHand))
+    if (m_second)
+    {
+        if (m_switcher->m_mainController->GetBumperPressed(frc::GenericHID::JoystickHand::kLeftHand))
+            // m_deploy = true;
+            m_intake = true;
+
+        if (m_switcher->m_mainController->GetBumperPressed(frc::GenericHID::JoystickHand::kRightHand))
+            // m_intake = true;
+            m_deploy = true;
+    }
+    if (DriverAssist::TriggerPressed(DriverAssist::TriggerPressed(m_switcher->m_mainController->GetTriggerAxis(frc::GenericHID::JoystickHand::kLeftHand))) && !m_pMainControllerTriggerLeftHand)
     {
         m_visionMode = true;
         m_holdMode = false;
         m_targetAllign->Init();
     }
-    else if (m_switcher->m_mainController->GetBumperReleased(frc::GenericHID::JoystickHand::kLeftHand))
+    else if (!DriverAssist::TriggerPressed(DriverAssist::TriggerPressed(m_switcher->m_mainController->GetTriggerAxis(frc::GenericHID::JoystickHand::kLeftHand))) && m_pMainControllerTriggerLeftHand)
     {
         m_visionMode = false;
     }
 
-    if(m_switcher->m_mainController->GetBumperPressed(frc::GenericHID::JoystickHand::kRightHand))
+    if (DriverAssist::TriggerPressed(DriverAssist::TriggerPressed(m_switcher->m_mainController->GetTriggerAxis(frc::GenericHID::JoystickHand::kRightHand))) && !m_pMainControllerTriggerRightHand)
     {
         m_holdMode = true;
         m_visionMode = false;
         m_holdDrivePositon->ResetLeftRightTargetPosition();
     }
-    else if (m_switcher->m_mainController->GetBumperReleased(frc::GenericHID::JoystickHand::kRightHand))
+    else if (DriverAssist::TriggerPressed(!DriverAssist::TriggerPressed(m_switcher->m_mainController->GetTriggerAxis(frc::GenericHID::JoystickHand::kRightHand))) && m_pMainControllerTriggerRightHand)
     {
         m_holdMode = false;
     }
@@ -214,6 +236,9 @@ void DriverAssist::UpdateDriverControls()
     {
         m_switcher->DriveUpdate();
     }
+
+    m_pMainControllerTriggerLeftHand = DriverAssist::TriggerPressed(m_switcher->m_mainController->GetTriggerAxis(frc::GenericHID::JoystickHand::kLeftHand));
+    m_pMainControllerTriggerRightHand = DriverAssist::TriggerPressed(m_switcher->m_mainController->GetTriggerAxis(frc::GenericHID::JoystickHand::kRightHand));
 }
 
 void DriverAssist::AttemptingGamePieceCancel()
@@ -233,4 +258,9 @@ void DriverAssist::AttemptingDriveCancel()
     // Global cancel
     // if(m_switcher->m_secondaryController->GetBumperPressed(frc::GenericHID::JoystickHand::kLeftHand))
     // m_approachTarget->Cancel();
+}
+
+bool DriverAssist::TriggerPressed(double value)
+{
+    return value > 0.75;
 }

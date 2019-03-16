@@ -14,9 +14,10 @@
 
 
 IntakeGamePiece::IntakeGamePiece() :
-    m_arm(dynamic_cast<Arm*>(MechanismFactory::GetMechanismFactory()->GetIMechanism(IMechanism::MECHANISM_TYPE::ARM))),
-    m_wrist(dynamic_cast<Wrist*>(MechanismFactory::GetMechanismFactory()->GetIMechanism(IMechanism::MECHANISM_TYPE::WRIST))),
-    m_intake(dynamic_cast<Intake*>(MechanismFactory::GetMechanismFactory()->GetIMechanism(IMechanism::MECHANISM_TYPE::INTAKE))),
+    m_arm(MechanismFactory::GetMechanismFactory()->GetArm()),
+    m_wrist(MechanismFactory::GetMechanismFactory()->GetWrist()),
+    m_intake(MechanismFactory::GetMechanismFactory()->GetIntake()),
+    m_hatchMech(MechanismFactory::GetMechanismFactory()->GetHatchMech()),
     m_elapsedTime(0.0),
     m_armInitialAngle(0.0),
     m_armAngleOffset(0.0),
@@ -29,6 +30,14 @@ void IntakeGamePiece::Update()
 {
     switch (m_state)
     {
+        case INTAKE_SECOND_MECH:
+            m_hatchMech->SetState(true);
+            m_elapsedTime += 0.02;
+            if (m_elapsedTime > HATCH_SECOND_MECH_TIME)
+            {
+                m_state = DONE;
+            }
+            break;
         case MOVING_ARM_AND_INTAKE_CARGO:
             m_arm->MoveArmMotionMagic(m_armInitialAngle + m_armAngleOffset);
             if (std::abs(m_arm->GetArmRealAngle() - m_arm->GetArmTargetAngle()) < ARM_INTAKE_THRESH)
@@ -73,11 +82,15 @@ bool IntakeGamePiece::IsDone()
     return m_state == DONE;
 }
 
-void IntakeGamePiece::IntakeGameObject(bool cargo, bool flip)
+void IntakeGamePiece::IntakeGameObject(bool cargo, bool flip, bool secondMech)
 {
-    m_state = cargo ? MOVING_ARM_AND_INTAKE_CARGO : MOVING_ARM_AND_INTAKE_HATCH;
-    m_armAngleOffset = cargo ? ARM_ANGLE_CARGO_DELTA : ARM_ANGLE_HATCH_DELTA;
-    m_armAngleOffset = flip ? -m_armAngleOffset : m_armAngleOffset;
+    // m_state = cargo ? MOVING_ARM_AND_INTAKE_CARGO : MOVING_ARM_AND_INTAKE_HATCH;
+    // m_armAngleOffset = cargo ? ARM_ANGLE_CARGO_DELTA : ARM_ANGLE_HATCH_DELTA;
+    // m_armAngleOffset = flip ? -m_armAngleOffset : m_armAngleOffset;
+    if (secondMech)
+    {
+        m_state = INTAKE_SECOND_MECH;
+    }
 }
 
 void IntakeGamePiece::Cancel()
