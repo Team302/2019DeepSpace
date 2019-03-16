@@ -21,18 +21,20 @@
 // Description: This creates this object and reads the auto script (CSV)
 //  			files and displays a list on the dashboard.
 //---------------------------------------------------------------------
-AutonSelector::AutonSelector() : m_leftXMLFiles(),
+AutonSelector::AutonSelector() : m_leftL1XMLFiles(),
+								 m_leftL2XMLFiles(),
 								 m_centerXMLFiles(),
-								 m_rightXMLFiles(),
+								 m_rightL1XMLFiles(),
+								 m_rightL2XMLFiles(),
 								 m_chooserOptions(),
 								 m_chooserPosition(),
-								 m_chooserLeft(),
+								 m_chooserLeftHABL1(),
+								 m_chooserLeftHABL2(),
 								 m_chooserCenter(),
-								 m_chooserRight(),
+								 m_chooserRightHABL1(),
+								 m_chooserRightHABL2(),
 								 m_autonPositionModifier( "" ),
 								 m_autonOption( "CrossAutonLine.xml")
-//									 m_autonOption( "LeftCorner_PlaceLeftScale.xml")
-
 {
 	FindXMLFileNames();
 	PutChoicesOnDashboard();
@@ -54,58 +56,48 @@ std::string AutonSelector::GetSelectedAutoFile()
 
 	bool hasError = false;
 
-	// Get FMS data
-	FMS* fms = FMS::GetFMS();
-	FMS::POS switchPos = (fms != nullptr ) ? fms->GetSwitchPos() : FMS::UNKNOWN;
-	FMS::POS scalePos = (fms != nullptr ) ? fms->GetScalePos() : FMS::UNKNOWN;
-
-	if ( switchPos == FMS::UNKNOWN )
-	{
-		hasError = true;
-		printf( "==>> Didn't read FMS Switch Information (if not in competition, set on the Driver Station) \n " );
-	}
-	if ( scalePos == FMS::UNKNOWN )
-	{
-		hasError = true;
-		printf( "==>> Didn't read FMS Scale Information (if not in competition, set on the Driver Station) \n " );
-	}
-	int fmsSwitch = ( switchPos == FMS::LEFT ) ? 0 : 1;
-	int fmsScale = ( scalePos == FMS::LEFT ) ? 0 : 10;
-
-
 	// Get Starting Location and strategy
 	AutonSelector::AUTON_POSITION  position = GetRobotStartPosition();
-	int posOpt = 100 * position;
 
 	// Handle the strategy
 	AutonSelector::AUTON_OPTION strategy = GetDesiredOption();
 
-	int state = (fmsSwitch + fmsScale + posOpt);
 	switch ( strategy )
 	{
-		  case AutonSelector::CROSS_LINE:
-			  autonFile = GetCrossLineFile( state );
+		  case AutonSelector::AUTON_OPTION::CROSS_LINE:
+			  autonFile = GetCrossLineFile( position );
 			  break;
 
-		  case AutonSelector::SWITCH:
-			  autonFile = GetSwitchFile( state );
+		  case AutonSelector::AUTON_OPTION::CARGO_LEFT_FRONT:
+			  autonFile = GetLeftCargoFile( position, AutonSelector::HATCH_POSITION::CFRONT );
 			  break;
 
-		  case AutonSelector::SCALE:
-			  autonFile = GetScaleFile( state );
+		  case AutonSelector::AUTON_OPTION::CARGO_RIGHT_FRONT:
+			  autonFile = GetRightCargoFile( position, AutonSelector::HATCH_POSITION::CFRONT );
 			  break;
 
-		  case AutonSelector::SWITCH_SCALE:
-			  autonFile = GetSwitchScaleFile( state );
+		  case AutonSelector::AUTON_OPTION::ROCKET_LEFT_LOW:
+			  autonFile = GetLeftRocketFile( position, AutonSelector::HATCH_POSITION::RLOW );
 			  break;
 
-		  case AutonSelector::SCALE_ONE_CUBE_BACKUP:
-			  autonFile = GetScaleBackUpFile( state );
+		  case AutonSelector::AUTON_OPTION::ROCKET_LEFT_MED:
+			  autonFile = GetLeftRocketFile( position, AutonSelector::HATCH_POSITION::RMID );
 			  break;
 
-		  case AutonSelector::SMART:
-			  hasError = true;  // not implemented
-			 // hasError = ProcessSmartOptions( position, switchPos, scalePos );
+		  case AutonSelector::AUTON_OPTION::ROCKET_LEFT_HIGH:
+			  autonFile = GetLeftRocketFile( position, AutonSelector::HATCH_POSITION::RHIGH );
+			  break;
+
+		  case AutonSelector::AUTON_OPTION::ROCKET_RIGHT_LOW:
+			  autonFile = GetRightRocketFile( position, AutonSelector::HATCH_POSITION::RLOW );
+			  break;
+
+		  case AutonSelector::AUTON_OPTION::ROCKET_RIGHT_MED:
+			  autonFile = GetRightRocketFile( position, AutonSelector::HATCH_POSITION::RMID );
+			  break;
+
+		  case AutonSelector::AUTON_OPTION::ROCKET_RIGHT_HIGH:
+			  autonFile = GetRightRocketFile( position, AutonSelector::HATCH_POSITION::RHIGH );
 			  break;
 
 		  default:
@@ -116,7 +108,7 @@ std::string AutonSelector::GetSelectedAutoFile()
 
 	if ( hasError )
 	{
-		autonFile = GetCrossLineFile( state );
+		autonFile = GetCrossLineFile( position );
 	}
 	autonFile = m_autonDir + autonFile;
 
@@ -134,354 +126,180 @@ std::string AutonSelector::GetSelectedAutoFile()
 //---------------------------------------------------------------------
 std::string AutonSelector::GetCrossLineFile
 (
-	int state			// <I> - FIELD_STATE enum value from the AutonSelector.h
+	AutonSelector::AUTON_POSITION pos		// <I> - 
 )
 {
 	std::string file;
-
-	// TODO:  need new auton files so we don't cream the cubes from the center position
-	switch ( state )
+	switch ( pos )
 	{
-		case LEFTSWITCH_LEFTSCALE_LEFT:
-		case RIGHTSWITCH_LEFTSCALE_LEFT:
-		case LEFTSWITCH_RIGHTSCALE_LEFT:
-		case RIGHTSWITCH_RIGHTSCALE_LEFT:
-			file = "CrossAutonLine.xml";
+		case AutonSelector::AUTON_POSITION::LEFT_HAB_L1:
+		case AutonSelector::AUTON_POSITION::CENTER_HAB_L1:
+		case AutonSelector::AUTON_POSITION::RIGHT_HAB_L1:
+			file = "CrossAutonLine.xml";		// TODO:: need file name for Level 1 
 			break;
-
-		case LEFTSWITCH_LEFTSCALE_CENTER:
-		case RIGHTSWITCH_LEFTSCALE_CENTER:
-		case LEFTSWITCH_RIGHTSCALE_CENTER:
-		case RIGHTSWITCH_RIGHTSCALE_CENTER:
-			file = "CrossAutonLine.xml";
+		case AutonSelector::AUTON_POSITION::LEFT_HAB_L2:
+		case AutonSelector::AUTON_POSITION::RIGHT_HAB_L2:
+			file = "CrossAutonLine.xml";		// TODO:: need file name for Level 2
 			break;
-
-		case LEFTSWITCH_LEFTSCALE_RIGHT:
-		case RIGHTSWITCH_LEFTSCALE_RIGHT:
-		case LEFTSWITCH_RIGHTSCALE_RIGHT:
-		case RIGHTSWITCH_RIGHTSCALE_RIGHT:
-			file = "CrossAutonLine.xml";
-			break;
-
 		default:
-			printf( "==>> AutonSelector::GetCrossLineFile ... invalid state %d \n", state );
+			printf( "==>> AutonSelector::GetCrossLineFile ... invalid position %d \n", pos );
 			file = "CrossAutonLine.xml";
 			break;
-
 	}
-
 	return file;
 }
 
+
 //---------------------------------------------------------------------
-// Method: 		GetSwitchFile
-// Description: This determines which Switch file to run based on starting
-//				position and FMS feedback
+// Method: 		GetLeftCargoFile
+// Description: This determines which Left Cargo Ship file to run based on starting
+//				position 
 // Returns:		std::string		filename to run
 //---------------------------------------------------------------------
-std::string AutonSelector::GetSwitchFile
+std::string AutonSelector::GetLeftCargoFile
 (
-	int state			// <I> - FIELD_STATE enum value from the AutonSelector.h
+	AutonSelector::AUTON_POSITION pos,	// <I> - starting position
+	AutonSelector::HATCH_POSITION loc   // <I> - placing location
 )
 {
 	std::string file;
-	switch ( state )
+	switch ( pos )
 	{
-		case LEFTSWITCH_LEFTSCALE_LEFT:
-			file = "LeftCorner_PlaceLeftSwitch.xml";
+		case AutonSelector::AUTON_POSITION::LEFT_HAB_L1:
+			file = "CrossAutonLine.xml";		// TODO:: need file name
 			break;
-
-		case RIGHTSWITCH_LEFTSCALE_LEFT:
-			file = "LeftCorner_PlaceRightSwitch.xml";
+		case AutonSelector::AUTON_POSITION::LEFT_HAB_L2:
+			file = "CrossAutonLine.xml";		// TODO:: need file name
 			break;
-
-		case LEFTSWITCH_RIGHTSCALE_LEFT:
-			file = "LeftCorner_PlaceLeftSwitch.xml";
+		case AutonSelector::AUTON_POSITION::CENTER_HAB_L1:
+			file = "CrossAutonLine.xml";		// TODO:: need file name
 			break;
-
-		case RIGHTSWITCH_RIGHTSCALE_LEFT:
-			file = "LeftCorner_PlaceRightSwitch.xml";
+		case AutonSelector::AUTON_POSITION::RIGHT_HAB_L1:
+			file = "CrossAutonLine.xml";		// TODO:: need file name
 			break;
-
-		case LEFTSWITCH_LEFTSCALE_CENTER:
-			file = "Center_PlaceLeftSwitch.xml";
+		case AutonSelector::AUTON_POSITION::RIGHT_HAB_L2:
+			file = "CrossAutonLine.xml";		// TODO:: need file name
 			break;
-
-		case RIGHTSWITCH_LEFTSCALE_CENTER:
-			file = "Center_PlaceRightSwitch.xml";
-			break;
-
-		case LEFTSWITCH_RIGHTSCALE_CENTER:
-			file = "Center_PlaceLeftSwitch.xml";
-			break;
-
-		case RIGHTSWITCH_RIGHTSCALE_CENTER:
-			file = "Center_PlaceRightSwitch.xml";
-			break;
-
-		case LEFTSWITCH_LEFTSCALE_RIGHT:
-			file = "RightCorner_PlaceLeftSwitch.xml";
-			break;
-
-		case RIGHTSWITCH_LEFTSCALE_RIGHT:
-			file = "RightCorner_PlaceRightSwitch.xml";
-			break;
-
-		case LEFTSWITCH_RIGHTSCALE_RIGHT:
-			file = "RightCorner_PlaceLeftSwitch.xml";
-			break;
-
-		case RIGHTSWITCH_RIGHTSCALE_RIGHT:
-			file = "RightCorner_PlaceRightSwitch.xml";
-			break;
-
 		default:
-			printf( "==>> AutonSelector::GetCrossLineFile ... invalid state %d \n", state );
+			printf( "==>> AutonSelector::GetCrossLineFile ... invalid position %d \n", pos );
 			file = "CrossAutonLine.xml";
 			break;
 	}
-
 	return file;
 }
 
 //---------------------------------------------------------------------
-// Method: 		GetScaleFile
-// Description: This determines which Scale file to run based on starting
-//				position and FMS feedback
+// Method: 		GetRightCargoFile
+// Description: This determines which Right Cargo Ship file to run based on starting
+//				position 
 // Returns:		std::string		filename to run
 //---------------------------------------------------------------------
-std::string AutonSelector::GetScaleFile
+std::string AutonSelector::GetRightCargoFile
 (
-	int state			// <I> - FIELD_STATE enum value from the AutonSelector.h
+	AutonSelector::AUTON_POSITION pos,	// <I> - starting position
+	AutonSelector::HATCH_POSITION loc   // <I> - placing location
 )
 {
 	std::string file;
-	switch ( state )
+	switch ( pos )
 	{
-		case LEFTSWITCH_LEFTSCALE_LEFT:
-			file = "LeftCorner_PlaceLeftScale.xml";
+		case AutonSelector::AUTON_POSITION::LEFT_HAB_L1:
+			file = "CrossAutonLine.xml";		// TODO:: need file name
 			break;
-
-		case RIGHTSWITCH_LEFTSCALE_LEFT:
-			file = "LeftCorner_PlaceLeftScale.xml";
+		case AutonSelector::AUTON_POSITION::LEFT_HAB_L2:
+			file = "CrossAutonLine.xml";		// TODO:: need file name
 			break;
-
-		case LEFTSWITCH_RIGHTSCALE_LEFT:
-			file = "LeftCorner_PlaceRightScale.xml";
+		case AutonSelector::AUTON_POSITION::CENTER_HAB_L1:
+			file = "CrossAutonLine.xml";		// TODO:: need file name
 			break;
-
-		case RIGHTSWITCH_RIGHTSCALE_LEFT:
-			file = "LeftCorner_PlaceRightScale.xml";
+		case AutonSelector::AUTON_POSITION::RIGHT_HAB_L1:
+			file = "CrossAutonLine.xml";		// TODO:: need file name
 			break;
-
-		case LEFTSWITCH_LEFTSCALE_CENTER:
-			file = "Center_PlaceLeftScale.xml";
+		case AutonSelector::AUTON_POSITION::RIGHT_HAB_L2:
+			file = "CrossAutonLine.xml";		// TODO:: need file name
 			break;
-
-		case RIGHTSWITCH_LEFTSCALE_CENTER:
-			file = "Center_PlaceLeftScale.xml";
-			break;
-
-		case LEFTSWITCH_RIGHTSCALE_CENTER:
-			file = "Center_PlaceRighttScale.xml";
-			break;
-
-		case RIGHTSWITCH_RIGHTSCALE_CENTER:
-			file = "Center_PlaceRightScale.xml";
-			break;
-
-		case LEFTSWITCH_LEFTSCALE_RIGHT:
-			file = "RightCorner_PlaceLeftScale.xml";
-			break;
-
-		case RIGHTSWITCH_LEFTSCALE_RIGHT:
-			file = "RightCorner_PlaceLeftScale.xml";
-			break;
-
-		case LEFTSWITCH_RIGHTSCALE_RIGHT:
-			file = "RightCorner_PlaceRightScale.xml";
-			break;
-
-		case RIGHTSWITCH_RIGHTSCALE_RIGHT:
-			file = "RightCorner_PlaceRightScale.xml";
-			break;
-
 		default:
-			printf( "==>> AutonSelector::GetCrossLineFile ... invalid state %d \n", state );
+			printf( "==>> AutonSelector::GetCrossLineFile ... invalid position %d \n", pos );
 			file = "CrossAutonLine.xml";
 			break;
 	}
-
 	return file;
 }
 
-
 //---------------------------------------------------------------------
-// Method: 		GetSwitchFile
-// Description: This determines which Switch file to run based on starting
-//				position and FMS feedback
+// Method: 		GetLeftRocketFile
+// Description: This determines which Left Rocket file to run based on starting
+//				position
 // Returns:		std::string		filename to run
 //---------------------------------------------------------------------
-std::string AutonSelector::GetSwitchScaleFile
+std::string AutonSelector::GetLeftRocketFile
 (
-	int state			// <I> - FIELD_STATE enum value from the AutonSelector.h
+	AutonSelector::AUTON_POSITION pos,	// <I> - starting position
+	AutonSelector::HATCH_POSITION loc   // <I> - placing location
 )
 {
 	std::string file;
-	switch ( state )
+	switch ( pos )
 	{
-		case LEFTSWITCH_LEFTSCALE_LEFT:
-			file = "LeftCorner_PlaceLeftScale.xml"; //TODO: this is temporary
+		case AutonSelector::AUTON_POSITION::LEFT_HAB_L1:
+			file = "CrossAutonLine.xml";		// TODO:: need file name
 			break;
-
-		case RIGHTSWITCH_LEFTSCALE_LEFT:
-			file = "LeftCorner_PlaceLeftScale.xml";//TODO: this is temporary
+		case AutonSelector::AUTON_POSITION::LEFT_HAB_L2:
+			file = "CrossAutonLine.xml";		// TODO:: need file name
 			break;
-
-		case LEFTSWITCH_RIGHTSCALE_LEFT:
-			file = "LeftCorner_Halfway.xml";//TODO: this is temporary
+		case AutonSelector::AUTON_POSITION::CENTER_HAB_L1:
+			file = "CrossAutonLine.xml";		// TODO:: need file name
 			break;
-
-		case RIGHTSWITCH_RIGHTSCALE_LEFT:
-			file = "LeftCorner_Halfway.xml";//TODO: this is temporary
+		case AutonSelector::AUTON_POSITION::RIGHT_HAB_L1:
+			file = "CrossAutonLine.xml";		// TODO:: need file name
 			break;
-
-		case LEFTSWITCH_LEFTSCALE_CENTER:
-			file = "Center_PlaceLeftSwitchLeftScale.xml";
+		case AutonSelector::AUTON_POSITION::RIGHT_HAB_L2:
+			file = "CrossAutonLine.xml";		// TODO:: need file name
 			break;
-
-		case RIGHTSWITCH_LEFTSCALE_CENTER:
-			file = "Center_PlaceRightSwitchLeftScale.xml";
-			break;
-
-		case LEFTSWITCH_RIGHTSCALE_CENTER:
-			file = "Center_PlaceLeftSwitchRightScale.xml";
-			break;
-
-		case RIGHTSWITCH_RIGHTSCALE_CENTER:
-			file = "Center_PlaceRightSwitchRightScale.xml";
-			break;
-
-		case LEFTSWITCH_LEFTSCALE_RIGHT:
-			file = "RightCorner_Halfway.xml";//TODO: this is temporary
-			break;
-
-		case RIGHTSWITCH_LEFTSCALE_RIGHT:
-			file = "RightCorner_Halfway.xml";//TODO: this is temporary
-			break;
-
-		case LEFTSWITCH_RIGHTSCALE_RIGHT:
-			file = "RightCorner_PlaceRightScale.xml";//TODO: this is temporary
-			break;
-
-		case RIGHTSWITCH_RIGHTSCALE_RIGHT:
-			file = "RightCorner_PlaceRightScale.xml";//TODO: this is temporary
-			break;
-
 		default:
-			printf( "==>> AutonSelector::GetCrossLineFile ... invalid state %d \n", state );
+			printf( "==>> AutonSelector::GetCrossLineFile ... invalid position %d \n", pos );
 			file = "CrossAutonLine.xml";
 			break;
 	}
-
 	return file;
 }
 
 //---------------------------------------------------------------------
-// Method: 		GetScaleFile
-// Description: This determines which Scale file to run based on starting
-//				position and FMS feedback
+// Method: 		GetRightRocketFile
+// Description: This determines which Right Rocket file to run based on starting
+//				position
 // Returns:		std::string		filename to run
 //---------------------------------------------------------------------
-std::string AutonSelector::GetScaleBackUpFile
+std::string AutonSelector::GetRightRocketFile
 (
-	int state			// <I> - FIELD_STATE enum value from the AutonSelector.h
+	AutonSelector::AUTON_POSITION pos,	// <I> - starting position
+	AutonSelector::HATCH_POSITION loc   // <I> - placing location
 )
 {
 	std::string file;
-	switch ( state )
+	switch ( pos )
 	{
-		case LEFTSWITCH_LEFTSCALE_LEFT:
-			file = "LeftCorner_PlaceLeftScaleBackUp.xml";
+		case AutonSelector::AUTON_POSITION::LEFT_HAB_L1:
+			file = "CrossAutonLine.xml";		// TODO:: need file name
 			break;
-
-		case RIGHTSWITCH_LEFTSCALE_LEFT:
-			file = "LeftCorner_PlaceLeftScaleBackUp.xml";
+		case AutonSelector::AUTON_POSITION::LEFT_HAB_L2:
+			file = "CrossAutonLine.xml";		// TODO:: need file name
 			break;
-
-		case LEFTSWITCH_RIGHTSCALE_LEFT:
-			file = "LeftCorner_PlaceRightScale.xml";
+		case AutonSelector::AUTON_POSITION::CENTER_HAB_L1:
+			file = "CrossAutonLine.xml";		// TODO:: need file name
 			break;
-
-		case RIGHTSWITCH_RIGHTSCALE_LEFT:
-			file = "LeftCorner_PlaceRightScale.xml";
+		case AutonSelector::AUTON_POSITION::RIGHT_HAB_L1:
+			file = "CrossAutonLine.xml";		// TODO:: need file name
 			break;
-
-		case LEFTSWITCH_LEFTSCALE_CENTER:
-			file = "Center_PlaceLeftScale.xml";
+		case AutonSelector::AUTON_POSITION::RIGHT_HAB_L2:
+			file = "CrossAutonLine.xml";		// TODO:: need file name
 			break;
-
-		case RIGHTSWITCH_LEFTSCALE_CENTER:
-			file = "Center_PlaceLeftScale.xml";
-			break;
-
-		case LEFTSWITCH_RIGHTSCALE_CENTER:
-			file = "Center_PlaceRighttScale.xml";
-			break;
-
-		case RIGHTSWITCH_RIGHTSCALE_CENTER:
-			file = "Center_PlaceRightScale.xml";
-			break;
-
-		case LEFTSWITCH_LEFTSCALE_RIGHT:
-			file = "RightCorner_PlaceLeftScale.xml";
-			break;
-
-		case RIGHTSWITCH_LEFTSCALE_RIGHT:
-			file = "RightCorner_PlaceLeftScale.xml";
-			break;
-
-		case LEFTSWITCH_RIGHTSCALE_RIGHT:
-			file = "RightCorner_PlaceRightScaleBackUp.xml";
-			break;
-
-		case RIGHTSWITCH_RIGHTSCALE_RIGHT:
-			file = "RightCorner_PlaceRightScaleBackUp.xml";
-			break;
-
 		default:
-			printf( "==>> AutonSelector::GetCrossLineFile ... invalid state %d \n", state );
+			printf( "==>> AutonSelector::GetCrossLineFile ... invalid position %d \n", pos );
 			file = "CrossAutonLine.xml";
 			break;
-	}
-
+	}	
 	return file;
-}
-
-
-bool AutonSelector::ProcessSmartOptions
-(
-	AUTON_POSITION		position,				    // <I> - robot starting position
-	FMS::POS			switchPos,					// <I> - FMS setting for our switch
-	FMS::POS			scalePos					// <I> - FMS setting for the scale
-)
-{
-	bool hasError = false;
-	switch ( position )
-	{
-		case AutonSelector::LEFT_CORNER:
-			break;
-
-		case AutonSelector::CENTER:
-			break;
-
-		case AutonSelector::RIGHT_CORNER:
-			break;
-		default:
-			break;
-	}
-
-	return hasError;
 }
 
 
@@ -492,20 +310,28 @@ bool AutonSelector::ProcessSmartOptions
 //---------------------------------------------------------------------
 AutonSelector::AUTON_POSITION AutonSelector::GetRobotStartPosition()
 {
-	AutonSelector::AUTON_POSITION position = AUTON_POSITION::LEFT_CORNER;
+	AutonSelector::AUTON_POSITION position = AutonSelector::AUTON_POSITION::LEFT_HAB_L1;
 
 	auto selection = m_chooserPosition.GetSelected();
-	if ( selection.compare( LEFT_CORNER_STR ) == 0 )
+	if ( selection.compare( LEFT_HAB_L1_STR ) == 0 )
 	{
-		position = AutonSelector::LEFT_CORNER;
+		position = AutonSelector::AUTON_POSITION::LEFT_HAB_L1;
 	}
-	else if ( selection.compare( RIGHT_CORNER_STR ) == 0  )
+	else if ( selection.compare( LEFT_HAB_L2_STR ) == 0  )
 	{
-		position = AutonSelector::RIGHT_CORNER;
+		position = AutonSelector::AUTON_POSITION::LEFT_HAB_L2;
+	}
+	else if ( selection.compare( RIGHT_HAB_L1_STR ) == 0  )
+	{
+		position = AutonSelector::AUTON_POSITION::RIGHT_HAB_L1;
+	}
+	else if ( selection.compare( RIGHT_HAB_L2_STR ) == 0  )
+	{
+		position = AutonSelector::AUTON_POSITION::RIGHT_HAB_L2;
 	}
 	else
 	{
-		position = AutonSelector::CENTER;
+		position = AutonSelector::AUTON_POSITION::CENTER_HAB_L1;
 	}
 	return position;
 }
@@ -517,33 +343,49 @@ AutonSelector::AUTON_POSITION AutonSelector::GetRobotStartPosition()
 //---------------------------------------------------------------------
 AutonSelector::AUTON_OPTION AutonSelector::GetDesiredOption()
 {
-	AutonSelector::AUTON_OPTION option = AUTON_OPTION::CROSS_LINE;
+	AutonSelector::AUTON_OPTION option = AutonSelector::AUTON_OPTION::CROSS_LINE;
 
 	std::string selection = m_chooserOptions.GetSelected();
 	frc::SmartDashboard::PutString("selected auton: ", selection);
 	if ( selection.compare( CROSS_AUTON_LINE_STR ) == 0 )
 	{
-		option = AutonSelector::CROSS_LINE;
+		option = AutonSelector::AUTON_OPTION::CROSS_LINE;
 	}
-	else if ( selection.compare( PLACE_IN_SWITCH_STR ) == 0 )
+	else if ( selection.compare( HATCH_CARGO_FRONT_LEFT_STR ) == 0 )
 	{
-		option = AutonSelector::SWITCH;
+		option = AutonSelector::AUTON_OPTION::CARGO_LEFT_FRONT;
 	}
-	else if ( selection.compare( PLACE_ON_SCALE_STR ) == 0 )
+	else if ( selection.compare( HATCH_CARGO_FRONT_RIGHT_STR ) == 0 )
 	{
-		option = AutonSelector::SCALE;
+		option = AutonSelector::AUTON_OPTION::CARGO_RIGHT_FRONT;
+	}	
+	else if ( selection.compare( ROCKET_LEFT_LOW_STR ) == 0 )
+	{
+		option = AutonSelector::AUTON_OPTION::ROCKET_LEFT_LOW;
+	}	
+	else if ( selection.compare( ROCKET_LEFT_MID_STR ) == 0 )
+	{
+		option = AutonSelector::AUTON_OPTION::ROCKET_LEFT_MED;
+	}	
+	else if ( selection.compare( ROCKET_LEFT_HIGH_STR ) == 0 )
+	{
+		option = AutonSelector::AUTON_OPTION::ROCKET_LEFT_HIGH;
 	}
-	else if ( selection.compare( PLACE_ON_SWITCH_SCALE_STR ) == 0 )
+	else if ( selection.compare( ROCKET_RIGHT_LOW_STR ) == 0 )
 	{
-		option = AutonSelector::SWITCH_SCALE;
-	}
-	else if (selection.compare( PLACE_ON_SCALE_BACK_UP_STR ) == 0)
+		option = AutonSelector::AUTON_OPTION::ROCKET_RIGHT_LOW;
+	}	
+	else if ( selection.compare( ROCKET_RIGHT_MID_STR ) == 0 )
 	{
-		option = AutonSelector::SCALE_ONE_CUBE_BACKUP;
+		option = AutonSelector::AUTON_OPTION::ROCKET_RIGHT_MED;
+	}	
+	else if ( selection.compare( ROCKET_RIGHT_HIGH_STR ) == 0 )
+	{
+		option = AutonSelector::AUTON_OPTION::ROCKET_RIGHT_HIGH;
 	}
 	else
 	{
-		option = AutonSelector::SMART;
+		option = AutonSelector::AUTON_OPTION::CROSS_LINE;
 	}
 
 	return option;
@@ -590,24 +432,40 @@ void AutonSelector::FindXMLFileNames()
 			auto foundPos = fileName.find( XML );
 			if ( foundPos != std::string::npos )		// has xml extension
 			{
-				foundPos = fileName.find( LEFT_CORNER );
+				foundPos = fileName.find( LEFT_HAB_L1_STR );
 				if ( foundPos != std::string::npos )
 				{
-					m_leftXMLFiles.emplace_back( fileName );
+					m_leftL1XMLFiles.emplace_back( fileName );
 				}
 				else
 				{
-					foundPos = fileName.find( RIGHT_CORNER );
+					foundPos = fileName.find( LEFT_HAB_L2_STR );
 					if ( foundPos != std::string::npos )
 					{
-						m_rightXMLFiles.emplace_back( fileName );
+						m_leftL2XMLFiles.emplace_back( fileName );
 					}
 					else
 					{
-						foundPos = fileName.find( CENTER );
+						foundPos = fileName.find( RIGHT_HAB_L1_STR );
 						if ( foundPos != std::string::npos )
 						{
-							m_centerXMLFiles.emplace_back( fileName );
+							m_rightL1XMLFiles.emplace_back( fileName );
+						}
+						else
+						{
+							foundPos = fileName.find( RIGHT_HAB_L2_STR );
+							if ( foundPos != std::string::npos )
+							{
+								m_rightL2XMLFiles.emplace_back( fileName );
+							}
+							else
+							{
+								foundPos = fileName.find( CENTER_HAB_L1_STR );
+								if ( foundPos != std::string::npos )
+								{
+									m_centerXMLFiles.emplace_back( fileName );
+								}
+							}
 						}
 					}
 				}
@@ -641,25 +499,22 @@ void AutonSelector::FindXMLFileNames()
 void AutonSelector::PutChoicesOnDashboard()
 {
 	// Where is the robot located
-	m_chooserPosition.SetDefaultOption( LEFT_CORNER_STR, LEFT_CORNER_STR );
-	m_chooserPosition.AddOption( CENTER_STR, CENTER_STR );
-	m_chooserPosition.AddOption( RIGHT_CORNER_STR, RIGHT_CORNER_STR );
+	m_chooserPosition.SetDefaultOption( LEFT_HAB_L1_STR, LEFT_HAB_L1_STR );
+	m_chooserPosition.AddOption( LEFT_HAB_L2_STR, LEFT_HAB_L2_STR );
+	m_chooserPosition.AddOption( CENTER_HAB_L1_STR, CENTER_HAB_L1_STR );
+	m_chooserPosition.AddOption( RIGHT_HAB_L1_STR, RIGHT_HAB_L1_STR );
+	m_chooserPosition.AddOption( RIGHT_HAB_L2_STR, RIGHT_HAB_L2_STR );
 	frc::SmartDashboard::PutData( "Auton: Robot Start Position", &m_chooserPosition );
 
 	// What is our desired action
 	m_chooserOptions.SetDefaultOption( CROSS_AUTON_LINE_STR, CROSS_AUTON_LINE_STR );
-	m_chooserOptions.AddOption( PLACE_IN_SWITCH_STR, PLACE_IN_SWITCH_STR );
-	m_chooserOptions.AddOption( PLACE_ON_SCALE_STR, PLACE_ON_SCALE_STR );
-	m_chooserOptions.AddOption( PLACE_ON_SWITCH_SCALE_STR, PLACE_ON_SWITCH_SCALE_STR );
-	m_chooserOptions.AddOption( PLACE_ON_SCALE_BACK_UP_STR, PLACE_ON_SCALE_BACK_UP_STR );
-//	m_chooserOptions.AddOption( SMART_AUTON_STR, SMART_AUTON_STR );
+	m_chooserOptions.AddOption( HATCH_CARGO_FRONT_LEFT_STR, HATCH_CARGO_FRONT_LEFT_STR );
+	m_chooserOptions.AddOption( HATCH_CARGO_FRONT_RIGHT_STR, HATCH_CARGO_FRONT_RIGHT_STR );
+	m_chooserOptions.AddOption( ROCKET_LEFT_LOW_STR, ROCKET_LEFT_LOW_STR );
+	m_chooserOptions.AddOption( ROCKET_LEFT_MID_STR, ROCKET_LEFT_MID_STR );
+	m_chooserOptions.AddOption( ROCKET_LEFT_HIGH_STR, ROCKET_LEFT_HIGH_STR );
+	m_chooserOptions.AddOption( ROCKET_RIGHT_LOW_STR, ROCKET_RIGHT_LOW_STR );
+	m_chooserOptions.AddOption( ROCKET_RIGHT_MID_STR, ROCKET_RIGHT_MID_STR );
+	m_chooserOptions.AddOption( ROCKET_RIGHT_HIGH_STR, ROCKET_RIGHT_HIGH_STR );
 	frc::SmartDashboard::PutData( "Auton: Strategy Option", &m_chooserOptions );
-
-	// Partners
-	m_chooserPartners.SetDefaultOption( PARTNER_IN_MIDDLE_STR, PARTNER_IN_MIDDLE_STR );
-	m_chooserPartners.AddOption( PARTNER_GET_THEIR_SIDE_SWITCH_STR, PARTNER_GET_THEIR_SIDE_SWITCH_STR );
-	m_chooserPartners.AddOption( PARTNER_GET_THEIR_SIDE_SCALE_STR, PARTNER_GET_THEIR_SIDE_SCALE_STR );
-	m_chooserPartners.AddOption( PARTNERS_ONLY_MOVE, PARTNERS_ONLY_MOVE );
-	m_chooserPartners.AddOption( PARTNERS_DO_NOT_MOVE, PARTNERS_DO_NOT_MOVE );
-	frc::SmartDashboard::PutData( "Auton: Partner ", &m_chooserPartners );
 }

@@ -6,7 +6,7 @@
  */
 
 #include "driverassist/DriverAssist.h"
-#include "SmartDashboard/SmartDashboard.h"
+#include "frc/SmartDashboard/SmartDashboard.h"
 
 using namespace frc;
 

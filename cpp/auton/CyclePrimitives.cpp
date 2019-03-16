@@ -81,7 +81,7 @@ void CyclePrimitives::RunDoNothing()
 		                                   0.0,                 // heading
 		                                   0.0,                 // start drive speed
 		                                   0.0                  // end drive speed
-										   );             // grab cube
+						);             
 		m_doNothing = m_primFactory->GetIPrimitive(params);
 		m_doNothing->Init(params);
 	}

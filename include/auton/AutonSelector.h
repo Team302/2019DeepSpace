@@ -21,19 +21,24 @@ class AutonSelector
 
 		enum AUTON_POSITION
 		{
-			LEFT_CORNER,
-			CENTER,
-			RIGHT_CORNER
+			LEFT_HAB_L1,
+			LEFT_HAB_L2,
+			CENTER_HAB_L1,
+			RIGHT_HAB_L1,
+			RIGHT_HAB_L2
 		};
 
 		enum AUTON_OPTION
 		{
 			CROSS_LINE,
-			SWITCH,
-			SCALE,
-			SWITCH_SCALE,
-			SCALE_ONE_CUBE_BACKUP,
-			SMART
+			CARGO_LEFT_FRONT,
+			CARGO_RIGHT_FRONT,
+			ROCKET_LEFT_LOW,
+			ROCKET_LEFT_MED,
+			ROCKET_LEFT_HIGH,
+			ROCKET_RIGHT_LOW,
+			ROCKET_RIGHT_MED,
+			ROCKET_RIGHT_HIGH
 		};
 		//---------------------------------------------------------------------
 		// Method: 		<<constructor>>
@@ -59,21 +64,17 @@ class AutonSelector
 
 	private:
 
-		enum FIELD_STATE
+		enum HATCH_POSITION
 		{
-            LEFTSWITCH_LEFTSCALE_LEFT = 0,
-            RIGHTSWITCH_LEFTSCALE_LEFT = 1,
-            LEFTSWITCH_RIGHTSCALE_LEFT = 10,
-            RIGHTSWITCH_RIGHTSCALE_LEFT = 11,
-            LEFTSWITCH_LEFTSCALE_CENTER = 100,
-            RIGHTSWITCH_LEFTSCALE_CENTER = 101,
-            LEFTSWITCH_RIGHTSCALE_CENTER = 110,
-            RIGHTSWITCH_RIGHTSCALE_CENTER = 111,
-            LEFTSWITCH_LEFTSCALE_RIGHT = 200,
-            RIGHTSWITCH_LEFTSCALE_RIGHT = 201,
-            LEFTSWITCH_RIGHTSCALE_RIGHT = 210,
-            RIGHTSWITCH_RIGHTSCALE_RIGHT =211,
+			RLOW,
+			RMID,
+			RHIGH,
+			CFRONT,
+			CFIRST,
+			CSECOND,
+			CTHIRD
 		};
+
 
 		//---------------------------------------------------------------------
 		// Method: 		GetCrossLineFile
@@ -83,49 +84,56 @@ class AutonSelector
 		//---------------------------------------------------------------------
         std::string GetCrossLineFile
         (
-            int state		// <I> - FIELD_STATE enum value
+			AutonSelector::AUTON_POSITION pos		// <I> - 
         );
 
         //---------------------------------------------------------------------
-        // Method: 		GetSwitchFile
-        // Description: This determines which Switch file to run based on starting
-        //				position and FMS feedback
+        // Method: 		GetLeftCargoFile
+        // Description: This determines which Left Cargo Ship file to run based on starting
+        //				position 
         // Returns:		std::string		filename to run
         //---------------------------------------------------------------------
-        std::string GetSwitchFile
+        std::string GetLeftCargoFile
         (
-            int state		// <I> - FIELD_STATE enum value
+            AutonSelector::AUTON_POSITION pos,	// <I> - starting position
+			AutonSelector::HATCH_POSITION loc   // <I> - placing location
         );
 
         //---------------------------------------------------------------------
-        // Method: 		GetScaleFile
-        // Description: This determines which Scale file to run based on starting
-        //				position and FMS feedback
+        // Method: 		GetRightCargoFile
+        // Description: This determines which Right Cargo Ship file to run based on starting
+        //				position 
         // Returns:		std::string		filename to run
         //---------------------------------------------------------------------
-        std::string GetScaleFile
+        std::string GetRightCargoFile
         (
-            int state		// <I> - FIELD_STATE enum value
+            AutonSelector::AUTON_POSITION pos,	// <I> - starting position
+			AutonSelector::HATCH_POSITION loc   // <I> - placing location
         );
 
-
         //---------------------------------------------------------------------
-        // Method: 		GetSwitchScaleFile
-        // Description: This determines which Switch/Scale file to run based on starting
-        //				position and FMS feedback
+        // Method: 		GetLeftRocketFile
+        // Description: This determines which Left Rocket file to run based on starting
+        //				position
         // Returns:		std::string		filename to run
         //---------------------------------------------------------------------
-        std::string GetSwitchScaleFile
+        std::string GetLeftRocketFile
         (
-            int state		// <I> - FIELD_STATE enum value
+            AutonSelector::AUTON_POSITION pos,	// <I> - starting position
+			AutonSelector::HATCH_POSITION loc   // <I> - placing location
         );
-
-
-        //does what the other ones do :)
-        std::string GetScaleBackUpFile
-		(
-			int state		// <I> - FIELD_STATE enum value
-		);
+		
+        //---------------------------------------------------------------------
+        // Method: 		GetRightRocketFile
+        // Description: This determines which Right Rocket file to run based on starting
+        //				position
+        // Returns:		std::string		filename to run
+        //---------------------------------------------------------------------
+        std::string GetRightRocketFile
+        (
+            AutonSelector::AUTON_POSITION pos,	// <I> - starting position
+			AutonSelector::HATCH_POSITION loc   // <I> - placing location
+        );
 
 		//---------------------------------------------------------------------
 		// Method: 		FindXMLFileNames
@@ -158,48 +166,40 @@ class AutonSelector
 		AUTON_OPTION GetDesiredOption();
 
 
-		bool ProcessSmartOptions
-		(
-			AUTON_POSITION		startPosition,				// <I> - robot starting position
-			FMS::POS			fmsSwitch,					// <I> - FMS setting for our switch
-			FMS::POS			fmsScale					// <I> - FMS setting for the scale
-		);
-
 		// Attributes
-		std::vector<std::string> m_leftXMLFiles;
+		std::vector<std::string> m_leftL1XMLFiles;
+		std::vector<std::string> m_leftL2XMLFiles;
 		std::vector<std::string> m_centerXMLFiles;
-		std::vector<std::string> m_rightXMLFiles;
+		std::vector<std::string> m_rightL1XMLFiles;
+		std::vector<std::string> m_rightL2XMLFiles;
 
 
 		// 16 character limits to avoid some smartdashboard issues
 		const std::string CROSS_AUTON_LINE_STR = "Auto Line";
-		const std::string PLACE_IN_SWITCH_STR = "Switch";
-		const std::string PLACE_ON_SCALE_STR = "Scale";
-		const std::string PLACE_ON_SWITCH_SCALE_STR = "ScaleNoCross";
-//        const std::string PLACE_ON_SCALE_BACK_UP_STR = "Scale One Cube Back Up";
-        const std::string PLACE_ON_SCALE_BACK_UP_STR = "Scale+Back Up";
-		const std::string SMART_AUTON_STR = "Smart Auto";
+		const std::string HATCH_CARGO_FRONT_LEFT_STR = "Cargo Left";
+		const std::string HATCH_CARGO_FRONT_RIGHT_STR = "Cargo Right";
+		const std::string ROCKET_LEFT_LOW_STR = "LeftRocket Low";
+		const std::string ROCKET_LEFT_MID_STR = "LeftRocket Mid";
+		const std::string ROCKET_LEFT_HIGH_STR = "LeftRocket Top";
+		const std::string ROCKET_RIGHT_LOW_STR = "RightRocket Low";
+		const std::string ROCKET_RIGHT_MID_STR = "RightRocket Mid";
+		const std::string ROCKET_RIGHT_HIGH_STR = "RightRocket Top";
 		frc::SendableChooser<std::string> m_chooserOptions;
 
 
-		const std::string LEFT_CORNER_STR = "LeftCorner";
-		const std::string LEFT_INSIDE_STR = "LeftInside";
-		const std::string CENTER_STR = "Center";
-		const std::string RIGHT_INSIDE_STR = "RightInside";
-		const std::string RIGHT_CORNER_STR = "RightCorner";
+		const std::string LEFT_HAB_L1_STR = "LeftHAB_L1";
+		const std::string LEFT_HAB_L2_STR = "LeftHAB_L2";
+		const std::string CENTER_HAB_L1_STR = "Center_L1";
+		const std::string RIGHT_HAB_L1_STR = "RightHAB_L1";
+		const std::string RIGHT_HAB_L2_STR = "RightHAB_L2";
 		frc::SendableChooser<std::string> m_chooserPosition;
 
-		const std::string PARTNER_IN_MIDDLE_STR = "Partner in Middle can get switch";
-		const std::string PARTNER_GET_THEIR_SIDE_SWITCH_STR = "Partner can get switch on their side";
-		const std::string PARTNER_GET_THEIR_SIDE_SCALE_STR = "Partner can get scale on their side";
-		const std::string PARTNERS_ONLY_MOVE = "Partners only cross auton line";
-		const std::string PARTNERS_DO_NOT_MOVE = "Partners do not move";
-		frc::SendableChooser<std::string> m_chooserPartners;
-
 		frc::SendableChooser<std::string> m_chooser;
-		frc::SendableChooser<std::string> m_chooserLeft;
+		frc::SendableChooser<std::string> m_chooserLeftHABL1;
+		frc::SendableChooser<std::string> m_chooserLeftHABL2;
 		frc::SendableChooser<std::string> m_chooserCenter;
-		frc::SendableChooser<std::string> m_chooserRight;
+		frc::SendableChooser<std::string> m_chooserRightHABL1;
+		frc::SendableChooser<std::string> m_chooserRightHABL2;
 
 		const std::string m_autonDir = "/home/lvuser/auton/";
 		const std::string m_defaultFile = "CrossAutonLine.xml";
