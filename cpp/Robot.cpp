@@ -109,7 +109,7 @@ void Robot::RobotInit() {
   m_wrist->SetLegalStartingPos();
   printf("robot.cpp after set legal starting pos\n");
 
-  printf("pointer to dragonchassis instance %p\n", DragonChassis::GetInstance());
+  printf("pointer to dragonchassis instance %p\n", (void*)DragonChassis::GetInstance());
    m_driverAssist = new DriverAssist();
    printf("done making driver assist\n");
   /*  
