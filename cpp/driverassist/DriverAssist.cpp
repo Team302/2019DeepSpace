@@ -17,6 +17,7 @@ DriverAssist::DriverAssist() : m_chassis(DragonChassis::GetInstance()),
                                m_intakeGamePiece(new IntakeGamePiece()),
                                m_holdDrivePositon(new HoldDrivePosition()),
                                m_targetAllign(new TargetAllign()),
+                               m_driveToTarget(new DriveToTarget()),
                                m_climb(new Climb()),
                                m_deploy(false),
                                m_intake(false),
@@ -112,6 +113,7 @@ void DriverAssist::Update()
     m_MoveArmToPos->Update();
     m_deployGamePiece->Update();
     m_intakeGamePiece->Update();
+    m_driveToTarget->Update();
     m_climb->Update();
     m_chassis->UpdateChassis();
 
@@ -184,11 +186,13 @@ void DriverAssist::UpdateDriverControls()
     {
         m_visionMode = true;
         m_holdMode = false;
-        m_targetAllign->Init();
+        // m_targetAllign->Init();
+        m_driveToTarget->Init(m_flip);
     }
     else if (!DriverAssist::TriggerPressed(DriverAssist::TriggerPressed(m_switcher->m_mainController->GetTriggerAxis(frc::GenericHID::JoystickHand::kLeftHand))) && m_pMainControllerTriggerLeftHand)
     {
         m_visionMode = false;
+        m_driveToTarget->Cancel();
     }
 
     if (DriverAssist::TriggerPressed(DriverAssist::TriggerPressed(m_switcher->m_mainController->GetTriggerAxis(frc::GenericHID::JoystickHand::kRightHand))) && !m_pMainControllerTriggerRightHand)
@@ -204,9 +208,9 @@ void DriverAssist::UpdateDriverControls()
 
     if(m_visionMode)
     {
-        m_targetAllign->Update();
-        if(m_targetAllign->IsDone())
-            m_visionMode = false;
+        // m_targetAllign->Update();
+        // if(m_targetAllign->IsDone())
+        //     m_visionMode = false;
     }
     else if(m_holdMode)
     {    

@@ -79,6 +79,20 @@ void Wrist::MoveWristPresets(PlacementHeights::PLACEMENT_HEIGHT height, bool car
             default:
                 break;
         }
+        if (flip)
+        {
+            switch (height)
+            {
+                case PlacementHeights::PLACEMENT_HEIGHT::CARGOSHIP:
+                case PlacementHeights::PLACEMENT_HEIGHT::ROCKET_MID:
+                case PlacementHeights::PLACEMENT_HEIGHT::ROCKET_HIGH:
+                    m_targetAngle = -m_targetAngle;
+                    break;
+
+                default:
+                    break;
+            }
+        }
     }
     else
     {
@@ -114,6 +128,22 @@ void Wrist::MoveWristPresets(PlacementHeights::PLACEMENT_HEIGHT height, bool car
 
             default:
                 break;
+        }
+
+        if (flip)
+        {
+            switch (height)
+            {
+                case PlacementHeights::PLACEMENT_HEIGHT::ROCKET_MID:
+                case PlacementHeights::PLACEMENT_HEIGHT::ROCKET_HIGH:
+                    m_targetAngle = -m_targetAngle;
+                    if (second)
+                        m_targetAngle -= 180;
+                    break;
+
+                default:
+                    break;
+            }
         }
     }
 

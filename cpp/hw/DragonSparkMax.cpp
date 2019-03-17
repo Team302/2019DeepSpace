@@ -18,7 +18,7 @@ DragonSparkMax::DragonSparkMax(int id, IDragonMotorController::TALON_TYPE device
     // m_spark->RestoreFactoryDefaults();
     // m_spark->SetReverse(true);
     m_spark->RestoreFactoryDefaults();
-    m_spark->SetOpenLoopRampRate(0.25);
+    m_spark->SetOpenLoopRampRate(0.20); //0.25
     m_spark->GetEncoder().SetPosition(0);
     SetRotationOffset(0);
 }

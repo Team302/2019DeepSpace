@@ -30,15 +30,15 @@ Arm::Arm(IDragonMotorControllerVector motorControllers) : m_armTargetAngle(0.0),
     {
         switch (motorControllers[i]->GetType())
         {
-            case IDragonMotorController::TALON_TYPE::ARM_MASTER:
-                m_armMaster = dynamic_cast<DragonTalon*>(motorControllers[i]);
+        case IDragonMotorController::TALON_TYPE::ARM_MASTER:
+            m_armMaster = dynamic_cast<DragonTalon *>(motorControllers[i]);
             break;
 
-            case IDragonMotorController::TALON_TYPE::ARM_EXTENSION:
-                m_extender = dynamic_cast<DragonTalon*>(motorControllers[i]);
+        case IDragonMotorController::TALON_TYPE::ARM_EXTENSION:
+            m_extender = dynamic_cast<DragonTalon *>(motorControllers[i]);
             break;
 
-            default:
+        default:
             break;
         }
     }
@@ -52,76 +52,104 @@ void Arm::MoveArmPreset(PlacementHeights::PLACEMENT_HEIGHT height, bool cargo, b
     {
         switch (height)
         {
-            case PlacementHeights::PLACEMENT_HEIGHT::START_POSITION:
-                m_armTargetAngle = cargoAngle[Arm::CARGO_ARM_PRESETS::CARGO_START_POSITION];
-                break;
+        case PlacementHeights::PLACEMENT_HEIGHT::START_POSITION:
+            m_armTargetAngle = cargoAngle[Arm::CARGO_ARM_PRESETS::CARGO_START_POSITION];
+            break;
 
-            case PlacementHeights::PLACEMENT_HEIGHT::FLOOR:
-                m_armTargetAngle = cargoAngle[Arm::CARGO_ARM_PRESETS::CARGO_FLOOR];
-                break;
+        case PlacementHeights::PLACEMENT_HEIGHT::FLOOR:
+            m_armTargetAngle = cargoAngle[Arm::CARGO_ARM_PRESETS::CARGO_FLOOR];
+            break;
 
-            case PlacementHeights::PLACEMENT_HEIGHT::CARGOSHIP:
-                m_armTargetAngle = cargoAngle[Arm::CARGO_ARM_PRESETS::CARGO_SHIP];
-                break;
+        case PlacementHeights::PLACEMENT_HEIGHT::CARGOSHIP:
+            m_armTargetAngle = cargoAngle[Arm::CARGO_ARM_PRESETS::CARGO_SHIP];
+            break;
 
-            case PlacementHeights::PLACEMENT_HEIGHT::HUMAN_PLAYER:
-                m_armTargetAngle = cargoAngle[Arm::CARGO_ARM_PRESETS::CARGO_HP];
-                break;
+        case PlacementHeights::PLACEMENT_HEIGHT::HUMAN_PLAYER:
+            m_armTargetAngle = cargoAngle[Arm::CARGO_ARM_PRESETS::CARGO_HP];
+            break;
 
-            case PlacementHeights::PLACEMENT_HEIGHT::ROCKET_LOW:
-                m_armTargetAngle = cargoAngle[Arm::CARGO_ARM_PRESETS::CARGO_LOW];
-                break;
+        case PlacementHeights::PLACEMENT_HEIGHT::ROCKET_LOW:
+            m_armTargetAngle = cargoAngle[Arm::CARGO_ARM_PRESETS::CARGO_LOW];
+            break;
 
-            case PlacementHeights::PLACEMENT_HEIGHT::ROCKET_MID:
-                m_armTargetAngle = cargoAngle[Arm::CARGO_ARM_PRESETS::CARGO_MID];
-                break;
+        case PlacementHeights::PLACEMENT_HEIGHT::ROCKET_MID:
+            m_armTargetAngle = cargoAngle[Arm::CARGO_ARM_PRESETS::CARGO_MID];
+            break;
 
-            case PlacementHeights::PLACEMENT_HEIGHT::ROCKET_HIGH:
-                m_armTargetAngle = cargoAngle[Arm::CARGO_ARM_PRESETS::CARGO_HIGH];
-                break;
+        case PlacementHeights::PLACEMENT_HEIGHT::ROCKET_HIGH:
+            m_armTargetAngle = cargoAngle[Arm::CARGO_ARM_PRESETS::CARGO_HIGH];
+            break;
 
-            default:
-                // bad
-                printf("Arm.cpp MoveArmPresets cargo switch default");
-                break;
+        default:
+            // bad
+            printf("Arm.cpp MoveArmPresets cargo switch default");
+            break;
+        }
+        if (flip)
+        {
+            switch (height)
+            {
+                case PlacementHeights::PLACEMENT_HEIGHT::CARGOSHIP:
+                case PlacementHeights::PLACEMENT_HEIGHT::ROCKET_MID:
+                case PlacementHeights::PLACEMENT_HEIGHT::ROCKET_HIGH:
+                    m_armTargetAngle = -m_armTargetAngle;
+                    break;
+
+                default:
+                    break;
+            }
         }
     }
     else
     {
         switch (height)
         {
-            case PlacementHeights::PLACEMENT_HEIGHT::START_POSITION:
-                m_armTargetAngle = hatchAngle[Arm::HATCH_ARM_PRESETS::HATCH_START_POSITION];
-                break;      
+        case PlacementHeights::PLACEMENT_HEIGHT::START_POSITION:
+            m_armTargetAngle = hatchAngle[Arm::HATCH_ARM_PRESETS::HATCH_START_POSITION];
+            break;
 
-            case PlacementHeights::PLACEMENT_HEIGHT::FLOOR:
-                m_armTargetAngle = hatchAngle[Arm::HATCH_ARM_PRESETS::HATCH_FLOOR];
-                break;
+        case PlacementHeights::PLACEMENT_HEIGHT::FLOOR:
+            m_armTargetAngle = hatchAngle[Arm::HATCH_ARM_PRESETS::HATCH_FLOOR];
+            break;
 
-            case PlacementHeights::PLACEMENT_HEIGHT::CARGOSHIP:
-                m_armTargetAngle = hatchAngle[Arm::HATCH_ARM_PRESETS::HATCH_LOW];
-                break;
+        case PlacementHeights::PLACEMENT_HEIGHT::CARGOSHIP:
+            m_armTargetAngle = hatchAngle[Arm::HATCH_ARM_PRESETS::HATCH_LOW];
+            break;
 
-            case PlacementHeights::PLACEMENT_HEIGHT::HUMAN_PLAYER:
-                m_armTargetAngle = hatchAngle[Arm::HATCH_ARM_PRESETS::HATCH_HP_SECOND];
-                break;
+        case PlacementHeights::PLACEMENT_HEIGHT::HUMAN_PLAYER:
+            m_armTargetAngle = hatchAngle[Arm::HATCH_ARM_PRESETS::HATCH_HP_SECOND];
+            break;
 
-            case PlacementHeights::PLACEMENT_HEIGHT::ROCKET_LOW:
-                m_armTargetAngle = second ? hatchAngle[Arm::HATCH_ARM_PRESETS::HATCH_LOW_SECOND] : hatchAngle[Arm::HATCH_ARM_PRESETS::HATCH_LOW];
-                break;
+        case PlacementHeights::PLACEMENT_HEIGHT::ROCKET_LOW:
+            m_armTargetAngle = second ? hatchAngle[Arm::HATCH_ARM_PRESETS::HATCH_LOW_SECOND] : hatchAngle[Arm::HATCH_ARM_PRESETS::HATCH_LOW];
+            break;
 
-            case PlacementHeights::PLACEMENT_HEIGHT::ROCKET_MID:
-                m_armTargetAngle = second ? hatchAngle[Arm::HATCH_ARM_PRESETS::HATCH_MID_SECOND] : hatchAngle[Arm::HATCH_ARM_PRESETS::HATCH_MID];
-                break;
+        case PlacementHeights::PLACEMENT_HEIGHT::ROCKET_MID:
+            m_armTargetAngle = second ? hatchAngle[Arm::HATCH_ARM_PRESETS::HATCH_MID_SECOND] : hatchAngle[Arm::HATCH_ARM_PRESETS::HATCH_MID];
+            break;
 
-            case PlacementHeights::PLACEMENT_HEIGHT::ROCKET_HIGH:
-                m_armTargetAngle = second ? hatchAngle[Arm::HATCH_ARM_PRESETS::HATCH_HIGH_SECOND] : hatchAngle[Arm::HATCH_ARM_PRESETS::HATCH_HIGH];
-                break;
-                
-            default:
-                // bad
-                printf("Arm.cpp MoveArmPresets hatch switch default");
-                break;
+        case PlacementHeights::PLACEMENT_HEIGHT::ROCKET_HIGH:
+            m_armTargetAngle = second ? hatchAngle[Arm::HATCH_ARM_PRESETS::HATCH_HIGH_SECOND] : hatchAngle[Arm::HATCH_ARM_PRESETS::HATCH_HIGH];
+            break;
+
+        default:
+            // bad
+            printf("Arm.cpp MoveArmPresets hatch switch default");
+            break;
+        }
+
+        if (flip)
+        {
+            switch (height)
+            {
+                case PlacementHeights::PLACEMENT_HEIGHT::ROCKET_MID:
+                case PlacementHeights::PLACEMENT_HEIGHT::ROCKET_HIGH:
+                    m_armTargetAngle = -m_armTargetAngle;
+                    break;
+
+                default:
+                    break;
+            }
         }
     }
 
@@ -160,76 +188,76 @@ void Arm::MoveExtentionPreset(PlacementHeights::PLACEMENT_HEIGHT height, bool ca
     {
         switch (height)
         {
-            case PlacementHeights::PLACEMENT_HEIGHT::START_POSITION:
-                m_extenderTargetRotations = extenderCargoInches[Arm::CARGO_ARM_PRESETS::CARGO_START_POSITION];
-                break;
+        case PlacementHeights::PLACEMENT_HEIGHT::START_POSITION:
+            m_extenderTargetRotations = extenderCargoInches[Arm::CARGO_ARM_PRESETS::CARGO_START_POSITION];
+            break;
 
-            case PlacementHeights::PLACEMENT_HEIGHT::FLOOR:
-                m_extenderTargetRotations = extenderCargoInches[Arm::CARGO_ARM_PRESETS::CARGO_FLOOR];
-                break;
+        case PlacementHeights::PLACEMENT_HEIGHT::FLOOR:
+            m_extenderTargetRotations = extenderCargoInches[Arm::CARGO_ARM_PRESETS::CARGO_FLOOR];
+            break;
 
-            case PlacementHeights::PLACEMENT_HEIGHT::CARGOSHIP:
-                m_extenderTargetRotations = extenderCargoInches[Arm::CARGO_ARM_PRESETS::CARGO_SHIP];
-                break;
+        case PlacementHeights::PLACEMENT_HEIGHT::CARGOSHIP:
+            m_extenderTargetRotations = extenderCargoInches[Arm::CARGO_ARM_PRESETS::CARGO_SHIP];
+            break;
 
-            case PlacementHeights::PLACEMENT_HEIGHT::HUMAN_PLAYER:
-                m_extenderTargetRotations = extenderCargoInches[Arm::CARGO_ARM_PRESETS::CARGO_HP];
-                break;
+        case PlacementHeights::PLACEMENT_HEIGHT::HUMAN_PLAYER:
+            m_extenderTargetRotations = extenderCargoInches[Arm::CARGO_ARM_PRESETS::CARGO_HP];
+            break;
 
-            case PlacementHeights::PLACEMENT_HEIGHT::ROCKET_LOW:
-                m_extenderTargetRotations = extenderCargoInches[Arm::CARGO_ARM_PRESETS::CARGO_LOW];
-                break;
+        case PlacementHeights::PLACEMENT_HEIGHT::ROCKET_LOW:
+            m_extenderTargetRotations = extenderCargoInches[Arm::CARGO_ARM_PRESETS::CARGO_LOW];
+            break;
 
-            case PlacementHeights::PLACEMENT_HEIGHT::ROCKET_MID:
-                m_extenderTargetRotations = extenderCargoInches[Arm::CARGO_ARM_PRESETS::CARGO_MID];
-                break;
+        case PlacementHeights::PLACEMENT_HEIGHT::ROCKET_MID:
+            m_extenderTargetRotations = extenderCargoInches[Arm::CARGO_ARM_PRESETS::CARGO_MID];
+            break;
 
-            case PlacementHeights::PLACEMENT_HEIGHT::ROCKET_HIGH:
-                m_extenderTargetRotations = extenderCargoInches[Arm::CARGO_ARM_PRESETS::CARGO_HIGH];
-                break;
+        case PlacementHeights::PLACEMENT_HEIGHT::ROCKET_HIGH:
+            m_extenderTargetRotations = extenderCargoInches[Arm::CARGO_ARM_PRESETS::CARGO_HIGH];
+            break;
 
-            default:
-                // bad
-                printf("Arm.cpp MoveExtentionPresets cargo switch default");
-                break;
+        default:
+            // bad
+            printf("Arm.cpp MoveExtentionPresets cargo switch default");
+            break;
         }
     }
     else
     {
         switch (height)
         {
-            case PlacementHeights::PLACEMENT_HEIGHT::START_POSITION:
-                m_extenderTargetRotations = extenderHatchInches[Arm::HATCH_ARM_PRESETS::HATCH_START_POSITION];
-                break;
+        case PlacementHeights::PLACEMENT_HEIGHT::START_POSITION:
+            m_extenderTargetRotations = extenderHatchInches[Arm::HATCH_ARM_PRESETS::HATCH_START_POSITION];
+            break;
 
-            case PlacementHeights::PLACEMENT_HEIGHT::FLOOR:
-                m_extenderTargetRotations = extenderHatchInches[Arm::HATCH_ARM_PRESETS::HATCH_FLOOR];
-                break;
+        case PlacementHeights::PLACEMENT_HEIGHT::FLOOR:
+            m_extenderTargetRotations = extenderHatchInches[Arm::HATCH_ARM_PRESETS::HATCH_FLOOR];
+            break;
 
-            case PlacementHeights::PLACEMENT_HEIGHT::CARGOSHIP:
-                m_extenderTargetRotations = extenderHatchInches[Arm::HATCH_ARM_PRESETS::HATCH_LOW];
-                break;
+        case PlacementHeights::PLACEMENT_HEIGHT::CARGOSHIP:
+            m_extenderTargetRotations = extenderHatchInches[Arm::HATCH_ARM_PRESETS::HATCH_LOW];
+            break;
 
-            case PlacementHeights::PLACEMENT_HEIGHT::HUMAN_PLAYER:
-                m_extenderTargetRotations = !flip ? extenderHatchInches[Arm::HATCH_ARM_PRESETS::HATCH_HP_SECOND] : -extenderHatchInches[Arm::HATCH_ARM_PRESETS::HATCH_HP_SECOND];
-                break;
+        case PlacementHeights::PLACEMENT_HEIGHT::HUMAN_PLAYER:
+            m_extenderTargetRotations = !flip ? extenderHatchInches[Arm::HATCH_ARM_PRESETS::HATCH_HP_SECOND] : -extenderHatchInches[Arm::HATCH_ARM_PRESETS::HATCH_HP_SECOND];
+            break;
 
-            case PlacementHeights::PLACEMENT_HEIGHT::ROCKET_LOW:
-                m_extenderTargetRotations = second ? extenderHatchInches[Arm::HATCH_ARM_PRESETS::HATCH_LOW_SECOND] : extenderHatchInches[Arm::HATCH_ARM_PRESETS::HATCH_LOW];
-                break;
+        case PlacementHeights::PLACEMENT_HEIGHT::ROCKET_LOW:
+            m_extenderTargetRotations = second ? extenderHatchInches[Arm::HATCH_ARM_PRESETS::HATCH_LOW_SECOND] : extenderHatchInches[Arm::HATCH_ARM_PRESETS::HATCH_LOW];
+            break;
 
-            case PlacementHeights::PLACEMENT_HEIGHT::ROCKET_MID:
-                m_extenderTargetRotations = second ? extenderHatchInches[Arm::HATCH_ARM_PRESETS::HATCH_MID_SECOND] : extenderHatchInches[Arm::HATCH_ARM_PRESETS::HATCH_MID];
-                break;
+        case PlacementHeights::PLACEMENT_HEIGHT::ROCKET_MID:
+            m_extenderTargetRotations = second ? extenderHatchInches[Arm::HATCH_ARM_PRESETS::HATCH_MID_SECOND] : extenderHatchInches[Arm::HATCH_ARM_PRESETS::HATCH_MID];
+            break;
 
-            case PlacementHeights::PLACEMENT_HEIGHT::ROCKET_HIGH:
-                m_extenderTargetRotations = second ? extenderHatchInches[Arm::HATCH_ARM_PRESETS::HATCH_HIGH_SECOND] : extenderHatchInches[Arm::HATCH_ARM_PRESETS::HATCH_HIGH];
-                break;
+        case PlacementHeights::PLACEMENT_HEIGHT::ROCKET_HIGH:
+            m_extenderTargetRotations = second ? extenderHatchInches[Arm::HATCH_ARM_PRESETS::HATCH_HIGH_SECOND] : extenderHatchInches[Arm::HATCH_ARM_PRESETS::HATCH_HIGH];
+            break;
 
-            default:
-                // bad
-                printf("Arm.cpp MoveExtentionPresets hatch switch default \n");
-                break;
+        default:
+            // bad
+            printf("Arm.cpp MoveExtentionPresets hatch switch default \n");
+            break;
         }
     }
 
@@ -292,14 +320,14 @@ void Arm::CorrectExtenderPower(double &power, bool climbMode)
     double realRads = OurDegreesToRads(GetArmRealAngle());
     double predictedRads = OurDegreesToRads(correctedAngle);
 
-    #if ROBOT == PRAC_BOT
+#if ROBOT == PRAC_BOT
     double realMaxLegalExtender = Map(std::abs(cos(realRads)), 1, 0.76, 1.175, m_extenderMaxDistance); //BIG TODO: make MAX_EXTENDER_DISTANCE constant
     double predictedMaxLegalExtender = Map(std::abs(cos(predictedRads)), 1, 0.76, 1.175, m_extenderMaxDistance);
-    #endif
-    #if ROBOT == COMP_BOT
+#endif
+#if ROBOT == COMP_BOT
     double realMaxLegalExtender = Map(std::abs(cos(realRads)), 1, 0.76, 1.25, m_extenderMaxDistance); //BIG TODO: make MAX_EXTENDER_DISTANCE constant
     double predictedMaxLegalExtender = Map(std::abs(cos(predictedRads)), 1, 0.76, 1.25, m_extenderMaxDistance);
-    #endif
+#endif
 
     // frc::SmartDashboard::PutNumber("Max Legal Inches", maxLegalExtender);
 
@@ -308,7 +336,7 @@ void Arm::CorrectExtenderPower(double &power, bool climbMode)
     {
         if (power >= EXTENDER_HOLD_POWER)
             power = climbMode ? EXTENDER_HOLD_POWER : -1;
-    } 
+    }
     else if (GetExtenderRealInches() < 0.0)
         power = power > 0 ? power : 0;
 
@@ -330,141 +358,141 @@ void Arm::SetParam(
 {
     switch (param)
     {
-        // starting angle offsets
-        case LEGAL_STARTING_ANGLE:
-            m_armLegalStartingAngle = value;
-            break;
+    // starting angle offsets
+    case LEGAL_STARTING_ANGLE:
+        m_armLegalStartingAngle = value;
+        break;
 
-        case TEST_STARTING_ANGLE:
-            m_armTestStartingAngle = value;
-            break;
-        // starting extender inch offsets
-        case EXTENDER_LEGAL_STARTING_INCHES:
-            m_extenderLegalStartingInches = value;
-            break;
+    case TEST_STARTING_ANGLE:
+        m_armTestStartingAngle = value;
+        break;
+    // starting extender inch offsets
+    case EXTENDER_LEGAL_STARTING_INCHES:
+        m_extenderLegalStartingInches = value;
+        break;
 
-        case EXTENDER_TEST_STARTING_INCHES:
-            m_extenderTestStartingInches = value;
-            break;
-        // arm hatch angles
-        case HATCH_FLOOR_ANGLE:
-            hatchAngle[HATCH_FLOOR] = value;
-            break;
+    case EXTENDER_TEST_STARTING_INCHES:
+        m_extenderTestStartingInches = value;
+        break;
+    // arm hatch angles
+    case HATCH_FLOOR_ANGLE:
+        hatchAngle[HATCH_FLOOR] = value;
+        break;
 
-        case HATCH_HP_SECOND_ANGLE:
-            hatchAngle[HATCH_HP_SECOND] = value;
-            break;
+    case HATCH_HP_SECOND_ANGLE:
+        hatchAngle[HATCH_HP_SECOND] = value;
+        break;
 
-        case HATCH_LOW_ANGLE:
-            hatchAngle[HATCH_LOW] = value;
-            break;
+    case HATCH_LOW_ANGLE:
+        hatchAngle[HATCH_LOW] = value;
+        break;
 
-        case HATCH_MID_ANGLE:
-            hatchAngle[HATCH_MID] = value;
-            break;
+    case HATCH_MID_ANGLE:
+        hatchAngle[HATCH_MID] = value;
+        break;
 
-        case HATCH_HIGH_ANGLE:
-            hatchAngle[HATCH_HIGH] = value;
-            break;
+    case HATCH_HIGH_ANGLE:
+        hatchAngle[HATCH_HIGH] = value;
+        break;
 
-        case HATCH_LOW_SECOND_ANGLE:
-            hatchAngle[HATCH_LOW_SECOND] = value;
-            break;
+    case HATCH_LOW_SECOND_ANGLE:
+        hatchAngle[HATCH_LOW_SECOND] = value;
+        break;
 
-        case HATCH_MID_SECOND_ANGLE:
-            hatchAngle[HATCH_MID_SECOND] = value;
-            break;
+    case HATCH_MID_SECOND_ANGLE:
+        hatchAngle[HATCH_MID_SECOND] = value;
+        break;
 
-        case HATCH_HIGH_SECOND_ANGLE:
-            hatchAngle[HATCH_HIGH_SECOND] = value;
-            break;
+    case HATCH_HIGH_SECOND_ANGLE:
+        hatchAngle[HATCH_HIGH_SECOND] = value;
+        break;
 
-        // arm cargo angles
-        case CARGO_FLOOR_ANGLE:
-            cargoAngle[CARGO_FLOOR] = value;
-            break;
+    // arm cargo angles
+    case CARGO_FLOOR_ANGLE:
+        cargoAngle[CARGO_FLOOR] = value;
+        break;
 
-        case CARGO_HP_ANGLE:
-            cargoAngle[CARGO_HP] = value;
-            break;
+    case CARGO_HP_ANGLE:
+        cargoAngle[CARGO_HP] = value;
+        break;
 
-        case CARGO_SHIP_ANGLE:
-            cargoAngle[CARGO_SHIP] = value;
-            break;
+    case CARGO_SHIP_ANGLE:
+        cargoAngle[CARGO_SHIP] = value;
+        break;
 
-        case CARGO_LOW_ANGLE:
-            cargoAngle[CARGO_LOW] = value;
-            break;
+    case CARGO_LOW_ANGLE:
+        cargoAngle[CARGO_LOW] = value;
+        break;
 
-        case CARGO_MID_ANGLE:
-            cargoAngle[CARGO_MID] = value;
-            break;
+    case CARGO_MID_ANGLE:
+        cargoAngle[CARGO_MID] = value;
+        break;
 
-        case CARGO_HIGH_ANGLE:
-            cargoAngle[CARGO_HIGH] = value;
-            break;
+    case CARGO_HIGH_ANGLE:
+        cargoAngle[CARGO_HIGH] = value;
+        break;
 
-        // extender hatch inches
-        case HATCH_FLOOR_EXTENSION:
-            extenderHatchInches[HATCH_FLOOR] = value;
-            break;
+    // extender hatch inches
+    case HATCH_FLOOR_EXTENSION:
+        extenderHatchInches[HATCH_FLOOR] = value;
+        break;
 
-        case HATCH_HP_SECOND_EXTENSION:
-            extenderHatchInches[HATCH_HP_SECOND] = value;
-            break;
+    case HATCH_HP_SECOND_EXTENSION:
+        extenderHatchInches[HATCH_HP_SECOND] = value;
+        break;
 
-        case HATCH_LOW_EXTENSION:
-            extenderHatchInches[HATCH_LOW] = value;
-            break;
+    case HATCH_LOW_EXTENSION:
+        extenderHatchInches[HATCH_LOW] = value;
+        break;
 
-        case HATCH_MID_EXTENSION:
-            extenderHatchInches[HATCH_MID] = value;
-            break;
+    case HATCH_MID_EXTENSION:
+        extenderHatchInches[HATCH_MID] = value;
+        break;
 
-        case HATCH_HIGH_EXTENSION:
-            extenderHatchInches[HATCH_HIGH] = value;
-            break;
-            
-        case HATCH_LOW_SECOND_EXTENSION:
-            extenderHatchInches[HATCH_LOW_SECOND] = value;
-            break;
+    case HATCH_HIGH_EXTENSION:
+        extenderHatchInches[HATCH_HIGH] = value;
+        break;
 
-        case HATCH_MID_SECOND_EXTENSION:
-            extenderHatchInches[HATCH_MID_SECOND] = value;
-            break;
+    case HATCH_LOW_SECOND_EXTENSION:
+        extenderHatchInches[HATCH_LOW_SECOND] = value;
+        break;
 
-        case HATCH_HIGH_SECOND_EXTENSION:
-            extenderHatchInches[HATCH_HIGH_SECOND] = value;
-            break;
+    case HATCH_MID_SECOND_EXTENSION:
+        extenderHatchInches[HATCH_MID_SECOND] = value;
+        break;
 
-        // extender cargo inches
-        case CARGO_FLOOR_EXTENSION:
-            extenderCargoInches[CARGO_FLOOR] = value;
-            break;
+    case HATCH_HIGH_SECOND_EXTENSION:
+        extenderHatchInches[HATCH_HIGH_SECOND] = value;
+        break;
 
-        case CARGO_HP_EXTENSION:
-            extenderCargoInches[CARGO_HP] = value;
-            break;
+    // extender cargo inches
+    case CARGO_FLOOR_EXTENSION:
+        extenderCargoInches[CARGO_FLOOR] = value;
+        break;
 
-        case CARGO_SHIP_EXTENSION:
-            extenderCargoInches[CARGO_SHIP] = value;
-            break;
+    case CARGO_HP_EXTENSION:
+        extenderCargoInches[CARGO_HP] = value;
+        break;
 
-        case CARGO_LOW_EXTENSION:
-            extenderCargoInches[CARGO_LOW] = value;
-            break;
+    case CARGO_SHIP_EXTENSION:
+        extenderCargoInches[CARGO_SHIP] = value;
+        break;
 
-        case CARGO_MID_EXTENSION:
-            extenderCargoInches[CARGO_MID] = value;
-            break;
+    case CARGO_LOW_EXTENSION:
+        extenderCargoInches[CARGO_LOW] = value;
+        break;
 
-        case CARGO_HIGH_EXTENSION:
-            extenderCargoInches[CARGO_HIGH] = value;
-            break;
+    case CARGO_MID_EXTENSION:
+        extenderCargoInches[CARGO_MID] = value;
+        break;
 
-        default:
-            printf("Arm.cpp error: recieving unexpected arm parameter. %d \n", param);
-            break;
+    case CARGO_HIGH_EXTENSION:
+        extenderCargoInches[CARGO_HIGH] = value;
+        break;
+
+    default:
+        printf("Arm.cpp error: recieving unexpected arm parameter. %d \n", param);
+        break;
     }
 }
 

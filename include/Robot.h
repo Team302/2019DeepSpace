@@ -46,6 +46,7 @@ class Robot : public frc::TimedRobot {
   Wrist* m_wrist;
   Intake* m_intake;
   Climber* m_climber;
+  HatchMechanism* m_hatchMech;
 
   DragonTalon* m_armMasterMotor;
   DragonTalon* m_wristMotor;

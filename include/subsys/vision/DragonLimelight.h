@@ -11,6 +11,7 @@
 #include "networktables/NetworkTable.h"
 #include "networktables/NetworkTableEntry.h"
 #include <frc/smartdashboard/SmartDashboard.h>
+#include <vector>
 
 using namespace nt;
 
@@ -51,6 +52,8 @@ class DragonLimelight {
   double GetTargetArea();
   double GetTargetSkew();
   double GetPipelineLatency();
+  std::vector<double> Get3DSolve();
+
   // Setters
   void SetLEDMode
   (
@@ -80,6 +83,7 @@ class DragonLimelight {
   void PrintValues(); // Prints out all values to ensure everything is working and connected
 
   static DragonLimelight* GetInstance();
+  // static void CreateLimelight();
 
  private:
   std::shared_ptr<NetworkTable> table;

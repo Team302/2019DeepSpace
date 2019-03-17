@@ -38,6 +38,9 @@ class HatchMechanism : public IMechanism
             double speed      // <I> - speed to run motor
         );
 
+        void SetPracticeStartingPos();
+        void SetLegalStartingPos();
+
         IMechanism::MECHANISM_TYPE GetType() const override;
         void SetParam
         (

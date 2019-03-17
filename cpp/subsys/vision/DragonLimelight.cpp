@@ -4,12 +4,18 @@
 */
 
 #include "subsys/vision/DragonLimelight.h"
+#include <vector>
 
 DragonLimelight* DragonLimelight::m_instance = nullptr;
 
 DragonLimelight::DragonLimelight() :
     table(NetworkTableInstance::GetDefault().GetTable("limelight"))
 {}
+
+std::vector<double> DragonLimelight::Get3DSolve()
+{
+    return table->GetNumberArray("camtran", 0);
+}
 
 double DragonLimelight::HasTarget()
 {

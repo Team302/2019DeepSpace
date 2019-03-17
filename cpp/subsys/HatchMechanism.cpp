@@ -42,6 +42,7 @@ HatchMechanism::HatchMechanism
     {
         m_motor->SetControlMode(IDragonMotorController::DRAGON_CONTROL_MODE::PERCENT_OUTPUT);
         m_motor->Set(0.0);
+        SetLegalStartingPos();
     }
     else
     {
@@ -99,6 +100,8 @@ void HatchMechanism::SetParam
 
     }
 }
+
+
 void HatchMechanism::SetPID
 (
     PIDData*        pid                 // <I> - PID control information
@@ -110,9 +113,14 @@ void HatchMechanism::SetPID
         m_motor->ConfigMotionAcceleration(pid->GetMaxAcceleration());
         m_motor->ConfigMotionCruiseVelocity(pid->GetCruiseVelocity());
     }
-
 }
 
+void HatchMechanism::SetPracticeStartingPos()
+{
+    m_motor->SetRotationOffset(0);
+}
 
-
-
+void HatchMechanism::SetLegalStartingPos()
+{
+    m_motor->SetRotationOffset(m_openRots);
+}

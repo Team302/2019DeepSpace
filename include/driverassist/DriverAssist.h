@@ -20,6 +20,7 @@ Driver assist contains all sub driver assist thingys and allocates teleop contro
 #include "driverassist/IntakeGamePiece.h"
 #include "driverassist/HoldDrivePosition.h"
 #include "driverassist/TargetAllign.h"
+#include "driverassist/DriveToTarget.h"
 #include "driverassist/Climb.h"
 
 class DriverAssist
@@ -45,6 +46,7 @@ private:
     IntakeGamePiece* m_intakeGamePiece;
     HoldDrivePosition* m_holdDrivePositon;
     TargetAllign* m_targetAllign;
+    DriveToTarget* m_driveToTarget;
     Climb* m_climb;
 
     // some bools

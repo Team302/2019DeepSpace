@@ -95,6 +95,8 @@ void Robot::RobotInit() {
   m_climber = MechanismFactory::GetMechanismFactory()->GetClimber();
   m_intake = MechanismFactory::GetMechanismFactory()->GetIntake();
   m_wrist = MechanismFactory::GetMechanismFactory()->GetWrist();
+  m_hatchMech = MechanismFactory::GetMechanismFactory()->GetHatchMech();
+
   if (m_arm == nullptr)
     printf("arm is NULLPTR!!!!!!!\n");
   if (m_climber == nullptr)
@@ -314,6 +316,7 @@ void Robot::TestInit()
   // set offsets for test robot starting config
   m_arm->SetPracticeStartingPos();
   m_wrist->SetPracticeStartingPos();
+  m_hatchMech->SetPracticeStartingPos();
 }
 
 void Robot::TestPeriodic() {}
