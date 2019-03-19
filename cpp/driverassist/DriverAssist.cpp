@@ -199,6 +199,7 @@ void DriverAssist::UpdateDriverControls()
     {
         m_holdMode = true;
         m_visionMode = false;
+        m_driveToTarget->Cancel();
         m_holdDrivePositon->ResetLeftRightTargetPosition();
     }
     else if (DriverAssist::TriggerPressed(!DriverAssist::TriggerPressed(m_switcher->m_mainController->GetTriggerAxis(frc::GenericHID::JoystickHand::kRightHand))) && m_pMainControllerTriggerRightHand)
