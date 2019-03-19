@@ -63,12 +63,13 @@ void DriveToTarget::Update()
             frc::SmartDashboard::PutNumber("vision delta", delta);
 
             frc::SmartDashboard::PutNumber("3D Heading Correction limited", headingCorrection);
-
+            m_chassis->SetDriveMode(DragonChassis::DRIVE_MODE::PERCENT_POWER);
             m_chassis->SetLeftRightMagnitudes((m_flip ? -DRIVE_SPEED : DRIVE_SPEED) + headingCorrection, (m_flip ? -DRIVE_SPEED : DRIVE_SPEED) - headingCorrection);
         }
             break;
         
         case DONE:
+            //TODO: are these conflicting? is this why we see the limelight flashing randomly?
             m_limelight->SetCamMode(DragonLimelight::CAM_MODE::CAM_DRIVER);
             m_limelight->SetLEDMode(DragonLimelight::LED_OFF);
             break;
