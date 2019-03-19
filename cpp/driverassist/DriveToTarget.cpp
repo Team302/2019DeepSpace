@@ -53,7 +53,7 @@ void DriveToTarget::Update()
             double delta = headingCorrection - m_pHeadingCorrection;
     
             m_pHeadingCorrection = headingCorrection;
-            headingCorrection += delta * 250.0;
+            // headingCorrection += delta * 250.0;
 
             if (headingCorrection > 0.7)
                 headingCorrection = 0.7;
