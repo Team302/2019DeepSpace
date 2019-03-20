@@ -373,7 +373,7 @@
 	<!-- Hatch Mech --> 
 	<mechanism type="4"> 
 		<motor usage="HATCH_MECH_MOTOR"
-			   canId="7"	
+			   canId="8"	
 			   type="cantalon"
                inverted="false"
 			   sensorInverted="true"
