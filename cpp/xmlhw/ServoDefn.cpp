@@ -9,6 +9,7 @@
 
 // Team 302 includes
 #include <hw/DragonServo.h>
+#include <hw/DragonServoFactory.h>
 #include <xmlhw/ServoDefn.h>
 
 
@@ -108,7 +109,7 @@
         // create the object
         if ( !hasError )
         {
-            servo = new DragonServo( usage, pwmID, minAngle, maxAngle );
+            servo = DragonServoFactory::GetInstance()->CreateDragonServo( usage, pwmID, minAngle, maxAngle );
         }
         return servo;
     }
