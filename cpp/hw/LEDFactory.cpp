@@ -60,7 +60,8 @@ int CANId
     switch(index)
     {
         case LEDFactory::FRONT:
-            printf("LEDFactory beginning of");
+            printf("LEDFactory beginning of Front case\n");
+            
             break;
     }
 }
