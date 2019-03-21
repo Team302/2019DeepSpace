@@ -48,6 +48,7 @@ private:
   bool m_holdMode;
   double m_leftTargetInches;
   double m_rightTargetInches;
+  bool m_hatchMechInit;
 
   const double ELEV_SPEED = 1.0;
 

@@ -25,7 +25,8 @@ Switcher::Switcher() :
             m_secondaryController(new frc::XboxController(1)),
            	m_holdMode(false),
             m_leftTargetInches(0),
-            m_rightTargetInches(0)
+            m_rightTargetInches(0),
+            m_hatchMechInit(false)
 {
     m_visionMode = false;
     m_camMode = false;
@@ -134,6 +135,12 @@ void Switcher::GamepieceUpdate(bool cargo)
     double armSpeed = -m_secondaryController->GetRawAxis(1) * 1.25;
     if (std::abs(armSpeed) < 0.1)
         armSpeed = 0;
+
+    if (armSpeed > 0 && !m_hatchMechInit)
+    {
+        m_hatchMechInit = true;
+        m_hatchMechanism->SetState(false);
+    }
 
     // m_extendSpeed = TeleopControl::GetInstance()->GetAxisValue( TeleopControl::EXTEND_ARM );
     double extendSpeed = m_secondaryController->GetRawAxis(0);
