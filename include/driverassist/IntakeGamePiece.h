@@ -54,7 +54,8 @@ private:
 
     const double CARGO_INTAKE_TIME = 0.25;
     const double HATCH_INTAKE_TIME = 0.25;
-    const double HATCH_SECOND_MECH_TIME = 0.1;
+    const double HATCH_SECOND_MECH_TIME = 0.35;
+    const double HATCH_SECOND_MECH_HOLD_POWER = 0.15;
 
     const double DONE_ARM_THRESH = 5;
 

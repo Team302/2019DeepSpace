@@ -7,6 +7,8 @@
 
 #include "driverassist/DriverAssist.h"
 #include "frc/SmartDashboard/SmartDashboard.h"
+#include "hw/LED.h"
+#include "hw/LEDFactory.h"
 
 using namespace frc;
 
@@ -19,6 +21,9 @@ DriverAssist::DriverAssist() : m_chassis(DragonChassis::GetInstance()),
                                m_targetAllign(new TargetAllign()),
                                m_driveToTarget(new DriveToTarget()),
                                m_climb(new Climb()),
+                               m_frontLed(LEDFactory::GetInstance()->GetLED(LEDFactory::LED_USAGE::UNDER_FRONT)),
+                               m_backLed(LEDFactory::GetInstance()->GetLED(LEDFactory::LED_USAGE::UNDER_BACK)),
+                               m_topLed(LEDFactory::GetInstance()->GetLED(LEDFactory::LED_USAGE::TOP)),
                                m_deploy(false),
                                m_intake(false),
                                m_climbMode(false),
@@ -65,7 +70,7 @@ void DriverAssist::Update()
     DriverAssist::AttemptingGamePieceCancel();
     // ask switcher if drivers are trying to move
     // if they are, cancel any overlapping driverassist processes
-    // TODO: add these into switcher
+    // TODO: add these into switcher //tomm bigg//
     // they should have a high tolerance so that there aren't accidental
     // joystick movements that could cancel the processes
 
@@ -77,13 +82,22 @@ void DriverAssist::Update()
         if (std::abs(driverAssistClimbSpeed) > 0.1)
         {
             m_climb->SetClimb(driverAssistClimbSpeed);
+            
+            // make top leds correspond to climb speed
+            if (m_topLed != nullptr)
+                m_topLed->SetRGB(0, driverAssistClimbSpeed, 0);
         }
         else
         {
             m_climb->Cancel();
             m_switcher->ClimberUpdate();
         }
-    
+
+        // make bottom leds green all the time in climb mode
+        if (m_frontLed != nullptr)
+            m_frontLed->SetRGB(0, 1, 0);
+        if (m_backLed != nullptr)
+            m_backLed->SetRGB(0, 1, 0);
     }
     else
     {
@@ -107,6 +121,45 @@ void DriverAssist::Update()
                 // printf("deploy game piece is done (run gamepiece update)\n");
                 m_switcher->GamepieceUpdate(m_cargo);
             }
+
+            // make front/back leds correspond to m_flip
+            if (m_flip)
+            {
+                if (m_backLed != nullptr)
+                    m_backLed->SetRGB(0, 1, 0);
+                if (m_frontLed != nullptr)
+                    m_frontLed->SetRGB(0, 0, 0);
+            }
+            else
+            {
+                if (m_backLed != nullptr)
+                    m_backLed->SetRGB(0, 0, 0);
+                if (m_frontLed != nullptr)
+                    m_frontLed->SetRGB(0, 1, 0);
+            }
+
+            // make top leds indicate new/old hatch, cargo mode
+            if (m_cargo)
+            {
+                if (m_topLed != nullptr)
+                    m_topLed->SetRGB(1, 0, 0); //red
+            }
+            else if (m_second)
+            {
+                if (m_topLed != nullptr)
+                    m_topLed->SetRGB(1, 0.1, 0); //orange
+            }
+            else
+            {
+                if (m_topLed != nullptr)
+                    m_topLed->SetRGB(0.66, 0.9, 0); //yellow
+            }
+        }
+        else
+        {
+            // make top leds green when arm is moving to position
+            if (m_topLed != nullptr)
+                    m_topLed->SetRGB(0, 1.0, 0);
         }
     }
     

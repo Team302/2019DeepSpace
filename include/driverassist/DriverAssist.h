@@ -15,6 +15,7 @@ Driver assist contains all sub driver assist thingys and allocates teleop contro
 #include "subsys/chassis/DragonChassis.h"
 #include "subsys/PlacementHeights.h"
 #include "teleop/Switcher.h"
+#include "hw/LED.h"
 #include "driverassist/MoveArmToPosition.h"
 #include "driverassist/DeployGamePiece.h"
 #include "driverassist/IntakeGamePiece.h"
@@ -48,6 +49,10 @@ private:
     TargetAllign* m_targetAllign;
     DriveToTarget* m_driveToTarget;
     Climb* m_climb;
+
+    LED* m_frontLed;
+    LED* m_backLed;
+    LED* m_topLed;
 
     // some bools
     bool m_deploy;

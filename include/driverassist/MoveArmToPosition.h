@@ -39,8 +39,8 @@ private:
 
     // constants
     const double SAFE_INCHES = 4.0;
-    const double ARM_THRESH = 30.0;
+    const double ARM_THRESH = 35.0;
     const double DONE_ARM_THRESH = 10.0;
-    const double DONE_WRIST_THRESH = 10.0;
+    const double DONE_WRIST_THRESH = 18.0;
     const double DONE_EXTEND_THRESH = 1.0;
 };

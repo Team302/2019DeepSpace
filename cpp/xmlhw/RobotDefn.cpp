@@ -18,6 +18,7 @@
 //#include <xmlhw/PCMDefn.h>
 #include <xmlhw/PDPDefn.h>
 #include <xmlhw/PigeonDefn.h>
+#include <xmlhw/LEDDefn.h>
 
 // Third Party Includes
 #include <pugixml/pugixml.hpp>
@@ -82,6 +83,11 @@ void RobotDefn::ParseXML()
                 {
                     printf("camera parse \n");
                     // CameraDefn::ParseXML( child );
+                }
+                else if ( strcmp( child.name(), "led") == 0 )
+                {
+                    printf("led parse\n");
+                    LEDDefn::ParseXML(child);
                 }
                 else
                 {

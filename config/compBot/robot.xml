@@ -7,6 +7,14 @@
      Pigeon
      ==================================================== -->    
     <pigeon canId="50" />
+
+       <!-- LED -->
+       <led canId="30"
+            usage = "2" />
+       <led canId="31"
+            usage = "1" />
+       <led canId="32"
+            usage = "0" />
        
 
 <!-- ====================================================
@@ -162,13 +170,13 @@
                peakCurrentLimit="30" 
                currentLimiting="true"/>
         <mechanismData paramType="LEGAL_STARTING_ANGLE"
-                       value="170.74"/>
+                       value="178.74"/>
         <mechanismData paramType="TEST_STARTING_ANGLE"
                        value="53.42"/>
         <mechanismData paramType="HATCH_FLOOR_ANGLE"
                        value="42"/>
         <mechanismData paramType="HATCH_HP_SECOND_ANGLE"
-                       value="-64.37"/>
+                       value="-62.05"/>
         <mechanismData paramType="HATCH_LOW_ANGLE"
                        value="157.4"/>
         <mechanismData paramType="HATCH_MID_ANGLE"
@@ -194,10 +202,10 @@
         <mechanismData paramType="CARGO_HIGH_ANGLE"
                        value="-34.76"/>
         <PID mode="2"
-             proportional="5.0"
+             proportional="10.0"
              derivative="10.0"
-             maxacceleration="150.0"
-             cruisevelocity="200.0"/>
+             maxacceleration="280.0"
+             cruisevelocity="250.0"/>
     </mechanism>
     
     <!-- Intake --> 
@@ -278,7 +286,7 @@
         <mechanismData paramType="HATCH_FLOOR_ANGLE"
                        value="-144.3"/>
         <mechanismData paramType="HATCH_HP_SECOND_ANGLE"
-                       value="-117.71"/>
+                       value="-113.9"/>
         <mechanismData paramType="HATCH_LOW_ANGLE"
                        value="-155.1"/>
         <mechanismData paramType="HATCH_MID_ANGLE"
@@ -393,7 +401,7 @@
                        value="0.81"/>
 
         <PID mode="1"
-             proportional="5.0"/>
+             proportional="10.0"/>
     </mechanism>
 <!-- ====================================================
      Talon Tachs

@@ -4,6 +4,7 @@
 #include "subsys/chassis/DragonChassis.h"
 #include "subsys/Arm.h"
 #include "subsys/MechanismFactory.h"
+#include "hw/LED.h"
 
 class DriveToTarget {
 public:
@@ -30,6 +31,10 @@ private:
     STATE m_state;
     bool m_flip;
     double m_pHeadingCorrection;
+
+    LED* m_frontLed;
+    LED* m_backLed;
+    LED* m_topLed;
     
     const double ROBOT_YAW_MULT = 2.0; //0.7
     const double ROCKET_YAW_MULT = 0.0; //0.25

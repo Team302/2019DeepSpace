@@ -110,7 +110,7 @@ private:
   DragonTalon* m_armMaster;
   DragonTalon* m_extender;
 
-  const double EXTENDER_HOLD_POWER = -0.1;
+  const double EXTENDER_HOLD_POWER = -0.095; //-0.1
 };
 
 // const double INCHES_PER_REVOLUTION = 8 / 6.7578125;

@@ -338,7 +338,8 @@ void Arm::CorrectExtenderPower(double &power, bool climbMode)
             power = climbMode ? EXTENDER_HOLD_POWER : -1;
     }
     else if (GetExtenderRealInches() < 0.0)
-        power = power > 0 ? power : 0;
+        power = power > EXTENDER_HOLD_POWER ? power : EXTENDER_HOLD_POWER;
+        // power = power > 0 ? power : 0;
 
     if (GetExtenderRealInches() > m_extenderMaxDistance)
         power = power > 0 ? 0 : power;

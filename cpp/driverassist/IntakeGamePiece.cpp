@@ -35,6 +35,7 @@ void IntakeGamePiece::Update()
             m_elapsedTime += 0.02;
             if (m_elapsedTime > HATCH_SECOND_MECH_TIME)
             {
+                // m_hatchMech->SetSpeed(HATCH_SECOND_MECH_HOLD_POWER);
                 m_state = DONE;
             }
             break;

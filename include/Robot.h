@@ -31,6 +31,7 @@ class Robot : public frc::TimedRobot {
   void TeleopPeriodic() override;
   void TestInit() override;
   void TestPeriodic() override;
+  void DisabledPeriodic() override;
   void Vision();
   void MainPeriodic();
 
@@ -51,6 +52,8 @@ class Robot : public frc::TimedRobot {
   DragonTalon* m_armMasterMotor;
   DragonTalon* m_wristMotor;
   DragonTalon* m_extenderMotor;
+
+  long m_loopCount;
 
   const double m_P_POSITION = 1.0;
   const double m_I_POSITION = 0.0; //1e-4

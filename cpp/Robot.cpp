@@ -24,6 +24,9 @@
 #include <subsys/chassis/DragonChassis.h>
 #include <driverassist/DriverAssist.h>
 #include <subsys/Arm.h>
+#include <hw/LED.h>
+#include <hw/LEDFactory.h>
+#include <math.h>
 
 #include <xmlhw/RobotDefn.h>
 using namespace frc;
@@ -80,9 +83,9 @@ void Robot::RobotInit() {
   // std::thread v1(&Robot::Vision,this);
   // v1.detach();
 
-  CameraServer* cameraServer = CameraServer::GetInstance();
-  cameraServer->SetSize(CameraServer::kSize320x240);
-  cameraServer->StartAutomaticCapture();
+  // CameraServer* cameraServer = CameraServer::GetInstance();
+  // cameraServer->SetSize(CameraServer::kSize320x240);
+  // cameraServer->StartAutomaticCapture();
   // cameraServer->
 
   // Read the robot definition from the xml configuration files and
@@ -114,6 +117,8 @@ void Robot::RobotInit() {
   printf("pointer to dragonchassis instance %p\n", (void*)DragonChassis::GetInstance());
    m_driverAssist = new DriverAssist();
    printf("done making driver assist\n");
+
+  m_loopCount = 0;
   /*  
   
   printf("OMG WE DEPLOYED CODE 23\n");
@@ -263,7 +268,7 @@ void Robot::RobotInit() {
  * LiveWindow and SmartDashboard integrated updating.
  */
 void Robot::RobotPeriodic() {
-
+  m_loopCount++;
 }
 
 /**
@@ -318,6 +323,34 @@ void Robot::TestInit()
   m_wrist->SetPracticeStartingPos();
   m_hatchMech->SetPracticeStartingPos();
 }
+
+void Robot::DisabledPeriodic()
+{
+  LED* back = LEDFactory::GetInstance()->GetLED(LEDFactory::LED_USAGE::UNDER_BACK);
+  LED* front = LEDFactory::GetInstance()->GetLED(LEDFactory::LED_USAGE::UNDER_FRONT);
+  LED* top = LEDFactory::GetInstance()->GetLED(LEDFactory::LED_USAGE::TOP);
+
+  double fadingGreen = m_loopCount * 0.02;
+  fadingGreen /= 4;
+
+  double fadingFront = (std::sin(fadingGreen * M_PI_2) + 1.0) / 2.0;
+  double fadingBack = (std::cos(fadingGreen * M_PI_2) + 1.0) / 2.0;
+
+  fadingBack *= fadingBack * fadingBack;
+  fadingFront *= fadingFront * fadingFront;
+
+  fadingBack *= 0.1;
+  fadingFront *= 0.1;
+  
+  if (back != nullptr)
+    back->SetRGB(0, fadingBack, 0);
+  if (front != nullptr)
+    front->SetRGB(0, fadingFront, 0);
+  if (top != nullptr)
+    top->SetRGB(0, 0, 0);
+}
+
+
 
 void Robot::TestPeriodic() {}
 
