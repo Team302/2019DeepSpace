@@ -10,6 +10,7 @@
 #include <frc/smartdashboard/SmartDashboard.h>
 #include <subsys/IMechanism.h>
 #include <subsys/vision/DragonLimelight.h>
+#include <DefnRobot.h>
 
 //TODO: xml baby
 Switcher::Switcher() :
@@ -192,7 +193,14 @@ void Switcher::ClimberUpdate()
     double wristSpeed = -m_secondaryController->GetRawAxis(5);
     if (std::abs(wristSpeed) < 0.12)
         wristSpeed = 0;
+        
+    #if ROBOT == COMP_BOT
+    wristSpeed -= 0.05;
+    #endif
+    #if ROBOT == PRAC_BOT
     wristSpeed -= 0.1; //This is nessesary because our wrist keeps flipping when we try to climb
+    #endif
+    
 
     double extendSpeed = m_secondaryController->GetRawAxis(0);
     if (std::abs(extendSpeed) < 0.1)
