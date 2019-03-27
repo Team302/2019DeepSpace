@@ -38,11 +38,13 @@ public:
 
     // Getters
     double GetVelocity() const; // in inches per second
-    double GetLeftVelocity() const;
-    double GetRightVelocity() const;
+    // double GetLeftVelocity() const;
+    // double GetRightVelocity() const;
+    double GetLeftMiddleVelocity() const;
+    double GetRightMiddleVelocity() const;
     double GetDistance() const; // in inches
-    double GetLeftDistance() const;
-    double GetRightDistance() const;
+    // double GetLeftDistance() const;
+    // double GetRightDistance() const;
     double GetLeftMiddleDistance() const;
     double GetRightMiddleDistance() const;
     

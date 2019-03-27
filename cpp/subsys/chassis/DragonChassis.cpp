@@ -76,25 +76,38 @@ DragonChassis* DragonChassis::GetInstance()
 
 double DragonChassis::GetVelocity() const
 {
-    return (GetLeftVelocity() + GetRightVelocity()) / 2.0;
+    // return (GetLeftVelocity() + GetRightVelocity()) / 2.0;
+    return (GetLeftMiddleVelocity() + GetRightMiddleVelocity()) / 2.0;
 }
 
-double DragonChassis::GetLeftVelocity() const
+// double DragonChassis::GetLeftVelocity() const
+// {
+//     double bestValue = GetBestValue(m_frontLeft->GetRPS(), m_middleLeft->GetRPS(), m_backLeft->GetRPS());
+//     return bestValue * m_wheelDiameter * M_PI;
+// }
+
+// double DragonChassis::GetRightVelocity() const
+// {
+//     double bestValue = GetBestValue(m_frontRight->GetRPS(), m_middleRight->GetRPS(), m_backRight->GetRPS());
+//     return bestValue * m_wheelDiameter * M_PI;
+// }
+
+double DragonChassis::GetLeftMiddleVelocity() const
 {
-    double bestValue = GetBestValue(m_frontLeft->GetRPS(), m_middleLeft->GetRPS(), m_backLeft->GetRPS());
-    return bestValue * m_wheelDiameter * M_PI;
+    return m_middleLeft->GetRPS() * m_wheelDiameter * M_PI;
 }
 
-double DragonChassis::GetRightVelocity() const
+double DragonChassis::GetRightMiddleVelocity() const
 {
-    double bestValue = GetBestValue(m_frontRight->GetRPS(), m_middleRight->GetRPS(), m_backRight->GetRPS());
-    return bestValue * m_wheelDiameter * M_PI;
+    return m_middleRight->GetRPS() * m_wheelDiameter * M_PI;
 }
 
 double DragonChassis::GetDistance() const
 {
-    double leftDistance = GetLeftDistance();
-    double rightDistance = GetRightDistance();
+    // double leftDistance = GetLeftDistance();
+    // double rightDistance = GetRightDistance();
+    double leftDistance = GetLeftMiddleDistance();
+    double rightDistance = GetRightMiddleDistance();
     return (leftDistance + rightDistance) / 2.0;
 }
 
@@ -127,17 +140,17 @@ double DragonChassis::GetBestValue(double a, double b, double c) const
     }
 }
 
-double DragonChassis::GetLeftDistance() const
-{
-    double bestValue = GetBestValue(m_frontLeft->GetRotations(), m_middleLeft->GetRotations(), m_backLeft->GetRotations());
-    return bestValue * m_wheelDiameter * M_PI;
-}
+// double DragonChassis::GetLeftDistance() const
+// {
+//     double bestValue = GetBestValue(m_frontLeft->GetRotations(), m_middleLeft->GetRotations(), m_backLeft->GetRotations());
+//     return bestValue * m_wheelDiameter * M_PI;
+// }
 
-double DragonChassis::GetRightDistance() const
-{
-    double bestValue = GetBestValue(m_frontRight->GetRotations(), m_middleRight->GetRotations(), m_backRight->GetRotations());
-    return bestValue * m_wheelDiameter * M_PI;
-}
+// double DragonChassis::GetRightDistance() const
+// {
+//     double bestValue = GetBestValue(m_frontRight->GetRotations(), m_middleRight->GetRotations(), m_backRight->GetRotations());
+//     return bestValue * m_wheelDiameter * M_PI;
+// }
 
 double DragonChassis::GetLeftMiddleDistance() const
 {

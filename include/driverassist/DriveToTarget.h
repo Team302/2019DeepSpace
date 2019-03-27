@@ -5,6 +5,7 @@
 #include "subsys/Arm.h"
 #include "subsys/MechanismFactory.h"
 #include "hw/LED.h"
+#include "driverassist/HoldDrivePosition.h"
 
 class DriveToTarget {
 public:
@@ -20,6 +21,8 @@ private:
     enum STATE
     {
         DRIVING_TO_TARGET,
+        COARSE_ADJUSTMENT_INIT,
+        COARSE_ADJUSTMENT, 
         DONE
     };
 
@@ -27,17 +30,22 @@ private:
 
     DragonLimelight* m_limelight;
     DragonChassis* m_chassis;
+    HoldDrivePosition* m_hold;
     Arm* m_arm;
     STATE m_state;
     bool m_flip;
     double m_pHeadingCorrection;
+    int m_coarseAdjustInitLoops;
 
     LED* m_frontLed;
     LED* m_backLed;
     LED* m_topLed;
     
-    const double ROBOT_YAW_MULT = 2.0; //0.7
-    const double ROCKET_YAW_MULT = 0.0; //0.25
+    const double ROBOT_YAW_MULT = 0.02;
+    const double ROCKET_YAW_MULT = 0.0; //don't use if not using 3d solve
     const double DRIVE_SPEED = 0.0;
+    const double ROT_OVER_HEADING = 0.3844003452;
+    const double EARLY_STOP_DISTANCE = 1.0;
+    const double COARSE_DONE_DISTANCE_THRESHOLD = 2.0;
 
 };

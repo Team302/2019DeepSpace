@@ -30,3 +30,13 @@ void HoldDrivePosition::ResetLeftRightTargetPosition()
     m_leftTargetPosition = m_chassis->GetLeftMiddleDistance();
     m_rightTargetPosition = m_chassis->GetRightMiddleDistance();
 }
+
+double HoldDrivePosition::GetLeftDistanceToTarget()
+{
+    return m_leftTargetPosition - m_chassis->GetLeftMiddleDistance();
+}
+
+double HoldDrivePosition::GetRightDistanceToTarget()
+{
+    return m_rightTargetPosition - m_chassis->GetRightMiddleDistance();
+}

@@ -16,6 +16,8 @@ class HoldDrivePosition {
   void RunHoldMode();
   void SetLeftRightTargetOffsetPosition(double leftOffsetTargetPosition, double rightOffsetTargetPosition);
   void ResetLeftRightTargetPosition();
+  double GetLeftDistanceToTarget();
+  double GetRightDistanceToTarget();
 
  private:
   DragonChassis* m_chassis;

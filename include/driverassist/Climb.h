@@ -37,7 +37,7 @@ private:
     const double ARM_SPEED_MULTIPLIER = 15;
     #endif
     #if ROBOT == PRAC_BOT
-    const double ARM_SPEED_MULTIPLIER = 22;
+    const double ARM_SPEED_MULTIPLIER = 40;
     #endif
     
     const double BOTH_UP_THRESHOLD = 1.5;
