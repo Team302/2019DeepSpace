@@ -8,6 +8,7 @@ m_arm(MechanismFactory::GetMechanismFactory()->GetArm()),
 m_wrist(MechanismFactory::GetMechanismFactory()->GetWrist()),
 m_climber(MechanismFactory::GetMechanismFactory()->GetClimber()),
 m_pigeon(DragonPigeon::GetPigeon()),
+m_holdClimber(false),
 m_speed(0)
 {
 }
@@ -41,15 +42,18 @@ void Climb::Update()
                 {
                     // arm down
                     m_arm->MoveArmAngle(m_arm->GetArmTargetAngle() - (m_speed * ARM_SPEED_MULTIPLIER * 0.02));
-                    m_climber->MoveClimbElevator(0);
+                    m_climber->MoveClimbElevator(-CLIMBER_HOLD_POWER);
                     frc::SmartDashboard::PutNumber("automated climb stat (1 is arm catching up)", 1);
+                    m_holdClimber = true;
                 }
                 else
                 {
                     //elevator down
                     m_climber->MoveClimbElevator(-m_speed);
                     frc::SmartDashboard::PutNumber("automated climb stat (1 is arm catching up)", -1);
+                    m_holdClimber = true;
                 }
+                
             }
             else //climbing down
             {
@@ -92,4 +96,21 @@ void Climb::SetClimb(double speed)
 bool Climb::IsDone()
 {
     return m_state == DONE;
+}
+
+double Climb::GetHoldPower()
+{
+    if (m_holdClimber)
+    {
+        return -CLIMBER_HOLD_POWER;
+    }
+    else
+    {
+        return 0.0;
+    }
+}
+
+void Climb::CancelHold()
+{
+    m_holdClimber = false;
 }

@@ -45,7 +45,7 @@ private:
     const double ROCKET_YAW_MULT = 0.0; //don't use if not using 3d solve
     const double DRIVE_SPEED = 0.0;
     const double ROT_OVER_HEADING = 0.3844003452;
-    const double EARLY_STOP_DISTANCE = 1.0;
-    const double COARSE_DONE_DISTANCE_THRESHOLD = 2.0;
+    const double EARLY_STOP_DISTANCE = 0.5;
+    const double COARSE_DONE_DISTANCE_THRESHOLD = 1.0;
 
 };

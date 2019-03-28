@@ -22,7 +22,7 @@ class Switcher {
 
   void DriveUpdate();       // updates chassis
   void GamepieceUpdate(bool cargo);   // updates arm, wrist, intake
-  void ClimberUpdate();     // updates climber
+  int ClimberUpdate(double holdPower);     // updates climber
   void ExitClimbMode();
 
   frc::XboxController* m_mainController;

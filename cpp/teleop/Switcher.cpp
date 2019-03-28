@@ -177,7 +177,7 @@ void Switcher::GamepieceUpdate(bool cargo)
     
 }
 
-void Switcher::ClimberUpdate()
+int Switcher::ClimberUpdate(double holdPower)
 {
     // if (TeleopControl::GetInstance()->IsButtonPressed(TeleopControl::FUNCTION_IDENTIFIER::CLIMB_ELEVATOR_UP))
     //     m_climbElevSpeed = ELEV_SPEED;
@@ -191,7 +191,7 @@ void Switcher::ClimberUpdate()
         armSpeed = 0;
 
     double wristSpeed = -m_secondaryController->GetRawAxis(5);
-    if (std::abs(wristSpeed) < 0.12)
+    if (std::abs(wristSpeed) < 0.15)
         wristSpeed = 0;
         
     #if ROBOT == COMP_BOT
@@ -213,23 +213,27 @@ void Switcher::ClimberUpdate()
     // m_climbElevSpeed = m_secondaryController->GetBumper(frc::GenericHID::JoystickHand::kLeftHand) - m_secondaryController->GetBumper(frc::GenericHID::JoystickHand::kRightHand);
     // m_dropBuddyClimb = TeleopControl::GetInstance()->IsButtonPressed(TeleopControl::FUNCTION_IDENTIFIER::DROP_BUDDY_CLIMB);
 
+    int climbSpeed = 0;
     if (m_secondaryController->GetBumper(frc::GenericHID::JoystickHand::kLeftHand))
     {
+        climbSpeed = 1;
         m_climber->MoveClimbElevator(1);
     }
-    else if (m_secondaryController->GetBumperReleased(frc::GenericHID::JoystickHand::kRightHand))
+    else if (m_secondaryController->GetBumper(frc::GenericHID::JoystickHand::kRightHand))
     {
+        climbSpeed = -1;
         m_climber->MoveClimbElevator(-1);
     }
     else
     {
-        m_climber->MoveClimbElevator(0);
+        m_climber->MoveClimbElevator(holdPower);
     }
     
 
     // if (m_secondaryController->GetBumperReleased(frc::GenericHID::JoystickHand::kLeftHand) || m_secondaryController->GetBumperReleased(frc::GenericHID::JoystickHand::kLeftHand))
     //     m_climber->MoveClimbElevator(-0.1);
     // m_climber->DropBuddyClimb(m_dropBuddyClimb);
+    return climbSpeed; //netative is climb, positive unclimb
 }
 
 void Switcher::ExitClimbMode()

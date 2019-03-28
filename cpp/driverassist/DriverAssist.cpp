@@ -90,7 +90,14 @@ void DriverAssist::Update()
         else
         {
             m_climb->Cancel();
-            m_switcher->ClimberUpdate();
+            int climbSpd = m_switcher->ClimberUpdate(m_climb->GetHoldPower());
+            if (climbSpd == 1)
+            {
+                // cancel hold
+                m_climb->CancelHold();
+            }
+            // else if (climbSpd == 0
+            
         }
 
         // make bottom leds green all the time in climb mode

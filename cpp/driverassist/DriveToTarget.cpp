@@ -41,12 +41,14 @@ void DriveToTarget::Update()
         m_limelight->SetCamMode(DragonLimelight::CAM_MODE::CAM_VISION);
         m_limelight->SetLEDMode(DragonLimelight::LED_ON);
         double limelightValue = m_limelight->GetTargetHorizontalOffset();
-        if (m_coarseAdjustInitLoops > 2)
+        if (m_coarseAdjustInitLoops > 6)
         {
             direction = limelightValue > 0; //true = turn right
             double turnDist = limelightValue * ROT_OVER_HEADING / 2.0;
+            frc::SmartDashboard::PutNumber("turnDist before reduction", turnDist);
             bool turnDistSign = turnDist > 0;
-            turnDist += turnDist > 0 ? -EARLY_STOP_DISTANCE : EARLY_STOP_DISTANCE; 
+            // turnDist += ((turnDist > 0) ? -EARLY_STOP_DISTANCE : EARLY_STOP_DISTANCE); 
+            turnDist *= 0.2;
             if ((turnDist > 0) != turnDistSign)
             {
                 turnDist = 0;
@@ -60,6 +62,7 @@ void DriveToTarget::Update()
             // move to position
             m_hold->ResetLeftRightTargetPosition();
             m_hold->SetLeftRightTargetOffsetPosition(limelightValue * ROT_OVER_HEADING / 2.0, -limelightValue * ROT_OVER_HEADING / 2.0);
+            m_hold->RunHoldMode();
             m_state = turnDist == 0 ? DRIVING_TO_TARGET : COARSE_ADJUSTMENT;
         }
 
