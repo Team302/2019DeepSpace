@@ -331,7 +331,7 @@ void Robot::DisabledPeriodic()
   LED* top = LEDFactory::GetInstance()->GetLED(LEDFactory::LED_USAGE::TOP);
 
   double fadingGreen = m_loopCount * 0.02;
-  fadingGreen /= 3.0;
+  fadingGreen /= 5.0;
 
   double fadingFront = (std::sin(fadingGreen * M_PI_2) + 1.0) / 2.0;
   double fadingBack = (std::cos(fadingGreen * M_PI_2) + 1.0) / 2.0;
@@ -341,9 +341,9 @@ void Robot::DisabledPeriodic()
   fadingFront *= fadingFront * fadingFront;
   fadingTop *= fadingTop * fadingTop;
 
-  fadingBack *= 0.1;
-  fadingFront *= 0.1;
-  fadingTop *= 0.1;
+  fadingBack *= 0.05;
+  fadingFront *= 0.05;
+  fadingTop *= 0.025;
   
   if (back != nullptr)
     back->SetRGB(0, fadingBack, 0);

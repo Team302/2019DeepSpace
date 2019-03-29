@@ -149,7 +149,7 @@ void Switcher::GamepieceUpdate(bool cargo)
         extendSpeed = 0;
     // m_wristSpeed = -TeleopControl::GetInstance()->GetAxisValue( TeleopControl::ROTATE_WRIST );
     // m_wristSpeed = m_secondaryController->GetRawAxis(5);
-    double wristSpeed = -m_secondaryController->GetRawAxis(5) * 4.5;
+    double wristSpeed = -m_secondaryController->GetRawAxis(5) * 2.5;
     if (std::abs(wristSpeed) < 0.1)
         wristSpeed = 0;
     // m_intakeSpeed = TeleopControl::GetInstance()->GetAxisValue( TeleopControl::INTAKE ) - TeleopControl::GetInstance()->GetAxisValue( TeleopControl::OUTAKE );

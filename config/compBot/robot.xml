@@ -202,7 +202,7 @@
         <mechanismData paramType="CARGO_HIGH_ANGLE"
                        value="-34.76"/>
         <PID mode="2"
-             proportional="10.0"
+             proportional="8.0"
              derivative="10.0"
              maxacceleration="280.0"
              cruisevelocity="250.0"/>
