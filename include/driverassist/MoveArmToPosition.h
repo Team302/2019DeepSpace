@@ -38,7 +38,7 @@ private:
     Wrist* m_wrist;
 
     // constants
-    const double SAFE_INCHES = 4.0;
+    const double SAFE_INCHES = 6.0;
     const double ARM_THRESH = 35.0;
     const double DONE_ARM_THRESH = 10.0;
     const double DONE_WRIST_THRESH = 18.0;

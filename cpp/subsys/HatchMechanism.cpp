@@ -122,5 +122,5 @@ void HatchMechanism::SetPracticeStartingPos()
 
 void HatchMechanism::SetLegalStartingPos()
 {
-    m_motor->SetRotationOffset(m_openRots);
+    m_motor->SetRotationOffset(m_openRots - 0.1);
 }

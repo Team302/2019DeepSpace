@@ -65,12 +65,18 @@ void MoveArmToPosition::Update()
 void MoveArmToPosition::Cancel()
 {
     m_currentState = MOVE_STATE::DONE;
+    m_arm->MoveArmAngle(m_arm->GetArmRealAngle());
+    m_wrist->MoveWristManualAngle(m_wrist->GetWristRealAngle());
 }
 
 bool MoveArmToPosition::IsDone()
 {
-    frc::SmartDashboard::PutBoolean("Arm at target (sequence)", true);
-    frc::SmartDashboard::PutBoolean("Wrist at target (sequence)", true);
-    frc::SmartDashboard::PutBoolean("Extend at target (sequence)", true);
+    if (m_currentState == MOVE_STATE::DONE)
+    {
+        frc::SmartDashboard::PutBoolean("Arm at target (sequence)", true);
+        frc::SmartDashboard::PutBoolean("Wrist at target (sequence)", true);
+        frc::SmartDashboard::PutBoolean("Extend at target (sequence)", true);
+    }
+
     return (m_currentState == MOVE_STATE::DONE);
 }

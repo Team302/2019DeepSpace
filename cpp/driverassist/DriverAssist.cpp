@@ -46,7 +46,7 @@ void DriverAssist::Update()
     UpdateDriverControls();
 
     // check climb mode button
-    if(m_switcher->m_secondaryController->GetStartButtonPressed())
+    if (m_switcher->m_secondaryController->GetStartButtonPressed())
     {
         m_climbMode = !m_climbMode;
         if (!m_climbMode)
@@ -60,11 +60,9 @@ void DriverAssist::Update()
             // enable brake mode
             // m_chassis->EnableBrakeMode(true);
         }
-        
     }
 
     // check wrist force percent output mode button
-        
 
     DriverAssist::AttemptingDriveCancel();
     DriverAssist::AttemptingGamePieceCancel();
@@ -76,13 +74,13 @@ void DriverAssist::Update()
 
     // after we determine what we can run, run them below
     SmartDashboard::PutBoolean("Climb Mode", m_climbMode);
-    if(m_climbMode)
+    if (m_climbMode)
     {
         double driverAssistClimbSpeed = -m_switcher->m_secondaryController->GetTriggerAxis(frc::GenericHID::JoystickHand::kLeftHand) + m_switcher->m_secondaryController->GetTriggerAxis(frc::GenericHID::JoystickHand::kRightHand);
         if (std::abs(driverAssistClimbSpeed) > 0.1)
         {
             m_climb->SetClimb(driverAssistClimbSpeed);
-            
+
             // make top leds correspond to climb speed
             if (m_topLed != nullptr)
                 m_topLed->SetRGB(0, driverAssistClimbSpeed, 0);
@@ -97,7 +95,6 @@ void DriverAssist::Update()
                 m_climb->CancelHold();
             }
             // else if (climbSpd == 0
-            
         }
 
         // make bottom leds green all the time in climb mode
@@ -154,22 +151,22 @@ void DriverAssist::Update()
             else if (m_second)
             {
                 if (m_topLed != nullptr)
-                    m_topLed->SetRGB(1, 0.1, 0); //orange
+                    m_topLed->SetRGB(1, 0.0, 1.0); //purple
             }
             else
             {
                 if (m_topLed != nullptr)
-                    m_topLed->SetRGB(0.66, 0.9, 0); //yellow
+                    m_topLed->SetRGB(0.1, 0.9, 0); //yellow
             }
         }
         else
         {
             // make top leds green when arm is moving to position
             if (m_topLed != nullptr)
-                    m_topLed->SetRGB(0, 1.0, 0);
+                m_topLed->SetRGB(0, 1.0, 0);
         }
     }
-    
+
     m_MoveArmToPos->Update();
     m_deployGamePiece->Update();
     m_intakeGamePiece->Update();
@@ -266,22 +263,22 @@ void DriverAssist::UpdateDriverControls()
         m_holdMode = false;
     }
 
-    if(m_visionMode)
+    if (m_visionMode)
     {
         // m_targetAllign->Update();
         // if(m_targetAllign->IsDone())
         //     m_visionMode = false;
     }
-    else if(m_holdMode)
-    {    
-        double forwardSpeed = - (m_switcher->m_mainController->GetRawAxis(1));
+    else if (m_holdMode)
+    {
+        double forwardSpeed = -(m_switcher->m_mainController->GetRawAxis(1));
         double turnSpeed = (m_switcher->m_mainController->GetRawAxis(4));
 
         // deadbands
         if (std::abs(forwardSpeed) < 0.11)
-                forwardSpeed = 0.0;
+            forwardSpeed = 0.0;
         if (std::abs(turnSpeed) < 0.11)
-                turnSpeed = 0.0;
+            turnSpeed = 0.0;
 
         forwardSpeed = std::pow(forwardSpeed, 3);
         turnSpeed = std::pow(turnSpeed, 3);
@@ -307,14 +304,25 @@ void DriverAssist::UpdateDriverControls()
 
 void DriverAssist::AttemptingGamePieceCancel()
 {
-    if (std::abs(m_switcher->m_secondaryController->GetRawAxis(0)) > 0.50)
-        m_MoveArmToPos->Cancel();
-    if (std::abs(m_switcher->m_secondaryController->GetRawAxis(2)) > 0.50)
-        m_MoveArmToPos->Cancel();
-    if (std::abs(m_switcher->m_secondaryController->GetRawAxis(3)) > 0.50)
-        m_MoveArmToPos->Cancel();
-    if (std::abs(m_switcher->m_secondaryController->GetRawAxis(4)) > 0.50)
-        m_MoveArmToPos->Cancel();
+    if (!m_MoveArmToPos->IsDone())
+    {
+        bool tryCancel = false;
+        if (std::abs(m_switcher->m_secondaryController->GetRawAxis(0)) > 0.50)
+            tryCancel = true;
+        if (std::abs(m_switcher->m_secondaryController->GetRawAxis(1)) > 0.50)
+            tryCancel = true;
+        if (std::abs(m_switcher->m_secondaryController->GetRawAxis(5)) > 0.50)
+            tryCancel = true;
+        // if (std::abs(m_switcher->m_secondaryController->GetRawAxis(4)) > 0.50)
+        //     tryCancel = true;
+
+        if (tryCancel)
+        {
+            m_MoveArmToPos->Cancel();
+        }
+    }
+
+    // m_MoveArmToPos->Cancel();
 }
 
 void DriverAssist::AttemptingDriveCancel()

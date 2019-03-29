@@ -393,9 +393,9 @@
                countsPerRev="1120"
                brakeMode="true"
                gearRatio="1.0" 
-               peakCurrentDuration="50"
-               continuousCurrentLimit="30"
-               peakCurrentLimit="40" 
+               peakCurrentDuration="0"
+               continuousCurrentLimit="9"
+               peakCurrentLimit="9" 
                currentLimiting="true"/>
         <mechanismData paramType="HATCH_MECH_OPEN_ROTATIONS"
                        value="0.81"/>
