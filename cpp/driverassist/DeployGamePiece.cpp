@@ -77,6 +77,11 @@ void DeployGamePiece::Deploy(bool cargo, bool flip, bool hatchPointingUp, bool s
 
 void DeployGamePiece::Cancel()
 {
+    if (m_state == MOVING_WRIST || m_state == MOVING_WRIST_AND_INTAKE)
+    {
+        m_wrist->MoveWristManualAngle(m_wrist->GetWristRealAngle());
+        m_intake->IntakeManual(0);
+    }
     m_state = DONE;
     m_elapsedTime = 0;
 }

@@ -105,6 +105,7 @@ void DriverAssist::Update()
     }
     else
     {
+        m_climb->HoldUp(); //TODO: jonah testing here
         UpdateSecondaryControls();
         if (m_MoveArmToPos->IsDone())
         {
@@ -304,7 +305,7 @@ void DriverAssist::UpdateDriverControls()
 
 void DriverAssist::AttemptingGamePieceCancel()
 {
-    if (!m_MoveArmToPos->IsDone())
+    if (!m_MoveArmToPos->IsDone() || !m_deployGamePiece->IsDone())
     {
         bool tryCancel = false;
         if (std::abs(m_switcher->m_secondaryController->GetRawAxis(0)) > 0.50)
@@ -319,10 +320,9 @@ void DriverAssist::AttemptingGamePieceCancel()
         if (tryCancel)
         {
             m_MoveArmToPos->Cancel();
+            m_deployGamePiece->Cancel();
         }
     }
-
-    // m_MoveArmToPos->Cancel();
 }
 
 void DriverAssist::AttemptingDriveCancel()

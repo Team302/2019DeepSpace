@@ -25,6 +25,7 @@ public:
     bool IsDone();
     double GetHoldPower();
     void CancelHold(); // call this when we move the elevator up manually
+    void HoldUp();
 
 private:
     CLIMB_STATE m_state;
@@ -46,5 +47,6 @@ private:
     const double BOTH_UP_THRESHOLD = 1.5;
     const double ANGLE_OFFSET = 1.5;
     const double CLIMBER_HOLD_POWER = 0.1;
+    const double CLIMBER_HOLD_UP_POWER = 0.03;
 
 };

@@ -61,11 +61,13 @@ void Climb::Update()
                 {
                     //elevator up
                     m_climber->MoveClimbElevator(-m_speed);
+                    m_holdClimber = true;
                 }
                 else
                 {
                     m_arm->MoveArmAngle(m_arm->GetArmTargetAngle() - (m_speed * ARM_SPEED_MULTIPLIER * 0.02));
                     m_climber->MoveClimbElevator(0);
+                    m_holdClimber = true;
                 }
             }
             
@@ -106,11 +108,16 @@ double Climb::GetHoldPower()
     }
     else
     {
-        return 0.0;
+        return CLIMBER_HOLD_UP_POWER;
     }
 }
 
 void Climb::CancelHold()
 {
     m_holdClimber = false;
+}
+
+void Climb::HoldUp()
+{
+    m_climber->MoveClimbElevator(CLIMBER_HOLD_UP_POWER);
 }

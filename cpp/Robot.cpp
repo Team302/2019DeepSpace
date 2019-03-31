@@ -337,13 +337,21 @@ void Robot::DisabledPeriodic()
   double fadingBack = (std::cos(fadingGreen * M_PI_2) + 1.0) / 2.0;
   double fadingTop = 1-fadingBack;
 
-  fadingBack *= fadingBack * fadingBack;
-  fadingFront *= fadingFront * fadingFront;
-  fadingTop *= fadingTop * fadingTop;
+  // fadingBack *= fadingBack * fadingBack;
+  // fadingFront *= fadingFront * fadingFront;
+  // fadingTop *= fadingTop * fadingTop;
 
-  fadingBack *= 0.05;
-  fadingFront *= 0.05;
-  fadingTop *= 0.025;
+  fadingBack *= fadingBack;
+  fadingFront *= fadingFront;
+  fadingTop *= fadingTop;
+
+  // fadingBack *= 0.05;
+  // fadingFront *= 0.05;
+  // fadingTop *= 0.025;
+  fadingBack /= 255.0;
+  fadingFront /= 255.0;
+  fadingTop /= 255.0;
+  fadingTop *= 0.75;
   
   if (back != nullptr)
     back->SetRGB(0, fadingBack, 0);
