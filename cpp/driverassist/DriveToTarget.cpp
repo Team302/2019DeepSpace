@@ -38,9 +38,15 @@ void DriveToTarget::Update()
     case COARSE_ADJUSTMENT_INIT:
     {
         frc::SmartDashboard::PutString("DriveToTarget state", "COARSE_ADJUSTMENT_INIT");
+
+        // Set LED Modes on limelight
         m_limelight->SetCamMode(DragonLimelight::CAM_MODE::CAM_VISION);
         m_limelight->SetLEDMode(DragonLimelight::LED_ON);
+
+        // Get target offset
         double limelightValue = m_limelight->GetTargetHorizontalOffset();
+
+        // Assuming makes sure our target is real and not noise?
         if (m_coarseAdjustInitLoops > 6)
         {
             direction = limelightValue > 0; //true = turn right
@@ -72,9 +78,11 @@ void DriveToTarget::Update()
 
     case COARSE_ADJUSTMENT:
     {
+        // Set limelight modes
         frc::SmartDashboard::PutString("DriveToTarget state", "COARSE_ADJUSTMENT");
         m_limelight->SetCamMode(DragonLimelight::CAM_MODE::CAM_VISION);
         m_limelight->SetLEDMode(DragonLimelight::LED_ON);
+
         double turnVelocity = m_chassis->GetLeftMiddleVelocity() - m_chassis->GetRightMiddleVelocity(); // turning left is negative, right is positive
         if ((turnVelocity > 0 != direction) && turnVelocity != 0)
         {
@@ -99,6 +107,7 @@ void DriveToTarget::Update()
         m_frontLed->DisableLED();
         if (m_backLed != nullptr)
             m_backLed->DisableLED();
+
         // std::vector<double> solution = m_limelight->Get3DSolve();
         // frc::SmartDashboard::PutNumber("3D X", solution[0]);
         // frc::SmartDashboard::PutNumber("3D Y", solution[1]);
@@ -109,9 +118,11 @@ void DriveToTarget::Update()
 
         // double rocketHeading = RadToHeading(std::atan2(solution[2], solution[0]));
 
+
         // double headingCorrection = -(rocketHeading * ROCKET_YAW_MULT) + (solution[4] * ROBOT_YAW_MULT);
         // headingCorrection *= 0.01;
-        // frc::SmartDashboard::PutNumber("3D Heading Correction", headingCorrection);
+        // frc::SmartDashboard::PutNumber("3D Heading Correction", headingCorrection);c 
+
         double limelightValue = m_limelight->GetTargetHorizontalOffset();
         double headingCorrection = limelightValue * ROBOT_YAW_MULT;
 

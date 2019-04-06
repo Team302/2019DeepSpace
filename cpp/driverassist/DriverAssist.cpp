@@ -291,8 +291,25 @@ void DriverAssist::UpdateDriverControls()
         leftOffset *= 0.02;
         rightOffset *= 0.02;
 
-        m_holdDrivePositon->SetLeftRightTargetOffsetPosition(leftOffset, rightOffset);
-        m_holdDrivePositon->RunHoldMode();
+        if (m_switcher->m_mainController->GetPOV() == 90)
+        {
+            // printf("turning right\n");
+            m_holdDrivePositon->SetLeftRightTargetOffsetPosition(0.17, -0.17);
+            m_holdDrivePositon->RunHoldMode();
+        }
+        else if (m_switcher->m_mainController->GetPOV() == 270)
+        {
+            // printf("turning left\n");
+            m_holdDrivePositon->SetLeftRightTargetOffsetPosition(-0.17, 0.17);
+            m_holdDrivePositon->RunHoldMode();
+        }
+        else
+        {
+            // if(m_holdDrivePositon->GetLeftDistanceToTarget() < 1 && m_holdDrivePositon->GetRightDistanceToTarget() < 1)
+                m_holdDrivePositon->SetLeftRightTargetOffsetPosition(leftOffset, rightOffset);
+
+            m_holdDrivePositon->RunHoldMode(); 
+        }
     }
     else
     {

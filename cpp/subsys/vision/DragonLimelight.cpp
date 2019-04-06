@@ -26,7 +26,7 @@ double DragonLimelight::HasTarget()
 double DragonLimelight::GetTargetHorizontalOffset()
 {
     double x = table->GetNumber("tx", 0.0);
-    return x;
+    return x - .955  ;
 }
 
 double DragonLimelight::GetTargetVerticalOffset()

@@ -83,9 +83,9 @@ void Robot::RobotInit() {
   // std::thread v1(&Robot::Vision,this);
   // v1.detach();
 
-  // CameraServer* cameraServer = CameraServer::GetInstance();
-  // cameraServer->SetSize(CameraServer::kSize320x240);
-  // cameraServer->StartAutomaticCapture();
+  CameraServer* cameraServer = CameraServer::GetInstance();
+  cameraServer->SetSize(CameraServer::kSize320x240);
+  cameraServer->StartAutomaticCapture();
   // cameraServer->
 
   // Read the robot definition from the xml configuration files and

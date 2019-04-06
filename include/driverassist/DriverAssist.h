@@ -71,8 +71,8 @@ private:
     bool m_second;
 
     // Driver things
-    const double HOLD_MODE_MAX_INCHES_PER_SECOND_TURNING = 5.0;
-    const double HOLD_MODE_MAX_INCHES_PER_SECOND_FORWARD = 24.0;
+    const double HOLD_MODE_MAX_INCHES_PER_SECOND_TURNING = 5; //5
+    const double HOLD_MODE_MAX_INCHES_PER_SECOND_FORWARD = 36.0;
 
     bool TriggerPressed(double value);
 };
