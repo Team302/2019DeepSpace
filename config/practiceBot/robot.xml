@@ -137,7 +137,9 @@
                peakCurrentLimit="40" 
                currentLimiting="true"  />
         <PID mode="1"
-             proportional="0.5"/>
+             proportional="0.15"
+	     integral="0"
+	     derivative="3"/>
         <PID mode="0"
              proportional="0.0001"
              integral="0.00001"/>
