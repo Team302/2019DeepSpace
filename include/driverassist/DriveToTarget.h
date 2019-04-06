@@ -41,9 +41,9 @@ private:
     LED* m_backLed;
     LED* m_topLed;
     
-    const double ROBOT_YAW_MULT = 0.02;
+    const double ROBOT_YAW_MULT = 0.03; //0.02
     const double ROCKET_YAW_MULT = 0.0; //don't use if not using 3d solve
-    const double DRIVE_SPEED = 0.0;
+    const double DRIVE_SPEED = 0.12;
     const double ROT_OVER_HEADING = 0.3844003452;
     const double EARLY_STOP_DISTANCE = 0.5;
     const double COARSE_DONE_DISTANCE_THRESHOLD = 1.0;

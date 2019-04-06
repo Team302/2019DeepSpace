@@ -21,7 +21,8 @@ DriveToTarget::DriveToTarget() : m_limelight(DragonLimelight::GetInstance()),
 
 void DriveToTarget::Init(bool flip)
 {
-    m_state = COARSE_ADJUSTMENT_INIT; //DRIVING_TO_TARGET
+    // m_state = COARSE_ADJUSTMENT_INIT; //DRIVING_TO_TARGET
+    m_state = DRIVING_TO_TARGET;
     m_flip = flip;
     m_coarseAdjustInitLoops = 0;
     frc::SmartDashboard::PutString("DriveToTarget state", "Init");
@@ -131,10 +132,11 @@ void DriveToTarget::Update()
         m_pHeadingCorrection = headingCorrection;
         // headingCorrection += delta * 250.0;
 
-        if (headingCorrection > 0.7)
-            headingCorrection = 0.7;
-        else if (headingCorrection < -0.7)
-            headingCorrection = -0.7;
+        headingCorrection += (m_chassis->GetLeftMiddleVelocity() - m_chassis->GetRightMiddleVelocity()) * -0.5 * 0.004;
+        // if (headingCorrection > 0.7)
+        //     headingCorrection = 0.7;
+        // else if (headingCorrection < -0.7)
+        //     headingCorrection = -0.7;
 
         // frc::SmartDashboard::PutNumber("vision delta", delta);
 
@@ -144,7 +146,8 @@ void DriveToTarget::Update()
 
         // break; //TEMP
         m_chassis->SetDriveMode(DragonChassis::DRIVE_MODE::PERCENT_POWER);
-        m_chassis->SetLeftRightMagnitudes((m_flip ? -DRIVE_SPEED : DRIVE_SPEED) + headingCorrection, (m_flip ? -DRIVE_SPEED : DRIVE_SPEED) - headingCorrection);
+        // m_chassis->SetLeftRightMagnitudes((m_flip ? -DRIVE_SPEED : DRIVE_SPEED) + headingCorrection, (m_flip ? -DRIVE_SPEED : DRIVE_SPEED) - headingCorrection);
+        m_chassis->SetLeftRightMagnitudes(DRIVE_SPEED + headingCorrection, DRIVE_SPEED - headingCorrection);
     }
     break;
 
