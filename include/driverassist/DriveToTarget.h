@@ -6,10 +6,11 @@
 #include "subsys/MechanismFactory.h"
 #include "hw/LED.h"
 #include "driverassist/HoldDrivePosition.h"
+#include "teleop/Switcher.h"
 
 class DriveToTarget {
 public:
-    DriveToTarget();
+    DriveToTarget(Switcher* switcher);
     ~DriveToTarget() = default;
 
     void Init(bool flip);
@@ -31,6 +32,7 @@ private:
     DragonLimelight* m_limelight;
     DragonChassis* m_chassis;
     HoldDrivePosition* m_hold;
+    Switcher* m_switcher;
     Arm* m_arm;
     STATE m_state;
     bool m_flip;
@@ -47,5 +49,6 @@ private:
     const double ROT_OVER_HEADING = 0.3844003452;
     const double EARLY_STOP_DISTANCE = 0.5;
     const double COARSE_DONE_DISTANCE_THRESHOLD = 1.0;
+    const double DRIVE_TO_TARGET_D = 0.002; //0.004
 
 };

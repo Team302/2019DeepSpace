@@ -19,7 +19,7 @@ DriverAssist::DriverAssist() : m_chassis(DragonChassis::GetInstance()),
                                m_intakeGamePiece(new IntakeGamePiece()),
                                m_holdDrivePositon(new HoldDrivePosition()),
                                m_targetAllign(new TargetAllign()),
-                               m_driveToTarget(new DriveToTarget()),
+                               m_driveToTarget(new DriveToTarget(m_switcher)),
                                m_climb(new Climb()),
                                m_frontLed(LEDFactory::GetInstance()->GetLED(LEDFactory::LED_USAGE::UNDER_FRONT)),
                                m_backLed(LEDFactory::GetInstance()->GetLED(LEDFactory::LED_USAGE::UNDER_BACK)),
@@ -52,18 +52,10 @@ void DriverAssist::Update()
         if (!m_climbMode)
         {
             m_switcher->ExitClimbMode();
-            // disable brake mode
-            // m_chassis->EnableBrakeMode(false);
-        }
-        else
-        {
-            // enable brake mode
-            // m_chassis->EnableBrakeMode(true);
         }
     }
 
     // check wrist force percent output mode button
-
     DriverAssist::AttemptingDriveCancel();
     DriverAssist::AttemptingGamePieceCancel();
     // ask switcher if drivers are trying to move
@@ -105,7 +97,7 @@ void DriverAssist::Update()
     }
     else
     {
-        m_climb->HoldUp(); //TODO: jonah testing here
+        m_climb->HoldUp();
         UpdateSecondaryControls();
         if (m_MoveArmToPos->IsDone())
         {
@@ -128,20 +120,24 @@ void DriverAssist::Update()
             }
 
             // make front/back leds correspond to m_flip
-            if (m_flip)
-            {
-                if (m_backLed != nullptr)
-                    m_backLed->SetRGB(0, 1, 0);
-                if (m_frontLed != nullptr)
-                    m_frontLed->SetRGB(0, 0, 0);
-            }
-            else
-            {
-                if (m_backLed != nullptr)
-                    m_backLed->SetRGB(0, 0, 0);
-                if (m_frontLed != nullptr)
-                    m_frontLed->SetRGB(0, 1, 0);
-            }
+            // if (m_flip)
+            // {
+            //     if (m_backLed != nullptr)
+            //         m_backLed->SetRGB(0, 1, 0);
+            //     if (m_frontLed != nullptr)
+            //         m_frontLed->SetRGB(0, 0, 0);
+            // }
+            // else
+            // {
+            //     if (m_backLed != nullptr)
+            //         m_backLed->SetRGB(0, 0, 0);
+            //     if (m_frontLed != nullptr)
+            //         m_frontLed->SetRGB(0, 1, 0);
+            // }
+            if (m_frontLed != nullptr)
+                m_frontLed->SetRGB(0, 255, 0);
+            if (m_backLed != nullptr)
+                m_backLed->SetRGB(0, 255, 0);
 
             // make top leds indicate new/old hatch, cargo mode
             if (m_cargo)
@@ -189,8 +185,8 @@ void DriverAssist::UpdateSecondaryControls()
         m_deploy = true;
     if (m_switcher->m_secondaryController->GetBumperPressed(frc::GenericHID::JoystickHand::kRightHand))
         m_intake = true;
-    if (m_switcher->m_secondaryController->GetBButtonPressed())
-        m_flip = !m_flip;
+    // if (m_switcher->m_secondaryController->GetBButtonPressed())
+    //     m_flip = !m_flip;
     if (m_switcher->m_secondaryController->GetYButtonPressed())
         m_cargo = !m_cargo;
 
@@ -352,4 +348,8 @@ void DriverAssist::AttemptingDriveCancel()
 bool DriverAssist::TriggerPressed(double value)
 {
     return value > 0.75;
+}
+
+void DriverAssist::ForceSetMode(bool cargo) {
+    m_cargo = cargo;
 }

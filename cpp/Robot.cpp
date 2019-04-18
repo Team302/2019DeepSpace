@@ -83,10 +83,13 @@ void Robot::RobotInit() {
   // std::thread v1(&Robot::Vision,this);
   // v1.detach();
 
-  CameraServer* cameraServer = CameraServer::GetInstance();
-  cameraServer->SetSize(CameraServer::kSize320x240);
-  cameraServer->StartAutomaticCapture();
-  // cameraServer->
+  // CameraServer* cameraServer = CameraServer::GetInstance();
+  // cameraServer->SetSize(CameraServer::kSize320x240);
+  // cameraServer->StartAutomaticCapture();
+  m_miscCamera = CameraServer::GetInstance();
+  m_miscCamera->SetSize(CameraServer::kSize320x240);
+  m_miscCamera->StartAutomaticCapture();
+
 
   // Read the robot definition from the xml configuration files and
   // create the hardware (chassis + mechanisms along with their talons,
@@ -283,7 +286,8 @@ void Robot::RobotPeriodic() {
  * make sure to add them to the chooser code above as well.
  */
 void Robot::AutonomousInit() {
- 
+  // reset modes in 
+  m_driverAssist->ForceSetMode(false);
 }
 
 void Robot::AutonomousPeriodic()
@@ -292,7 +296,9 @@ void Robot::AutonomousPeriodic()
 }
 
 void Robot::TeleopInit() {
-
+  // m_miscCamera->RemoveServer();
+  
+  // CameraServer-
 }
 
 void Robot::TeleopPeriodic() 

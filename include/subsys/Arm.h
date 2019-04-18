@@ -79,6 +79,7 @@ private:
 
   double OurDegreesToRads(double degrees);
   void CorrectExtenderPower(double &power, bool climbMode);
+  double GetHoldPower();
   double Map(double x, double in_min, double in_max, double out_min, double out_max);
                                             //0,  1,    2,      3,     4,      5,      6,       7, 8
   double hatchAngle[MAX_HATCH_POS] =        { 0, -140, -85.77, -148.1, -83.33, -23.76, -120.30, 0, 0 };
@@ -110,7 +111,8 @@ private:
   DragonTalon* m_armMaster;
   DragonTalon* m_extender;
 
-  const double EXTENDER_HOLD_POWER = -0.095; //-0.1
+  const double EXTENDER_MIN_HOLD_POWER = -0.075; //-0.1
+  const double EXTENDER_MAX_HOLD_POWER = -0.095;
 };
 
 // const double INCHES_PER_REVOLUTION = 8 / 6.7578125;

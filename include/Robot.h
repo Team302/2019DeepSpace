@@ -13,6 +13,7 @@
 #include <frc/smartdashboard/SendableChooser.h>
 #include "driverassist/DriverAssist.h"
 #include <hw/DragonTalon.h>
+#include <cameraserver/CameraServer.h>
 
 // include mechs for printing angles
 #include "subsys/Arm.h"
@@ -52,6 +53,8 @@ class Robot : public frc::TimedRobot {
   DragonTalon* m_armMasterMotor;
   DragonTalon* m_wristMotor;
   DragonTalon* m_extenderMotor;
+
+  CameraServer* m_miscCamera;
 
   long m_loopCount;
 

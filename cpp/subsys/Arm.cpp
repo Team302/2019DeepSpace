@@ -267,7 +267,9 @@ void Arm::MoveExtentionPreset(PlacementHeights::PLACEMENT_HEIGHT height, bool ca
 
 void Arm::MoveExtensionSpeed(double speed, bool climbMode)
 {
-    speed += EXTENDER_HOLD_POWER;
+    // speed += EXTENDER_HOLD_POWER;
+    double holdPower = GetHoldPower();
+    speed += holdPower;
     m_extender->SetControlMode(IDragonMotorController::DRAGON_CONTROL_MODE::PERCENT_OUTPUT);
     CorrectExtenderPower(speed, climbMode); //if we are gonna be out of bounds, pull in
     m_extender->Set(speed);
@@ -312,6 +314,7 @@ double Arm::OurDegreesToRads(double ourDegrees)
 
 void Arm::CorrectExtenderPower(double &power, bool climbMode)
 {
+    double holdPower = GetHoldPower();
     double degreesPerSecond = GetArmRealAngle() - m_previousArmRealAngle;
     degreesPerSecond / 0.02;
 
@@ -334,11 +337,11 @@ void Arm::CorrectExtenderPower(double &power, bool climbMode)
     // frc::SmartDashboard::PutNumber("")
     if (GetExtenderRealInches() > realMaxLegalExtender || GetExtenderRealInches() > predictedMaxLegalExtender)
     {
-        if (power >= EXTENDER_HOLD_POWER)
-            power = climbMode ? EXTENDER_HOLD_POWER : -1;
+        if (power >= holdPower)
+            power = climbMode ? holdPower : -1;
     }
     else if (GetExtenderRealInches() < 0.0)
-        power = power > EXTENDER_HOLD_POWER ? power : EXTENDER_HOLD_POWER;
+        power = power > holdPower ? power : holdPower;
         // power = power > 0 ? power : 0;
 
     if (GetExtenderRealInches() > m_extenderMaxDistance)
@@ -535,4 +538,9 @@ void Arm::SetLegalStartingPos()
     m_extender->SetRotationOffset(m_extenderLegalStartingInches);
 
     ResetTarget();
+}
+
+double Arm::GetHoldPower()
+{
+    return Map(std::abs(GetArmRealAngle()), 0, 150, EXTENDER_MIN_HOLD_POWER, EXTENDER_MAX_HOLD_POWER);
 }

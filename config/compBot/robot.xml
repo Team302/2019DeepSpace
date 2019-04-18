@@ -161,6 +161,7 @@
                canId="5"
                type="cantalon"
                inverted="true"
+               sensorInverted="true"
                feedbackDevice="0"
                countsPerRev="1024"
                brakeMode="true"
@@ -176,7 +177,7 @@
         <mechanismData paramType="HATCH_FLOOR_ANGLE"
                        value="42"/>
         <mechanismData paramType="HATCH_HP_SECOND_ANGLE"
-                       value="-62.05"/>
+                       value="-72.0"/>
         <mechanismData paramType="HATCH_LOW_ANGLE"
                        value="157.4"/>
         <mechanismData paramType="HATCH_MID_ANGLE"
@@ -200,7 +201,7 @@
         <mechanismData paramType="CARGO_MID_ANGLE"
                        value="-25"/>
         <mechanismData paramType="CARGO_HIGH_ANGLE"
-                       value="-34.76"/>
+                       value="-51.2"/>
         <PID mode="2"
              proportional="8.0"
              derivative="10.0"
@@ -286,7 +287,7 @@
         <mechanismData paramType="HATCH_FLOOR_ANGLE"
                        value="-144.3"/>
         <mechanismData paramType="HATCH_HP_SECOND_ANGLE"
-                       value="-113.9"/>
+                       value="-118"/>
         <mechanismData paramType="HATCH_LOW_ANGLE"
                        value="-151.1"/>
         <mechanismData paramType="HATCH_MID_ANGLE"
@@ -300,7 +301,7 @@
         <mechanismData paramType="HATCH_HIGH_SECOND_ANGLE"
                        value="-14.11"/>
         <mechanismData paramType="CARGO_FLOOR_ANGLE"
-                       value="-131"/>
+                       value="-139"/>
         <mechanismData paramType="CARGO_HP_ANGLE"
                        value="-101.13"/>
         <mechanismData paramType="CARGO_SHIP_ANGLE"
@@ -308,7 +309,7 @@
         <mechanismData paramType="CARGO_LOW_ANGLE"
                        value="-106.5"/>
         <mechanismData paramType="CARGO_MID_ANGLE"
-                       value="-57.73"/>
+                       value="-51.73"/>
         <mechanismData paramType="CARGO_HIGH_ANGLE"
                        value="-10.73"/>
         <mechanismData paramType="HATCH_FLOOR_EXTENSION"

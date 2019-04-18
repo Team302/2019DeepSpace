@@ -28,6 +28,7 @@ class DriverAssist
 {
 public:
     void Update(); // runs everything lol
+    void ForceSetMode(bool cargo);
 
     DriverAssist();
     ~DriverAssist() = default;
@@ -39,6 +40,7 @@ private:
     void UpdateDriverControls();
     void AttemptingGamePieceCancel();
     void AttemptingDriveCancel();
+    
 
     DragonChassis* m_chassis;
     Switcher* m_switcher;

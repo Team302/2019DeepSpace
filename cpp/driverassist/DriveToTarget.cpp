@@ -4,10 +4,12 @@
 #include "subsys/chassis/DragonChassis.h"
 #include "hw/LED.h"
 #include "hw/LEDFactory.h"
+#include "teleop/Switcher.h"
 
-DriveToTarget::DriveToTarget() : m_limelight(DragonLimelight::GetInstance()),
+DriveToTarget::DriveToTarget(Switcher* switcher) : m_limelight(DragonLimelight::GetInstance()),
                                  m_chassis(DragonChassis::GetInstance()),
                                  m_hold(new HoldDrivePosition()),
+                                 m_switcher(switcher),
                                  m_arm(MechanismFactory::GetMechanismFactory()->GetArm()),
                                  m_state(DONE),
                                  m_flip(false),
@@ -132,7 +134,7 @@ void DriveToTarget::Update()
         m_pHeadingCorrection = headingCorrection;
         // headingCorrection += delta * 250.0;
 
-        headingCorrection += (m_chassis->GetLeftMiddleVelocity() - m_chassis->GetRightMiddleVelocity()) * -0.5 * 0.004;
+        headingCorrection += (m_chassis->GetLeftMiddleVelocity() - m_chassis->GetRightMiddleVelocity()) * -0.5 * DRIVE_TO_TARGET_D;
         // if (headingCorrection > 0.7)
         //     headingCorrection = 0.7;
         // else if (headingCorrection < -0.7)
@@ -146,8 +148,18 @@ void DriveToTarget::Update()
 
         // break; //TEMP
         m_chassis->SetDriveMode(DragonChassis::DRIVE_MODE::PERCENT_POWER);
+        double driverSpeed = -m_switcher->m_mainController->GetRawAxis(1);
+
+        // driver speed deadband
+        if (std::abs(driverSpeed) < 0.11)
+            driverSpeed = 0.0;
+
+        driverSpeed = std::pow(driverSpeed, 3);
+        double speedOffset = driverSpeed + DRIVE_SPEED;
+        //TODO: scale down??
+        
         // m_chassis->SetLeftRightMagnitudes((m_flip ? -DRIVE_SPEED : DRIVE_SPEED) + headingCorrection, (m_flip ? -DRIVE_SPEED : DRIVE_SPEED) - headingCorrection);
-        m_chassis->SetLeftRightMagnitudes(DRIVE_SPEED + headingCorrection, DRIVE_SPEED - headingCorrection);
+        m_chassis->SetLeftRightMagnitudes(speedOffset + headingCorrection, speedOffset - headingCorrection);
     }
     break;
 
