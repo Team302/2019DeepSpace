@@ -65,6 +65,8 @@ private:
     bool m_wristForcePercentOutput;
     bool m_pMainControllerTriggerLeftHand; // previous bool values for triggers
     bool m_pMainControllerTriggerRightHand;
+    bool m_pMainControllerPOV90;
+    bool m_pMainControllerPOV270;
 
     // helper Bools
     bool m_cargo;
@@ -75,6 +77,8 @@ private:
     // Driver things
     const double HOLD_MODE_MAX_INCHES_PER_SECOND_TURNING = 5; //5
     const double HOLD_MODE_MAX_INCHES_PER_SECOND_FORWARD = 36.0;
+
+    const double HOLD_MODE_TURN_BUTTON_INCREMENT = 1;
 
     bool TriggerPressed(double value);
 };

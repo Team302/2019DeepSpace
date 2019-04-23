@@ -27,7 +27,8 @@ Switcher::Switcher() :
            	m_holdMode(false),
             m_leftTargetInches(0),
             m_rightTargetInches(0),
-            m_hatchMechInit(false)
+            m_hatchMechInit(false),
+            m_velocityMode(false)
 {
     m_visionMode = false;
     m_camMode = false;
@@ -43,12 +44,14 @@ void Switcher::DriveUpdate()
 
     // if (m_mainController->GetPOV() == 0)
     // {
-    //     m_chassis->EnableBrakeMode(true);
+    //     m_velocityMode = true;
     // }
     // else if (m_mainController->GetPOV() == 180)
     // {
-    //     m_chassis->EnableBrakeMode(false);
+    //     m_velocityMode = false;
     // }
+
+    // m_velocityMode = m_mainController->GetPOV() == 0;
 
     
     if(m_mainController->GetBButtonPressed())
@@ -78,7 +81,6 @@ void Switcher::DriveUpdate()
     // try smoothing only the forward backward value instead of both forward backward and turning
     // this might give extra control
     // also try voltage ramping
-    m_chassis->SetDriveMode(DragonChassis::PERCENT_POWER);
 
     // double forwardSpeed = TeleopControl::GetInstance()->GetAxisValue( TeleopControl::ROBOT_Y_MAGNITUDE );
     // double turnSpeed = TeleopControl::GetInstance()->GetAxisValue( TeleopControl::ROBOT_X_MAGNITUDE ); // TODO: this should be ROBOT_TURN_MAGNITUDE, not ROBOT_X_MAGNITUDE
@@ -127,7 +129,17 @@ void Switcher::DriveUpdate()
     // printf("forward Speed: %f \n", forwardSpeed);
     // printf("turning speed: %f \n", turnSpeed);
 
-    m_chassis->SetLeftRightMagnitudes(leftSpeed, rightSpeed);
+    if (m_velocityMode)
+    {
+        m_chassis->SetDriveMode(DragonChassis::VELOCITY_INCH_SEC);
+        m_chassis->SetLeftRightMagnitudes(leftSpeed * MAX_INCHES_PER_SEC, rightSpeed * MAX_INCHES_PER_SEC);
+    }
+    else
+    {
+        m_chassis->SetDriveMode(DragonChassis::PERCENT_POWER);
+        m_chassis->SetLeftRightMagnitudes(leftSpeed, rightSpeed);
+    }
+    
 }
 
 void Switcher::GamepieceUpdate(bool cargo)

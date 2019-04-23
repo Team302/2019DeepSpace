@@ -31,7 +31,9 @@ DriverAssist::DriverAssist() : m_chassis(DragonChassis::GetInstance()),
                                m_visionMode(false),
                                m_wristForcePercentOutput(false),
                                m_pMainControllerTriggerLeftHand(false),
-                               m_pMainControllerTriggerRightHand(false),
+                               m_pMainControllerTriggerRightHand(false),\
+                               m_pMainControllerPOV90(false),
+                               m_pMainControllerPOV270(false),
                                m_cargo(false),
                                m_flip(false),
                                m_height(PlacementHeights::PLACEMENT_HEIGHT::FLOOR),
@@ -287,25 +289,43 @@ void DriverAssist::UpdateDriverControls()
         leftOffset *= 0.02;
         rightOffset *= 0.02;
 
-        if (m_switcher->m_mainController->GetPOV() == 90)
+        if (!m_pMainControllerPOV90 && m_switcher->m_mainController->GetPOV() == 90)
         {
-            // printf("turning right\n");
-            m_holdDrivePositon->SetLeftRightTargetOffsetPosition(0.17, -0.17);
-            m_holdDrivePositon->RunHoldMode();
+            m_holdDrivePositon->SetLeftRightTargetOffsetPosition(HOLD_MODE_TURN_BUTTON_INCREMENT, -HOLD_MODE_TURN_BUTTON_INCREMENT); //0.17
         }
-        else if (m_switcher->m_mainController->GetPOV() == 270)
+        else if (!m_pMainControllerPOV270 && m_switcher->m_mainController->GetPOV() == 270)
         {
-            // printf("turning left\n");
-            m_holdDrivePositon->SetLeftRightTargetOffsetPosition(-0.17, 0.17);
-            m_holdDrivePositon->RunHoldMode();
+            m_holdDrivePositon->SetLeftRightTargetOffsetPosition(-HOLD_MODE_TURN_BUTTON_INCREMENT, HOLD_MODE_TURN_BUTTON_INCREMENT);
         }
         else
         {
-            // if(m_holdDrivePositon->GetLeftDistanceToTarget() < 1 && m_holdDrivePositon->GetRightDistanceToTarget() < 1)
-                m_holdDrivePositon->SetLeftRightTargetOffsetPosition(leftOffset, rightOffset);
-
-            m_holdDrivePositon->RunHoldMode(); 
+            m_holdDrivePositon->SetLeftRightTargetOffsetPosition(leftOffset, rightOffset);
         }
+        
+        m_holdDrivePositon->RunHoldMode(); 
+        m_pMainControllerPOV90 = m_switcher->m_mainController->GetPOV() == 90;
+        m_pMainControllerPOV270 = m_switcher->m_mainController->GetPOV() == 270;
+        
+
+        // if (m_switcher->m_mainController->GetPOV() == 90)
+        // {
+        //     // printf("turning right\n");
+        //     m_holdDrivePositon->SetLeftRightTargetOffsetPosition(0.17, -0.17);
+        //     m_holdDrivePositon->RunHoldMode();
+        // }
+        // else if (m_switcher->m_mainController->GetPOV() == 270)
+        // {
+        //     // printf("turning left\n");
+        //     m_holdDrivePositon->SetLeftRightTargetOffsetPosition(-0.17, 0.17);
+        //     m_holdDrivePositon->RunHoldMode();
+        // }
+        // else
+        // {
+        //     // if(m_holdDrivePositon->GetLeftDistanceToTarget() < 1 && m_holdDrivePositon->GetRightDistanceToTarget() < 1)
+        //         m_holdDrivePositon->SetLeftRightTargetOffsetPosition(leftOffset, rightOffset);
+
+        //     m_holdDrivePositon->RunHoldMode(); 
+        // }
     }
     else
     {

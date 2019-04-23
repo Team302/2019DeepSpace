@@ -49,7 +49,10 @@ private:
   double m_leftTargetInches;
   double m_rightTargetInches;
   bool m_hatchMechInit;
+  bool m_velocityMode;
 
   const double ELEV_SPEED = 1.0;
+
+  const double MAX_INCHES_PER_SEC = 100;
 
 };

@@ -86,7 +86,7 @@ void DragonSparkMax::Set(double value)
             break;
 
         case DRAGON_CONTROL_MODE::RPS: //inches per second
-            m_spark->GetPIDController().SetReference(value / 60, rev::ControlType::kVelocity, 1);
+            m_spark->GetPIDController().SetReference((value / 60.0) / m_gearRatio, rev::ControlType::kVelocity, 1);
             break;
 
         default:
