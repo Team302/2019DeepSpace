@@ -16,6 +16,8 @@ DragonTalon::DragonTalon(IDragonMotorController::TALON_TYPE deviceType, int devi
 	printf("Gear ratio: %f \n", gearRatio);
 }
 
+
+
 double DragonTalon::GetRotations() const
 {
     return ((m_talon->GetSelectedSensorPosition() - m_tickOffset) / (double) m_countsPerRev) * m_gearRatio;
@@ -48,6 +50,11 @@ void DragonTalon::SetControlMode(IDragonMotorController::DRAGON_CONTROL_MODE mod
             DragonTalon::SetControlMode(DragonTalon::TALON_CONTROL_MODE::PERCENT);
         break;
     }
+}
+
+void DragonTalon::SetSelectedSensorPosition(double position)
+{
+	m_talon->SetSelectedSensorPosition(position);
 }
 
 void DragonTalon::SetControlMode(DragonTalon::TALON_CONTROL_MODE mode)
