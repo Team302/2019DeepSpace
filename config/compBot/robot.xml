@@ -273,7 +273,7 @@
                gearRatio="0.821203197" 
                peakCurrentDuration="50"
                continuousCurrentLimit="30"
-               peakCurrentLimit="40" 
+               peakCurrentLimit="30" 
                currentLimiting="true"/>
     
         <mechanismData paramType="LEGAL_STARTING_ANGLE"
@@ -294,7 +294,7 @@
                        value="-106.33"/ -->
 	
         <mechanismData paramType="HATCH_MID_ANGLE"
-                       value="-151.1"/>
+                       value="-95.1"/>
         <mechanismData paramType="HATCH_HIGH_ANGLE"
                        value="-30.76"/>
         <mechanismData paramType="HATCH_LOW_SECOND_ANGLE"
@@ -303,14 +303,16 @@
                        value="-62.53"/>
         <mechanismData paramType="HATCH_HIGH_SECOND_ANGLE"
                        value="-14.11"/>
-        <mechanismData paramType="CARGO_FLOOR_ANGLE"
-                       value="-139"/>
+	<mechanismData paramType="CARGO_FLOOR_ANGLE"
+                       value="-129"/>
+        <!-- mechanismData paramType="CARGO_FLOOR_ANGLE"
+                       value="-139"/ -->
         <mechanismData paramType="CARGO_HP_ANGLE"
                        value="-101.13"/>
         <mechanismData paramType="CARGO_SHIP_ANGLE"
                        value="-71.7"/>
         <mechanismData paramType="CARGO_LOW_ANGLE"
-                       value="-112.5"/>
+                       value="-114.5"/>
         <mechanismData paramType="CARGO_MID_ANGLE"
                        value="-61.73"/>
         <mechanismData paramType="CARGO_HIGH_ANGLE"
