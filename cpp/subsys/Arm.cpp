@@ -18,7 +18,7 @@ Arm::Arm(IDragonMotorControllerVector motorControllers) : m_armTargetAngle(0.0),
                                                           m_previousArmRealAngle(0.0),
                                                           m_extenderTargetRotations(0.0),
                                                           m_armLegalStartingAngle(-167.00),
-                                                          m_extenderLegalStartingInches(0),
+                                                          m_extenderLegalStartingInches(0.25), //0
                                                           m_armTestStartingAngle(-138.00),
                                                           m_extenderTestStartingInches(7.625),
                                                           m_extenderMinDistance(0.0),   // default value
