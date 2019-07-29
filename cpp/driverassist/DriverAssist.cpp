@@ -9,6 +9,7 @@
 #include "frc/SmartDashboard/SmartDashboard.h"
 #include "hw/LED.h"
 #include "hw/LEDFactory.h"
+#include "subsys/MechanismFactory.h"
 
 using namespace frc;
 
@@ -37,7 +38,10 @@ DriverAssist::DriverAssist() : m_chassis(DragonChassis::GetInstance()),
                                m_cargo(false),
                                m_flip(false),
                                m_height(PlacementHeights::PLACEMENT_HEIGHT::FLOOR),
-                               m_second(false)
+                               m_second(false),
+
+                               m_arm(MechanismFactory::GetMechanismFactory()->GetArm()),
+                            m_wrist(MechanismFactory::GetMechanismFactory()->GetWrist())
 {
 }
 
@@ -187,8 +191,18 @@ void DriverAssist::UpdateSecondaryControls()
         m_deploy = true;
     if (m_switcher->m_secondaryController->GetBumperPressed(frc::GenericHID::JoystickHand::kRightHand))
         m_intake = true;
-    // if (m_switcher->m_secondaryController->GetBButtonPressed())
-    //     m_flip = !m_flip;
+   /* if (m_switcher->m_secondaryController->GetBButtonPressed())
+        {
+        m_arm->MoveExtentionPreset(PlacementHeights::ROCKET_MID,m_cargo, m_flip, true);
+        double currentAngle = m_wrist->GetWristRealAngle();
+
+        m_wrist->MoveWristManualAngle(currentAngle - 5);
+        if(m_wrist->GetWristRealAngle() < 174)
+        {
+        m_MoveArmToPos->SetTargetPosition(PlacementHeights::HUMAN_PLAYER,m_cargo,m_flip, false);
+        }
+        }
+    */
     if (m_switcher->m_secondaryController->GetYButtonPressed())
         m_cargo = !m_cargo;
 
