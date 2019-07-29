@@ -10,6 +10,7 @@
 #include "hw/LED.h"
 #include "hw/LEDFactory.h"
 #include "subsys/MechanismFactory.h"
+#include "subsys/BackTing.h"
 
 using namespace frc;
 
@@ -43,6 +44,7 @@ DriverAssist::DriverAssist() : m_chassis(DragonChassis::GetInstance()),
                                m_arm(MechanismFactory::GetMechanismFactory()->GetArm()),
                             m_wrist(MechanismFactory::GetMechanismFactory()->GetWrist())
 {
+    m_ting = new BackTing();
 }
 
 // The update method runs every periodic process of this class
@@ -191,18 +193,40 @@ void DriverAssist::UpdateSecondaryControls()
         m_deploy = true;
     if (m_switcher->m_secondaryController->GetBumperPressed(frc::GenericHID::JoystickHand::kRightHand))
         m_intake = true;
-   /* if (m_switcher->m_secondaryController->GetBButtonPressed())
+    if (m_switcher->m_secondaryController->GetBButtonPressed())
         {
-        m_arm->MoveExtentionPreset(PlacementHeights::ROCKET_MID,m_cargo, m_flip, true);
+            BackTing::TING_POSITIONS currentPosition = m_ting->GetCurrentPosition();
+            switch(currentPosition)
+            {
+                case BackTing::TING_POSITIONS::HIGH:
+                    currentPosition = BackTing::TING_POSITIONS::MID;
+                    break;
+                case BackTing::TING_POSITIONS::MID:
+                    currentPosition = BackTing::TING_POSITIONS::LOW;
+                    break;
+                case BackTing::TING_POSITIONS::LOW:
+                    currentPosition = BackTing::TING_POSITIONS::HIGH;
+                    break;
+                default:
+
+                    break;
+            }
+            m_ting->MoveTingToAngle(currentPosition);
+        }
+        
+        /*m_arm->MoveExtentionPreset(PlacementHeights::ROCKET_MID,m_cargo, m_flip, true);
         double currentAngle = m_wrist->GetWristRealAngle();
 
         m_wrist->MoveWristManualAngle(currentAngle - 5);
         if(m_wrist->GetWristRealAngle() < 174)
         {
         m_MoveArmToPos->SetTargetPosition(PlacementHeights::HUMAN_PLAYER,m_cargo,m_flip, false);
+        
         }
-        }
-    */
+        */
+        
+    
+        
     if (m_switcher->m_secondaryController->GetYButtonPressed())
         m_cargo = !m_cargo;
 
@@ -242,6 +266,24 @@ void DriverAssist::UpdateSecondaryControls()
 
 void DriverAssist::UpdateDriverControls()
 {
+    if(m_switcher->m_mainController->GetAButton())
+    {
+        double targetAngle = 180;
+        
+        if(m_wrist->GetWristRealAngle() < targetAngle)
+        {
+            m_wrist->MoveWristManualAngle(targetAngle);
+            m_arm->MoveExtensionInches(-0.25);
+        }
+        
+        else
+        {
+            //m_arm->MoveArmPreset(PlacementHeights::ROCKET_MID,m_cargo,m_flip,m_second);
+        }
+        
+        
+
+    }
     if (m_second)
     {
         if (m_switcher->m_mainController->GetBumperPressed(frc::GenericHID::JoystickHand::kLeftHand))
@@ -386,4 +428,9 @@ bool DriverAssist::TriggerPressed(double value)
 
 void DriverAssist::ForceSetMode(bool cargo) {
     m_cargo = cargo;
+}
+
+void DriverAssist::InitTing()
+{
+    m_ting->MoveTingToAngle(BackTing::TING_POSITIONS::HIGH);
 }
