@@ -72,8 +72,8 @@
                countsPerRev="1"
                brakeMode="true"
                gearRatio="0.16666666" 
-               peakCurrentDuration="50"
-               continuousCurrentLimit="25"
+               peakCurrentDuration="60"
+               continuousCurrentLimit="20"
                peakCurrentLimit="40" 
                currentLimiting="true"  />
         <motor usage="FRONT_LEFT_DRIVE"
@@ -82,11 +82,11 @@
                type="sparkmax_brushless"
                feedbackDevice="0"
                countsPerRev="1"
-               brakeMode="true"
+               brakeMode="false"
                slaveTo="1"
                gearRatio="0.16666666" 
-               peakCurrentDuration="50"
-               continuousCurrentLimit="25"
+               peakCurrentDuration="60"
+               continuousCurrentLimit="20"
                peakCurrentLimit="40" 
                currentLimiting="true"  />
 
@@ -96,11 +96,11 @@
                inverted="true"
                feedbackDevice="0"
                countsPerRev="1"
-               brakeMode="true"
+               brakeMode="false"
                slaveTo="1"
                gearRatio="0.16666666" 
-               peakCurrentDuration="50"
-               continuousCurrentLimit="25"
+               peakCurrentDuration="60"
+               continuousCurrentLimit="20"
                peakCurrentLimit="40" 
                currentLimiting="true"  />       
                
@@ -112,8 +112,8 @@
                countsPerRev="1"
                brakeMode="true"
                gearRatio="0.16666666"
-               peakCurrentDuration="50"
-               continuousCurrentLimit="25"
+               peakCurrentDuration="60"
+               continuousCurrentLimit="20"
                peakCurrentLimit="40" 
                currentLimiting="true"  />
         <motor usage="FRONT_RIGHT_DRIVE"
@@ -122,11 +122,11 @@
                inverted="true"
                feedbackDevice="0"
                countsPerRev="1"
-               brakeMode="true"
+               brakeMode="false"
                slaveTo="14"
                gearRatio="0.16666666" 
-               peakCurrentDuration="50"
-               continuousCurrentLimit="25"
+               peakCurrentDuration="60"
+               continuousCurrentLimit="20"
                peakCurrentLimit="40" 
                currentLimiting="true"  />
         <motor usage="BACK_RIGHT_DRIVE"
@@ -135,11 +135,11 @@
                inverted="true"
                feedbackDevice="0"
                countsPerRev="1"
-               brakeMode="true"
+               brakeMode="false"
                slaveTo="14"
                gearRatio="0.16666666" 
-               peakCurrentDuration="50"
-               continuousCurrentLimit="25"
+               peakCurrentDuration="60"
+               continuousCurrentLimit="20" 
                peakCurrentLimit="40" 
                currentLimiting="true"  />
         <PID mode="1"
@@ -181,15 +181,15 @@
         <mechanismData paramType="HATCH_LOW_ANGLE"
                        value="157.4"/>
         <mechanismData paramType="HATCH_MID_ANGLE"
-                       value="97.54"/>
+                       value="104.54"/>
         <mechanismData paramType="HATCH_HIGH_ANGLE"
                        value="34.54"/>
         <mechanismData paramType="HATCH_LOW_SECOND_ANGLE"
-                       value="-64.37"/>
+                       value="-72.0"/>
         <mechanismData paramType="HATCH_MID_SECOND_ANGLE"
                        value="-128.52"/>
         <mechanismData paramType="HATCH_HIGH_SECOND_ANGLE"
-                       value="-172.12"/>
+                       value="-185.42"/>
         <mechanismData paramType="CARGO_FLOOR_ANGLE"
                        value="-2.91"/>
         <mechanismData paramType="CARGO_HP_ANGLE"
@@ -197,16 +197,16 @@
         <mechanismData paramType="CARGO_SHIP_ANGLE"
                        value="-41.5"/>
         <mechanismData paramType="CARGO_LOW_ANGLE"
-                       value="24.86"/>
+                       value="28.86"/>
         <mechanismData paramType="CARGO_MID_ANGLE"
-                       value="-25"/>
+                       value="-20"/>
         <mechanismData paramType="CARGO_HIGH_ANGLE"
-                       value="-51.2"/>
+                       value="-48.2"/>
         <PID mode="2"
              proportional="8.0"
              derivative="10.0"
-             maxacceleration="280.0"
-             cruisevelocity="250.0"/>
+             maxacceleration="680.0"
+             cruisevelocity="300.0"/>
     </mechanism>
     
     <!-- Intake --> 
@@ -290,8 +290,11 @@
                        value="-118"/>
         <mechanismData paramType="HATCH_LOW_ANGLE"
                        value="-151.1"/>
+        <!-- mechanismData paramType="HATCH_MID_ANGLE"
+                       value="-106.33"/ -->
+	
         <mechanismData paramType="HATCH_MID_ANGLE"
-                       value="-90.33"/>
+                       value="-151.1"/>
         <mechanismData paramType="HATCH_HIGH_ANGLE"
                        value="-30.76"/>
         <mechanismData paramType="HATCH_LOW_SECOND_ANGLE"
@@ -307,11 +310,11 @@
         <mechanismData paramType="CARGO_SHIP_ANGLE"
                        value="-71.7"/>
         <mechanismData paramType="CARGO_LOW_ANGLE"
-                       value="-106.5"/>
+                       value="-112.5"/>
         <mechanismData paramType="CARGO_MID_ANGLE"
-                       value="-51.73"/>
+                       value="-61.73"/>
         <mechanismData paramType="CARGO_HIGH_ANGLE"
-                       value="-10.73"/>
+                       value="-15.73"/>
         <mechanismData paramType="HATCH_FLOOR_EXTENSION"
                        value="7.625"/>
         <mechanismData paramType="HATCH_HP_SECOND_EXTENSION"
@@ -321,7 +324,7 @@
         <mechanismData paramType="HATCH_MID_EXTENSION"
                        value="0.25"/>
         <mechanismData paramType="HATCH_HIGH_EXTENSION"
-                       value="0.25"/>
+                       value="0.4"/>
         <mechanismData paramType="HATCH_LOW_SECOND_EXTENSION"
                        value="0.25"/>
         <mechanismData paramType="HATCH_MID_SECOND_EXTENSION"
@@ -347,7 +350,7 @@
              cruisevelocity="200.0"/>
         <PID mode="1"
              pidtarget="EXTENDER"
-             proportional="10.0"/>  
+             proportional="40.0"/>  
     </mechanism>
     <!-- Climber -->
     <mechanism type="3">
