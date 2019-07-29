@@ -24,6 +24,9 @@ Driver assist contains all sub driver assist thingys and allocates teleop contro
 #include "driverassist/DriveToTarget.h"
 #include "driverassist/Climb.h"
 
+#include "subsys/Arm.h"
+#include "subsys/Wrist.h"
+
 class DriverAssist
 {
 public:
@@ -81,4 +84,8 @@ private:
     const double HOLD_MODE_TURN_BUTTON_INCREMENT = 1;
 
     bool TriggerPressed(double value);
+
+    //
+    Arm* m_arm;
+    Wrist* m_wrist;
 };
