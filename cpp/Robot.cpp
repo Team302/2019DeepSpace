@@ -122,6 +122,7 @@ void Robot::RobotInit() {
    printf("done making driver assist\n");
 
   m_loopCount = 0;
+  m_driverAssist->InitTing();
   /*  
   
   printf("OMG WE DEPLOYED CODE 23\n");
@@ -309,7 +310,7 @@ void Robot::TeleopPeriodic()
 void Robot::MainPeriodic()
 {
   m_driverAssist->Update();
-
+  m_arm->LimitSwitchPeriodic();
   //TODO: put these prints in a debug mode or something... maybe
   // smartdashboard mechanisms
   frc::SmartDashboard::PutNumber("Arm Target Angle", m_arm->GetArmTargetAngle());
