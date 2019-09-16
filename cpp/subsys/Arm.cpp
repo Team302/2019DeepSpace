@@ -13,6 +13,7 @@
 #include <cmath>
 #include "frc/smartdashboard/SmartDashboard.h"
 #include "DefnRobot.h"
+#include <frc/DigitalInput.h>
 
 Arm::Arm(IDragonMotorControllerVector motorControllers) : m_armTargetAngle(0.0),
                                                           m_previousArmRealAngle(0.0),
@@ -21,7 +22,7 @@ Arm::Arm(IDragonMotorControllerVector motorControllers) : m_armTargetAngle(0.0),
                                                           m_extenderLegalStartingInches(0.25), //0
                                                           m_armTestStartingAngle(-138.00),
                                                           m_extenderTestStartingInches(7.625),
-                                                          m_extenderMinDistance(0.0),   // default value
+                                                          m_extenderMinDistance(0.25),   // default value
                                                           m_extenderMaxDistance(7.625), // default value
                                                           m_armMaster(nullptr),
                                                           m_extender(nullptr)
@@ -42,10 +43,24 @@ Arm::Arm(IDragonMotorControllerVector motorControllers) : m_armTargetAngle(0.0),
             break;
         }
     }
+    double offset = 269;
+    m_extender->ConfigAnalogPotentiometer(offset);
     m_armTargetAngle = m_armMaster->GetRotations() * 360.0;
     m_extenderTargetRotations = m_extender->GetRotations();
+    m_limitSwitch = new frc::DigitalInput(0); //change input number
 }
 
+void Arm::LimitSwitchPeriodic()
+{
+    frc::SmartDashboard::PutBoolean("Limit Switch", GetLimitSwitch());
+    /*if(GetLimitSwitch())
+    {
+        MoveExtensionSpeed(0,false);
+        //m_extender->SetSelectedSensorPosition(0);
+    }
+    */
+    
+}
 void Arm::MoveArmPreset(PlacementHeights::PLACEMENT_HEIGHT height, bool cargo, bool flip, bool second)
 {
     if (cargo)
@@ -269,10 +284,27 @@ void Arm::MoveExtensionSpeed(double speed, bool climbMode)
 {
     // speed += EXTENDER_HOLD_POWER;
     double holdPower = GetHoldPower();
-    speed += holdPower;
+    double power = speed;
+
+    /*if(GetLimitSwitch() && power < 0.0)
+    {
+        power = 0.0;
+        
+    }
+    else 
+    else
+    {
+        m_extender->SetControlMode(IDragonMotorController::DRAGON_CONTROL_MODE::PERCENT_OUTPUT);
+        CorrectExtenderPower(power, climbMode); //if we are gonna be out of bounds, pull in
+    }*/
+    if(abs(power) < holdPower)
+    {
+        power = holdPower;
+    }
     m_extender->SetControlMode(IDragonMotorController::DRAGON_CONTROL_MODE::PERCENT_OUTPUT);
-    CorrectExtenderPower(speed, climbMode); //if we are gonna be out of bounds, pull in
-    m_extender->Set(speed);
+    //CorrectExtenderPower(power, climbMode); //if we are gonna be out of bounds, pull in
+    
+    m_extender->Set(power);
 }
 
 void Arm::MoveExtensionInches(double inches)
@@ -332,20 +364,22 @@ void Arm::CorrectExtenderPower(double &power, bool climbMode)
     double predictedMaxLegalExtender = Map(std::abs(cos(predictedRads)), 1, 0.76, 1.25, m_extenderMaxDistance);
 #endif
 
-    // frc::SmartDashboard::PutNumber("Max Legal Inches", maxLegalExtender);
-
-    // frc::SmartDashboard::PutNumber("")
+    frc::SmartDashboard::PutNumber("Real Max Legal Inches", realMaxLegalExtender);
+    frc::SmartDashboard::PutNumber("Extender Real Inches", GetExtenderRealInches());
+    frc::SmartDashboard::PutNumber("Predict Max Legal Inches", predictedMaxLegalExtender);
     if (GetExtenderRealInches() > realMaxLegalExtender || GetExtenderRealInches() > predictedMaxLegalExtender)
     {
         if (power >= holdPower)
-            power = climbMode ? holdPower : -1;
+        {
+            //power = climbMode ? holdPower : -1;
+        }
     }
     else if (GetExtenderRealInches() < 0.0)
-        power = power > holdPower ? power : holdPower;
+        {//power = power > holdPower ? power : holdPower;
         // power = power > 0 ? power : 0;
-
+        }
     if (GetExtenderRealInches() > m_extenderMaxDistance)
-        power = power > 0 ? 0 : power;
+        //power = power > 0 ? 0 : power;
 
     m_previousArmRealAngle = GetArmRealAngle();
 }
@@ -543,4 +577,9 @@ void Arm::SetLegalStartingPos()
 double Arm::GetHoldPower()
 {
     return Map(std::abs(GetArmRealAngle()), 0, 150, EXTENDER_MIN_HOLD_POWER, EXTENDER_MAX_HOLD_POWER);
+}
+
+bool Arm::GetLimitSwitch()
+{
+    return m_limitSwitch->Get();
 }
