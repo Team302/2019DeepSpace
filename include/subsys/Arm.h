@@ -10,6 +10,7 @@
 #include "subsys/IMechanism.h"
 #include <hw/DragonTalon.h> 
 #include <subsys/PlacementHeights.h>
+#include <frc/DigitalInput.h>
 
 class Arm : public IMechanism 
 {
@@ -21,6 +22,7 @@ public:
   void MoveArmSpeed(double speed);
   void MoveArmAngle(double angle);
   void ResetTarget();
+  void LimitSwitchPeriodic();
 
   void MoveExtentionPreset(PlacementHeights::PLACEMENT_HEIGHT height, bool cargo, bool flip, bool second);
   void MoveExtensionSpeed(double speed, bool climbMode);
@@ -31,6 +33,8 @@ public:
 
   double GetExtenderRealInches();
   double GetExtenderTargetInches();
+
+  bool GetLimitSwitch();
 
   IMechanism::MECHANISM_TYPE GetType() const override;
   void SetParam 
@@ -48,6 +52,7 @@ public:
   
 
 private: 
+  frc::DigitalInput* m_limitSwitch;
   //TODO: rename these to HATCH_ARM_PRESETS and CARGO_ARM_PRESETS... not wrist
   enum HATCH_ARM_PRESETS
   {
@@ -111,8 +116,8 @@ private:
   DragonTalon* m_armMaster;
   DragonTalon* m_extender;
 
-  const double EXTENDER_MIN_HOLD_POWER = -0.225; //-0.1, -0.095 -0.115 -0.165
-  const double EXTENDER_MAX_HOLD_POWER = -0.255; //-0.125 -0.145 -0.195
+  const double EXTENDER_MIN_HOLD_POWER = 0; //-0.1, -0.095 -0.115 -0.165
+  const double EXTENDER_MAX_HOLD_POWER = 0; //-0.125 -0.145 -0.195
 };
 
 // const double INCHES_PER_REVOLUTION = 8 / 6.7578125;
